@@ -1,0 +1,236 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<title>JavaScript: The Complete Reference&#153;, Third Edition</title>
+<link href="0071741216.css" rel="stylesheet" type="text/css"/>
+<link href="page-template.xpgt" rel="stylesheet" type="application/vnd.adobe-page-template+xml"/>
+<meta content="urn:uuid:4d1be0af-c0d3-47b8-9bd4-3edcb4dee196" name="Adept.expected.resource"/>
+</head>
+<body>
+<h3 class="h3b" id="ch05"><a id="page_159"/><strong>CHAPTER 5<br/>Functions</strong></h3>
+<p class="noindent">Functions can be used to create code fragments that can be used over and over again. When written properly, functions are <em>abstract</em> —they can be used in many situations and are ideally completely self-contained, with data passing in and out through well-defined interfaces. Like any modern programming language, JavaScript allows for the creation of reusable abstract functions. Surprising to some, JavaScript functions are actually first-class data types and support a variety of advanced ideas such as variable arguments, variable passing semantics based on type, local functions, closures, and recursive functions. In short, JavaScript supports plenty of features useful for writing modular code, though whether a coder uses such features or instead relies on global variables and side effects to accomplish their tasks tends to be related more to programmer experience than language features. This chapter presents the basics of functions and their syntax and tries to help infuse the attitude to use them well.</p>
+<h4 class="h4"><a id="ch05lev1sec1"/><strong>Function Basics</strong></h4>
+<p class="noindent">The most common way to define a function in JavaScript is by using the keyword <span class="codesample">function</span>, followed by a unique function name, a list of parameters (that might be empty), and a statement block surrounded by curly braces. The basic syntax is shown here:</p>
+<p class="image"><img alt="image" src="f0159-01.jpg"/></p>
+<p class="indent">A simple function that takes no parameters called <span class="codesample"><em>sayHello</em></span> is defined here:</p>
+<p class="image"><img alt="image" src="f0159-02.jpg"/></p>
+<p class="indent">To invoke the function somewhere later in the script, you would use this statement:</p>
+<p class="image"><img alt="image" src="f0159-03.jpg"/></p>
+<p class="image1"><img alt="image" src="f0159-04.jpg"/></p>
+<hr/>
+<p class="note"><a id="page_160"/><strong>NOTE</strong> Forward references to functions generally are not allowed; in other words, you should always define a function before calling it. However, within the same <span class="codesample"><strong>&lt;script&gt;</strong></span> tag, it is possible to reference a function before it is defined. This is a very poor practice and should be avoided.</p>
+<h5 class="h5"><a id="ch05lev2sec1"/><strong>Parameter Passing Basics</strong></h5>
+<p class="noindent">Very often we will want to pass information to functions to be used in a calculation or to change the operation the function performs. Data passed to functions, whether in literals or variables, are termed <em>parameters</em>, or occasionally <em>arguments</em>. Consider the following modification of the <span class="codesample"><em>sayHello()</em></span> function to take a single parameter called <span class="codesample"><em>someName</em></span>:</p>
+<p class="image"><img alt="image" src="f0160-01.jpg"/></p>
+<p class="indent">In this case, the function receives a value that determines which output string to display. Calling the function with</p>
+<p class="image"><img alt="image" src="f0160-02.jpg"/></p>
+<p class="noindent">results in this alert being displayed:</p>
+<p class="image1"><img alt="image" src="f0160-05.jpg"/></p>
+<p class="noindent">Calling the function either as</p>
+<p class="image"><img alt="image" src="f0160-03.jpg"/></p>
+<p class="noindent">or simply without a parameter:</p>
+<p class="image"><img alt="image" src="f0160-04.jpg"/></p>
+<p class="noindent">will result in the other dialog being displayed:</p>
+<p class="image1"><img alt="image" src="f0160-06.jpg"/></p>
+<p class="indent">When you invoke a function that expects arguments, without them JavaScript fills in any arguments that have not been passed with <span class="codesample">undefined</span> values. This behavior is both useful and extremely dangerous at the same time. While some people might like the ability to avoid typing in all parameters if they aren’t using them, the function itself might have to be written carefully to avoid doing something inappropriate with a nonexistent value. In short, it is always good programming practice to carefully check parameters passed in.</p>
+<p class="indent">Functions do not have to receive only literal values; they can also be passed variables or any combination of variables and literals. Consider the function here named <span class="codesample"><em>addThree()</em></span>, which takes three values and displays their result in an alert dialog:</p>
+<p class="image"><img alt="image" src="f0160-07.jpg"/></p>
+<p class="image1"><a id="page_161"/><img alt="image" src="f0161-01.jpg"/></p>
+<p class="indent">Be careful with parameter passing; because JavaScript is weakly typed, you might not get the results you expect. For example, consider what would happen if you called <span class="codesample"><em>addThree()</em></span> like so:</p>
+<p class="image"><img alt="image" src="f0161-02.jpg"/></p>
+<p class="noindent">You would see that type conversion in combination with the overloaded <span class="codesample">+</span> operator would result in a string being displayed:</p>
+<p class="image1"><img alt="image" src="f0161-03.jpg"/></p>
+<p class="noindent">Using the <span class="codesample">typeof</span> statement, we might be able to improve the function to report errors:</p>
+<p class="image"><img alt="image" src="f0161-04.jpg"/></p>
+<p class="indent">We’ll see a number of other ways to make a more robust function later in the chapter; for now, let’s concentrate on returning data from a function.</p>
+<h5 class="h5"><a id="ch05lev2sec2"/><strong>Return Statements</strong></h5>
+<p class="noindent">We might want to extend our example function to save the result of the addition; this is easily performed using a <span class="codesample">return</span> statement. The inclusion of a <span class="codesample">return</span> statement indicates that a function should exit and potentially return a value as well. Here the function <span class="codesample"><em>addThree()</em></span> has been modified to return a value:</p>
+<p class="image"><img alt="image" src="f0161-05.jpg"/></p>
+<p class="indent"><a id="page_162"/>Functions also can include multiple <span class="codesample">return</span> statements, as demonstrated by the example here:</p>
+<p class="image"><img alt="image" src="f0162-01.jpg"/></p>
+<p class="indent">Functions will always return some form of result, regardless of whether or not a <span class="codesample">return</span> statement is included. By default, unless an explicit value is returned, a value of <span class="codesample">undefined</span> will be returned. While the <span class="codesample">return</span> statement should be the primary way that data is returned from a function, parameters can be used as well in some situations.</p>
+<hr/>
+<p class="note"><strong>NOTE</strong> Sometimes these implicit <span class="codesample">return</span> statements cause problems, particularly when associated with HTML event handlers such as <span class="codesample">onclick</span>. Recall from <a class="nounder" href="ch04.html#ch04">Chapter 4</a> that the <span class="codesample">void</span> operator can be used to avoid such problems, such as in this example: <span class="codesample"><strong>&lt;a href=</strong>“<strong>http://www.pint.com “onclick=</strong>“<strong>return void x();”&gt;</strong> Press the link<strong>&lt;/a&gt;</strong></span>. Using <span class="codesample">void</span> in this manner destroys the returned value, preventing the return value of <span class="codesample"><em>x()</em></span> from affecting the behavior of the link.</p>
+<h5 class="h5"><a id="ch05lev2sec3"/><strong>Parameter Passing: In and Out</strong></h5>
+<p class="noindent">Primitive data types are passed by value in JavaScript. This means that a copy is effectively made of a variable when it is passed to a function, so any manipulation local to the function leaves the original variables untouched. This is best illustrated by an example:</p>
+<p class="image"><img alt="image" src="f0162-02.jpg"/></p>
+<p class="noindent">The result of the example is shown here:</p>
+<p class="image1"><img alt="image" src="f0162-03.jpg"/></p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.javascriptref.com/3ed/ch5/passbyvalue.html">http://javascriptref.com/3ed/ch5/passbyvalue.html</a></p>
+<p class="indent"><a id="page_163"/>Notice that the function <span class="codesample"><em>fiddle()</em></span> does not modify the value of the variable <span class="codesample"><em>str</em></span> because, as a primitive type, it only receives a copy of <span class="codesample"><em>str</em></span>. In other words, primitive types are passed by value. However, if composite types such as arrays and objects are used, they are passed by reference rather than value. This means that the function they are passed to can modify the original data because it receives a reference to the data rather than a copy of the value. It should be clear now why we often dub such types “reference types.” Consider the following modification of the previous <span class="codesample"><em>fiddle()</em></span> function:</p>
+<p class="image"><img alt="image" src="f0163-01.jpg"/></p>
+<p class="noindent">In this situation, the function <span class="codesample"><em>fiddle()</em></span> can change the values of the array passed in, as shown here:</p>
+<p class="image1"><img alt="image" src="f0163-02.jpg"/></p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.javascriptref.com/3ed/ch5/passbyreference.html">http://javascriptref.com/3ed/ch5/passbyreference.html</a></p>
+<p class="indent">The reason for this, of course, is that composite types such as arrays and objects are passed by reference rather than value. In other words, a pointer to the object is passed to the function rather than a copy of it. Fortunately, unlike other languages such as C, JavaScript doesn’t force the user to worry about pointers or how to de-reference parameters.</p>
+<p class="indent">Be careful, though; the references are weak in the sense that if you completely replace a parameter with another value it won’t affect the original item. Here, for example, because the parameter <span class="codesample"><em>arg1</em></span> completely replaces with a new array literal, the original values are still intact after the call:</p>
+<p class="image"><img alt="image" src="f0163-03.jpg"/></p>
+<p class="image1"><a id="page_164"/><img alt="image" src="f0164-01.jpg"/></p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.javascriptref.com/3ed/ch5/weakreference.html">http://javascriptref.com/3ed/ch5/weakreference.html</a></p>
+<p class="indent">If you are concerned about flexibility and slight variations of passing semantics depending on modification, then just rely on return to pass a value(s) back from a function. If it is necessary to send multiple values back from the function, it is possible to do this by returning an array or object that contains multiple entries.</p>
+<h4 class="h4"><a id="ch05lev1sec2"/><strong>Global and Local Variables</strong></h4>
+<p class="noindent">There are two basic scopes in JavaScript: global and local. A <em>global variable</em> is one that is known throughout a document, while a <em>local variable</em> is one that is limited to the particular function it is defined within. For example, in the script here, the variable <span class="codesample"><em>x</em></span> is defined globally and is available within the function <span class="codesample"><em>myFunction()</em></span>, which both prints and sets its value:</p>
+<p class="image"><img alt="image" src="f0164-02.jpg"/></p>
+<p class="indent">The output of this script is shown here:</p>
+<p class="image1"><img alt="image" src="f0164-03.jpg"/></p>
+<p class="noindent"><a id="page_165"/>Notice in this case that the variable <span class="codesample"><em>x</em></span> can be read and modified both inside and outside the function. This is because it is global. However, global variables aren’t always helpful because they don’t allow us to reuse functions easily.</p>
+<p class="indent">Instead of using global variables, we should define local variables that are known only within the scope of the function in which they are defined. For example, in the following script the variable <span class="codesample"><em>y</em></span> is defined locally within the function <span class="codesample"><em>myFunction()</em></span> and set to a simple string:</p>
+<p class="image"><img alt="image" src="f0165-01.jpg"/></p>
+<p class="noindent">However, outside the function, <span class="codesample"><em>y</em></span> is undefined, so the script will throw an error message:</p>
+<p class="image1"><img alt="image" src="f0165-02.jpg"/></p>
+<p class="indent">To “fix” the execution of this script, we can replace the second output statement with a small <span class="codesample">if</span> statement to determine if the variable <span class="codesample"><em>y</em></span> is defined within the current context, namely the current <span class="codesample">window</span>:</p>
+<p class="image"><img alt="image" src="f0165-03.jpg"/></p>
+<p class="noindent">Notice that, in this case, the script shows that indeed the variable <span class="codesample"><em>y</em></span> is undefined in the global space:</p>
+<p class="image1"><img alt="image" src="f0165-04.jpg"/></p>
+<p class="indent">However, more likely, we purposefully want to create local variables that are not known in the global scope so that we can hide the implementation of the function from the code that uses it. This abstraction allows for the clean function reuse alluded to earlier, but be careful because sometimes the use of local and global variables can get confusing, particularly when there are similar names in use.</p>
+<h5 class="h5"><a id="page_166"/><a id="ch05lev2sec4"/><strong>Variable Naming for Scope</strong></h5>
+<p class="noindent">When employing variables in different scopes, we should be cautious. In this section, we briefly discuss how to name variables for readability. First up, the use of similar variable names for both local and global variables creates a potentially confusing situation, often termed a <em>mask out</em>. Notice in the example here how both local and global variables named <span class="codesample"><em>x</em></span> are used:</p>
+<p class="image"><img alt="image" src="f0166-01.jpg"/></p>
+<p class="indent">As shown in the output here, the value change made in the function is not preserved because the local variable does not affect the global one:</p>
+<p class="image1"><img alt="image" src="f0166-02.jpg"/></p>
+<p class="indent">This is the appropriate action, but the readability of the code is somewhat reduced since there is no immediate difference on inspection between the global <span class="codesample"><em>x</em></span> and the local <span class="codesample"><em>x</em></span>. Given the often dangerous use of global variables, many JavaScript programmers will prefix them with a <span class="codesample">g</span> so that they are easily seen. For example:</p>
+<p class="image"><img alt="image" src="f0166-03.jpg"/></p>
+<p class="noindent">Alternatively, you may decide to prefix the local variable or make it a property of the function itself and reference it in that way so it is more obvious that the variable is local:</p>
+<p class="image"><img alt="image" src="f0166-04.jpg"/></p>
+<p class="indent">As we’ve mentioned many times in the book, we need to be somewhat cautious with JavaScript variable naming, particularly with global values, as they share the same name space with other scripts. The use of the object wrapper or prefixing techniques should be used to reduce the possibility of these problems.</p>
+<h5 class="h5"><a id="page_167"/><a id="ch05lev2sec5"/><strong>Inner Functions</strong></h5>
+<p class="noindent">It might also be useful, in addition to limiting a variable’s scope to a particular function, to create a function local to a function. This capability is not surprising if you consider that it is possible to create local objects and that functions themselves are objects (as we’ll see in the section “Functions as Objects,” later in this chapter).</p>
+<p class="indent">To create a local function, just declare it within the statement block of the function to which it should be local. For example, the following script shows a function called <span class="codesample"><em>testFunction()</em></span> with two locally defined functions, <span class="codesample"><em>inner1()</em></span> and <span class="codesample"><em>inner2()</em></span>:</p>
+<p class="image"><img alt="image" src="f0167-01.jpg"/></p>
+<p class="image1"><img alt="image" src="f0167-02.jpg"/></p>
+<p class="indent">From within the function, it is possible to call these functions as shown above, but attempting to call <span class="codesample"><em>inner1()</em></span> or <span class="codesample"><em>inner2()</em></span> from the global scope results in error messages, as demonstrated here:</p>
+<p class="image"><img alt="image" src="f0167-03.jpg"/></p>
+<p class="image1"><a id="page_168"/><img alt="image" src="f0168-01.jpg"/></p>
+<p class="indent">Do not mistakenly assume that you would be able to invoke the inner functions with some path such as <span class="codesample"><em>testFunction.inner2()</em></span>, as that doesn’t work. Local functions are hidden within the containing object, and thus this construct provides us the ability to create stand-alone modules of code. Early on, such techniques were not widely used; but today with much more involved uses of JavaScript, they are more commonplace. However, the potentially confusing nature of variable scope and the lifetime of inner functions present an often confusing but quite useful idea called a <em>closure</em>, which we explore next.</p>
+<h4 class="h4"><a id="ch05lev1sec3"/><strong>Closures</strong></h4>
+<p class="noindent">A <em>closure</em> is an inner function in JavaScript that becomes available outside of the enclosing function and thus must retain a variable state to act in a meaningful way. For example, consider the following function:</p>
+<p class="image"><img alt="image" src="f0168-02.jpg"/></p>
+<p class="noindent">When you run this code fragment, the function <span class="codesample"><em>outer()</em></span> is invoked and has a locally scoped function <span class="codesample"><em>inner()</em></span> that will print out the variable. This <span class="codesample"><em>inner()</em></span> function will be called in one second, but you will have left the <span class="codesample"><em>outer()</em></span> function by the time the <span class="codesample"><em>inner()</em></span> function is called, so what would the value of <span class="codesample"><em>x</em></span> be? Because of the way JavaScript binds the values of the needed variables to the function, it will actually have a value in <span class="codesample"><em>x</em></span> of 10 at the time the function <span class="codesample"><em>inner()</em></span> is invoked:</p>
+<p class="image1"><img alt="image" src="f0168-03.jpg"/></p>
+<p class="noindent"><a id="page_169"/>This gets quite interesting if you note when these bindings actually happen. Consider the following code, which resets the value of <span class="codesample"><em>x</em></span>:</p>
+<p class="image"><img alt="image" src="f0169-01.jpg"/></p>
+<p class="noindent">It might be surprising to you, since the timeout and the reassignment happens after the function is defined, that the value of <span class="codesample"><em>x</em></span> is the string value “Late to the party!” as shown here. This shows that the inner function is not just copying the value of the variable <span class="codesample"><em>x</em></span>, but also holds a reference to that variable.</p>
+<p class="image1"><img alt="image" src="f0169-02.jpg"/></p>
+<p class="indent">Do not assume that closures are related solely to timeouts and other asynchronous activity, such as the pattern of JavaScript called Ajax thrives on; they can be employed casually. The following little example shows that you could just as easily use them when doing higher-order JavaScript programming when you return functions as values for later use:</p>
+<p class="image"><img alt="image" src="f0169-03.jpg"/></p>
+<p class="indent">Beyond such a rudimentary example of closures, you will also encounter these constructs commonly in Ajax applications (see <a class="nounder" href="ch15.html#ch15">Chapter 15</a>) because of the need to set up asynchronous communication and various event handlers to address user activity. We’ll see that sloppy use of closures, event handlers, and other JavaScript nuances can lead to memory leaks. We warn readers that excessively employing complex coding patterns heavy on closures may be done with good intention of elegance, but may too often result in frustrating debugging and refactoring efforts.</p>
+<h4 class="h4"><a id="ch05lev1sec4"/><strong>Functions as Objects</strong></h4>
+<p class="noindent">As we’ll see in the next chapter, in JavaScript just about everything is an object, and functions are no exception. Thus it is possible to define functions in a much different way than we have seen up until now by treating a function just like any plain object and instantiating it using the keyword <span class="codesample">new</span>. For example, here we define a function and assign it to the variable <em><span class="codesample">sayHello</span></em> :</p>
+<p class="image"><img alt="image" src="f0169-04.jpg"/></p>
+<p class="noindent"><a id="page_170"/>Notice that <span class="codesample">Function</span> is capitalized since it is a constructor and we are creating an instance of JavaScript’s built-in <span class="codesample">Function</span> object. Later on, we can then use the assigned variable <span class="codesample"><em>sayHello</em></span> just like a regular function call:</p>
+<p class="image"><img alt="image" src="f0170-01.jpg"/></p>
+<p class="noindent">Because functions are first-class data types, the function can even be assigned to another variable and used by that name instead:</p>
+<p class="image"><img alt="image" src="f0170-02.jpg"/></p>
+<p class="noindent">To continue the example, we could define a function with a parameter to print out, as follows,</p>
+<p class="image"><img alt="image" src="f0170-03.jpg"/></p>
+<p class="noindent">and call it:</p>
+<p class="image"><img alt="image" src="f0170-04.jpg"/></p>
+<p class="noindent">The general syntax for the <span class="codesample">Function()</span> constructor is</p>
+<p class="image"><img alt="image" src="f0170-05.jpg"/></p>
+<p class="noindent">As we have already seen, functions can have zero arguments, so the actual number of parameters to the <span class="codesample">Function()</span> constructor will vary. The only thing we have to do is pass, as the final argument, the set of statements that are to execute as the body of the function.</p>
+<p class="indent">If you have coded JavaScript before, you may not have seen this style of function definition and might wonder what its value is. The main advantage of declaring a function using the <span class="codesample">new</span> operator is that a script can create a function after a document loads.</p>
+<h5 class="h5"><a id="ch05lev2sec6"/><strong>Function Literals</strong></h5>
+<p class="noindent">As we have seen in the previous section, defining a function using a <span class="codesample">new</span> operator doesn’t give the function a name. A similar way to define a function without a name and then assign it to something is by using a function literal. Function literals use the <span class="codesample">function</span> keyword but without an explicit name. Our simple example from before would be written as a functional literal, like so:</p>
+<p class="image"><img alt="image" src="f0170-06.jpg"/></p>
+<p class="indent">Function literals are commonly employed when creating methods for user-defined objects. A simple example showing function literals used in this manner is presented here. We have defined a function <span class="codesample"><em>Robot()</em></span> that is used as an object constructor—a function that creates an object. Within the function, we have defined three methods that are assigned function literals:</p>
+<p class="image"><img alt="image" src="f0170-07.jpg"/></p>
+<p class="noindent"><a id="page_171"/>It is now simple to create an object using the <span class="codesample">new</span> operator in conjunction with our <span class="codesample"><em>Robot</em></span> constructor function, as shown here:</p>
+<p class="image"><img alt="image" src="f0171-01.jpg"/></p>
+<p class="noindent">Invoking the various functions, or more correctly methods, is simply a matter of invoking their names, similar to plain function calls:</p>
+<p class="image"><img alt="image" src="f0171-02.jpg"/></p>
+<p class="indent">You might wonder why not just use the following <span class="codesample">new</span> style syntax in the constructor function:</p>
+<p class="image"><img alt="image" src="f0171-03.jpg"/></p>
+<p class="noindent">The reality is you could, and everything would still operate properly. The only downside to this approach is that it will use substantially more memory, as new function objects are created every time you create a new instance of the <span class="codesample"><em>Robot</em></span> object.</p>
+<h6 class="h6"><strong>Anonymous Functions</strong></h6>
+<p class="noindent">A function literal is a nameless function that doesn’t get assigned a name at any time. An <em>anonymous function</em> is one that cannot be further referenced after assignment. For example, we may want to sort arrays in a different manner than what the built-in <span class="codesample">sort()</span> method provides (as we’ll see in <a class="nounder" href="ch07.html#ch07">Chapter 7</a>); in such cases, we may pass an anonymous function:</p>
+<p class="image"><img alt="image" src="f0171-04.jpg"/></p>
+<p class="noindent">The creation of an anonymous function is, in this case, carried out by using a function literal. While the function is accessible to <span class="codesample">sort()</span> because it was passed a parameter, the function is never bound to a visible name, so it is considered anonymous.</p>
+<p class="indent">As the previous example demonstrates, in JavaScript functions are first-class data types, so it is quite possible to use them pretty much wherever you might use a variable. Generally, these throw-away functions are directly invoked. Here a simple example shows this:</p>
+<p class="image"><img alt="image" src="f0171-05.jpg"/></p>
+<p class="noindent"><a id="page_172"/>The general sense of wanting to use such a construct is to encapsulate some code you would like to use once and not pollute the runtime name space.</p>
+<p class="indent">Probably the most common style of anonymous function application will be as simple event handlers, as illustrated with this example that binds a window load-handling function as well as a simple function for a button press:</p>
+<p class="image"><img alt="image" src="f0172-01.jpg"/></p>
+<p class="noindent">While syntactically correct, this use of anonymous function event binding is inelegant and results in interaction problems when used with multiple scripts. A better approach to event management using DOM methods such as <span class="codesample">addEventListener()</span> is presented in <a class="nounder" href="ch11.html#ch11">Chapter 11</a>.</p>
+<h5 class="h5"><a id="ch05lev2sec7"/><strong>Static Variables</strong></h5>
+<p class="noindent">One interesting aspect of the nature of functions as objects is that you can create static variables that persist beyond function invocations by adding an instance property for the defined function. For example, consider the code here that defines a function <span class="codesample"><em>doSum()</em></span> that adds two numbers and keeps a running sum:</p>
+<p class="image"><img alt="image" src="f0172-02.jpg"/></p>
+<p class="noindent">The result shown next demonstrates that, by using a static variable, we can save data between calls of a function:</p>
+<p class="image"><a id="page_173"/><img alt="image" src="f0173-01.jpg"/></p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.javascriptref.com/3ed/ch5/staticvariables.html">http://javascriptref.com/3ed/ch5/staticvariables.html</a></p>
+<h5 class="h5"><a id="ch05lev2sec8"/><strong>Advanced Parameter Passing</strong></h5>
+<p class="noindent">As objects, user-defined JavaScript functions have a variety of properties and methods associated with them. One particularly useful property is the read-only <span class="codesample">length</span> property that indicates the number of parameters the function accepts. For example:</p>
+<p class="image"><img alt="image" src="f0173-02.jpg"/></p>
+<p class="noindent">the script would show that <span class="codesample"><em>myFunction()</em></span> takes three parameters. This property shows the defined parameters for a function, so when a function is declared as taking no arguments, a value of <span class="codesample">0</span> is returned for its <span class="codesample">length</span> property.</p>
+<hr/>
+<p class="note"><strong>NOTE</strong> Some browsers may also support an <span class="codesample">arity</span> property that contains the same information as <span class="codesample">length</span>. Because this is nonstandard, it should be avoided.</p>
+<p class="indent">Of course, it is possible to vary the number of arguments actually given to a function at any time, and we can even accommodate this possibility by examining the <span class="codesample">arguments[]</span> array associated with a particular function. This array is implicitly filled with the arguments to a function when it is invoked. The following example shows a function, <span class="codesample"><em>myFunction()</em></span>, that has no defined parameters but that is called with three arguments:</p>
+<p class="image"><img alt="image" src="f0173-03.jpg"/></p>
+<p class="noindent">The result shown here indicates that JavaScript functions are perfectly happy to receive any number of parameters:</p>
+<p class="image1"><img alt="image" src="f0173-04.jpg"/></p>
+<p class="noindent"><a id="page_174"/>Of course, you may wonder how to put this to use. The following example shows a summation routine that adds any number of arguments passed to it:</p>
+<p class="image"><img alt="image" src="f0174-01.jpg"/></p>
+<p class="noindent">Note that this isn’t a terribly robust function—if you pass it strings or other data types that shouldn’t be added, it will try to sum those as well. We briefly explore some techniques to make functions a bit more robust when variable parameters are employed.</p>
+<p class="indent">It is also worth noting that, in the past, <span class="codesample">arguments</span> was a property on a function instance rather than a variable within its invocation. Both syntaxes still work, but the <span class="codesample">Function.arguments</span> property has been deprecated.</p>
+<h6 class="h6"><strong>Robust Parameter Handling</strong></h6>
+<p class="noindent">As we have just seen, JavaScript doesn’t carefully check the number or type of variables passed to a function. When properly employed, it is possible to use functions that accept a variable number of arguments to write very elegant JavaScript code. However, it is equally possible that doing so will cause a problem. For example, consider this simple function that does no checking:</p>
+<p class="image"><img alt="image" src="f0174-02.jpg"/></p>
+<p class="noindent">While it doesn’t throw any particular errors with an <span class="codesample">undefined</span> value as a second value, we can’t always hope that weak typing saves us. We first might want to ensure that the number of parameters passed to a function is correct. Here we check for the correct number of arguments passed:</p>
+<p class="image"><img alt="image" src="f0174-03.jpg"/></p>
+<p class="noindent">Of course, this wouldn’t correct a function call such as</p>
+<p class="image"><img alt="image" src="f0174-04.jpg"/></p>
+<p class="noindent">which would produce a value of <span class="codesample">6</span>, since <span class="codesample">true</span> would be converted to the integer <span class="codesample">1</span>. However, if we invoked the function with</p>
+<p class="image"><img alt="image" src="f0174-05.jpg"/></p>
+<p class="noindent"><a id="page_175"/>we get an incorrect value of <span class="codesample">55</span>. Maybe this is the correct functionality, but we certainly could add type checking for the passed parameters, like so:</p>
+<p class="image"><img alt="image" src="f0175-01.jpg"/></p>
+<p class="indent">As we can see, to create truly reusable functions that will withstand anything thrown at them, we will have to put in some more effort.</p>
+<h6 class="h6"><strong>Strict Mode for Functions</strong></h6>
+<p class="noindent">ECMAScript 5 strict mode can be invoked on a function-limited basis. For example, if we were worried about tightening up our previous <span class="codesample"><em>addTwo()</em></span> function, we might start it with the string literal “<span class="codesample">use strict</span>”; like so:</p>
+<p class="image"><img alt="image" src="f0175-02.jpg"/></p>
+<p class="noindent">The benefit to this change is that the strict mode might help us catch a few problems in our functions; for example, having arguments with the same name would cause an error in strict mode. The stronger checking of strict mode really can help us avoid having to try to figure out a potentially tricky runtime error.</p>
+<p class="image"><img alt="image" src="f0175-03.jpg"/></p>
+<p class="noindent">Of course, we get the further goodness of strict mode’s limiting <span class="codesample">eval</span> and <span class="codesample">with</span> statements, so it’s nice to add this to our code if we can do so not globally but function by function.</p>
+<h5 class="h5"><a id="ch05lev2sec9"/><strong>Advanced Function Properties and Methods</strong></h5>
+<p class="noindent">In the previous section, we saw a couple of properties of the <span class="codesample">Function</span> object. It is important to note that the <span class="codesample">Function</span> properties and methods exist on all functions and not only functions that are created using the <span class="codesample">new</span> operator.</p>
+<p class="indent">Another useful <span class="codesample">Function</span> property is the <span class="codesample">caller</span> property. This will return the function that called the function. In this example, note how <span class="codesample"><em>printMessage()</em></span> is called with no arguments, yet it prints out a different message based on which function called it. This is not good programming practice, but it illustrates how the property can be used. The <span class="codesample">caller</span> property is not currently in any specification, but it is supported by most browsers:</p>
+<p class="image"><img alt="image" src="f0175-04.jpg"/></p>
+<hr/>
+<p class="online"><a id="page_176"/><strong>ONLINE</strong> <a class="nounder" href="http://www.javascriptref.com/3ed/ch5/caller.html">http://javascriptref.com/3ed/ch5/caller.html</a></p>
+<p class="indent">In the past, you could get <span class="codesample">caller</span> from the <span class="codesample">arguments.caller</span> property. This is no longer supported and will, in fact, throw an error if used in strict mode. In addition, the <span class="codesample">arguments.callee</span> property, which returned the currently executing function, has also been deprecated and will throw an error in strict mode.</p>
+<p class="indent">In previous examples, we have seen how the <span class="codesample">this</span> object is used within objects and their methods as a reference to the object. An important thing to note, though, is that when an object’s method is invoked via a callback function, the <span class="codesample">this</span> object actually refers to the <span class="codesample">this</span> of the callback’s execution and not the method’s execution:</p>
+<p class="image"><img alt="image" src="f0176-01.jpg"/></p>
+<p class="noindent">A function can use its <span class="codesample">bind()</span> method to specify which <span class="codesample">this</span> object should be used on execution:</p>
+<p class="image"><img alt="image" src="f0176-02.jpg"/></p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.javascriptref.com/3ed/ch5/bind.html">http://javascriptref.com/3ed/ch5/bind.html</a></p>
+<p class="indent">The next method that functions can use is <span class="codesample">call()</span>. The first argument should be the <span class="codesample">this</span> object to use in the function. The rest of the arguments are the arguments to pass into the function. The <span class="codesample">call()</span> method can be useful for reuse and inheritance, as it allows one definition of a method to be applied to multiple objects:</p>
+<p class="image"><a id="page_177"/><img alt="image" src="f0177-01.jpg"/></p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.javascriptref.com/3ed/ch5/call.html">http://javascriptref.com/3ed/ch5/call.html</a></p>
+<p class="indent">Very similar to the <span class="codesample">call()</span> method is the <span class="codesample">apply()</span> method. These methods are identical except for how they accept the parameters. As we saw in the previous example, the arguments for <span class="codesample"><em>sayHello()</em></span> were passed as individual arguments into the <span class="codesample">call()</span> method. In contrast, all arguments are placed in a single array for <span class="codesample">apply()</span>. This is especially handy if passing on the arguments from one function to another. The <span class="codesample">arguments</span> variable, discussed previously, can be used as the second parameter of the <span class="codesample">apply()</span> call.</p>
+<p class="image"><img alt="image" src="f0177-02.jpg"/></p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.javascriptref.com/3ed/ch5/apply.html">http://javascriptref.com/3ed/ch5/apply.html</a></p>
+<h4 class="h4"><a id="ch05lev1sec5"/><strong>Recursive Functions</strong></h4>
+<p class="noindent">A <em>recursive</em> function is one that calls itself. While not always the most efficient, timewise way to perform a computation, the elegance of a recursive function is very appealing. Consider the definition of a factorial from mathematics, where given a number <em>n</em>, the factorial of that number is defined as:</p>
+<p class="indenttop"><img alt="image" src="f0177-03.jpg"/></p>
+<p class="noindent"><a id="page_178"/>Given this definition of a factorial, 5! = 5 * 4 * 3 * 2 * 1, or 120. For completeness, 0! is defined to be 1, and a factorial of negative numbers is not defined. We could write a recursive function to calculate the factorial in a somewhat naive fashion. Here, the function <span class="codesample"><em>factorial()</em></span> keeps calling itself with smaller and smaller values until the base case of 0 is hit, at which point the results are returned “upwards” until the calculation is complete:</p>
+<p class="image"><img alt="image" src="f0178-01.jpg"/></p>
+<p class="noindent">Passing the function a positive value, we see that</p>
+<p class="image"><img alt="image" src="f0178-02.jpg"/></p>
+<p class="noindent">produces the desired result:</p>
+<p class="image1"><img alt="image" src="f0178-03.jpg"/></p>
+<p class="noindent">However, if a negative value such as –3 is passed to the function, the recursion will continue indefinitely. Notice the error produced by Internet Explorer in such a case:</p>
+<p class="image1"><img alt="image" src="f0178-04.jpg"/></p>
+<p class="noindent">A simple <span class="codesample">if</span> statement could be added to the function to avoid such problems:</p>
+<p class="image"><img alt="image" src="f0178-05.jpg"/></p>
+<p class="noindent">In general, we see here the appropriate kinds of checks that functions should employ in case they may be sent the wrong types. We will cover more defensive coding postures throughout the book, but in general developers should consider JavaScript weak typing a mixed blessing.</p>
+<p class="indent"><a id="page_179"/>Finally, it should be noted that even in relatively recent versions of JavaScript, it was possible to produce a similar error message in some recursive functions simply because the recursion goes on too long, even if the computation is legitimate (will eventually terminate). The reason for this is the overhead incurred by recursive computation, since the suspended functions are held in a function call stack. It is generally fairly straightforward, though not necessarily as elegant, to rewrite a recursive function in an iterative manner. Consider the rewrite of <span class="codesample"><em>factorial()</em></span> here:</p>
+<p class="image"><img alt="image" src="f0179-01.jpg"/></p>
+<p class="indent">Fortunately, modern implementations are much more optimized in their execution, so such issues are not as common with simple recursive algorithms. For those readers troubled by recursion in computer science or math classes, you’ve escaped the topic for the moment. However, recursion will make a return later on (see <a class="nounder" href="ch10.html#ch10">Chapter 10</a>) when we consider DOM tree traversals.</p>
+<h4 class="h4"><a id="ch05lev1sec6"/><strong>Summary</strong></h4>
+<p class="noindent">JavaScript functions are the developer’s most basic tool for creating structured reusable code. A function should be designed to be self-contained and pass data in through parameters and back via the <span class="codesample">return</span> statement. In general, most parameters are passed to a function by value, but composite types such as arrays and objects are passed by reference. JavaScript functions are very flexible, and a variable number of parameters can be passed to a function. However, some programming caution should be employed, given JavaScript’s lax type and parameter checking. Further, to ensure reusable functions, local variables should be declared with the <span class="codesample">var</span> statement to avoid conflicts with global names. Local or hidden functions can also be used to hide calculations internal to a particular function, though we should be careful to understand the scope and lifetime of inner functions and any values they may consume. Pretty much whatever you might have seen in other programming languages, such as higher order programming, polymorphic functions, recursion, static values, and more, can be found in JavaScript.<a id="page_180"/></p>
+</body>
+</html>

@@ -1,0 +1,584 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<title>JavaScript: The Complete Reference&#153;, Third Edition</title>
+<link href="0071741216.css" rel="stylesheet" type="text/css"/>
+<link href="page-template.xpgt" rel="stylesheet" type="application/vnd.adobe-page-template+xml"/>
+<meta content="urn:uuid:4d1be0af-c0d3-47b8-9bd4-3edcb4dee196" name="Adept.expected.resource"/>
+</head>
+<body>
+<h3 class="h3b" id="ch12"><a id="page_475"/><strong>CHAPTER 12<br/>Windows, Frames, and Overlays</strong></h3>
+<p class="noindent">Now it is time to begin to put the syntax and theory we have covered up to this point in the book to use. Starting from the top of the object hierarchy with <span class="codesample">Window</span>, we will explore some applications of JavaScript. In this chapter, we will learn how to create a variety of windows, including alerts, confirmations, prompts, and custom pop-up windows of our own design. We will also show how windows and frames are very much related. Finally, we’ll discuss the problematic special cases of window management and how overlays have become a needed tool in the JavaScript developer’s toolbox.</p>
+<h4 class="h4"><a id="ch12lev1sec1"/><strong>Introduction to the window Object</strong></h4>
+<p class="noindent">JavaScript’s <span class="codesample">Window</span> object represents the browser window, or potentially frame, that a document is displayed in. The properties of a particular instance of <span class="codesample">Window</span> might include its size, amount of chrome—namely the buttons, scroll bars, and so on—in the browser frame, position, and so on. The methods of the <span class="codesample">Window</span> include the creation and destruction of generic windows and the handling of special-case windows such as alert, confirmation, and prompt dialogs. The <span class="codesample">Window</span>, at least in the case of browser-based JavaScript, defines the universe, and most everything lives within it. As the topmost object in the JavaScript browser-document object hierarchy, <span class="codesample">Window</span> contains references to any of the DOM or browser-related objects we have presented to this point, as well as any user-defined global values; thus it seems appropriate to start our discussion of applied JavaScript with it.</p>
+<p class="indent">As we have discussed numerous times in the book, the <span class="codesample">Window</span> is not only home to many useful properties, methods, and objects but to the variables and functions that we define in our scripts. For example, if we define a variable <em><span class="codesample">likeJavaScript</span></em> and set it to <span class="codesample">true</span>,</p>
+<p class="imagea"><img alt="image" src="f0475-01.jpg"/></p>
+<p class="noindent">and we are not within function scope, that variable is global and, as such, becomes a property of the <span class="codesample">Window</span> object. In other words, if we write code like this:</p>
+<p class="imagea"><img alt="image" src="f0475-02.jpg"/></p>
+<p class="noindent"><a id="page_476"/>it is the same as if we were to write this code:</p>
+<p class="imagea"><img alt="image" src="f0476-01.jpg"/></p>
+<p class="noindent">Yet, even more interesting, the <span class="codesample">alert()</span> method itself is part of the <span class="codesample">Window</span>, so</p>
+<p class="imagea"><img alt="image" src="f0476-02.jpg"/></p>
+<p class="noindent">is also the same thing.</p>
+<p class="indent">As we have discussed earlier, we must be quite careful not to collide with other scripts’ global variables. Thus we would tend to use a wrapper object to house our variables, therefore limiting our exposure to the global name space as much as possible:</p>
+<p class="imagea"><img alt="image" src="f0476-03.jpg"/></p>
+<p class="indent">It turns out that such a scheme of limiting our identifier footprint isn’t just useful to avoid clashing with other included scripts, but to avoid clashing with the properties, methods, and objects of the <span class="codesample">Window</span> object itself.</p>
+<p class="indent"><a class="nounder" href="ch12.html#tab12-1">Table 12-1</a> shows the properties, including objects, of the <span class="codesample">Window</span> object, while <a class="nounder" href="ch12.html#tab12-2">Table 12-2</a> shows its methods. The tables contain data collected primarily from the HTML5 specification; however, they also include proprietary properties and methods that have spread across multiple browsers or are often seen in real-world code bases. These tables should provide a useful roadmap to the <span class="codesample">Window</span> object.</p>
+<p class="tabcap"><a id="tab12-1"/><strong>Table 12-1</strong> window Properties and Objects</p>
+<p class="imagea"><img alt="image" src="t0476-01.jpg"/></p>
+<p class="image0"><img alt="image" src="t0477-01.jpg"/></p>
+<p class="image0"><img alt="image" src="t0477-02.jpg"/></p>
+<p class="image0"><img alt="image" src="t0478-01.jpg"/></p>
+<p class="tabcap"><a id="tab12-2"/><strong>Table 12-2</strong> window Methods <a id="page_477"/><a id="page_478"/><a id="page_479"/></p>
+<p class="imagea"><img alt="image" src="t0478-02.jpg"/></p>
+<p class="image0"><img alt="image" src="t0479-01.jpg"/></p>
+<p class="image0"><img alt="image" src="t0479-02.jpg"/></p>
+<p class="image0"><img alt="image" src="t0480-01.jpg"/></p>
+<p class="indent"><a id="page_480"/>Given the wide range of properties and methods in the <span class="codesample">Window</span> object, we focus in this chapter on the creation and management of windows. Subsequent chapters will address some of the important objects such as <span class="codesample">Navigator, Document, Screen</span>, and so on.</p>
+<h4 class="h4"><a id="ch12lev1sec2"/>Dialogs</h4>
+<p class="noindent">We begin our discussion of the application of the <span class="codesample">Window</span> object by presenting how to create three types of special windows known generically as dialogs. A <em>dialog box</em>, or simply <em>dialog</em>, is a small window in a graphical user interface that “pop ups,” requesting some action from a user. The three types of basic dialogs supported directly by JavaScript include alerts, confirms, and prompts. How these dialogs are natively implemented is somewhat rudimentary, but in the next section we’ll see that once we can create our own windows we can replace these windows with our own.</p>
+<h5 class="h5"><a id="ch12lev2sec1"/><strong>alert( )</strong></h5>
+<p class="noindent">The <span class="codesample">Window</span> object’s <span class="codesample">alert()</span> method creates a special small window with a short string message and an OK button, as shown here:</p>
+<p class="image1"><img alt="image" src="f0480-01.jpg"/></p>
+<hr/>
+<p class="note"><a id="page_481"/><strong>NOTE</strong> The visual representation of an alert dialog can vary widely between browsers and may or may not include an icon and information about what is issuing the alert. The icon may be browser focused or unfortunately may look like a warning, regardless of the meaning of the message being presented.</p>
+<p class="indent">The basic syntax for alert is</p>
+<p class="imagea"><img alt="image" src="f0481-01.jpg"/></p>
+<p class="noindent">or, for shorthand, we just use</p>
+<p class="imagea"><img alt="image" src="f0481-02.jpg"/></p>
+<p class="noindent">as the <span class="codesample">Window</span> object can be assumed. The string passed to any dialog such as an alert may be either a variable or the result of an expression. If you pass another form of data, it will be coerced into a string. All of the following examples are valid uses of the alert method:</p>
+<p class="imagea"><img alt="image" src="f0481-03.jpg"/></p>
+<p class="noindent">An alert window is <em>page modal</em>, meaning that it must receive focus and be cleared before the user is allowed to continue activity with the page.</p>
+<p class="indent">One common use of alert dialogs is debugging messages. While this seems an acceptable use of alerts, it is generally more appropriate to pipe such messages to a browser’s console using the <span class="codesample">console.log()</span> method. Not only does this keep the message outside the view of the casual user, but often you need to issue many debugging traces, and the alert’s modal nature may be both annoying and inappropriate, depending on what the code is doing.</p>
+<h5 class="h5"><a id="ch12lev2sec2"/><strong>confirm( )</strong></h5>
+<p class="noindent">The <span class="codesample">confirm()</span> method creates a <span class="codesample">window</span> that displays a message for a user to respond to by pressing either an OK button to agree with the message or a Cancel button to disagree with the message. A typical rendering is shown here:</p>
+<p class="image1"><img alt="image" src="f0481-04.jpg"/></p>
+<p class="indent">The writing of the confirmation question may influence the usability of the dialog significantly. Many confirmation messages are best answered with a Yes or No button, rather than an OK or a Cancel button, as shown by the following dialog:</p>
+<p class="image1"><img alt="image" src="f0481-05.jpg"/></p>
+<p class="noindent"><a id="page_482"/>Unfortunately, using the basic JavaScript confirmation method, there is no possibility of changing the button strings, so choose your message wisely. Fortunately, later we’ll see it is quite possible to write your own form of confirmation.</p>
+<p class="indent">The basic syntax of the <span class="codesample">confirm()</span> method is</p>
+<p class="imagea"><img alt="image" src="f0482-01.jpg"/></p>
+<p class="noindent">or simply</p>
+<p class="imagea"><img alt="image" src="f0482-02.jpg"/></p>
+<p class="noindent">where <span class="codesample"><em>string</em></span> is any valid string variable, literal, or expression that either evaluates to or will be coerced into a string that will be used as the confirmation question.</p>
+<p class="indent">The <span class="codesample">confirm()</span> method returns a Boolean value, which indicates whether or not the information was confirmed, <span class="codesample">true</span> if the OK button was pressed, and <span class="codesample">false</span> if the Cancel button was pressed or the dialog was closed, as some older browsers allow for. The return value can be saved, like so:</p>
+<p class="imagea"><img alt="image" src="f0482-03.jpg"/></p>
+<p class="noindent">or the method call itself can be used within any construct that uses a Boolean expression such as an <span class="codesample">if</span> statement:</p>
+<p class="imagea"><img alt="image" src="f0482-04.jpg"/></p>
+<p class="noindent">Like the <span class="codesample">alert()</span> method, confirmation dialogs should be browser modal.</p>
+<p class="indent">The following example shows how the alert and confirm can be used:</p>
+<p class="imagea"><img alt="image" src="f0482-05.jpg"/></p>
+<hr/>
+<p class="online"><a id="page_483"/><strong>ONLINE</strong> <a class="nounder" href="http://www.javascriptref.com/3ed/ch12/alertconfirm.html">http://javascriptref.com/3ed/ch12/alertconfirm.html</a></p>
+<h5 class="h5"><a id="ch12lev2sec3"/><strong>prompt( )</strong></h5>
+<p class="noindent">A prompt window invoked by the <span class="codesample">prompt()</span> method of the <span class="codesample">Window</span> object is a small data collection dialog that prompts the user to enter a short line of data, as shown here:</p>
+<p class="imagea"><img alt="image" src="f0483-01.jpg"/></p>
+<p class="noindent">The <span class="codesample">prompt()</span> method takes two arguments. The basic syntax is shown here:</p>
+<p class="imagea"><img alt="image" src="f0483-02.jpg"/></p>
+<p class="noindent">The first parameter is a string that displays the prompt value, and the second is a default value to put in the prompt window. The method returns a string value that contains the value entered by the user in the prompt.</p>
+<p class="indent">The shorthand <span class="codesample">prompt()</span> is almost always used instead of <span class="codesample">window.prompt()</span>, and occasionally programmers will accidentally use only a single value in the method:</p>
+<p class="imagea"><img alt="image" src="f0483-03.jpg"/></p>
+<p class="noindent">However, in many browsers you may see that a value of <span class="codesample">undefined</span> is placed in the prompt line. You should set the second parameter to an empty string to keep this from happening:</p>
+<p class="imagea"><img alt="image" src="f0483-04.jpg"/></p>
+<p class="indent">When using the <span class="codesample">prompt()</span> method, it is important to understand what is returned. If the user presses the Cancel button in the dialog or the close box, a value of <span class="codesample">null</span> will be returned. It is always a good idea to check for this. Otherwise, a string value will be returned. Programmers should be careful to convert prompt values to the appropriate type using <span class="codesample">parseInt()</span>, <span class="codesample">parseFloat()</span>, or another type conversion scheme if they do not want a string value.</p>
+<p class="indent">The following example shows the <span class="codesample">prompt()</span> method in action:</p>
+<p class="imagea"><img alt="image" src="f0483-06.jpg"/></p>
+<hr/>
+<p class="online"><a id="page_484"/><strong>ONLINE</strong> <a class="nounder" href="http://www.javascriptref.com/3ed/ch12/prompt.html">http://javascriptref.com/3ed/ch12/prompt.html</a></p>
+<h4 class="h4"><a id="ch12lev1sec3"/><strong>Emerging and Proprietary Dialog Methods</strong></h4>
+<p class="noindent">The format of these last three dialogs leaves a little to be desired. We explore a few emerging and proprietary mechanisms before moving on to creating our own windows from scratch.</p>
+<h5 class="h5"><a id="ch12lev2sec4"/><strong>showModalDialog( )</strong></h5>
+<p class="noindent">Internet Explorer introduced a modal window, which was later incorporated into the HTML5 standard. Like a standard dialog, this more generic window is modal to the page and must be dismissed before moving on. The basic syntax for creating a modal dialog is</p>
+<p class="imagea"><img alt="image" src="f0484-01.jpg"/></p>
+<p class="indent">where</p>
+<p class="bullet">• <em><span class="codesample">URL of dialog</span></em> is a URL of the document to display.</p>
+<p class="bullet">• <em><span class="codesample">arguments</span></em> are any objects or values you wish to pass to the modal dialog.</p>
+<p class="bullet">• <em><span class="codesample">features</span></em> is a semicolon-separated list of display features for the dialog.</p>
+<p class="noindent">The <span class="codesample"><em>features</em></span> string should be the same as what is supported by <span class="codesample">window.open()</span>, which will be covered shortly, though MSDN syntax shows some variations that will likely change as this is standardized.</p>
+<p class="indent">A simple example of this method is shown here:</p>
+<p class="imagea"><img alt="image" src="f0484-02.jpg"/></p>
+<p class="indent"><a id="page_485"/>The <span class="codesample">showModalDialog()</span> method also returns a value. To accomplish this, set the <span class="codesample">window.returnValue</span> property in the dialog and the return of this value will happen automatically. This mechanism allows for the simple creation of user prompt and confirmation dialogs, which must return a value.</p>
+<p class="indent">The second parameter can be an arbitrary argument. This object is accessible within the dialog with the <span class="codesample">window.dialogArguments</span> property. Internet Explorer supports some additional dialog properties, including <span class="codesample">window.dialogWidth, window</span>.</p>
+<p class="noindent"><span class="codesample">dialogHeight, window.dialogTop</span>, and <span class="codesample">window.dialogLeft.</span></p>
+<h5 class="h5"><a id="ch12lev2sec5"/><strong>showModelessDialog( )</strong></h5>
+<p class="noindent">Microsoft also introduced a modeless window that is very different from a modal dialog. While both dialog boxes always maintain focus, a modeless window does allow you to focus in the window that created the dialog. A common use for this might be to display help or other very contextual useful information. However, while different in function, a modeless window is syntactically similar to the modal dialog.</p>
+<p class="imagea"><img alt="image" src="f0485-01.jpg"/></p>
+<p class="noindenttop">The method parameters are the same, but the returned value is not a value created within the dialog. Instead, it’s a reference to the created window in case it is manipulated at a later time. This would be similar, then, to the value returned by <span class="codesample">window.open()</span>. A simple example of the syntax for creating a modeless window is shown here:</p>
+<p class="imagea"><img alt="image" src="f0485-02.jpg"/></p>
+<p class="noindenttop">Readers should remember that this syntax is not currently covered under the HTML5 specification.</p>
+<h5 class="h5"><a id="ch12lev2sec6"/><strong>createPopup( )</strong></h5>
+<p class="noindent">A special window form supported by Microsoft is a generic form of pop-up window. Creating a pop-up is very simple—just use the <span class="codesample">window.createPopup()</span>, which takes no arguments and returns a handle to the newly created window:</p>
+<p class="imagea"><img alt="image" src="f0485-03.jpg"/></p>
+<p class="noindenttop">These windows are initially created but are hidden. They are later revealed using the popup object’s <span class="codesample">show()</span> method and hidden using <span class="codesample">hide()</span>, as shown here:</p>
+<p class="imagea"><img alt="image" src="f0485-04.jpg"/></p>
+<p class="noindenttop">The value of Microsoft’s special pop-ups may not be obvious until you consider that they have more control over their appearance than standard JavaScript dialogs. In fact, initially you could even remove the chrome of the displayed window. Chromeless windows were, however, abused by those looking to phish end-user passwords. Often these windows were used to position over the URL bar or perform other trickery. Today their use is severely limited in Internet Explorer.</p>
+<p class="indent"><a id="page_486"/>A complete example showing the use of all three of these unusual dialog windows is shown here:</p>
+<p class="imagea"><img alt="image" src="f0486-01.jpg"/></p>
+<p class="image0"><img alt="image" src="f0486-02.jpg"/></p>
+<p class="image0"><img alt="image" src="f0487-01.jpg"/></p>
+<hr/>
+<p class="online"><a id="page_487"/><strong>ONLINE</strong> <a class="nounder" href="http://www.javascriptref.com/3ed/ch12/specialdialogs.html">http://javascriptref.com/3ed/ch12/specialdialogs.html</a></p>
+<h4 class="h4"><a id="ch12lev1sec4"/><strong>Opening and Closing Generic Windows</strong></h4>
+<p class="noindent">While the <span class="codesample">alert()</span>, <span class="codesample">confirm()</span>, and <span class="codesample">prompt()</span> methods create specialized windows quickly, it is often desirable to open arbitrary windows to show a Web page or the result of some calculation. The <span class="codesample">Window</span> object methods <span class="codesample">open()</span> and <span class="codesample">close()</span> are used to create and destroy a Window, respectively.</p>
+<p class="indent">When you open a Window, you can set its URL, name, size, buttons, and other attributes, such as whether or not the window can be resized. The basic syntax of this method is</p>
+<p class="imagea"><img alt="image" src="f0487-02.jpg"/></p>
+<p class="noindent">where</p>
+<p class="bullet">• <em><span class="codesample">URL</span></em> is a URL that indicates the document to load into the window.</p>
+<p class="bullet">• <em><span class="codesample">name</span></em> is the name for the window (which is useful for referencing it later on using the <span class="codesample"><strong>target</strong></span> attribute of HTML links).</p>
+<p class="bullet">• <em><span class="codesample">features</span></em> is a comma-delimited string that lists the features of the window.</p>
+<p class="bullet">• <em><span class="codesample">replace</span></em> is an optional Boolean value (<span class="codesample">true</span> or <span class="codesample">false</span>) that indicates whether or not the URL specified should replace the window’s contents. This would apply to a window that was already created.</p>
+<p class="indenttop">A simple example of this method is</p>
+<p class="imagea"><img alt="image" src="f0487-03.jpg"/></p>
+<p class="noindent"><a id="page_488"/>This would open a window to Google with a height of 300 pixels, a width of 600 pixels, and scroll bars, as shown here:</p>
+<p class="image1"><img alt="image" src="f0488-01.jpg"/></p>
+<p class="indent">Of course, because we spawn the window directly, your browser’s pop-up blocker might get in the way. We’ll discuss handling that in a bit, but for now we might want to focus on triggering window creation rather than just having it occur directly. Obviously, there are a variety of ways programmers might trigger the creation of windows, but most often links or buttons are used, as shown here:</p>
+<p class="imagea"><img alt="image" src="f0488-02.jpg"/></p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.www.javascriptref.com/3ed/ch12/windowopentrigger.html">http://www.javascriptref.com/3ed/ch12/windowopentrigger.html</a></p>
+<p class="indent">One useful feature from the dialogs in the previous section was the ability to send arguments to the new dialog box. This is not possible with <span class="codesample">window. <span class="codesample">open()</span></span>, as <span class="codesample">window</span> <a id="page_489"/>. <span class="codesample">open()</span> does not receive an arguments parameter. However, <span class="codesample">window.openDialog()</span> functions mostly the same as <span class="codesample">window.open()</span>, with the exception that it has the ability to send arguments. The arguments would come after the features parameter, and there is no limit to the number of arguments that can be passed. The arguments can be accessed within the new window with the <span class="codesample">window.arguments</span> property.</p>
+<p class="indent">Once a window is open, the <span class="codesample">close()</span> method can be used to close it. For example, the following fragment presents buttons to open and close a window. Make sure to notice the use of the <span class="codesample"><em>secondWindow</em></span> variable that contains the instance of the <span class="codesample">Window</span> object created:</p>
+<p class="imagea"><img alt="image" src="f0489-01.jpg"/></p>
+<p class="noindenttop">First, we notice that the variable <span class="codesample"><em>secondWindow</em></span> is in the global scope. Certainly not the best way to code, but we must have a reference to the created window in order to run the <span class="codesample">close()</span> method. Obviously, a better solution would be to use some wrapper object to house any global references we need, like so:</p>
+<p class="imagea"><img alt="image" src="f0489-02.jpg"/></p>
+<p class="noindent">Next, we should address the usage of the <span class="codesample">close()</span> method, which is rather dangerous. If the new window does not yet exist, the script will throw an error. Reload the previous example and press the Close button immediately, and you should get an error. In order to safely close a Window, you first need to look for the object and then try to close it. Consider the following <span class="codesample">if</span> statement that looks to see if the <span class="codesample"><em>JSREF.secondWindow</em></span> value is defined before looking at it; then it will look at the <span class="codesample">closed</span> property to make sure it is not already closed:</p>
+<p class="imagea"><img alt="image" src="f0489-03.jpg"/></p>
+<p class="noindent"><a id="page_490"/>Notice that this previous example actually specifically relies on short-circuit evaluation, because if the value in <span class="codesample"><em>JSREF.secondWindow</em></span> is <span class="codesample">undefined</span>, then trying to look at its <span class="codesample">closed</span> property would throw an error. The following short example shows the safe use of the <span class="codesample">Window</span> methods and properties discussed so far:</p>
+<p class="imagea"><img alt="image" src="f0490-01.jpg"/></p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.www.javascriptref.com/3ed/ch12/windowclose.html">http://www.javascriptref.com/3ed/ch12/windowclose.html</a></p>
+<hr/>
+<p class="tip"><strong>TIP</strong> If you create a window within an HTML tag’s event handler attribute, remember that the variable scope will not be known outside of that tag. If you want to control a window, very likely you will need to define it in the global scope.</p>
+<p class="indent">Besides checking for the existence of windows before closing, be aware that you cannot close windows that you have not created, particularly if security privileges have not been granted to the script. In fact, you may even have a hard time closing the main browser window. For example, if you have a statement such as <span class="codesample">window.close()</span> in the main browser window running the script, it may be denied—some older browsers may prompt you to confirm and others will close the window down without warning.</p>
+<h5 class="h5"><a id="ch12lev2sec7"/><strong>Window Features</strong></h5>
+<p class="noindent">When creating new windows within <span class="codesample">window.open()</span>, there are a number of possibilities for the <span class="codesample"><em>feature</em></span> parameter, which is quite rich and allows you to set the height, width, scroll bars, and a variety of other window characteristics. The possible values for this parameter are detailed in <a class="nounder" href="ch12.html#tab12-3">Table 12-3</a>.</p>
+<p class="tabcap"><a id="tab12-3"/><strong>Table 12-3</strong> Feature Parameter Values for window.open()<a id="page_491"/><a id="page_492"/></p>
+<p class="imagea"><img alt="image" src="t0491-01.jpg"/></p>
+<p class="image0"><img alt="image" src="t0491-02.jpg"/></p>
+<p class="image0"><img alt="image" src="t0492-01.jpg"/></p>
+<p class="image0"><img alt="image" src="t0492-02.jpg"/></p>
+<p class="image0"><img alt="image" src="t0493-01.jpg"/></p>
+<hr/>
+<p class="note"><a id="page_493"/><strong>NOTE</strong> Typically, in modern JavaScript implementations, you can use 1 for yes and 0 for no for the features using yes/no values. However, for safety and backward compatibility, the yes/no syntax is preferred.</p>
+<p class="indent">Oftentimes when using the <span class="codesample">open()</span> method, you may want to create strings to hold the options rather than use a string literal. However, when the features are specified, remember that they should be set one at a time with comma separators and no extra spaces. For example,</p>
+<p class="imagea"><img alt="image" src="f0493-01.jpg"/></p>
+<p class="noindenttop">The next example is useful for experimenting with all the various window features that can be set. It also will display the JavaScript string required to create a particular window in a text area so it can be used in a script.</p>
+<hr/>
+<p class="note"><strong>NOTE</strong> In addition to the height and width properties, in Firefox it is possible to set the size of the window through the <span class="codesample">window.sizeToContent()</span> method, which will set the size of the window to fit the content rendered.</p>
+<p class="imagea"><img alt="image" src="f0493-02.jpg"/></p>
+<p class="image0"><img alt="image" src="f0493-03.jpg"/></p>
+<p class="image0"><img alt="image" src="f0493-04.jpg"/></p>
+<p class="image0"><img alt="image" src="f0493-05.jpg"/></p>
+<p class="image0"><img alt="image" src="f0493-06.jpg"/></p>
+<p class="image0"><img alt="image" src="f0493-07.jpg"/></p>
+<p class="image0"><img alt="image" src="f0493-08.jpg"/><a id="page_494"/><a id="page_495"/></p>
+<hr/>
+<p class="online"><a id="page_496"/><strong>ONLINE</strong> <a class="nounder" href="http://www.javascriptref.com/3ed/ch12/windowopen.html">http://javascriptref.com/3ed/ch12/windowopen.html</a></p>
+<p class="indent">A rendering of the previous example is shown in <a class="nounder" href="ch12.html#fig12-1">Figure 12-1</a>.</p>
+<p class="imagea"><a id="fig12-1"/><img alt="image" src="f0497-01.jpg"/></p>
+<p class="figcap"><strong>Figure 12-1</strong> Rendering of window. <span class="codesample">open()</span> example</p>
+<p class="indent">Sadly, if you try the previous example, you will find that many features no longer work. For example, the stacking properties, such as <span class="codesample">alwaysLowered, alwaysRaised</span>, and <span class="codesample">z-lock</span>, likely will not work due to security abuses. You will find also that it is impossible to size windows smaller than say 50 × 50 pixels for similar reasons. You can’t even hide the <span class="codesample">location</span>, as it will always show up in most browsers. Modifying the menu bars is just as problematic. We’ll see that, given these spotty issues, custom windows are fading into the <a id="page_497"/>past in Web development. Some changes to the HTML5 specification, though, do give us hope that the situation may be rectified someday.</p>
+<h4 class="h4"><a id="ch12lev1sec5"/><strong>Detecting and Controlling window Chrome</strong></h4>
+<p class="noindent">HTML5 introduces a standard way to understand what chrome elements such as menus may be showing on the main window or any spawned window. A number of <span class="codesample">BarProp</span> objects exist, including the following:</p>
+<p class="imagea"><img alt="image" src="f0497-02.jpg"/></p>
+<p class="indent"><a id="page_498"/>Each of these objects corresponds to the similarly named browser menu. The object currently contains a single property called <span class="codesample">visible</span> that indicates whether or not the menu is showing. When a script is executing in a privileged mode, it may be possible to set this value for control, but at this point it certainly is not allowed outside of that. A simple example of this emerging aspect of <span class="codesample">Window</span> is shown here, and readers are encouraged to explore these objects further, as they are likely to be expanded on:</p>
+<p class="imagea"><img alt="image" src="f0498-01.jpg"/></p>
+<p class="image0"><img alt="image" src="f0498-02.jpg"/></p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.javascriptref.com/3ed/ch12/barprop.html">http://javascriptref.com/3ed/ch12/barprop.html</a></p>
+<h4 class="h4"><a id="ch12lev1sec6"/><strong>Practicalities of Spawned Windows</strong></h4>
+<p class="noindent">The reality of windows in browsers is less than clean. Adding content to newly created windows can be a chore, depending on how it is done, and sloppy mistakes can cause trouble. Security concerns abound for the size and position of windows, and pop-up blockers can cause lots of trouble. In fact, for many JavaScript developers, subwindows have long since been abandoned for pseudo-windows in the form of <span class="codesample"><strong>&lt;div&gt;</strong>–</span>based overlays.</p>
+<h5 class="h5"><a id="ch12lev2sec8"/><a id="page_499"/><strong>Building window Contents</strong></h5>
+<p class="noindent">When opening a new window, it is quite easy to populate it if you have an existing document at some URL:</p>
+<p class="imagea"><img alt="image" src="f0499-01.jpg"/></p>
+<p class="noindent">However, if you need to create a window directly, there are a number of ways it can be done. First, you might fall to traditional <span class="codesample">document.write()</span> use, like so:</p>
+<p class="imagea"><img alt="image" src="f0499-02.jpg"/></p>
+<p class="indent">Notice a few points here. First, the use of <span class="codesample">document.close()</span>. Without this statement, some browsers will assume there is more content coming, so the window will appear never to finish loading, while others will close implicitly. Given this variability, it is quite important to have this method call. Second, notice the use of <span class="codesample">document.writeln()</span>. If we are looking to build clean-looking HTML source, this inserts newlines. However, unless we expect people to view the source of a spawned window with a debugging tool, this is kind of pointless. We certainly could use <span class="codesample">document.write()</span> and add in <span class="codesample">\n</span> characters if we wish:</p>
+<p class="imagea"><img alt="image" src="f0499-03.jpg"/></p>
+<p class="noindenttop">Of course, even having a multitude of <span class="codesample">document.write()</span> statements seems wrong, and indeed it is, as it may cause performance concerns. Instead, we may gather content for output in a string variable and output it at once:</p>
+<p class="imagea"><img alt="image" src="f0499-04.jpg"/></p>
+<p class="indent"><a id="page_500"/>You may opt to perform DOM calls to create the elements, but this seems to us to be an exercise in lots of code for little value. If you must go that route, you could instead employ the <span class="codesample">innerHTML</span> property, like so:</p>
+<p class="imagea"><img alt="image" src="f0500-01.jpg"/></p>
+<p class="noindenttop">Notice that we don’t construct all the pieces of the document. We certainly could have, but the browser will scaffold a base tree for us anyway.</p>
+<h6 class="h6"><strong>Reading and Writing Existing Windows</strong></h6>
+<p class="noindent">We do not use <span class="codesample">document.write()</span> after a window is created unless we desire to wipe the entire page clean. Instead, we reply on DOM methods to insert and change the HTML in the new document at will. The only difference is that now you must make sure to use the new window’s name when accessing a DOM method or property. For example, if you had a window called <span class="codesample"><em>newWindow</em></span>, you would use statements such as the following to retrieve a particular element in the other window:</p>
+<p class="imagea"><img alt="image" src="f0500-02.jpg"/></p>
+<p class="noindent">The following simple example shows how information entered in one window can be used to create an element in another window:</p>
+<p class="imagea"><img alt="image" src="f0500-03.jpg"/></p>
+<p class="imagea"><img alt="image" src="f0500-04.jpg"/></p>
+<hr/>
+<p class="online"><a id="page_501"/><strong>ONLINE</strong> <a class="nounder" href="http://www.javascriptref.com/3ed/ch12/windowadd.html">http://javascriptref.com/3ed/ch12/windowadd.html</a></p>
+<h6 class="h6"><strong>Full-Screen Windows</strong></h6>
+<p class="noindent">Creating a window that fills up the screen and even removes browser chrome is possible in many browsers. It has long been possible to figure out the current screen size by consulting <span class="codesample">window.screen</span> properties and then create a new window that fits most or all of the available area. The script fragment presented here should work to fill up the screen in all modern browsers:</p>
+<p class="imagea"><img alt="image" src="f0501-01.jpg"/></p>
+<p class="noindenttop">The previous “poor man’s” script does keep the browser chrome and may not quite fill up the window. Under Internet Explorer and potentially other browsers, it may be possible to go into a full-screen mode more directly, using a feature string value, like so:</p>
+<p class="imagea"><img alt="image" src="f0501-02.jpg"/></p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.javascriptref.com/3ed/ch12/fullscreen.html">http://javascriptref.com/3ed/ch12/fullscreen.html</a></p>
+<p class="indent">Some archaic browsers needed a more complicated script and even prompted the user if a security privilege should be granted to go full screen. The fact that older browsers warned users before going full screen is quite telling, especially once you consider that some users will not know how to get out of full-screen mode. The key combination <small>ALT+F4</small> should do the trick on a Windows system. However, users may not know this, so you should provide a Close button or instructions for how to get out of full-screen mode.</p>
+<p class="indent">Firefox offers a <span class="codesample">window.fullScreen</span> property that holds a Boolean indicating whether or not the window is in full-screen mode.</p>
+<h6 class="h6"><a id="page_502"/><strong>Centering Windows</strong></h6>
+<p class="noindent">Even things that should be easy with JavaScript windows are not that easy. For example, if we try to center a spawned Window, we might be tempted to center it to the screen. That is fairly straightforward if we consult the screen dimensions found in the <span class="codesample">Screen</span> object:</p>
+<p class="imagea"><img alt="image" src="f0502-01.jpg"/></p>
+<p class="indenttop">However, you are more likely to want to center a spawned window in relation to the spawning <span class="codesample">Window</span>. This becomes a bit trickier because of the way the inner and outer browser <span class="codesample">Window</span> dimensions are calculated and because of the variation in a browser’s toolbar and button heights. The following example shows roughly what you would do:</p>
+<p class="imagea"><img alt="image" src="f0502-02.jpg"/></p>
+<p class="imagea"><img alt="image" src="f0502-03.jpg"/></p>
+<p class="imagea"><img alt="image" src="f0502-04.jpg"/></p>
+<hr/>
+<p class="online"><a id="page_503"/><strong>ONLINE</strong> <a class="nounder" href="http://www.javascriptref.com/3ed/ch12/windowcenter.html">http://javascriptref.com/3ed/ch12/windowcenter.html</a></p>
+<p class="indent">It seems that the more you try to make spawned windows work, the more trouble you discover. We save the final straw before presenting the “solution” most developers adopt.</p>
+<h6 class="h6"><strong>Pop-up Blockers</strong></h6>
+<p class="noindent">The most significant drawback to spawned windows is that many browsers may kill their load because of the abuse of so-called pop-ups online for advertising and other purposes. Generally, if a window is created on page load, timer, or without some user-initiated action, the browser will try to block it, as shown here:</p>
+<p class="imagea"><img alt="image" src="f0503-01.jpg"/></p>
+<p class="indent"><a id="page_504"/>Obviously, if you are counting on a window being raised for some custom dialog or important functionality, a pop-up blocker can be quite troublesome. This leads developers to question whether a pop-up blocked can be detected. The answer, unfortunately, is “sometimes.” The general method to pop-up blocking detection is to try to open a pop-up window on load and then see if it exists or if it has the <span class="codesample">closed</span> property set to <span class="codesample">true</span>. Note that even pop-up blockers allow pop-ups when there is user interaction, so the test must be done without the input from the user.</p>
+<p class="indent">Unfortunately, this isn’t a perfect solution. Browsers vary in how they address pop-ups. For example, Chrome opens the window and hides it, so this test fails for Chrome. The accepted method in Chrome is to wait a little bit and then check the <span class="codesample">innerWidth</span>. If it is blocked, it will be 0. You do have to wait a bit because right on pop-up load the <span class="codesample">innerWidth</span> is still set to 0, even when pop-ups are allowed. In addition, if the user manually allows the pop-up, it likely will not be detected properly, as the detection code will run before the pop-up is launched. Other issues will likely emerge as time passes. A simple example showing this less-than-optimal detection scheme is given here:</p>
+<p class="imagea"><img alt="image" src="f0504-01.jpg"/></p>
+<p class="imagea"><img alt="image" src="f0504-02.jpg"/></p>
+<hr/>
+<p class="online"><a id="page_505"/><strong>ONLINE</strong> <a class="nounder" href="http://www.javascriptref.com/3ed/ch12/popupdetector.html">http://javascriptref.com/3ed/ch12/popupdetector.html</a></p>
+<p class="indent">Besides all the browser quirks, the pop-up detection scheme is quite imperfect because we can see the detection window. There are just too many problems with spawned windows because of past abuse, so many developers have left them in favor of CSS-based overlays.</p>
+<h5 class="h5"><a id="ch12lev2sec9"/><strong>Overlays Instead of Windows</strong></h5>
+<p class="noindent">Unfortunately, as we have seen, simple dialogs such as <span class="codesample">alert()</span> and <span class="codesample">prompt()</span> lack customization. You may opt to try to create custom dialogs using the generic <span class="codesample">window.open()</span> method. However, in either case, the dialogs may be blocked by browser-based or third-party pop-up blockers installed by the user. To address both the customization concerns and pop-up blockers, many designers have turned to what we dub “div dialogs,” named for the HTML <span class="codesample"><strong>&lt;div&gt;</strong></span> tag used to create them. Using CSS, designers can position <span class="codesample"><strong>&lt;div&gt;</strong></span> tag–based regions over content and customize them visually in whatever manner they like.</p>
+<p class="imagea"><img alt="image" src="f0505-01.jpg"/></p>
+<p class="indent">The creation of a div dialog follows standard DOM tag-building code. First, the <span class="codesample"><strong>&lt;div&gt;</strong></span> tag that would be used as the custom dialog would be created and positioned:</p>
+<p class="imagea"><img alt="image" src="f0505-02.jpg"/></p>
+<p class="noindent">Then the various elements would be added to the dialog, typically one at a time, unless you resort to using the <span class="codesample">innerHTML</span> property:</p>
+<p class="imagea"><img alt="image" src="f0505-03.jpg"/></p>
+<p class="noindenttop">We show only a snippet here because it gets quite lengthy as the messages and various controls to dismiss the dialog are added, and the repetitious code adds little to the discussion. Once performed, though, the procedure can be abstracted into a custom function such as <span class="codesample">createDialog()</span>, where you could indicate the type of dialog, message, and style needed.</p>
+<p class="indent">After all of the various elements have been added to the dialog, the region is displayed at the desired page position. However, there is one important consideration we need to mention before pointing readers to the complete example online: the issue of modality. Normally, <span class="codesample">alert()</span> and <span class="codesample">confirm()</span> dialogs are application modal, meaning that the user must address them before moving on to another browser-based activity. To simulate modality, we create a translucent region that covers the browser window or region we want to be model to. To do this first, create a <span class="codesample"><strong>&lt;div&gt;</strong></span> tag to serve as the modality overlay:</p>
+<p class="imagea"><img alt="image" src="f0505-04.jpg"/></p>
+<p class="noindent"><a id="page_506"/>Now, make sure the appropriate CSS is applied to make the overlay translucent and covering the region to shield from user activity. The class name set in the preceding function does this and is shown here as reference:</p>
+<p class="imagea"><img alt="image" src="f0506-01.jpg"/></p>
+<p class="noindent">Finally, append it in the document along with the dialog, as shown here:</p>
+<p class="imagea"><img alt="image" src="f0506-02.jpg"/></p>
+<p class="noindent">A simple example demonstrating simple <strong><span class="codesample">&lt;div&gt;</span></strong>–based dialogs is shown here and previewed in <a class="nounder" href="ch12.html#fig12-2">Figure 12-2</a>:</p>
+<p class="imagea"><a id="fig12-2"/><img alt="image" src="f0508-01.jpg"/></p>
+<p class="figcap"><strong>Figure 12-2</strong> Overlay in action</p>
+<p class="imagea"><img alt="image" src="f0506-03.jpg"/></p>
+<p class="imagea"><img alt="image" src="f0506-04.jpg"/></p>
+<p class="imagea"><img alt="image" src="f0506-05.jpg"/></p>
+<p class="imagea"><img alt="image" src="f0506-06.jpg"/></p>
+<p class="imagea"><img alt="image" src="f0506-07.jpg"/><a id="page_507"/></p>
+<hr/>
+<p class="online"><a id="page_508"/><strong>ONLINE</strong> <a class="nounder" href="http://www.javascriptref.com/3ed/ch12/overlay.html">http://javascriptref.com/3ed/ch12/overlay.html</a></p>
+<p class="indent">Note that our aim in this section is not to provide a complete solution with different dialog types, return values, styles, and the like. This would be best suited for a library. Our intention here is to show the technique only.</p>
+<h4 class="h4"><a id="ch12lev1sec7"/><a id="page_509"/><strong>Controlling Windows</strong></h4>
+<p class="noindent">As we have seen so far, it is easy enough to open and close windows as well as write content to them. There are numerous other ways to control windows.</p>
+<h5 class="h5"><a id="ch12lev2sec10"/><strong>focus( ) and blur( )</strong></h5>
+<p class="noindent">It is possible to bring a window to focus using the <span class="codesample">window.focus()</span> method. This should raise the window for access. Conversely, it is also possible to do the opposite using the <span class="codesample">window.blur()</span> method.</p>
+<hr/>
+<p class="note"><strong>NOTE</strong> There may be security considerations in Internet Explorer that may cause a window not to respect a <span class="codesample">focus()</span> invocation. Test your browser or consult the Microsoft Developer Network (MSDN) for the latest information, as it changes between versions of Internet Explorer.</p>
+<h5 class="h5"><a id="ch12lev2sec11"/><strong>stop( )</strong></h5>
+<p class="noindent">Some methods of window control address common browser functions. For example, if a window is taking a long time to load, an end user may hit the Stop button. This can be accomplished programmatically with the <span class="codesample">window.stop()</span> method.</p>
+<h5 class="h5"><a id="ch12lev2sec12"/><strong>print( )</strong></h5>
+<p class="noindent">The HTML5 specification standardizes <span class="codesample">window.print()</span>, which has long been supported by browsers. Firing this method should raise a dialog first, like so:</p>
+<p class="imagea"><img alt="image" src="f0509-01.jpg"/></p>
+<h5 class="h5"><a id="ch12lev2sec13"/><a id="page_510"/><strong>find( )</strong></h5>
+<p class="noindent">Some browsers implement the nonstandard <span class="codesample">window.find()</span> method. The syntax of this method is historically written to be</p>
+<p class="noindenttop"><span class="codesample">window.find(<em>targetstring, casesensitivity, backwards, wraparound, wholeword, searchinframes, showdialog</em>)</span></p>
+<p class="indent">where</p>
+<p class="bullet">• <em><span class="codesample">targetstring</span></em> is the string to find.</p>
+<p class="bullet">• <em><span class="codesample">casesensivity</span></em> is a Boolean value that, if <span class="codesample">true</span>, indicates that the search should be performed with case sensitivity.</p>
+<p class="bullet">• <em><span class="codesample">backwards</span></em> is a Boolean value that, if <span class="codesample">true</span>, indicates that the search should proceed backward rather than forward.</p>
+<p class="bullet">• <em><span class="codesample">wraparound</span></em> is a Boolean value that, if <span class="codesample">true</span>, indicates that the search should wrap to the top of the document once the bottom is hit.</p>
+<p class="bullet">• <em><span class="codesample">wholeword</span></em> is a Boolean value that, if <span class="codesample">true</span>, indicates that the search should only match whole words.</p>
+<p class="bullet">• <em><span class="codesample">searchinframes</span></em> is a Boolean value that, if <span class="codesample">true</span>, indicates that the contents of frames within the window should be searched.</p>
+<p class="bullet">• <em><span class="codesample">showdialog</span></em> is a Boolean value that, if <span class="codesample">true</span>, shows the browser’s search dialog.</p>
+<p class="indenttop">The reality is that, generally, this isn’t the case. However, some browsers will support a simple invocation of <span class="codesample">window.find()</span> to pop the browser’s find command, as shown here:</p>
+<p class="imagea"><img alt="image" src="f0510-01.jpg"/></p>
+<p class="image1"><img alt="image" src="f0510-02.jpg"/></p>
+<p class="noindenttop">Given the eventual coverage of printing, this actually doesn’t seem a long shot to be eventually codified and more widely supported, though admittedly that is still speculation at this point.</p>
+<hr/>
+<p class="note"><strong>NOTE</strong> There are a few other possibilities for browser-related window actions such as adding bookmarks or even trying to programmatically set the home page. However, these are not only nonstandard but also poorly supported.</p>
+<h5 class="h5"><a id="ch12lev2sec14"/><a id="page_511"/><strong>Moving Windows</strong></h5>
+<p class="noindent">Moving windows around the screen is possible using two different methods, <span class="codesample">window.moveBy()</span> and <span class="codesample">window.moveTo().</span> The <span class="codesample">moveBy()</span> method moves a window a specified number of pixels and has a syntax of</p>
+<p class="imagea"><img alt="image" src="f0511-01.jpg"/></p>
+<p class="noindent">where</p>
+<p class="bullet">• <em><span class="codesample">windowname</span></em> is the name of the window to move or is called just <span class="codesample">Window</span> if it is the main window.</p>
+<p class="bullet">• <em><span class="codesample">horizontalpixels</span></em> is the number of horizontal pixels to move the Window, where positive numbers move the window to the right and negative numbers to the left.</p>
+<p class="bullet">• <em><span class="codesample">verticalpixels</span></em> is the number of vertical pixels to move the Window, where positive numbers move the window down and negative numbers up.</p>
+<p class="indenttop">For example, given that a window called <span class="codesample"><em>myWindow</em></span> exists, the following would move the window down 100 pixels and to the right 100 pixels:</p>
+<p class="imagea"><img alt="image" src="f0511-02.jpg"/></p>
+<p class="indent">If you have a particular position in the screen to move a window to, it is probably better to use the <span class="codesample">window.moveTo()</span> method, which will move a window to a particular x,y coordinate on the screen. The syntax of this method is</p>
+<p class="imagea"><img alt="image" src="f0511-03.jpg"/></p>
+<p class="noindent">where</p>
+<p class="bullet">• <em><span class="codesample">windowname</span></em> is the name of the window to move or is called <span class="codesample">Window</span>if it is the main window.</p>
+<p class="bullet">• <em><span class="codesample">x-coord</span></em> is the screen coordinate on the x-axis to move the window to.</p>
+<p class="bullet">• <em><span class="codesample">y-coord</span></em> is the screen coordinate on the y-axis to move the window to.</p>
+<p class="noindent">So given that the window called <span class="codesample"><em>myWindow</em></span> is on the screen, the following would move the window to the origin of the screen:</p>
+<p class="imagea"><img alt="image" src="f0511-04.jpg"/></p>
+<h5 class="h5"><a id="ch12lev2sec15"/><strong>Resizing Windows</strong></h5>
+<p class="noindent">In JavaScript, the methods for resizing windows are very similar to the ones for moving them. The method <span class="codesample">window.resizeBy(<em>horizontal, vertical</em>)</span> resizes a window by the values given in <span class="codesample"><em>horizontal</em></span> and <span class="codesample"><em>vertical</em></span>. Negative values make the <span class="codesample">Window</span>smaller, while positive values make it bigger, as shown in the examples here:</p>
+<p class="imagea"><img alt="image" src="f0511-05.jpg"/></p>
+<p class="indent"><a id="page_512"/>Similar to the <span class="codesample">moveTo()</span> method, <span class="codesample">window.resizeTo(<em>width, height</em>)</span> resizes the window to the specified <em>width</em> and <span class="codesample"><em>height</em></span> indicated:</p>
+<p class="imagea"><img alt="image" src="f0512-01.jpg"/></p>
+<hr/>
+<p class="note"><strong>NOTE</strong> In modern JavaScript implementations, it is not possible to resize browser windows to a very small size, say 1 × 1 pixels. This could be construed as a security hazard, as a user may not notice such a minuscule window spawned by a site after leaving it.</p>
+<h5 class="h5"><a id="ch12lev2sec16"/><strong>Scrolling Windows</strong></h5>
+<p class="noindent">Similar to resizing and moving, the <span class="codesample">Window</span> object supports the <span class="codesample">scrollBy()</span> and <span class="codesample">scrollTo()</span> methods to correspondingly scroll a window by a certain number of pixels or to a particular pixel location. The following simple examples illustrate how these methods might be used on some window called <span class="codesample"><em>myWindow</em></span>:</p>
+<p class="imagea"><img alt="image" src="f0512-02.jpg"/></p>
+<hr/>
+<p class="note"><strong>NOTE</strong> The method <span class="codesample">scroll()</span> may occasionally be encountered. While the syntax of <span class="codesample">scroll()</span> is identical to <span class="codesample">scrollBy()</span>, the method is nonstandard and should be avoided. In addition, <span class="codesample">scrollByLines(<em>lines</em></span>) and <span class="codesample">scrollByPages(<em>pages</em></span>) are two similar methods supported only by Firefox. The same effect can be achieved with <span class="codesample">scrollBy()</span>, so again we recommend using only <span class="codesample">scrollBy()</span>.</p>
+<p class="indenttop">In addition to scrolling the Window, it is often desirable to see where the browser has been scrolled to. Different actions may occur, depending on where the user is on the page. However, finding the scroll location is quite different depending on the browser. The most obvious properties to look at would be <span class="codesample">scrollX</span> and <span class="codesample">scrollY</span>. However, these properties are not supported by Opera and Internet Explorer. The <span class="codesample">pageXOffset</span> and <span class="codesample">pageYOffset</span> properties are now supported in all major browsers, including Internet Explorer from version 9. In order to get the scroll position before version 9, it is necessary to look at the <span class="codesample">document.documentElement.scrollLeft</span> and <span class="codesample">document.documentElement.scrollTop</span> properties:</p>
+<p class="imagea"><img alt="image" src="f0512-03.jpg"/></p>
+<p class="indent"><a id="page_513"/>A complete example presented here can be used to experiment with the various common <span class="codesample">Window</span> methods that we have discussed here:</p>
+<p class="imagea"><img alt="image" src="f0513-01.jpg"/></p>
+<p class="imagea"><img alt="image" src="f0513-02.jpg"/></p>
+<p class="imagea"><img alt="image" src="f0513-03.jpg"/></p>
+<p class="imagea"><img alt="image" src="f0513-04.jpg"/></p>
+<p class="imagea"><img alt="image" src="f0513-05.jpg"/></p>
+<p class="imagea"><img alt="image" src="f0513-06.jpg"/></p>
+<p class="imagea"><img alt="image" src="f0513-07.jpg"/></p>
+<p class="imagea"><img alt="image" src="f0513-08.jpg"/><a id="page_514"/></p>
+<hr/>
+<p class="online"><a id="page_515"/><a id="page_516"/><strong>ONLINE</strong> <a class="nounder" href="http://www.javascriptref.com/3ed/ch12/windowmethods.html">http://javascriptref.com/3ed/ch12/windowmethods.html</a></p>
+<p class="indent">An example rendering of the previous example is shown in <a class="nounder" href="ch12.html#fig12-3">Figure 12-3</a>.</p>
+<p class="imagea"><a id="fig12-3"/><img alt="image" src="f0517-01.jpg"/></p>
+<p class="figcap"><strong>Figure 12-3</strong> Controlling standard spawned windows</p>
+<h5 class="h5"><a id="ch12lev2sec17"/><strong>Accessing and Setting a Window’s Location</strong></h5>
+<p class="noindent">It is often desirable to set a window to a particular URL. There are numerous ways to do this in JavaScript, but the best way is to use the <span class="codesample">Location</span> object, which is a property of <span class="codesample">Window</span>. The <span class="codesample">Location</span> object is used to access the current location (the URL) of the window. The <span class="codesample">Location</span> object can be both read and replaced, so it is possible to update the location of a page through scripting. The following example shows how a simple button click can cause a page to load:</p>
+<p class="imagea"><img alt="image" src="f0516-01.jpg"/></p>
+<p class="noindent"><a id="page_517"/>Rather than direct assignment, you can use the <span class="codesample">assign()</span> method as well.</p>
+<p class="imagea"><img alt="image" src="f0517-02.jpg"/></p>
+<hr/>
+<p class="note"><strong>NOTE</strong> Internet Explorer defined the nonstandard <span class="codesample">window.navigate(URL)</span>, which will load the specified <span class="codesample">URL</span> parameter, similar to setting the location value. This is a nonstandard method that should be avoided, though it is also supported in some other browsers, notably Opera.</p>
+<p class="noindent"><a id="page_518"/>Regardless of the method used to change the URL, the new location will be added to the browser history. If you desire to replace the current page in history, use the <span class="codesample">replace()</span> method:</p>
+<p class="imagea"><img alt="image" src="f0518-01.jpg"/></p>
+<p class="noindent">If you just want to refresh the page without setting the URL, you may use the <span class="codesample">reload()</span> method:</p>
+<p class="imagea"><img alt="image" src="f0518-02.jpg"/></p>
+<p class="noindent">A complete list of the methods is shown in <a class="nounder" href="ch12.html#tab12-4">Table 12-4</a>.</p>
+<p class="tabcap"><a id="tab12-4"/><strong>Table 12-4</strong> Location Methods</p>
+<p class="imagea"><img alt="image" src="t0518-01.jpg"/></p>
+<p class="indent">It is also possible to access parsed pieces of the <span class="codesample">Location</span> object to see where a user is at a particular moment. A few examples are shown here:</p>
+<p class="imagea"><img alt="image" src="f0518-03.jpg"/></p>
+<p class="indent">The properties of the <span class="codesample">Location</span> object are pretty straightforward for anyone who understands a URL. A complete list of these properties can be found in <a class="nounder" href="ch12.html#tab12-5">Table 12-5</a>.</p>
+<p class="tabcap"><a id="tab12-5"/><strong>Table 12-5</strong> Common Properties of the Location Object</p>
+<p class="imagea"><img alt="image" src="t0519-01.jpg"/></p>
+<p class="indent">One property that bears some attention is <span class="codesample">search</span>. This property contains the query string, and very likely you will want to break it up into its constituent name-value pairs. Some simple string manipulations will do the trick:</p>
+<p class="imagea"><img alt="image" src="f0518-04.jpg"/></p>
+<p class="indenttop">Finally, an emerging method called <span class="codesample">resolveURL()</span> is specified under HTML5. This method returns the absolute path of a relative URL passed in. For example,</p>
+<p class="imagea"><a id="page_519"/><img alt="image" src="f0519-01.jpg"/></p>
+<p class="noindenttop">would show a dialog with the URL http://javascriptref.com/index.html.</p>
+<hr/>
+<p class="note"><strong>NOTE</strong> No browser has implemented this method at the time of this edition’s writing.</p>
+<p class="indent">To conclude the section, we present an example demonstrating the various properties and methods of the <span class="codesample">Location</span> object:</p>
+<p class="imagea"><img alt="image" src="f0519-02.jpg"/></p>
+<p class="imagea"><a id="page_520"/><img alt="image" src="f0519-03.jpg"/></p>
+<p class="imagea"><img alt="image" src="f0519-04.jpg"/></p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.javascriptref.com/3ed/ch12/location.html">http://javascriptref.com/3ed/ch12/location.html</a></p>
+<h5 class="h5"><a id="ch12lev2sec18"/><strong>Hash Values in URLs</strong></h5>
+<p class="noindent">One aspect of URLs that deserves a mention is the hash portion that specifies the fragment identifier of the page. Reading the value is obviously quite easy.</p>
+<p class="imagea"><img alt="image" src="f0520-01.jpg"/></p>
+<p class="noindenttop">Setting the hash is just as easy.</p>
+<p class="imagea"><a id="page_521"/><img alt="image" src="f0521-01.jpg"/></p>
+<p class="imagea"><img alt="image" src="f0521-02.jpg"/></p>
+<p class="imagea"><img alt="image" src="f0521-03.jpg"/></p>
+<p class="noindenttop">Obviously, this will change the hash, but notice that the Web browser does not refresh while the hash value typically creates an entry in the browser’s history.</p>
+<hr/>
+<p class="note"><strong>NOTE</strong> In some older browsers, hash changes were not handled properly when screen refreshes did not happen; the history was not actually affected, which defeats the purpose of “fixing” the back button action.</p>
+<p class="indent">The nonrefreshing behavior of the fragment identifier URL is quite useful, as it allowed Web developers building Ajax and Flash applications to push a change to the URL for history and bookmark management without a page reload. HTML5 codifies this action by adding an <span class="codesample">onhashchange</span> event to easily signal the potential change of state. An example of this is demonstrated here:</p>
+<p class="imagea"><img alt="image" src="f0521-04.jpg"/></p>
+<p class="imagea"><img alt="image" src="f0521-05.jpg"/></p>
+<p class="indent"><a id="page_522"/>A more appropriate way to handle statement management is provided by HTML5 with the <span class="codesample">pushstate()</span> and <span class="codesample">replacestate()</span> methods of the <span class="codesample">History</span> object, which are discussed next.</p>
+<h4 class="h4"><a id="ch12lev1sec8"/><strong>Manipulating a Window’s History</strong></h4>
+<p class="noindent">When users press their browser’s Back or Forward button, they are navigating the browser’s history list. JavaScript provides the <span class="codesample">History</span> object as a way to access the history list for a particular browser window. The <span class="codesample">History</span> object is a read-only array of URL strings that show where the user has been recently. The main methods allow forward and backward progress through the history, as shown here:</p>
+<p class="imagea"><img alt="image" src="f0522-01.jpg"/></p>
+<hr/>
+<p class="note"><strong>NOTE</strong> You should be careful when trying to simulate the Back button with JavaScript, as it may confuse users who expect links in a page labeled “Back” not to act like the browser’s Back button.</p>
+<p class="indent"><a id="page_523"/>It is also possible to access a particular item in the history list relative to the current position using the <span class="codesample">history.go()</span> method. Using a negative value moves to a history item previous to the current location, while a positive number moves forward in the history list. For example:</p>
+<p class="imagea"><img alt="image" src="f0523-01.jpg"/></p>
+<p class="indenttop">Given that it is possible to read the length of the <span class="codesample">history[]</span> array using the <span class="codesample">history.length</span> property, you could easily move to the end of the list using the following:</p>
+<p class="imagea"><img alt="image" src="f0523-02.jpg"/></p>
+<p class="noindenttop">Direct access to the URL elements in the history is not possible with JavaScript; in the past, however, unscrupulous individuals have shown that calculated guesses of URLs in conjunction with the rendered styles of visited links can reveal past browsing habits. A simple example of a less nefarious use of the <span class="codesample">History</span> object can be found online.</p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.www.javascriptref.com/3ed/ch12/history.html">http://www.javascriptref.com/3ed/ch12/history.html</a></p>
+<h5 class="h5"><a id="ch12lev2sec19"/><strong>pushstate( ) and replacestate( )</strong></h5>
+<p class="noindent">The rise of Web applications and Ajax require much more programmer intervention in history management than in the past. On the Web, traditionally each unique URL represented a unique page or state of the Web application. However, in an Ajax-style application, often this is not the case. In order not to break the Back button and other Web semantics such as bookmarking, ingenious developers discovered that they could use the hash value to indicate a state change because it did not cause a browse screen refresh. The HTML5 specification attempts to ease this transition with the introduction of the <span class="codesample">window. pushState()</span> and <span class="codesample">window.replaceState()</span> methods.</p>
+<p class="indent">The syntax of the <span class="codesample">pushState()</span> method is</p>
+<p class="imagea"><img alt="image" src="f0523-03.jpg"/></p>
+<p class="noindenttop">where</p>
+<p class="bullet">• <em><span class="codesample">stateObject</span></em> is a JSON structure containing the information to save.</p>
+<p class="bullet">• <em><span class="codesample">title</span></em> is the title for the browser’s title bar and/or history list.</p>
+<p class="bullet">• <em><span class="codesample">URL</span></em> is the URL to display in the browser’s location, though there is not a network load related to this, so the URL can be arbitrary.</p>
+<p class="indent">When <span class="codesample">pushState()</span> is called, it changes the browser’s URL to the passed-in <span class="codesample"><em>URL</em></span>. This will not necessarily be related to a network load; however, the newly set URL will be used in the <span class="codesample">Location</span> object as will the <span class="codesample">Referer</span> header on network requests. After being set, a future use of the browser’s Back or Forward button will fire the <span class="codesample">window.onpopstate</span> event and will receive the saved state object.</p>
+<p class="indent">The syntax of the <span class="codesample">replaceState()</span> method is pretty much the same:</p>
+<p class="imagea"><img alt="image" src="f0523-04.jpg"/></p>
+<p class="noindent"><a id="page_524"/>The only difference is that the <span class="codesample"><em>stateObject</em></span> replaces the current history item rather than making a new one. An example that can be used to explore these methods is shown here:</p>
+<p class="imagea"><img alt="image" src="f0524-01.jpg"/></p>
+<p class="imagea"><img alt="image" src="f0524-02.jpg"/></p>
+<p class="imagea"><img alt="image" src="f0524-03.jpg"/></p>
+<hr/>
+<p class="online"><a id="page_525"/><strong>ONLINE</strong> <a class="nounder" href="http://www.javascriptref.com/3ed/ch12/pushreplacestate.html">http://javascriptref.com/3ed/ch12/pushreplacestate.html</a></p>
+<hr/>
+<p class="note"><strong>NOTE</strong> Browsers may save state values to the user’s disk so they can be restored after the user restarts the browser. Because of this, there may be a size limit to the JSON representation of the user’s state. For example, in the case of Firefox this limit is currently 640K characters. Saving state information beyond this would require the use of another mechanism such as <span class="codesample">sessionStorage</span> or <span class="codesample">localStorage</span>.</p>
+<h5 class="h5"><a id="ch12lev2sec20"/><strong>Trying to Control the Window’s Status Bar</strong></h5>
+<p class="noindent">The status bar is the small text area in the lower-left corner of a browser window where messages are typically displayed, indicating download progress or other browser status items. Traditionally, it was possible to control the contents of this region with JavaScript. Many developers used this region to display short messages or even scrolling regions. The benefit of providing information in the status bar is debatable, particularly when you consider the fact that manipulating this region often prevents default browser status information from being displayed—information which many users rely on.</p>
+<p class="indent"><a id="page_526"/>Today the use of the status bar is quite limited, as many browsers simply do not show the status region anymore. In some browsers, it does not appear possible even to turn it on anymore. Even when the status bar can be seen, because of past abuse by phishers looking to trick end users, manipulation of the status bar via JavaScript is generally disallowed. As an example, note the advanced settings defaults for JavaScript in a recent version of Firefox showing this to be restricted:</p>
+<p class="imagea"><img alt="image" src="f0526-01.jpg"/></p>
+<p class="indent">The status bar can be accessed through two properties of the <span class="codesample">Window</span> object: <span class="codesample">status</span> and <span class="codesample">defaultStatus</span>. The difference between these two properties is in how long the message is displayed. The value of <span class="codesample">defaultStatus</span> is displayed any time nothing else is going on in a browser window. The <span class="codesample">status</span> value, on the other hand, is transient and is displayed only for a short period as an event (such as a mouse movement) happens. The simple example here exercises both properties:</p>
+<p class="imagea"><img alt="image" src="f0526-02.jpg"/></p>
+<p class="imagea"><img alt="image" src="f0526-03.jpg"/></p>
+<hr/>
+<p class="online"><a id="page_527"/><strong>ONLINE</strong> <a class="nounder" href="http://www.www.javascriptref.com/3ed/ch12/status.html">http://www.javascriptref.com/3ed/ch12/status.html</a></p>
+<p class="indent">When trying the example, quite likely you may not see the status bar at all. Some browsers will return the values you set, but it will serve little practical purpose. Others will do nothing. Sadly, the status bar is but one example of a surgical removal of features in browsers to solve security or improve perceived usability. This implies that scripts may work for some time before “rusting” away, as browser changes remove their value, so developers should aim to be aware of evolution of platforms, as it can affect their code.</p>
+<h4 class="h4"><a id="ch12lev1sec9"/><strong>Setting window Timeouts and Intervals</strong></h4>
+<p class="noindent">The <span class="codesample">Window</span> object supports methods for setting timers that we might use to perform a variety of functions. These methods include <span class="codesample">setTimeout()</span> and <span class="codesample">clearTimeout()</span>. The basic idea is to set a timeout to trigger a piece of script to occur at a particular time in the future. The common syntax is</p>
+<p class="imagea"><img alt="image" src="f0527-01.jpg"/></p>
+<p class="indent">where</p>
+<p class="bullet">• <em><span class="codesample">script-to-execute</span></em> is a string holding a function call or other JavaScript statement.</p>
+<p class="bullet">• <em><span class="codesample">time-in-milliseconds</span></em> is the time to wait before executing the specified script fragment.</p>
+<p class="noindent"><span class="codesample"><em>time-in-milliseconds</em></span> has different minimum values depending on the browser, the method, and even the window’s active/inactive status. Notice that the <span class="codesample">setTimeout()</span> <a id="page_528"/>method returns a handle to the timer that we may save in a variable, as specified by <span class="codesample"><em>timerId</em></span>. We might then clear the timeout (cancel execution of the function) later on using <span class="codesample">clearTimeout(<em>timerId</em>)</span>. The following example shows how to set and clear a timed event:</p>
+<p class="imagea"><img alt="image" src="f0528-01.jpg"/></p>
+<p class="imagea"><img alt="image" src="f0528-02.jpg"/></p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.javascriptref.com/3ed/ch12/settimeout.html">http://javascriptref.com/3ed/ch12/settimeout.html</a></p>
+<p class="indent">The <span class="codesample">setInterval()</span> and <span class="codesample">clearInterval()</span> methods should be used when a timed event occurs at a regular interval. Here is an example of the syntax of an interval:</p>
+<p class="imagea"><img alt="image" src="f0528-03.jpg"/></p>
+<p class="noindenttop">This example sets an alert that will fire every two seconds. To clear the interval, you would use a similar method as a timeout:</p>
+<p class="imagea"><img alt="image" src="f0528-04.jpg"/></p>
+<p class="indenttop">Now, quite often you will want to execute more than a bit of code in a timer or interval, and either method does allow you to pass in a function as you would with setting an event handler. This means that you can pass simply the function name, as shown here:</p>
+<p class="imagea"><a id="page_529"/><img alt="image" src="f0529-01.jpg"/></p>
+<p class="noindenttop">In all browsers besides Internet Explorer, after the delay you can also pass parameters to pass to the later invoked function:</p>
+<p class="imagea"><img alt="image" src="f0529-02.jpg"/></p>
+<p class="noindenttop">Likely you are not going to pass the parameters in this manner, as Internet Explorer browsers don’t support it. Instead, we might pass parameters with a closure:</p>
+<p class="imagea"><img alt="image" src="f0529-03.jpg"/></p>
+<p class="noindenttop">Of course, like any closure, we need to make sure we are careful that we get the value we want. For example, as with all closures, be careful inside of loops because the parameter will change as the loop goes on. The following example illustrates all of these points:</p>
+<p class="imagea"><img alt="image" src="f0529-04.jpg"/></p>
+<p class="imagea"><img alt="image" src="f0529-05.jpg"/></p>
+<hr/>
+<p class="online"><a id="page_530"/><strong>ONLINE</strong> <a class="nounder" href="http://www.javascriptref.com/3ed/ch12/settimeoutparams.html">http://javascriptref.com/3ed/ch12/settimeoutparams.html</a></p>
+<p class="indent">There is some concern about how accurate and fast timers are. A number of developers have noted that when setting timeouts to 0 ms, the effect rate of the timeout can vary by many milliseconds, though it does generally enforce the timed event to be the next action taken. Timing accuracy certainly is not guaranteed, even if order is preserved. It is interesting to note at this edition’s writing the inclusion in Gecko-based browsers of an extra parameter that indicates the “lateness” of the timeout in milliseconds. Likely, this is a portend of things to come, and we expect more emphasis on timing details as developers continue to push JavaScript to more time-sensitive tasks.</p>
+<h4 class="h4"><a id="ch12lev1sec10"/><strong>Window Events</strong></h4>
+<p class="noindent">The <span class="codesample">Window</span> object supports many events. The HTML5 specification attempts to clear up the cross-browser nightmare. Traditionally, most developers stuck with the obviously safe cross-browser window events such as <span class="codesample">onblur, onerror, onfocus, onload, onunload, onresize</span>, and so on. However, as shown in <a class="nounder" href="ch12.html#tab12-6">Table 12-6</a>, there are many more events available than those useful few.</p>
+<p class="tabcap"><a id="tab12-6"/><strong>Table 12-6</strong> window Events under HTML5<a id="page_531"/><a id="page_532"/></p>
+<p class="imagea"><img alt="image" src="t0530-01.jpg"/></p>
+<p class="image0"><img alt="image" src="t0531-01.jpg"/></p>
+<p class="image0"><img alt="image" src="t0531-02.jpg"/></p>
+<p class="image0"><img alt="image" src="t0532-01.jpg"/></p>
+<p class="image0"><img alt="image" src="t0532-02.jpg"/></p>
+<p class="image0"><img alt="image" src="t0533-01.jpg"/></p>
+<p class="image0"><img alt="image" src="t0533-02.jpg"/></p>
+<p class="indent"><a id="page_533"/>Adding window events handlers can be set through HTML event attributes on the <span class="codesample"><strong>&lt;body&gt;</strong></span> element, like so:</p>
+<p class="imagea"><img alt="image" src="f0533-01.jpg"/></p>
+<p class="noindent">or more registering events can be set through the <span class="codesample">Window</span> object:</p>
+<p class="imagea"><img alt="image" src="f0533-02.jpg"/></p>
+<p class="indent">Chapter 11 has full details on event handling, in case you are wondering how to bind or test anything.</p>
+<p class="indent"><a id="page_534"/>As time marches on, browser vendors continue to add numerous events to the <span class="codesample">Window</span> object. A list of those known at this edition’s publication is detailed in <a class="nounder" href="ch12.html#tab12-7">Table 12-7</a>. Check your browser documentation for any others that may have been added since then.</p>
+<p class="tabcap"><strong>Table 12-7</strong> Selected Proprietary window Events</p>
+<p class="imagea"><a id="tab12-7"/><img alt="image" src="t0534-01.jpg"/></p>
+<h4 class="h4"><a id="ch12lev1sec11"/><strong>Interwindow Communication Basics</strong></h4>
+<p class="noindent">For applications that have multiple windows launched, it is especially important to understand the basics of communicating among windows. Normally, we access the methods and properties of the primary window using the object instance named simply <span class="codesample">window</span>, or more likely we just omit the reference. However, if we want to access another Window, we need to use the name of that window. For example, given a window named “<span class="codesample">myWindow</span>,” we could access its document object as <em>mywindow.document</em>, and thus we could run any method such as writing to the document:</p>
+<p class="imagea"><img alt="image" src="f0534-01.jpg"/></p>
+<p class="noindenttop">or accessing it with standard DOM methods:</p>
+<p class="imagea"><img alt="image" src="f0534-02.jpg"/></p>
+<p class="indenttop">The key to communicating between windows is knowing the name of the window and then using that name in place of the generic object reference <span class="codesample"><em>window</em></span>. Of course, there is the important question of how you reference the main window from a created window. The primary way is using the <span class="codesample">window.opener</span> property that references the <span class="codesample">Window</span> object that created the current window. The simple example here shows how one window creates another and how each is capable of modifying the other’s DOM tree, as well as reading script variables:</p>
+<p class="imagea"><a id="page_535"/><img alt="image" src="f0535-01.jpg"/></p>
+<p class="imagea"><img alt="image" src="f0535-02.jpg"/></p>
+<hr/>
+<p class="online"><a id="page_536"/><strong>ONLINE</strong> <a class="nounder" href="http://www.javascriptref.com/3ed/ch12/simplewindowcommunication.html">http://javascriptref.com/3ed/ch12/simplewindowcommunication.html</a></p>
+<p class="indent">Now, one limitation of this traditional communication method is that it requires that the communicating windows be spawned by the same origin; thus it is not at all possible to talk to windows from other domains. HTML5 introduces new facilities that should allow for a much more flexible message passing system.</p>
+<h5 class="h5"><a id="ch12lev2sec21"/><strong>Interwindow Message Passing with postMessage( )</strong></h5>
+<p class="noindent">HTML5 expands on the idea of passing data between windows with the <span class="codesample">postMessage()</span> method. The syntax of this method is</p>
+<p class="imagea"><img alt="image" src="f0536-01.jpg"/></p>
+<p class="noindenttop">where</p>
+<p class="bullet">• <em><span class="codesample">message</span></em> is the message to pass.</p>
+<p class="bullet">• <em><span class="codesample">targetOrigin</span></em> is the domain to which the target window must belong.</p>
+<p class="noindent">While you can use wildcards such as “*” to allow any origin, this is not recommended.</p>
+<p class="indent">Next, you can listen for incoming messages in windows by setting up a handler for <span class="codesample">window.onmessage</span>. The event object sent to the event handling function will contain a <span class="codesample"><em>data, origin</em></span>, and <span class="codesample"><em>source</em></span> property where <span class="codesample"><em>data</em></span> is the actual message received, <span class="codesample"><em>origin</em></span> is the domain the message came from, and <span class="codesample"><em>source</em></span> is a reference to the <span class="codesample">Window</span> object that sent the message.</p>
+<p class="indent">Once again, as there are security concerns communicating between domains, we should check the <span class="codesample">origin</span> and <span class="codesample">source</span> carefully. A simple example passing data between two domains held by one of the authors is shown here. The first page is the page sending the message and the second page is the page receiving the message and replying:</p>
+<p class="imagea"><img alt="image" src="f0536-02.jpg"/></p>
+<p class="imagea"><img alt="image" src="f0536-03.jpg"/></p>
+<hr/>
+<p class="online"><a id="page_537"/><strong>ONLINE</strong> <a class="nounder" href="http://www.javascriptref.com/3ed/ch12/postMessageCrossDomain.html">http://javascriptref.com/3ed/ch12/postMessageCrossDomain.html</a></p>
+<p class="imagea"><img alt="image" src="f0537-01.jpg"/></p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.htmlref.com/examples/childMessage.html">http://htmlref.com/examples/childMessage.html</a></p>
+<p class="indent"><a id="page_538"/><a class="nounder" href="ch12.html#fig12-4">Figure 12-4</a> shows the parent page receiving calculations from the child.</p>
+<p class="imagea"><a id="fig12-4"/><img alt="image" src="f0538-01.jpg"/></p>
+<p class="figcap"><strong>Figure 12-4</strong> Message passing in action</p>
+<p class="indent">The <span class="codesample">postmessage()</span> passing scheme obviously requires a modern browser, but it suggests a very elegant way to have windows communicate. We wrap up the chapter with a return to the past, while also addressing the relationship between windows and frames.</p>
+<h4 class="h4"><a id="ch12lev1sec12"/><strong>Frames: A Special Case of Windows</strong></h4>
+<p class="noindent">A common misunderstanding among Web developers is the relationship between frames and windows. In reality, both from the perspective of XHTML and JavaScript, each frame shown onscreen is a window that can be manipulated. In fact, when a browser window contains multiple frames, it is possible to access each of the separate <span class="codesample">Window</span>objects through <span class="codesample">window.frames[]</span>, which is an array of the individual frames in the window. The basic properties useful for manipulating frames are detailed in <a class="nounder" href="ch12.html#tab12-8">Table 12-8</a>.</p>
+<p class="tabcap"><a id="tab12-8"/><strong>Table 12-8</strong> Common WindowProperties Related to Frames</p>
+<p class="imagea"><img alt="image" src="t0539-01.jpg"/></p>
+<p class="indent">The major challenge using frames and JavaScript is to keep the names and relationships between frames clear so that references between frames are formed correctly. Consider you have a document called “frames.html” with the following markup:</p>
+<p class="imagea"><a id="page_539"/><img alt="image" src="f0539-01.jpg"/></p>
+<hr/>
+<p class="note"><strong>NOTE</strong> Notice that the <span class="codesample">DOCTYPE</span> statement here is different: HTML5 does not support traditional frames, just inline frames. Where required, we use the HTML4 frameset <span class="codesample">DOCTYPE</span> for clean validation.</p>
+<p class="indent">In this case, the window containing this document is considered the parent of the three frames (frame1, frame2, and frame5). While you might expect to use a value such as</p>
+<p class="imagea"><img alt="image" src="f0539-02.jpg"/></p>
+<p class="noindenttop">you probably will actually run the script from within a child frame to determine the number of frames in the window. Thus, you would actually use</p>
+<p class="imagea"><img alt="image" src="f0539-03.jpg"/></p>
+<p class="noindenttop">or just</p>
+<p class="imagea"><img alt="image" src="f0539-04.jpg"/></p>
+<p class="indent"><a id="page_540"/>The <span class="codesample">parent</span> property allows a window to determine the parent window. We could also use the <span class="codesample">top</span> property that provides us a handle to the top window that contains all others. This would be written <span class="codesample">top.frames.length</span>. You do need to be careful, though, because unless you have nested frames, the <span class="codesample">parent</span> and <span class="codesample">top</span> may actually be one and the same. In addition, it is possible to access the hosting <span class="codesample">Frame</span> object with the <span class="codesample">window</span>. <span class="codesample">frameElement</span> property.</p>
+<hr/>
+<p class="note"><strong>NOTE</strong> Firefox also offers the <span class="codesample">content</span> property. This returns the topmost window. As it is only supported in Firefox, <span class="codesample">top</span> is the recommended property.</p>
+<p class="indenttop">To access a particular frame, we can use both its name as well as its position in the array, so the following would print out the name of the first frame, which in our case is “frame1”:</p>
+<p class="imagea"><img alt="image" src="f0540-01.jpg"/></p>
+<p class="noindent">We could also access the frame from another child frame using <span class="codesample">parent.frame1</span>, or even <span class="codesample">parent.frames[“frame1”]</span>, using the associate array aspect of an object collection. Remember that a frame contains a window, so once you have this you can then use all of the <span class="codesample">Window</span> and <span class="codesample">Document</span> methods on what the frame contains.</p>
+<p class="indent">The next example shows the idea of frame names and the way they are related to each other. There are three files that are required for this example—two framesets (frames.html and moreframes.html) and a document (framerelationship.html) that contains a script that prints out the self, parent, and top relationships of frames.</p>
+<p class="indent">The first frameset file, frames.html, is listed here:</p>
+<p class="imagea"><img alt="image" src="f0540-02.jpg"/></p>
+<p class="indent">The second frameset file, moreframes.html, is listed here:</p>
+<p class="imagea"><img alt="image" src="f0540-03.jpg"/></p>
+<p class="indent"><a id="page_541"/>The document, framerelationship.html, is listed here:</p>
+<p class="imagea"><img alt="image" src="f0541-01.jpg"/></p>
+<p class="imagea"><img alt="image" src="f0541-02.jpg"/></p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.javascriptref.com/3ed/ch12/frames.html">http://javascriptref.com/3ed/ch12/frames.html</a></p>
+<p class="indent">The relationships using these example files are shown in <a class="nounder" href="ch12.html#fig12-5">Figure 12-5</a>.</p>
+<p class="imagea"><a id="fig12-5"/><img alt="image" src="f0542-01.jpg"/></p>
+<p class="figcap"><strong>Figure 12-5</strong> Frame relationships</p>
+<p class="indent"><a id="page_542"/>Once you understand the relationships between frames, you will find it much easier to assign variables to particular frames within deeper pages rather than using the <span class="codesample">parent.frames[]</span> array all the time. For example, given a simple frameset such as this:</p>
+<p class="imagea"><a id="page_543"/><img alt="image" src="f0543-01.jpg"/></p>
+<p class="noindent">you might set a variable to reference the content frame within the navigation Window, like so:</p>
+<p class="imagea"><img alt="image" src="f0543-02.jpg"/></p>
+<p class="noindent">This way, you could just reference things by <span class="codesample"><em>contentFrame</em></span> rather than the long array path.</p>
+<h5 class="h5"><a id="ch12lev2sec22"/><strong>Inline Frames</strong></h5>
+<p class="noindent">One variation of frames that deserves special attention is the <span class="codesample"><strong>&lt;iframe&gt;</strong></span>, or inline frame, because it is preserved under HTML5. The idea with an inline frame is that you can add a frame directly into a document without using a frameset. For example, this example</p>
+<p class="imagea"><img alt="image" src="f0543-03.jpg"/></p>
+<p class="noindenttop">produces a page something like this:</p>
+<p class="imagea"><img alt="image" src="f0543-04.jpg"/></p>
+<hr/>
+<p class="online"><a id="page_544"/><strong>ONLINE</strong> <a class="nounder" href="http://www.javascriptref.com/3ed/ch12/iframe.html">http://javascriptref.com/3ed/ch12/iframe.html</a></p>
+<p class="indent">This then begs the question, “How do we control this type of frame?” In reality, it is much easier since it is within the <span class="codesample">frames[]</span> array of the current window. Furthermore, if named, you can use DOM methods such as <span class="codesample">getElementById()</span> to access the object. The simple example here demonstrates this idea:</p>
+<p class="imagea"><img alt="image" src="f0544-01.jpg"/></p>
+<p class="indent">While inline frames seem to be a simplification of standard frames, they are far more interesting than these examples suggest. In fact, we’ll see in <a class="nounder" href="ch15.html#ch15">Chapter 15</a> that <span class="codesample"><strong>&lt;iframe&gt;</strong></span> tags serve as a non-Ajax method for JavaScript to communicate with a Web server. For now, though, we put off this advanced application and study some more common JavaScript frame applications.</p>
+<h5 class="h5"><a id="ch12lev2sec23"/><strong>Applied Frames</strong></h5>
+<p class="noindent">Now that we are familiar with frame naming conventions, it is time to do something with them. In this section, we present some solutions for common frame problems and hint at the larger issues with frame usage.</p>
+<h6 class="h6"><strong>Loading Frames</strong></h6>
+<p class="noindent">A common question developers have with HTML is how to load multiple frames with a link. XHTML provides the target attribute to target a single frame, such as <span class="codesample"><em>framename</em>,</span> like so:</p>
+<p class="imagea"><img alt="image" src="f0544-02.jpg"/></p>
+<p class="noindent">However, how would you target two or more frames with a single link click? The answer, of course, is by using JavaScript. Consider the frameset here:</p>
+<p class="imagea"><img alt="image" src="f0544-03.jpg"/></p>
+<p class="noindent">In this case, we want a link in the navigation.html file to load two windows at once. We could write a simple set of JavaScript statements to do this, like so:</p>
+<p class="imagea"><img alt="image" src="f0544-04.jpg"/></p>
+<p class="indenttop">This approach can get somewhat unwieldy, so you might instead want to write a function called <span class="codesample"><em>loadFrames()</em></span> to do the work. You might even consider using a generic <a id="page_545"/>function that takes two arrays—one with frames and one with URL targets—and loads each one by one, as demonstrated here:</p>
+<p class="imagea"><img alt="image" src="f0545-01.jpg"/></p>
+<h6 class="h6"><strong>Frame Busting</strong></h6>
+<p class="noindent">While frames can be very useful for building some complex user interfaces and comparing documents, they also can cause Web designers significant problems. For example, some sites will put frames around all outbound links and “capture” the browsing session. Often, site designers will employ a technique called “frame busting” to destroy any enclosing frameset their page may be enclosed within. This is very easy using the following script that sets the topmost frame’s current location to the value of the page that should not be framed:</p>
+<p class="imagea"><img alt="image" src="f0545-02.jpg"/></p>
+<h6 class="h6"><strong>Frame Building</strong></h6>
+<p class="noindent">The converse problem to the one solved by frame busting would be to avoid having framed windows displayed outside of their framing context. This occasionally happens when users bookmark a piece of a frameset or launch a link from a frameset into a new window. The basic idea would be to have all framed documents make sure they are inside of frames by looking at each window’s location object, and if they are not, to dynamically rebuild the frameset document. For example, given a simple two-frame layout such as in a file called frameset.html:</p>
+<p class="imagea"><img alt="image" src="f0545-03.jpg"/></p>
+<p class="indent">You might be worried that a user could bookmark or directly enter the navigation.html or content.html URL. To rebuild the frameset in navigation.html and content.html, you might have</p>
+<p class="imagea"><img alt="image" src="f0545-04.jpg"/></p>
+<p class="noindent"><a id="page_546"/>which would detect if the page was outside its frameset and rebuild it. Of course, this is a very simplistic example, but it gives the basic idea of frame building. The script can be expanded and a variety of tricks employed to preserve the state of the navigation and content pages.</p>
+<p class="indent">All the efforts made in the last few sections reveal that frames really do have their downsides. While they may provide for stable user interfaces, they are not terribly bookmarking friendly, more than occasionally have printing problems, and not well handled by search engines. As we demonstrated, you can certainly use JavaScript to solve the problems with frames, but it might be better simply to avoid using them in many cases. Before concluding our discussion of frames, let’s take a final look at interwindow communication for state management using frames and JavaScript.</p>
+<h6 class="h6"><strong>State Management with Frames</strong></h6>
+<p class="noindent">One aspect of frames that some developers found useful early on with JavaScript was the ability to save variable state across multiple page views. As we saw with windows previously, it is possible to access the variable space of one window from another Window, and the same holds for frames. Using a special type of frameset where a small frame that is hard for a user to notice is used, we can create a space to hold variables across page loads. Consider for example, the frameset in the file stateframes.html shown here:</p>
+<p class="imagea"><img alt="image" src="f0546-01.jpg"/></p>
+<p class="noindent">In this case, we have a very small frame called <span class="codesample"><em>stateframe</em></span> that will be used to save variables across page loads. The contents of stateframe.html, mainframe.html, and mainframe2.html are shown here. Notice how, by referencing the <span class="codesample">parent</span> frame, we are able to access the hidden frame’s variable <span class="codesample"><em>username</em></span> on any page.</p>
+<p class="indent">The stateframe.html file is shown here:</p>
+<p class="imagea"><img alt="image" src="f0546-02.jpg"/></p>
+<p class="indent"><a id="page_547"/>The mainframe.html file is shown here:</p>
+<p class="imagea"><img alt="image" src="f0547-01.jpg"/></p>
+<p class="indent">The mainframe2.html file is shown here:</p>
+<p class="imagea"><img alt="image" src="f0547-02.jpg"/></p>
+<hr/>
+<p class="online"><a id="page_548"/><strong>ONLINE</strong> <a class="nounder" href="http://www.javascriptref.com/3ed/ch12/stateframes.html">http://javascriptref.com/3ed/ch12/stateframes.html</a></p>
+<p class="indent">Obviously, as compared to <span class="codesample">pushstate()</span> methods and other more modern features, the use of simple interwindow communications with frames to maintain state is a bit primitive. However, we’ll see that in nearly any case, the security implications of all of these client-side state preservation mechanisms leaves a bit to be desired. Given the hostile nature of the Internet, programmers are strongly encouraged to rely on traditional state management mechanisms such as cookies to maintain state between pages in a site. More information on state management can be found in <a class="nounder" href="ch16.html#ch16">Chapter 16</a>.</p>
+<h4 class="h4"><a id="ch12lev1sec13"/><strong>Summary</strong></h4>
+<p class="noindent">The <span class="codesample">Window</span>object is probably the most important object in JavaScript beyond the <span class="codesample">Document</span> object itself. Using this object, you can create and destroy general windows, as well as a variety of special-purpose windows such as dialog boxes. It is also possible to manipulate the characteristics of windows using JavaScript and even have windows control each other. The key to this is correct naming, because once the window in question is found it can be manipulated with any of the common <span class="codesample">Document</span> methods. Frames were shown to be a special form of the <span class="codesample">Window</span> object, and their correct usage was also very much related to their name. While the <span class="codesample">Window</span> object is common to all JavaScript-aware browsers, we see that it also has the most inconsistencies. HTML5 may have codified many common aspects of <span class="codesample">Window</span>, but proprietary features and those inconsistencies continue to exist.</p>
+</body>
+</html>

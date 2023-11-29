@@ -1,0 +1,3135 @@
+<?xml version="1.0"?>
+<!DOCTYPE ncx PUBLIC "-//NISO//DTD ncx 2005-1//EN" "http://www.daisy.org/z3986/2005/ncx-2005-1.dtd">
+<ncx xmlns="http://www.daisy.org/z3986/2005/ncx/" version="2005-1" xml:lang="en">
+<head>
+<meta name="dtb:uid" content="0071741216"/>
+<meta name="dtb:depth" content="1"/>
+<meta name="dtb:totalPageCount" content="0"/>
+<meta name="dtb:maxPageNumber" content="0"/>
+</head>
+<docTitle>
+<text>JavaScript: The Complete Reference, Third Edition</text>
+</docTitle>
+<navMap>
+<navPoint id="cover" playOrder="1">
+<navLabel>
+<text>Cover Page</text>
+</navLabel>
+<content src="cover.html"/>
+</navPoint>
+<navPoint id="i1" playOrder="2">
+<navLabel>
+<text>JavaScript: The Complete Reference, Third Edition</text>
+</navLabel>
+<content src="title.html"/>
+</navPoint>
+<navPoint id="i2" playOrder="3">
+<navLabel>
+<text>Copyright Page</text>
+</navLabel>
+<content src="copyright.html"/>
+</navPoint>
+<navPoint id="i4" playOrder="4">
+<navLabel>
+<text>Contents at a Glance</text>
+</navLabel>
+<content src="contents1.html"/>
+</navPoint>
+<navPoint id="i5" playOrder="5">
+<navLabel>
+<text>Contents</text>
+</navLabel>
+<content src="contents.html"/>
+</navPoint>
+<navPoint id="i6" playOrder="6">
+<navLabel>
+<text>Acknowledgments</text>
+</navLabel>
+<content src="ack.html"/>
+</navPoint>
+<navPoint id="i7" playOrder="7">
+<navLabel>
+<text>Introduction</text>
+</navLabel>
+<content src="intro.html"/>
+</navPoint>
+<navPoint id="part01" playOrder="8">
+<navLabel>
+<text>Part I Introduction</text>
+</navLabel>
+<content src="part01.html#part01"/>
+<navPoint id="ch01" playOrder="9">
+<navLabel>
+<text>Chapter 1 Introduction to JavaScript</text>
+</navLabel>
+<content src="ch01.html#ch01"/>
+<navPoint id="ch01lev1sec1" playOrder="10">
+<navLabel>
+<text>Hello JavaScript World</text>
+</navLabel>
+<content src="ch01.html#ch01lev1sec1"/>
+<navPoint id="ch01lev2sec1" playOrder="11">
+<navLabel>
+<text>Hello Errors</text>
+</navLabel>
+<content src="ch01.html#ch01lev2sec1"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch01lev1sec2" playOrder="12">
+<navLabel>
+<text>Adding JavaScript to XHTML Documents</text>
+</navLabel>
+<content src="ch01.html#ch01lev1sec2"/>
+<navPoint id="ch01lev2sec2" playOrder="13">
+<navLabel>
+<text>The &#60;script&#62; Element</text>
+</navLabel>
+<content src="ch01.html#ch01lev2sec2"/>
+</navPoint>
+<navPoint id="ch01lev2sec3" playOrder="14">
+<navLabel>
+<text>Event Handlers</text>
+</navLabel>
+<content src="ch01.html#ch01lev2sec3"/>
+</navPoint>
+<navPoint id="ch01lev2sec4" playOrder="15">
+<navLabel>
+<text>Linked Scripts</text>
+</navLabel>
+<content src="ch01.html#ch01lev2sec4"/>
+</navPoint>
+<navPoint id="ch01lev2sec5" playOrder="16">
+<navLabel>
+<text>JavaScript Pseudo-URL</text>
+</navLabel>
+<content src="ch01.html#ch01lev2sec5"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch01lev1sec3" playOrder="17">
+<navLabel>
+<text>JavaScript Usage Considerations</text>
+</navLabel>
+<content src="ch01.html#ch01lev1sec3"/>
+<navPoint id="ch01lev2sec6" playOrder="18">
+<navLabel>
+<text>Script Masking</text>
+</navLabel>
+<content src="ch01.html#ch01lev2sec6"/>
+</navPoint>
+<navPoint id="ch01lev2sec7" playOrder="19">
+<navLabel>
+<text>The &#60;noscript&#62; Element</text>
+</navLabel>
+<content src="ch01.html#ch01lev2sec7"/>
+</navPoint>
+<navPoint id="ch01lev2sec8" playOrder="20">
+<navLabel>
+<text>Language Versions</text>
+</navLabel>
+<content src="ch01.html#ch01lev2sec8"/>
+</navPoint>
+<navPoint id="ch01lev2sec9" playOrder="21">
+<navLabel>
+<text>Cross-Browser Concerns</text>
+</navLabel>
+<content src="ch01.html#ch01lev2sec9"/>
+</navPoint>
+<navPoint id="ch01lev2sec10" playOrder="22">
+<navLabel>
+<text>Living with Other Scripts</text>
+</navLabel>
+<content src="ch01.html#ch01lev2sec10"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch01lev1sec4" playOrder="23">
+<navLabel>
+<text>JavaScript: A Real Programming Language</text>
+</navLabel>
+<content src="ch01.html#ch01lev1sec4"/>
+<navPoint id="ch01lev2sec11" playOrder="24">
+<navLabel>
+<text>History of JavaScript</text>
+</navLabel>
+<content src="ch01.html#ch01lev2sec11"/>
+</navPoint>
+<navPoint id="ch01lev2sec12" playOrder="25">
+<navLabel>
+<text>Common Uses of JavaScript</text>
+</navLabel>
+<content src="ch01.html#ch01lev2sec12"/>
+</navPoint>
+<navPoint id="ch01lev2sec13" playOrder="26">
+<navLabel>
+<text>The Rise of JavaScript Libraries</text>
+</navLabel>
+<content src="ch01.html#ch01lev2sec13"/>
+</navPoint>
+<navPoint id="ch01lev2sec14" playOrder="27">
+<navLabel>
+<text>The Future of JavaScript</text>
+</navLabel>
+<content src="ch01.html#ch01lev2sec14"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch01lev1sec5" playOrder="28">
+<navLabel>
+<text>Summary</text>
+</navLabel>
+<content src="ch01.html#ch01lev1sec5"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch02" playOrder="29">
+<navLabel>
+<text>Chapter 2 Overview of JavaScript Core Language Features</text>
+</navLabel>
+<content src="ch02.html#ch02"/>
+<navPoint id="ch02lev1sec1" playOrder="30">
+<navLabel>
+<text>Basic Definitions</text>
+</navLabel>
+<content src="ch02.html#ch02lev1sec1"/>
+</navPoint>
+<navPoint id="ch02lev1sec2" playOrder="31">
+<navLabel>
+<text>Execution Order</text>
+</navLabel>
+<content src="ch02.html#ch02lev1sec2"/>
+</navPoint>
+<navPoint id="ch02lev1sec3" playOrder="32">
+<navLabel>
+<text>Case Sensitivity</text>
+</navLabel>
+<content src="ch02.html#ch02lev1sec3"/>
+<navPoint id="ch02lev2sec1" playOrder="33">
+<navLabel>
+<text>HTML and Case Sensitivity</text>
+</navLabel>
+<content src="ch02.html#ch02lev2sec1"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch02lev1sec4" playOrder="34">
+<navLabel>
+<text>Whitespace</text>
+</navLabel>
+<content src="ch02.html#ch02lev1sec4"/>
+</navPoint>
+<navPoint id="ch02lev1sec5" playOrder="35">
+<navLabel>
+<text>Statements</text>
+</navLabel>
+<content src="ch02.html#ch02lev1sec5"/>
+<navPoint id="ch02lev2sec2" playOrder="36">
+<navLabel>
+<text>Semicolons</text>
+</navLabel>
+<content src="ch02.html#ch02lev2sec2"/>
+</navPoint>
+<navPoint id="ch02lev2sec3" playOrder="37">
+<navLabel>
+<text>Blocks</text>
+</navLabel>
+<content src="ch02.html#ch02lev2sec3"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch02lev1sec6" playOrder="38">
+<navLabel>
+<text>Variables</text>
+</navLabel>
+<content src="ch02.html#ch02lev1sec6"/>
+</navPoint>
+<navPoint id="ch02lev1sec7" playOrder="39">
+<navLabel>
+<text>Basic Data Types</text>
+</navLabel>
+<content src="ch02.html#ch02lev1sec7"/>
+<navPoint id="ch02lev2sec4" playOrder="40">
+<navLabel>
+<text>Weak Typing</text>
+</navLabel>
+<content src="ch02.html#ch02lev2sec4"/>
+</navPoint>
+<navPoint id="ch02lev2sec5" playOrder="41">
+<navLabel>
+<text>Type Conversion</text>
+</navLabel>
+<content src="ch02.html#ch02lev2sec5"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch02lev1sec8" playOrder="42">
+<navLabel>
+<text>Composite Types</text>
+</navLabel>
+<content src="ch02.html#ch02lev1sec8"/>
+<navPoint id="ch02lev2sec6" playOrder="43">
+<navLabel>
+<text>Objects</text>
+</navLabel>
+<content src="ch02.html#ch02lev2sec6"/>
+</navPoint>
+<navPoint id="ch02lev2sec7" playOrder="44">
+<navLabel>
+<text>Arrays</text>
+</navLabel>
+<content src="ch02.html#ch02lev2sec7"/>
+</navPoint>
+<navPoint id="ch02lev2sec8" playOrder="45">
+<navLabel>
+<text>Functions as Data Types</text>
+</navLabel>
+<content src="ch02.html#ch02lev2sec8"/>
+</navPoint>
+<navPoint id="ch02lev2sec9" playOrder="46">
+<navLabel>
+<text>Regular Expression Literals and Object</text>
+</navLabel>
+<content src="ch02.html#ch02lev2sec9"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch02lev1sec9" playOrder="47">
+<navLabel>
+<text>Expressions</text>
+</navLabel>
+<content src="ch02.html#ch02lev1sec9"/>
+<navPoint id="ch02lev2sec10" playOrder="48">
+<navLabel>
+<text>Arithmetic Operators</text>
+</navLabel>
+<content src="ch02.html#ch02lev2sec10"/>
+</navPoint>
+<navPoint id="ch02lev2sec11" playOrder="49">
+<navLabel>
+<text>Assignment Operators</text>
+</navLabel>
+<content src="ch02.html#ch02lev2sec11"/>
+</navPoint>
+<navPoint id="ch02lev2sec12" playOrder="50">
+<navLabel>
+<text>Logical Operators</text>
+</navLabel>
+<content src="ch02.html#ch02lev2sec12"/>
+</navPoint>
+<navPoint id="ch02lev2sec13" playOrder="51">
+<navLabel>
+<text>Conditional Operator</text>
+</navLabel>
+<content src="ch02.html#ch02lev2sec13"/>
+</navPoint>
+<navPoint id="ch02lev2sec14" playOrder="52">
+<navLabel>
+<text>Type Operators</text>
+</navLabel>
+<content src="ch02.html#ch02lev2sec14"/>
+</navPoint>
+<navPoint id="ch02lev2sec15" playOrder="53">
+<navLabel>
+<text>Comma Operator</text>
+</navLabel>
+<content src="ch02.html#ch02lev2sec15"/>
+</navPoint>
+<navPoint id="ch02lev2sec16" playOrder="54">
+<navLabel>
+<text>Relational Operators</text>
+</navLabel>
+<content src="ch02.html#ch02lev2sec16"/>
+</navPoint>
+<navPoint id="ch02lev2sec17" playOrder="55">
+<navLabel>
+<text>Operator Precedence and Associativity</text>
+</navLabel>
+<content src="ch02.html#ch02lev2sec17"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch02lev1sec10" playOrder="56">
+<navLabel>
+<text>Flow Control</text>
+</navLabel>
+<content src="ch02.html#ch02lev1sec10"/>
+</navPoint>
+<navPoint id="ch02lev1sec11" playOrder="57">
+<navLabel>
+<text>Loops</text>
+</navLabel>
+<content src="ch02.html#ch02lev1sec11"/>
+<navPoint id="ch02lev2sec18" playOrder="58">
+<navLabel>
+<text>Loop Control</text>
+</navLabel>
+<content src="ch02.html#ch02lev2sec18"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch02lev1sec12" playOrder="59">
+<navLabel>
+<text>Input and Output in JavaScript</text>
+</navLabel>
+<content src="ch02.html#ch02lev1sec12"/>
+</navPoint>
+<navPoint id="ch02lev1sec13" playOrder="60">
+<navLabel>
+<text>Functions</text>
+</navLabel>
+<content src="ch02.html#ch02lev1sec13"/>
+</navPoint>
+<navPoint id="ch02lev1sec14" playOrder="61">
+<navLabel>
+<text>Scoping Rules</text>
+</navLabel>
+<content src="ch02.html#ch02lev1sec14"/>
+</navPoint>
+<navPoint id="ch02lev1sec15" playOrder="62">
+<navLabel>
+<text>Regular Expressions</text>
+</navLabel>
+<content src="ch02.html#ch02lev1sec15"/>
+</navPoint>
+<navPoint id="ch02lev1sec16" playOrder="63">
+<navLabel>
+<text>Exceptions</text>
+</navLabel>
+<content src="ch02.html#ch02lev1sec16"/>
+</navPoint>
+<navPoint id="ch02lev1sec17" playOrder="64">
+<navLabel>
+<text>Comments</text>
+</navLabel>
+<content src="ch02.html#ch02lev1sec17"/>
+</navPoint>
+<navPoint id="ch02lev1sec18" playOrder="65">
+<navLabel>
+<text>ECMAScript 5 Changes</text>
+</navLabel>
+<content src="ch02.html#ch02lev1sec18"/>
+<navPoint id="ch02lev2sec19" playOrder="66">
+<navLabel>
+<text>&#8220;use strict&#8221;;</text>
+</navLabel>
+<content src="ch02.html#ch02lev2sec19"/>
+</navPoint>
+<navPoint id="ch02lev2sec20" playOrder="67">
+<navLabel>
+<text>Native JSON Support</text>
+</navLabel>
+<content src="ch02.html#ch02lev2sec20"/>
+</navPoint>
+<navPoint id="ch02lev2sec21" playOrder="68">
+<navLabel>
+<text>Function.prototype.bind( )</text>
+</navLabel>
+<content src="ch02.html#ch02lev2sec21"/>
+</navPoint>
+<navPoint id="ch02lev2sec22" playOrder="69">
+<navLabel>
+<text>ISO Dates</text>
+</navLabel>
+<content src="ch02.html#ch02lev2sec22"/>
+</navPoint>
+<navPoint id="ch02lev2sec23" playOrder="70">
+<navLabel>
+<text>Native Array Additions</text>
+</navLabel>
+<content src="ch02.html#ch02lev2sec23"/>
+</navPoint>
+<navPoint id="ch02lev2sec24" playOrder="71">
+<navLabel>
+<text>String.prototype.trim( )</text>
+</navLabel>
+<content src="ch02.html#ch02lev2sec24"/>
+</navPoint>
+<navPoint id="ch02lev2sec25" playOrder="72">
+<navLabel>
+<text>Object/Property Additions</text>
+</navLabel>
+<content src="ch02.html#ch02lev2sec25"/>
+</navPoint>
+<navPoint id="ch02lev2sec26" playOrder="73">
+<navLabel>
+<text>Emerging Features</text>
+</navLabel>
+<content src="ch02.html#ch02lev2sec26"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch02lev1sec19" playOrder="74">
+<navLabel>
+<text>Summary</text>
+</navLabel>
+<content src="ch02.html#ch02lev1sec19"/>
+</navPoint>
+</navPoint>
+</navPoint>
+<navPoint id="part02" playOrder="75">
+<navLabel>
+<text>Part II Core Language</text>
+</navLabel>
+<content src="part02.html#part02"/>
+<navPoint id="ch03" playOrder="76">
+<navLabel>
+<text>Chapter 3 Data Types and Variables</text>
+</navLabel>
+<content src="ch03.html#ch03"/>
+<navPoint id="ch03lev1sec1" playOrder="77">
+<navLabel>
+<text>Key Concepts</text>
+</navLabel>
+<content src="ch03.html#ch03lev1sec1"/>
+<navPoint id="ch03lev2sec1" playOrder="78">
+<navLabel>
+<text>Weak Typing</text>
+</navLabel>
+<content src="ch03.html#ch03lev2sec1"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch03lev1sec2" playOrder="79">
+<navLabel>
+<text>JavaScript&#8217;s Primitive Types</text>
+</navLabel>
+<content src="ch03.html#ch03lev1sec2"/>
+<navPoint id="ch03lev2sec2" playOrder="80">
+<navLabel>
+<text>Numbers</text>
+</navLabel>
+<content src="ch03.html#ch03lev2sec2"/>
+</navPoint>
+<navPoint id="ch03lev2sec3" playOrder="81">
+<navLabel>
+<text>Strings</text>
+</navLabel>
+<content src="ch03.html#ch03lev2sec3"/>
+</navPoint>
+<navPoint id="ch03lev2sec4" playOrder="82">
+<navLabel>
+<text>Booleans</text>
+</navLabel>
+<content src="ch03.html#ch03lev2sec4"/>
+</navPoint>
+<navPoint id="ch03lev2sec5" playOrder="83">
+<navLabel>
+<text>Undefined and Null</text>
+</navLabel>
+<content src="ch03.html#ch03lev2sec5"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch03lev1sec3" playOrder="84">
+<navLabel>
+<text>Composite Types</text>
+</navLabel>
+<content src="ch03.html#ch03lev1sec3"/>
+<navPoint id="ch03lev2sec6" playOrder="85">
+<navLabel>
+<text>Objects</text>
+</navLabel>
+<content src="ch03.html#ch03lev2sec6"/>
+</navPoint>
+<navPoint id="ch03lev2sec7" playOrder="86">
+<navLabel>
+<text>Arrays</text>
+</navLabel>
+<content src="ch03.html#ch03lev2sec7"/>
+</navPoint>
+<navPoint id="ch03lev2sec8" playOrder="87">
+<navLabel>
+<text>Functions</text>
+</navLabel>
+<content src="ch03.html#ch03lev2sec8"/>
+</navPoint>
+<navPoint id="ch03lev2sec9" playOrder="88">
+<navLabel>
+<text>The typeof Operator</text>
+</navLabel>
+<content src="ch03.html#ch03lev2sec9"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch03lev1sec4" playOrder="89">
+<navLabel>
+<text>Type Conversion</text>
+</navLabel>
+<content src="ch03.html#ch03lev1sec4"/>
+<navPoint id="ch03lev2sec10" playOrder="90">
+<navLabel>
+<text>Conversion Rules for Primitive Types</text>
+</navLabel>
+<content src="ch03.html#ch03lev2sec10"/>
+</navPoint>
+<navPoint id="ch03lev2sec11" playOrder="91">
+<navLabel>
+<text>Promotion of Primitive Data to Objects</text>
+</navLabel>
+<content src="ch03.html#ch03lev2sec11"/>
+</navPoint>
+<navPoint id="ch03lev2sec12" playOrder="92">
+<navLabel>
+<text>Explicit Type Conversion</text>
+</navLabel>
+<content src="ch03.html#ch03lev2sec12"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch03lev1sec5" playOrder="93">
+<navLabel>
+<text>Variables</text>
+</navLabel>
+<content src="ch03.html#ch03lev1sec5"/>
+<navPoint id="ch03lev2sec13" playOrder="94">
+<navLabel>
+<text>Identifiers</text>
+</navLabel>
+<content src="ch03.html#ch03lev2sec13"/>
+</navPoint>
+<navPoint id="ch03lev2sec14" playOrder="95">
+<navLabel>
+<text>Variable Declaration</text>
+</navLabel>
+<content src="ch03.html#ch03lev2sec14"/>
+</navPoint>
+<navPoint id="ch03lev2sec15" playOrder="96">
+<navLabel>
+<text>Implicit Variable Declaration</text>
+</navLabel>
+<content src="ch03.html#ch03lev2sec15"/>
+</navPoint>
+<navPoint id="ch03lev2sec16" playOrder="97">
+<navLabel>
+<text>Variable Scope</text>
+</navLabel>
+<content src="ch03.html#ch03lev2sec16"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch03lev1sec6" playOrder="98">
+<navLabel>
+<text>Constants</text>
+</navLabel>
+<content src="ch03.html#ch03lev1sec6"/>
+</navPoint>
+<navPoint id="ch03lev1sec7" playOrder="99">
+<navLabel>
+<text>Summary</text>
+</navLabel>
+<content src="ch03.html#ch03lev1sec7"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch04" playOrder="100">
+<navLabel>
+<text>Chapter 4 Operators, Expressions, and Statements</text>
+</navLabel>
+<content src="ch04.html#ch04"/>
+<navPoint id="ch04lev1sec1" playOrder="101">
+<navLabel>
+<text>Statement Basics</text>
+</navLabel>
+<content src="ch04.html#ch04lev1sec1"/>
+<navPoint id="ch04lev2sec1" playOrder="102">
+<navLabel>
+<text>Whitespace</text>
+</navLabel>
+<content src="ch04.html#ch04lev2sec1"/>
+</navPoint>
+<navPoint id="ch04lev2sec2" playOrder="103">
+<navLabel>
+<text>Termination: Semicolons and Returns</text>
+</navLabel>
+<content src="ch04.html#ch04lev2sec2"/>
+</navPoint>
+<navPoint id="ch04lev2sec3" playOrder="104">
+<navLabel>
+<text>Blocks</text>
+</navLabel>
+<content src="ch04.html#ch04lev2sec3"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch04lev1sec2" playOrder="105">
+<navLabel>
+<text>Operators</text>
+</navLabel>
+<content src="ch04.html#ch04lev1sec2"/>
+<navPoint id="ch04lev2sec4" playOrder="106">
+<navLabel>
+<text>Assignment Operator</text>
+</navLabel>
+<content src="ch04.html#ch04lev2sec4"/>
+</navPoint>
+<navPoint id="ch04lev2sec5" playOrder="107">
+<navLabel>
+<text>Arithmetic Operators</text>
+</navLabel>
+<content src="ch04.html#ch04lev2sec5"/>
+</navPoint>
+<navPoint id="ch04lev2sec6" playOrder="108">
+<navLabel>
+<text>Bitwise Operators</text>
+</navLabel>
+<content src="ch04.html#ch04lev2sec6"/>
+</navPoint>
+<navPoint id="ch04lev2sec7" playOrder="109">
+<navLabel>
+<text>Bitwise Shift Operators</text>
+</navLabel>
+<content src="ch04.html#ch04lev2sec7"/>
+</navPoint>
+<navPoint id="ch04lev2sec8" playOrder="110">
+<navLabel>
+<text>Combining Arithmetic and Bitwise Operations with Assignment</text>
+</navLabel>
+<content src="ch04.html#ch04lev2sec8"/>
+</navPoint>
+<navPoint id="ch04lev2sec9" playOrder="111">
+<navLabel>
+<text>Increment and Decrement</text>
+</navLabel>
+<content src="ch04.html#ch04lev2sec9"/>
+</navPoint>
+<navPoint id="ch04lev2sec10" playOrder="112">
+<navLabel>
+<text>Comparison Operators</text>
+</navLabel>
+<content src="ch04.html#ch04lev2sec10"/>
+</navPoint>
+<navPoint id="ch04lev2sec11" playOrder="113">
+<navLabel>
+<text>Logical Operators</text>
+</navLabel>
+<content src="ch04.html#ch04lev2sec11"/>
+</navPoint>
+<navPoint id="ch04lev2sec12" playOrder="114">
+<navLabel>
+<text>? Operator</text>
+</navLabel>
+<content src="ch04.html#ch04lev2sec12"/>
+</navPoint>
+<navPoint id="ch04lev2sec13" playOrder="115">
+<navLabel>
+<text>Comma Operator</text>
+</navLabel>
+<content src="ch04.html#ch04lev2sec13"/>
+</navPoint>
+<navPoint id="ch04lev2sec14" playOrder="116">
+<navLabel>
+<text>void Operator</text>
+</navLabel>
+<content src="ch04.html#ch04lev2sec14"/>
+</navPoint>
+<navPoint id="ch04lev2sec15" playOrder="117">
+<navLabel>
+<text>typeof</text>
+</navLabel>
+<content src="ch04.html#ch04lev2sec15"/>
+</navPoint>
+<navPoint id="ch04lev2sec16" playOrder="118">
+<navLabel>
+<text>Object Operators</text>
+</navLabel>
+<content src="ch04.html#ch04lev2sec16"/>
+</navPoint>
+<navPoint id="ch04lev2sec17" playOrder="119">
+<navLabel>
+<text>Operator Precedence and Associativity</text>
+</navLabel>
+<content src="ch04.html#ch04lev2sec17"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch04lev1sec3" playOrder="120">
+<navLabel>
+<text>Core JavaScript Statements</text>
+</navLabel>
+<content src="ch04.html#ch04lev1sec3"/>
+<navPoint id="ch04lev2sec18" playOrder="121">
+<navLabel>
+<text>if Statements</text>
+</navLabel>
+<content src="ch04.html#ch04lev2sec18"/>
+</navPoint>
+<navPoint id="ch04lev2sec19" playOrder="122">
+<navLabel>
+<text>switch</text>
+</navLabel>
+<content src="ch04.html#ch04lev2sec19"/>
+</navPoint>
+<navPoint id="ch04lev2sec20" playOrder="123">
+<navLabel>
+<text>while Loops</text>
+</navLabel>
+<content src="ch04.html#ch04lev2sec20"/>
+</navPoint>
+<navPoint id="ch04lev2sec21" playOrder="124">
+<navLabel>
+<text>do-while Loops</text>
+</navLabel>
+<content src="ch04.html#ch04lev2sec21"/>
+</navPoint>
+<navPoint id="ch04lev2sec22" playOrder="125">
+<navLabel>
+<text>for Loops</text>
+</navLabel>
+<content src="ch04.html#ch04lev2sec22"/>
+</navPoint>
+<navPoint id="ch04lev2sec23" playOrder="126">
+<navLabel>
+<text>Loop Control with continue and break</text>
+</navLabel>
+<content src="ch04.html#ch04lev2sec23"/>
+</navPoint>
+<navPoint id="ch04lev2sec24" playOrder="127">
+<navLabel>
+<text>Object-Related Statements</text>
+</navLabel>
+<content src="ch04.html#ch04lev2sec24"/>
+</navPoint>
+<navPoint id="ch04lev2sec25" playOrder="128">
+<navLabel>
+<text>Other Statements</text>
+</navLabel>
+<content src="ch04.html#ch04lev2sec25"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch04lev1sec4" playOrder="129">
+<navLabel>
+<text>Summary</text>
+</navLabel>
+<content src="ch04.html#ch04lev1sec4"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch05" playOrder="130">
+<navLabel>
+<text>Chapter 5 Functions</text>
+</navLabel>
+<content src="ch05.html#ch05"/>
+<navPoint id="ch05lev1sec1" playOrder="131">
+<navLabel>
+<text>Function Basics</text>
+</navLabel>
+<content src="ch05.html#ch05lev1sec1"/>
+<navPoint id="ch05lev2sec1" playOrder="132">
+<navLabel>
+<text>Parameter Passing Basics</text>
+</navLabel>
+<content src="ch05.html#ch05lev2sec1"/>
+</navPoint>
+<navPoint id="ch05lev2sec2" playOrder="133">
+<navLabel>
+<text>Return Statements</text>
+</navLabel>
+<content src="ch05.html#ch05lev2sec2"/>
+</navPoint>
+<navPoint id="ch05lev2sec3" playOrder="134">
+<navLabel>
+<text>Parameter Passing: In and Out</text>
+</navLabel>
+<content src="ch05.html#ch05lev2sec3"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch05lev1sec2" playOrder="135">
+<navLabel>
+<text>Global and Local Variables</text>
+</navLabel>
+<content src="ch05.html#ch05lev1sec2"/>
+<navPoint id="ch05lev2sec4" playOrder="136">
+<navLabel>
+<text>Variable Naming for Scope</text>
+</navLabel>
+<content src="ch05.html#ch05lev2sec4"/>
+</navPoint>
+<navPoint id="ch05lev2sec5" playOrder="137">
+<navLabel>
+<text>Inner Functions</text>
+</navLabel>
+<content src="ch05.html#ch05lev2sec5"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch05lev1sec3" playOrder="138">
+<navLabel>
+<text>Closures</text>
+</navLabel>
+<content src="ch05.html#ch05lev1sec3"/>
+</navPoint>
+<navPoint id="ch05lev1sec4" playOrder="139">
+<navLabel>
+<text>Functions as Objects</text>
+</navLabel>
+<content src="ch05.html#ch05lev1sec4"/>
+<navPoint id="ch05lev2sec6" playOrder="140">
+<navLabel>
+<text>Function Literals</text>
+</navLabel>
+<content src="ch05.html#ch05lev2sec6"/>
+</navPoint>
+<navPoint id="ch05lev2sec7" playOrder="141">
+<navLabel>
+<text>Static Variables</text>
+</navLabel>
+<content src="ch05.html#ch05lev2sec7"/>
+</navPoint>
+<navPoint id="ch05lev2sec8" playOrder="142">
+<navLabel>
+<text>Advanced Parameter Passing</text>
+</navLabel>
+<content src="ch05.html#ch05lev2sec8"/>
+</navPoint>
+<navPoint id="ch05lev2sec9" playOrder="143">
+<navLabel>
+<text>Advanced Function Properties and Methods</text>
+</navLabel>
+<content src="ch05.html#ch05lev2sec9"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch05lev1sec5" playOrder="144">
+<navLabel>
+<text>Recursive Functions</text>
+</navLabel>
+<content src="ch05.html#ch05lev1sec5"/>
+</navPoint>
+<navPoint id="ch05lev1sec6" playOrder="145">
+<navLabel>
+<text>Summary</text>
+</navLabel>
+<content src="ch05.html#ch05lev1sec6"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch06" playOrder="146">
+<navLabel>
+<text>Chapter 6 Objects</text>
+</navLabel>
+<content src="ch06.html#ch06"/>
+<navPoint id="ch06lev1sec1" playOrder="147">
+<navLabel>
+<text>Objects in JavaScript</text>
+</navLabel>
+<content src="ch06.html#ch06lev1sec1"/>
+</navPoint>
+<navPoint id="ch06lev1sec2" playOrder="148">
+<navLabel>
+<text>Object Fundamentals</text>
+</navLabel>
+<content src="ch06.html#ch06lev1sec2"/>
+<navPoint id="ch06lev2sec1" playOrder="149">
+<navLabel>
+<text>Object Creation</text>
+</navLabel>
+<content src="ch06.html#ch06lev2sec1"/>
+</navPoint>
+<navPoint id="ch06lev2sec2" playOrder="150">
+<navLabel>
+<text>Object Destruction and Garbage Collection</text>
+</navLabel>
+<content src="ch06.html#ch06lev2sec2"/>
+</navPoint>
+<navPoint id="ch06lev2sec3" playOrder="151">
+<navLabel>
+<text>Properties</text>
+</navLabel>
+<content src="ch06.html#ch06lev2sec3"/>
+</navPoint>
+<navPoint id="ch06lev2sec4" playOrder="152">
+<navLabel>
+<text>Objects Are Reference Types</text>
+</navLabel>
+<content src="ch06.html#ch06lev2sec4"/>
+</navPoint>
+<navPoint id="ch06lev2sec5" playOrder="153">
+<navLabel>
+<text>Common Properties and Methods</text>
+</navLabel>
+<content src="ch06.html#ch06lev2sec5"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch06lev1sec3" playOrder="154">
+<navLabel>
+<text>Object-Oriented JavaScript</text>
+</navLabel>
+<content src="ch06.html#ch06lev1sec3"/>
+<navPoint id="ch06lev2sec6" playOrder="155">
+<navLabel>
+<text>Prototype-Based Objects</text>
+</navLabel>
+<content src="ch06.html#ch06lev2sec6"/>
+</navPoint>
+<navPoint id="ch06lev2sec7" playOrder="156">
+<navLabel>
+<text>Constructors</text>
+</navLabel>
+<content src="ch06.html#ch06lev2sec7"/>
+</navPoint>
+<navPoint id="ch06lev2sec8" playOrder="157">
+<navLabel>
+<text>Prototypes</text>
+</navLabel>
+<content src="ch06.html#ch06lev2sec8"/>
+</navPoint>
+<navPoint id="ch06lev2sec9" playOrder="158">
+<navLabel>
+<text>Class Properties</text>
+</navLabel>
+<content src="ch06.html#ch06lev2sec9"/>
+</navPoint>
+<navPoint id="ch06lev2sec10" playOrder="159">
+<navLabel>
+<text>Inheritance via the Prototype Chain</text>
+</navLabel>
+<content src="ch06.html#ch06lev2sec10"/>
+</navPoint>
+<navPoint id="ch06lev2sec11" playOrder="160">
+<navLabel>
+<text>Overriding Default Methods and Properties</text>
+</navLabel>
+<content src="ch06.html#ch06lev2sec11"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch06lev1sec4" playOrder="161">
+<navLabel>
+<text>ECMAScript 5 Object-Related Changes</text>
+</navLabel>
+<content src="ch06.html#ch06lev1sec4"/>
+</navPoint>
+<navPoint id="ch06lev1sec5" playOrder="162">
+<navLabel>
+<text>JavaScript&#8217;s Object-Oriented Reality</text>
+</navLabel>
+<content src="ch06.html#ch06lev1sec5"/>
+</navPoint>
+<navPoint id="ch06lev1sec6" playOrder="163">
+<navLabel>
+<text>Summary</text>
+</navLabel>
+<content src="ch06.html#ch06lev1sec6"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch07" playOrder="164">
+<navLabel>
+<text>Chapter 7 Array, Date, Math, and Type-Related Objects</text>
+</navLabel>
+<content src="ch07.html#ch07"/>
+<navPoint id="ch07lev1sec1" playOrder="165">
+<navLabel>
+<text>Array</text>
+</navLabel>
+<content src="ch07.html#ch07lev1sec1"/>
+<navPoint id="ch07lev2sec1" playOrder="166">
+<navLabel>
+<text>Accessing Array Elements</text>
+</navLabel>
+<content src="ch07.html#ch07lev2sec1"/>
+</navPoint>
+<navPoint id="ch07lev2sec2" playOrder="167">
+<navLabel>
+<text>Adding and Changing Array Elements</text>
+</navLabel>
+<content src="ch07.html#ch07lev2sec2"/>
+</navPoint>
+<navPoint id="ch07lev2sec3" playOrder="168">
+<navLabel>
+<text>Removing Array Elements</text>
+</navLabel>
+<content src="ch07.html#ch07lev2sec3"/>
+</navPoint>
+<navPoint id="ch07lev2sec4" playOrder="169">
+<navLabel>
+<text>The length Property</text>
+</navLabel>
+<content src="ch07.html#ch07lev2sec4"/>
+</navPoint>
+<navPoint id="ch07lev2sec5" playOrder="170">
+<navLabel>
+<text>Arrays as Stacks and Queues</text>
+</navLabel>
+<content src="ch07.html#ch07lev2sec5"/>
+</navPoint>
+<navPoint id="ch07lev2sec6" playOrder="171">
+<navLabel>
+<text>Manipulating Arrays</text>
+</navLabel>
+<content src="ch07.html#ch07lev2sec6"/>
+</navPoint>
+<navPoint id="ch07lev2sec7" playOrder="172">
+<navLabel>
+<text>Multidimensional Arrays</text>
+</navLabel>
+<content src="ch07.html#ch07lev2sec7"/>
+</navPoint>
+<navPoint id="ch07lev2sec8" playOrder="173">
+<navLabel>
+<text>Extending Arrays with Prototypes</text>
+</navLabel>
+<content src="ch07.html#ch07lev2sec8"/>
+</navPoint>
+<navPoint id="ch07lev2sec9" playOrder="174">
+<navLabel>
+<text>ECMAScript 5 Array Additions</text>
+</navLabel>
+<content src="ch07.html#ch07lev2sec9"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch07lev1sec2" playOrder="175">
+<navLabel>
+<text>Boolean</text>
+</navLabel>
+<content src="ch07.html#ch07lev1sec2"/>
+</navPoint>
+<navPoint id="ch07lev1sec3" playOrder="176">
+<navLabel>
+<text>Date</text>
+</navLabel>
+<content src="ch07.html#ch07lev1sec3"/>
+<navPoint id="ch07lev2sec10" playOrder="177">
+<navLabel>
+<text>Creating Dates</text>
+</navLabel>
+<content src="ch07.html#ch07lev2sec10"/>
+</navPoint>
+<navPoint id="ch07lev2sec11" playOrder="178">
+<navLabel>
+<text>Manipulating Dates</text>
+</navLabel>
+<content src="ch07.html#ch07lev2sec11"/>
+</navPoint>
+<navPoint id="ch07lev2sec12" playOrder="179">
+<navLabel>
+<text>ECMAScript 5 Date Additions</text>
+</navLabel>
+<content src="ch07.html#ch07lev2sec12"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch07lev1sec4" playOrder="180">
+<navLabel>
+<text>Global</text>
+</navLabel>
+<content src="ch07.html#ch07lev1sec4"/>
+</navPoint>
+<navPoint id="ch07lev1sec5" playOrder="181">
+<navLabel>
+<text>Math</text>
+</navLabel>
+<content src="ch07.html#ch07lev1sec5"/>
+<navPoint id="ch07lev2sec13" playOrder="182">
+<navLabel>
+<text>Random Numbers</text>
+</navLabel>
+<content src="ch07.html#ch07lev2sec13"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch07lev1sec6" playOrder="183">
+<navLabel>
+<text>Number</text>
+</navLabel>
+<content src="ch07.html#ch07lev1sec6"/>
+</navPoint>
+<navPoint id="ch07lev1sec7" playOrder="184">
+<navLabel>
+<text>String</text>
+</navLabel>
+<content src="ch07.html#ch07lev1sec7"/>
+<navPoint id="ch07lev2sec14" playOrder="185">
+<navLabel>
+<text>Examining Strings</text>
+</navLabel>
+<content src="ch07.html#ch07lev2sec14"/>
+</navPoint>
+<navPoint id="ch07lev2sec15" playOrder="186">
+<navLabel>
+<text>Manipulating Strings</text>
+</navLabel>
+<content src="ch07.html#ch07lev2sec15"/>
+</navPoint>
+<navPoint id="ch07lev2sec16" playOrder="187">
+<navLabel>
+<text>Marking Up Strings as Traditional HTML</text>
+</navLabel>
+<content src="ch07.html#ch07lev2sec16"/>
+</navPoint>
+<navPoint id="ch07lev2sec17" playOrder="188">
+<navLabel>
+<text>ECMAScript 5 String Changes</text>
+</navLabel>
+<content src="ch07.html#ch07lev2sec17"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch07lev1sec8" playOrder="189">
+<navLabel>
+<text>Summary</text>
+</navLabel>
+<content src="ch07.html#ch07lev1sec8"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch08" playOrder="190">
+<navLabel>
+<text>Chapter 8 Regular Expressions</text>
+</navLabel>
+<content src="ch08.html#ch08"/>
+<navPoint id="ch08lev1sec1" playOrder="191">
+<navLabel>
+<text>The Need for Regular Expressions</text>
+</navLabel>
+<content src="ch08.html#ch08lev1sec1"/>
+</navPoint>
+<navPoint id="ch08lev1sec2" playOrder="192">
+<navLabel>
+<text>Introduction to JavaScript Regular Expressions</text>
+</navLabel>
+<content src="ch08.html#ch08lev1sec2"/>
+<navPoint id="ch08lev2sec1" playOrder="193">
+<navLabel>
+<text>Creating Patterns</text>
+</navLabel>
+<content src="ch08.html#ch08lev2sec1"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch08lev1sec3" playOrder="194">
+<navLabel>
+<text>RegExp Object</text>
+</navLabel>
+<content src="ch08.html#ch08lev1sec3"/>
+<navPoint id="ch08lev2sec2" playOrder="195">
+<navLabel>
+<text>test( )</text>
+</navLabel>
+<content src="ch08.html#ch08lev2sec2"/>
+</navPoint>
+<navPoint id="ch08lev2sec3" playOrder="196">
+<navLabel>
+<text>Subexpressions</text>
+</navLabel>
+<content src="ch08.html#ch08lev2sec3"/>
+</navPoint>
+<navPoint id="ch08lev2sec4" playOrder="197">
+<navLabel>
+<text>compile( )</text>
+</navLabel>
+<content src="ch08.html#ch08lev2sec4"/>
+</navPoint>
+<navPoint id="ch08lev2sec5" playOrder="198">
+<navLabel>
+<text>exec( )</text>
+</navLabel>
+<content src="ch08.html#ch08lev2sec5"/>
+</navPoint>
+<navPoint id="ch08lev2sec6" playOrder="199">
+<navLabel>
+<text>RegExp Properties</text>
+</navLabel>
+<content src="ch08.html#ch08lev2sec6"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch08lev1sec4" playOrder="200">
+<navLabel>
+<text>String Methods for Regular Expressions</text>
+</navLabel>
+<content src="ch08.html#ch08lev1sec4"/>
+<navPoint id="ch08lev2sec7" playOrder="201">
+<navLabel>
+<text>search( )</text>
+</navLabel>
+<content src="ch08.html#ch08lev2sec7"/>
+</navPoint>
+<navPoint id="ch08lev2sec8" playOrder="202">
+<navLabel>
+<text>split( )</text>
+</navLabel>
+<content src="ch08.html#ch08lev2sec8"/>
+</navPoint>
+<navPoint id="ch08lev2sec9" playOrder="203">
+<navLabel>
+<text>replace( )</text>
+</navLabel>
+<content src="ch08.html#ch08lev2sec9"/>
+</navPoint>
+<navPoint id="ch08lev2sec10" playOrder="204">
+<navLabel>
+<text>match( )</text>
+</navLabel>
+<content src="ch08.html#ch08lev2sec10"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch08lev1sec5" playOrder="205">
+<navLabel>
+<text>Advanced Regular Expressions</text>
+</navLabel>
+<content src="ch08.html#ch08lev1sec5"/>
+<navPoint id="ch08lev2sec11" playOrder="206">
+<navLabel>
+<text>Multiline Matching</text>
+</navLabel>
+<content src="ch08.html#ch08lev2sec11"/>
+</navPoint>
+<navPoint id="ch08lev2sec12" playOrder="207">
+<navLabel>
+<text>Noncapturing Parentheses</text>
+</navLabel>
+<content src="ch08.html#ch08lev2sec12"/>
+</navPoint>
+<navPoint id="ch08lev2sec13" playOrder="208">
+<navLabel>
+<text>Lookahead</text>
+</navLabel>
+<content src="ch08.html#ch08lev2sec13"/>
+</navPoint>
+<navPoint id="ch08lev2sec14" playOrder="209">
+<navLabel>
+<text>Greedy Matching</text>
+</navLabel>
+<content src="ch08.html#ch08lev2sec14"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch08lev1sec6" playOrder="210">
+<navLabel>
+<text>Limitations of Regular Expressions</text>
+</navLabel>
+<content src="ch08.html#ch08lev1sec6"/>
+</navPoint>
+<navPoint id="ch08lev1sec7" playOrder="211">
+<navLabel>
+<text>Summary</text>
+</navLabel>
+<content src="ch08.html#ch08lev1sec7"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch09" playOrder="212">
+<navLabel>
+<text>Chapter 9 JavaScript Object Models</text>
+</navLabel>
+<content src="ch09.html#ch09"/>
+<navPoint id="ch09lev1sec1" playOrder="213">
+<navLabel>
+<text>Object Model Overview</text>
+</navLabel>
+<content src="ch09.html#ch09lev1sec1"/>
+</navPoint>
+<navPoint id="ch09lev1sec2" playOrder="214">
+<navLabel>
+<text>The Initial JavaScript Object Model</text>
+</navLabel>
+<content src="ch09.html#ch09lev1sec2"/>
+</navPoint>
+<navPoint id="ch09lev1sec3" playOrder="215">
+<navLabel>
+<text>The Document Object</text>
+</navLabel>
+<content src="ch09.html#ch09lev1sec3"/>
+<navPoint id="ch09lev2sec1" playOrder="216">
+<navLabel>
+<text>Accessing Document Elements by Position</text>
+</navLabel>
+<content src="ch09.html#ch09lev2sec1"/>
+</navPoint>
+<navPoint id="ch09lev2sec2" playOrder="217">
+<navLabel>
+<text>Accessing Document Elements by Name</text>
+</navLabel>
+<content src="ch09.html#ch09lev2sec2"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch09lev1sec4" playOrder="218">
+<navLabel>
+<text>Simple Event Handling</text>
+</navLabel>
+<content src="ch09.html#ch09lev1sec4"/>
+<navPoint id="ch09lev2sec3" playOrder="219">
+<navLabel>
+<text>Setting Event Handlers Inline</text>
+</navLabel>
+<content src="ch09.html#ch09lev2sec3"/>
+</navPoint>
+<navPoint id="ch09lev2sec4" playOrder="220">
+<navLabel>
+<text>Direct Assignment of Event Handlers</text>
+</navLabel>
+<content src="ch09.html#ch09lev2sec4"/>
+</navPoint>
+<navPoint id="ch09lev2sec5" playOrder="221">
+<navLabel>
+<text>Setting Event Listeners</text>
+</navLabel>
+<content src="ch09.html#ch09lev2sec5"/>
+</navPoint>
+<navPoint id="ch09lev2sec6" playOrder="222">
+<navLabel>
+<text>Invoking Event Handlers</text>
+</navLabel>
+<content src="ch09.html#ch09lev2sec6"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch09lev1sec5" playOrder="223">
+<navLabel>
+<text>JavaScript + DOM + Selection + Events = Program</text>
+</navLabel>
+<content src="ch09.html#ch09lev1sec5"/>
+</navPoint>
+<navPoint id="ch09lev1sec6" playOrder="224">
+<navLabel>
+<text>The Evolution of the JavaScript Object Model</text>
+</navLabel>
+<content src="ch09.html#ch09lev1sec6"/>
+<navPoint id="ch09lev2sec7" playOrder="225">
+<navLabel>
+<text>The Early Evolution of Browser Object Models</text>
+</navLabel>
+<content src="ch09.html#ch09lev2sec7"/>
+</navPoint>
+<navPoint id="ch09lev2sec8" playOrder="226">
+<navLabel>
+<text>DHTML-Oriented Object Models</text>
+</navLabel>
+<content src="ch09.html#ch09lev2sec8"/>
+</navPoint>
+<navPoint id="ch09lev2sec9" playOrder="227">
+<navLabel>
+<text>Internet Explorer 4&#8217;s DHTML Object Model</text>
+</navLabel>
+<content src="ch09.html#ch09lev2sec9"/>
+</navPoint>
+<navPoint id="ch09lev2sec10" playOrder="228">
+<navLabel>
+<text>Beyond the DHTML Object Models</text>
+</navLabel>
+<content src="ch09.html#ch09lev2sec10"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch09lev1sec7" playOrder="229">
+<navLabel>
+<text>Summary</text>
+</navLabel>
+<content src="ch09.html#ch09lev1sec7"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch10" playOrder="230">
+<navLabel>
+<text>Chapter 10 The Standard Document Object Model</text>
+</navLabel>
+<content src="ch10.html#ch10"/>
+<navPoint id="ch10lev1sec1" playOrder="231">
+<navLabel>
+<text>DOM Flavors</text>
+</navLabel>
+<content src="ch10.html#ch10lev1sec1"/>
+<navPoint id="ch10lev2sec1" playOrder="232">
+<navLabel>
+<text>What Browsers Say Is Implemented</text>
+</navLabel>
+<content src="ch10.html#ch10lev2sec1"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch10lev1sec2" playOrder="233">
+<navLabel>
+<text>Document Trees</text>
+</navLabel>
+<content src="ch10.html#ch10lev1sec2"/>
+</navPoint>
+<navPoint id="ch10lev1sec3" playOrder="234">
+<navLabel>
+<text>Basic Element Access: getElementById( )</text>
+</navLabel>
+<content src="ch10.html#ch10lev1sec3"/>
+<navPoint id="ch10lev2sec2" playOrder="235">
+<navLabel>
+<text>Tree Traversal Basics</text>
+</navLabel>
+<content src="ch10.html#ch10lev2sec2"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch10lev1sec4" playOrder="236">
+<navLabel>
+<text>Other Element Access Methods</text>
+</navLabel>
+<content src="ch10.html#ch10lev1sec4"/>
+<navPoint id="ch10lev2sec3" playOrder="237">
+<navLabel>
+<text>getElementsByName( )</text>
+</navLabel>
+<content src="ch10.html#ch10lev2sec3"/>
+</navPoint>
+<navPoint id="ch10lev2sec4" playOrder="238">
+<navLabel>
+<text>Common JavaScript Collections</text>
+</navLabel>
+<content src="ch10.html#ch10lev2sec4"/>
+</navPoint>
+<navPoint id="ch10lev2sec5" playOrder="239">
+<navLabel>
+<text>getElementsByTagName( )</text>
+</navLabel>
+<content src="ch10.html#ch10lev2sec5"/>
+</navPoint>
+<navPoint id="ch10lev2sec6" playOrder="240">
+<navLabel>
+<text>Common Tree Traversal Starting Points</text>
+</navLabel>
+<content src="ch10.html#ch10lev2sec6"/>
+</navPoint>
+<navPoint id="ch10lev2sec7" playOrder="241">
+<navLabel>
+<text>document.getElementsByClassName( )</text>
+</navLabel>
+<content src="ch10.html#ch10lev2sec7"/>
+</navPoint>
+<navPoint id="ch10lev2sec8" playOrder="242">
+<navLabel>
+<text>querySelector( ) and querySelectorAll( )</text>
+</navLabel>
+<content src="ch10.html#ch10lev2sec8"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch10lev1sec5" playOrder="243">
+<navLabel>
+<text>Creating Nodes</text>
+</navLabel>
+<content src="ch10.html#ch10lev1sec5"/>
+</navPoint>
+<navPoint id="ch10lev1sec6" playOrder="244">
+<navLabel>
+<text>Appending and Inserting Nodes</text>
+</navLabel>
+<content src="ch10.html#ch10lev1sec6"/>
+<navPoint id="ch10lev2sec9" playOrder="245">
+<navLabel>
+<text>Text Nodes and normalize( ) Method</text>
+</navLabel>
+<content src="ch10.html#ch10lev2sec9"/>
+</navPoint>
+<navPoint id="ch10lev2sec10" playOrder="246">
+<navLabel>
+<text>insertBefore( ) method</text>
+</navLabel>
+<content src="ch10.html#ch10lev2sec10"/>
+</navPoint>
+<navPoint id="ch10lev2sec11" playOrder="247">
+<navLabel>
+<text>Other Insertion Methods</text>
+</navLabel>
+<content src="ch10.html#ch10lev2sec11"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch10lev1sec7" playOrder="248">
+<navLabel>
+<text>Dynamic Markup Insertion Realities</text>
+</navLabel>
+<content src="ch10.html#ch10lev1sec7"/>
+<navPoint id="ch10lev2sec12" playOrder="249">
+<navLabel>
+<text>innerHTML</text>
+</navLabel>
+<content src="ch10.html#ch10lev2sec12"/>
+</navPoint>
+<navPoint id="ch10lev2sec13" playOrder="250">
+<navLabel>
+<text>outerHTML</text>
+</navLabel>
+<content src="ch10.html#ch10lev2sec13"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch10lev1sec8" playOrder="251">
+<navLabel>
+<text>innerText and outerText</text>
+</navLabel>
+<content src="ch10.html#ch10lev1sec8"/>
+<navPoint id="ch10lev2sec14" playOrder="252">
+<navLabel>
+<text>insertAdjacentHTML( ) and insertAdjacentText( )</text>
+</navLabel>
+<content src="ch10.html#ch10lev2sec14"/>
+</navPoint>
+<navPoint id="ch10lev2sec15" playOrder="253">
+<navLabel>
+<text>document.write( ) and document.writeln( )</text>
+</navLabel>
+<content src="ch10.html#ch10lev2sec15"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch10lev1sec9" playOrder="254">
+<navLabel>
+<text>Copying Nodes</text>
+</navLabel>
+<content src="ch10.html#ch10lev1sec9"/>
+</navPoint>
+<navPoint id="ch10lev1sec10" playOrder="255">
+<navLabel>
+<text>Deleting and Replacing Nodes</text>
+</navLabel>
+<content src="ch10.html#ch10lev1sec10"/>
+<navPoint id="ch10lev2sec16" playOrder="256">
+<navLabel>
+<text>Modifying Text Nodes</text>
+</navLabel>
+<content src="ch10.html#ch10lev2sec16"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch10lev1sec11" playOrder="257">
+<navLabel>
+<text>Manipulating Attributes</text>
+</navLabel>
+<content src="ch10.html#ch10lev1sec11"/>
+<navPoint id="ch10lev2sec17" playOrder="258">
+<navLabel>
+<text>Attribute Nodes</text>
+</navLabel>
+<content src="ch10.html#ch10lev2sec17"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch10lev1sec12" playOrder="259">
+<navLabel>
+<text>Other Node Methods</text>
+</navLabel>
+<content src="ch10.html#ch10lev1sec12"/>
+</navPoint>
+<navPoint id="ch10lev1sec13" playOrder="260">
+<navLabel>
+<text>Namespaces</text>
+</navLabel>
+<content src="ch10.html#ch10lev1sec13"/>
+</navPoint>
+<navPoint id="ch10lev1sec14" playOrder="261">
+<navLabel>
+<text>The DOM and HTML Elements</text>
+</navLabel>
+<content src="ch10.html#ch10lev1sec14"/>
+<navPoint id="ch10lev2sec18" playOrder="262">
+<navLabel>
+<text>HTML Element Mappings</text>
+</navLabel>
+<content src="ch10.html#ch10lev2sec18"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch10lev1sec15" playOrder="263">
+<navLabel>
+<text>DOM Table Manipulation</text>
+</navLabel>
+<content src="ch10.html#ch10lev1sec15"/>
+</navPoint>
+<navPoint id="ch10lev1sec16" playOrder="264">
+<navLabel>
+<text>The DOM and Css</text>
+</navLabel>
+<content src="ch10.html#ch10lev1sec16"/>
+<navPoint id="ch10lev2sec19" playOrder="265">
+<navLabel>
+<text>Inline Style Manipulation</text>
+</navLabel>
+<content src="ch10.html#ch10lev2sec19"/>
+</navPoint>
+<navPoint id="ch10lev2sec20" playOrder="266">
+<navLabel>
+<text>Dynamic Style Using Classes and Collections</text>
+</navLabel>
+<content src="ch10.html#ch10lev2sec20"/>
+</navPoint>
+<navPoint id="ch10lev2sec21" playOrder="267">
+<navLabel>
+<text>Computed Style</text>
+</navLabel>
+<content src="ch10.html#ch10lev2sec21"/>
+</navPoint>
+<navPoint id="ch10lev2sec22" playOrder="268">
+<navLabel>
+<text>Accessing Complex Style Rules</text>
+</navLabel>
+<content src="ch10.html#ch10lev2sec22"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch10lev1sec17" playOrder="269">
+<navLabel>
+<text>DOM Traversal API</text>
+</navLabel>
+<content src="ch10.html#ch10lev1sec17"/>
+</navPoint>
+<navPoint id="ch10lev1sec18" playOrder="270">
+<navLabel>
+<text>DOM Range Selections</text>
+</navLabel>
+<content src="ch10.html#ch10lev1sec18"/>
+</navPoint>
+<navPoint id="ch10lev1sec19" playOrder="271">
+<navLabel>
+<text>Continued DOM Evolution</text>
+</navLabel>
+<content src="ch10.html#ch10lev1sec19"/>
+</navPoint>
+<navPoint id="ch10lev1sec20" playOrder="272">
+<navLabel>
+<text>Summary</text>
+</navLabel>
+<content src="ch10.html#ch10lev1sec20"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch11" playOrder="273">
+<navLabel>
+<text>Chapter 11 Event Handling</text>
+</navLabel>
+<content src="ch11.html#ch11"/>
+<navPoint id="ch11lev1sec1" playOrder="274">
+<navLabel>
+<text>Overview of Events and Event Handling</text>
+</navLabel>
+<content src="ch11.html#ch11lev1sec1"/>
+</navPoint>
+<navPoint id="ch11lev1sec2" playOrder="275">
+<navLabel>
+<text>The Traditional Event Model</text>
+</navLabel>
+<content src="ch11.html#ch11lev1sec2"/>
+<navPoint id="ch11lev2sec1" playOrder="276">
+<navLabel>
+<text>Event Binding with HTML Attributes</text>
+</navLabel>
+<content src="ch11.html#ch11lev2sec1"/>
+</navPoint>
+<navPoint id="ch11lev2sec2" playOrder="277">
+<navLabel>
+<text>Binding Event Handler Attributes with JavaScript</text>
+</navLabel>
+<content src="ch11.html#ch11lev2sec2"/>
+</navPoint>
+<navPoint id="ch11lev2sec3" playOrder="278">
+<navLabel>
+<text>Event Handler Scope Details</text>
+</navLabel>
+<content src="ch11.html#ch11lev2sec3"/>
+</navPoint>
+<navPoint id="ch11lev2sec4" playOrder="279">
+<navLabel>
+<text>Return Values</text>
+</navLabel>
+<content src="ch11.html#ch11lev2sec4"/>
+</navPoint>
+<navPoint id="ch11lev2sec5" playOrder="280">
+<navLabel>
+<text>Firing Events Manually</text>
+</navLabel>
+<content src="ch11.html#ch11lev2sec5"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch11lev1sec3" playOrder="281">
+<navLabel>
+<text>Overview of Modern Event Models</text>
+</navLabel>
+<content src="ch11.html#ch11lev1sec3"/>
+</navPoint>
+<navPoint id="ch11lev1sec4" playOrder="282">
+<navLabel>
+<text>Internet Explorer&#8217;s Proprietary Model</text>
+</navLabel>
+<content src="ch11.html#ch11lev1sec4"/>
+<navPoint id="ch11lev2sec6" playOrder="283">
+<navLabel>
+<text>attachEvent( ) and detachEvent( )</text>
+</navLabel>
+<content src="ch11.html#ch11lev2sec6"/>
+</navPoint>
+<navPoint id="ch11lev2sec7" playOrder="284">
+<navLabel>
+<text>Event Object</text>
+</navLabel>
+<content src="ch11.html#ch11lev2sec7"/>
+</navPoint>
+<navPoint id="ch11lev2sec8" playOrder="285">
+<navLabel>
+<text>Event Bubbling</text>
+</navLabel>
+<content src="ch11.html#ch11lev2sec8"/>
+</navPoint>
+<navPoint id="ch11lev2sec9" playOrder="286">
+<navLabel>
+<text>Simulating Event Routing</text>
+</navLabel>
+<content src="ch11.html#ch11lev2sec9"/>
+</navPoint>
+<navPoint id="ch11lev2sec10" playOrder="287">
+<navLabel>
+<text>Event Creation</text>
+</navLabel>
+<content src="ch11.html#ch11lev2sec10"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch11lev1sec5" playOrder="288">
+<navLabel>
+<text>DOM Event Model</text>
+</navLabel>
+<content src="ch11.html#ch11lev1sec5"/>
+<navPoint id="ch11lev2sec11" playOrder="289">
+<navLabel>
+<text>Traditional Binding Changes</text>
+</navLabel>
+<content src="ch11.html#ch11lev2sec11"/>
+</navPoint>
+<navPoint id="ch11lev2sec12" playOrder="290">
+<navLabel>
+<text>addEventListener( ) and removeEventListener( )</text>
+</navLabel>
+<content src="ch11.html#ch11lev2sec12"/>
+</navPoint>
+<navPoint id="ch11lev2sec13" playOrder="291">
+<navLabel>
+<text>Event Object</text>
+</navLabel>
+<content src="ch11.html#ch11lev2sec13"/>
+</navPoint>
+<navPoint id="ch11lev2sec14" playOrder="292">
+<navLabel>
+<text>Preventing Default Actions</text>
+</navLabel>
+<content src="ch11.html#ch11lev2sec14"/>
+</navPoint>
+<navPoint id="ch11lev2sec15" playOrder="293">
+<navLabel>
+<text>Controlling Event Propagation</text>
+</navLabel>
+<content src="ch11.html#ch11lev2sec15"/>
+</navPoint>
+<navPoint id="ch11lev2sec16" playOrder="294">
+<navLabel>
+<text>Event Creation</text>
+</navLabel>
+<content src="ch11.html#ch11lev2sec16"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch11lev1sec6" playOrder="295">
+<navLabel>
+<text>Event Types</text>
+</navLabel>
+<content src="ch11.html#ch11lev1sec6"/>
+<navPoint id="ch11lev2sec17" playOrder="296">
+<navLabel>
+<text>Mouse Events</text>
+</navLabel>
+<content src="ch11.html#ch11lev2sec17"/>
+</navPoint>
+<navPoint id="ch11lev2sec18" playOrder="297">
+<navLabel>
+<text>Ui Events</text>
+</navLabel>
+<content src="ch11.html#ch11lev2sec18"/>
+</navPoint>
+<navPoint id="ch11lev2sec19" playOrder="298">
+<navLabel>
+<text>Focus Events</text>
+</navLabel>
+<content src="ch11.html#ch11lev2sec19"/>
+</navPoint>
+<navPoint id="ch11lev2sec20" playOrder="299">
+<navLabel>
+<text>Keyboard Events</text>
+</navLabel>
+<content src="ch11.html#ch11lev2sec20"/>
+</navPoint>
+<navPoint id="ch11lev2sec21" playOrder="300">
+<navLabel>
+<text>Text Events</text>
+</navLabel>
+<content src="ch11.html#ch11lev2sec21"/>
+</navPoint>
+<navPoint id="ch11lev2sec22" playOrder="301">
+<navLabel>
+<text>Mutation Events</text>
+</navLabel>
+<content src="ch11.html#ch11lev2sec22"/>
+</navPoint>
+<navPoint id="ch11lev2sec23" playOrder="302">
+<navLabel>
+<text>Nonstandard Events</text>
+</navLabel>
+<content src="ch11.html#ch11lev2sec23"/>
+</navPoint>
+<navPoint id="ch11lev2sec24" playOrder="303">
+<navLabel>
+<text>Custom Events</text>
+</navLabel>
+<content src="ch11.html#ch11lev2sec24"/>
+</navPoint>
+<navPoint id="ch11lev2sec25" playOrder="304">
+<navLabel>
+<text>Browser State and Loading Events</text>
+</navLabel>
+<content src="ch11.html#ch11lev2sec25"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch11lev1sec7" playOrder="305">
+<navLabel>
+<text>Event Model Issues</text>
+</navLabel>
+<content src="ch11.html#ch11lev1sec7"/>
+</navPoint>
+<navPoint id="ch11lev1sec8" playOrder="306">
+<navLabel>
+<text>Summary</text>
+</navLabel>
+<content src="ch11.html#ch11lev1sec8"/>
+</navPoint>
+</navPoint>
+</navPoint>
+<navPoint id="part03" playOrder="307">
+<navLabel>
+<text>Part III Applied JavaScript</text>
+</navLabel>
+<content src="part03.html#part03"/>
+<navPoint id="ch12" playOrder="308">
+<navLabel>
+<text>Chapter 12 Windows, Frames, and Overlays</text>
+</navLabel>
+<content src="ch12.html#ch12"/>
+<navPoint id="ch12lev1sec1" playOrder="309">
+<navLabel>
+<text>Introduction to the Window Object</text>
+</navLabel>
+<content src="ch12.html#ch12lev1sec1"/>
+</navPoint>
+<navPoint id="ch12lev1sec2" playOrder="310">
+<navLabel>
+<text>Dialogs</text>
+</navLabel>
+<content src="ch12.html#ch12lev1sec2"/>
+<navPoint id="ch12lev2sec1" playOrder="311">
+<navLabel>
+<text>alert( )</text>
+</navLabel>
+<content src="ch12.html#ch12lev2sec1"/>
+</navPoint>
+<navPoint id="ch12lev2sec2" playOrder="312">
+<navLabel>
+<text>confirm( )</text>
+</navLabel>
+<content src="ch12.html#ch12lev2sec2"/>
+</navPoint>
+<navPoint id="ch12lev2sec3" playOrder="313">
+<navLabel>
+<text>prompt( )</text>
+</navLabel>
+<content src="ch12.html#ch12lev2sec3"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch12lev1sec3" playOrder="314">
+<navLabel>
+<text>Emerging and Proprietary Dialog Methods</text>
+</navLabel>
+<content src="ch12.html#ch12lev1sec3"/>
+<navPoint id="ch12lev2sec4" playOrder="315">
+<navLabel>
+<text>showModalDialog( )</text>
+</navLabel>
+<content src="ch12.html#ch12lev2sec4"/>
+</navPoint>
+<navPoint id="ch12lev2sec5" playOrder="316">
+<navLabel>
+<text>showModelessDialog( )</text>
+</navLabel>
+<content src="ch12.html#ch12lev2sec5"/>
+</navPoint>
+<navPoint id="ch12lev2sec6" playOrder="317">
+<navLabel>
+<text>createPopup( )</text>
+</navLabel>
+<content src="ch12.html#ch12lev2sec6"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch12lev1sec4" playOrder="318">
+<navLabel>
+<text>Opening and Closing Generic Windows</text>
+</navLabel>
+<content src="ch12.html#ch12lev1sec4"/>
+<navPoint id="ch12lev2sec7" playOrder="319">
+<navLabel>
+<text>Window Features</text>
+</navLabel>
+<content src="ch12.html#ch12lev2sec7"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch12lev1sec5" playOrder="320">
+<navLabel>
+<text>Detecting and Controlling Window Chrome</text>
+</navLabel>
+<content src="ch12.html#ch12lev1sec5"/>
+</navPoint>
+<navPoint id="ch12lev1sec6" playOrder="321">
+<navLabel>
+<text>Practicalities of Spawned Windows</text>
+</navLabel>
+<content src="ch12.html#ch12lev1sec6"/>
+<navPoint id="ch12lev2sec8" playOrder="322">
+<navLabel>
+<text>Building Window Contents</text>
+</navLabel>
+<content src="ch12.html#ch12lev2sec8"/>
+</navPoint>
+<navPoint id="ch12lev2sec9" playOrder="323">
+<navLabel>
+<text>Overlays Instead of Windows</text>
+</navLabel>
+<content src="ch12.html#ch12lev2sec9"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch12lev1sec7" playOrder="324">
+<navLabel>
+<text>Controlling Windows</text>
+</navLabel>
+<content src="ch12.html#ch12lev1sec7"/>
+<navPoint id="ch12lev2sec10" playOrder="325">
+<navLabel>
+<text>focus( ) and blur( )</text>
+</navLabel>
+<content src="ch12.html#ch12lev2sec10"/>
+</navPoint>
+<navPoint id="ch12lev2sec11" playOrder="326">
+<navLabel>
+<text>stop( )</text>
+</navLabel>
+<content src="ch12.html#ch12lev2sec11"/>
+</navPoint>
+<navPoint id="ch12lev2sec12" playOrder="327">
+<navLabel>
+<text>print( )</text>
+</navLabel>
+<content src="ch12.html#ch12lev2sec12"/>
+</navPoint>
+<navPoint id="ch12lev2sec13" playOrder="328">
+<navLabel>
+<text>find( )</text>
+</navLabel>
+<content src="ch12.html#ch12lev2sec13"/>
+</navPoint>
+<navPoint id="ch12lev2sec14" playOrder="329">
+<navLabel>
+<text>Moving Windows</text>
+</navLabel>
+<content src="ch12.html#ch12lev2sec14"/>
+</navPoint>
+<navPoint id="ch12lev2sec15" playOrder="330">
+<navLabel>
+<text>Resizing Windows</text>
+</navLabel>
+<content src="ch12.html#ch12lev2sec15"/>
+</navPoint>
+<navPoint id="ch12lev2sec16" playOrder="331">
+<navLabel>
+<text>Scrolling Windows</text>
+</navLabel>
+<content src="ch12.html#ch12lev2sec16"/>
+</navPoint>
+<navPoint id="ch12lev2sec17" playOrder="332">
+<navLabel>
+<text>Accessing and Setting a Window&#8217;s Location</text>
+</navLabel>
+<content src="ch12.html#ch12lev2sec17"/>
+</navPoint>
+<navPoint id="ch12lev2sec18" playOrder="333">
+<navLabel>
+<text>Hash Values in URLs</text>
+</navLabel>
+<content src="ch12.html#ch12lev2sec18"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch12lev1sec8" playOrder="334">
+<navLabel>
+<text>Manipulating a Window&#8217;s History</text>
+</navLabel>
+<content src="ch12.html#ch12lev1sec8"/>
+<navPoint id="ch12lev2sec19" playOrder="335">
+<navLabel>
+<text>pushstate( ) and replacestate( )</text>
+</navLabel>
+<content src="ch12.html#ch12lev2sec19"/>
+</navPoint>
+<navPoint id="ch12lev2sec20" playOrder="336">
+<navLabel>
+<text>Trying to Control the Window&#8217;s Status Bar</text>
+</navLabel>
+<content src="ch12.html#ch12lev2sec20"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch12lev1sec9" playOrder="337">
+<navLabel>
+<text>Setting Window Timeouts and Intervals</text>
+</navLabel>
+<content src="ch12.html#ch12lev1sec9"/>
+</navPoint>
+<navPoint id="ch12lev1sec10" playOrder="338">
+<navLabel>
+<text>Window Events</text>
+</navLabel>
+<content src="ch12.html#ch12lev1sec10"/>
+</navPoint>
+<navPoint id="ch12lev1sec11" playOrder="339">
+<navLabel>
+<text>Interwindow Communication Basics</text>
+</navLabel>
+<content src="ch12.html#ch12lev1sec11"/>
+<navPoint id="ch12lev2sec21" playOrder="340">
+<navLabel>
+<text>Interwindow Message Passing with postMessage( )</text>
+</navLabel>
+<content src="ch12.html#ch12lev2sec21"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch12lev1sec12" playOrder="341">
+<navLabel>
+<text>Frames: A Special Case of Windows</text>
+</navLabel>
+<content src="ch12.html#ch12lev1sec12"/>
+<navPoint id="ch12lev2sec22" playOrder="342">
+<navLabel>
+<text>Inline Frames</text>
+</navLabel>
+<content src="ch12.html#ch12lev2sec22"/>
+</navPoint>
+<navPoint id="ch12lev2sec23" playOrder="343">
+<navLabel>
+<text>Applied Frames</text>
+</navLabel>
+<content src="ch12.html#ch12lev2sec23"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch12lev1sec13" playOrder="344">
+<navLabel>
+<text>Summary</text>
+</navLabel>
+<content src="ch12.html#ch12lev1sec13"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch13" playOrder="345">
+<navLabel>
+<text>Chapter 13 Form Handling</text>
+</navLabel>
+<content src="ch13.html#ch13"/>
+<navPoint id="ch13lev1sec1" playOrder="346">
+<navLabel>
+<text>The Need for JavaScript Form Checking</text>
+</navLabel>
+<content src="ch13.html#ch13lev1sec1"/>
+</navPoint>
+<navPoint id="ch13lev1sec2" playOrder="347">
+<navLabel>
+<text>Form Basics</text>
+</navLabel>
+<content src="ch13.html#ch13lev1sec2"/>
+<navPoint id="ch13lev2sec1" playOrder="348">
+<navLabel>
+<text>Accessing Forms and Fields</text>
+</navLabel>
+<content src="ch13.html#ch13lev2sec1"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch13lev1sec3" playOrder="349">
+<navLabel>
+<text>Form Fields</text>
+</navLabel>
+<content src="ch13.html#ch13lev1sec3"/>
+<navPoint id="ch13lev2sec2" playOrder="350">
+<navLabel>
+<text>Common Input Element Properties</text>
+</navLabel>
+<content src="ch13.html#ch13lev2sec2"/>
+</navPoint>
+<navPoint id="ch13lev2sec3" playOrder="351">
+<navLabel>
+<text>Buttons</text>
+</navLabel>
+<content src="ch13.html#ch13lev2sec3"/>
+</navPoint>
+<navPoint id="ch13lev2sec4" playOrder="352">
+<navLabel>
+<text>Traditional Text Fields</text>
+</navLabel>
+<content src="ch13.html#ch13lev2sec4"/>
+</navPoint>
+<navPoint id="ch13lev2sec5" playOrder="353">
+<navLabel>
+<text>HTML5 Semantic Text Fields</text>
+</navLabel>
+<content src="ch13.html#ch13lev2sec5"/>
+</navPoint>
+<navPoint id="ch13lev2sec6" playOrder="354">
+<navLabel>
+<text>Text Areas</text>
+</navLabel>
+<content src="ch13.html#ch13lev2sec6"/>
+</navPoint>
+<navPoint id="ch13lev2sec7" playOrder="355">
+<navLabel>
+<text>Checkboxes and Radio Buttons</text>
+</navLabel>
+<content src="ch13.html#ch13lev2sec7"/>
+</navPoint>
+<navPoint id="ch13lev2sec8" playOrder="356">
+<navLabel>
+<text>Select Menus</text>
+</navLabel>
+<content src="ch13.html#ch13lev2sec8"/>
+</navPoint>
+<navPoint id="ch13lev2sec9" playOrder="357">
+<navLabel>
+<text>Date Pickers</text>
+</navLabel>
+<content src="ch13.html#ch13lev2sec9"/>
+</navPoint>
+<navPoint id="ch13lev2sec10" playOrder="358">
+<navLabel>
+<text>Color</text>
+</navLabel>
+<content src="ch13.html#ch13lev2sec10"/>
+</navPoint>
+<navPoint id="ch13lev2sec11" playOrder="359">
+<navLabel>
+<text>Sliders</text>
+</navLabel>
+<content src="ch13.html#ch13lev2sec11"/>
+</navPoint>
+<navPoint id="ch13lev2sec12" playOrder="360">
+<navLabel>
+<text>File Upload Fields</text>
+</navLabel>
+<content src="ch13.html#ch13lev2sec12"/>
+</navPoint>
+<navPoint id="ch13lev2sec13" playOrder="361">
+<navLabel>
+<text>Hidden Fields</text>
+</navLabel>
+<content src="ch13.html#ch13lev2sec13"/>
+</navPoint>
+<navPoint id="ch13lev2sec14" playOrder="362">
+<navLabel>
+<text>Other Form Features: Label, Fieldset, Output, and Legend</text>
+</navLabel>
+<content src="ch13.html#ch13lev2sec14"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch13lev1sec4" playOrder="363">
+<navLabel>
+<text>Form Usability and JavaScript</text>
+</navLabel>
+<content src="ch13.html#ch13lev1sec4"/>
+<navPoint id="ch13lev2sec15" playOrder="364">
+<navLabel>
+<text>First Field Focus</text>
+</navLabel>
+<content src="ch13.html#ch13lev2sec15"/>
+</navPoint>
+<navPoint id="ch13lev2sec16" playOrder="365">
+<navLabel>
+<text>Labels and Field Selection</text>
+</navLabel>
+<content src="ch13.html#ch13lev2sec16"/>
+</navPoint>
+<navPoint id="ch13lev2sec17" playOrder="366">
+<navLabel>
+<text>Advisory and Status Messages</text>
+</navLabel>
+<content src="ch13.html#ch13lev2sec17"/>
+</navPoint>
+<navPoint id="ch13lev2sec18" playOrder="367">
+<navLabel>
+<text>Data Lists</text>
+</navLabel>
+<content src="ch13.html#ch13lev2sec18"/>
+</navPoint>
+<navPoint id="ch13lev2sec19" playOrder="368">
+<navLabel>
+<text>Disabled and Read-Only Fields</text>
+</navLabel>
+<content src="ch13.html#ch13lev2sec19"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch13lev1sec5" playOrder="369">
+<navLabel>
+<text>Form Validation</text>
+</navLabel>
+<content src="ch13.html#ch13lev1sec5"/>
+<navPoint id="ch13lev2sec20" playOrder="370">
+<navLabel>
+<text>Abstracting Form Validation</text>
+</navLabel>
+<content src="ch13.html#ch13lev2sec20"/>
+</navPoint>
+<navPoint id="ch13lev2sec21" playOrder="371">
+<navLabel>
+<text>Error Messages</text>
+</navLabel>
+<content src="ch13.html#ch13lev2sec21"/>
+</navPoint>
+<navPoint id="ch13lev2sec22" playOrder="372">
+<navLabel>
+<text>onchange Handlers</text>
+</navLabel>
+<content src="ch13.html#ch13lev2sec22"/>
+</navPoint>
+<navPoint id="ch13lev2sec23" playOrder="373">
+<navLabel>
+<text>Keyboard Masking</text>
+</navLabel>
+<content src="ch13.html#ch13lev2sec23"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch13lev1sec6" playOrder="374">
+<navLabel>
+<text>HTML5 Validation Improvements</text>
+</navLabel>
+<content src="ch13.html#ch13lev1sec6"/>
+<navPoint id="ch13lev2sec24" playOrder="375">
+<navLabel>
+<text>Validation Attributes</text>
+</navLabel>
+<content src="ch13.html#ch13lev2sec24"/>
+</navPoint>
+<navPoint id="ch13lev2sec25" playOrder="376">
+<navLabel>
+<text>Validation Properties and Methods</text>
+</navLabel>
+<content src="ch13.html#ch13lev2sec25"/>
+</navPoint>
+<navPoint id="ch13lev2sec26" playOrder="377">
+<navLabel>
+<text>novalidate Attribute</text>
+</navLabel>
+<content src="ch13.html#ch13lev2sec26"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch13lev1sec7" playOrder="378">
+<navLabel>
+<text>Miscellaneous Html5 Form Changes</text>
+</navLabel>
+<content src="ch13.html#ch13lev1sec7"/>
+</navPoint>
+<navPoint id="ch13lev1sec8" playOrder="379">
+<navLabel>
+<text>Internationalization</text>
+</navLabel>
+<content src="ch13.html#ch13lev1sec8"/>
+</navPoint>
+<navPoint id="ch13lev1sec9" playOrder="380">
+<navLabel>
+<text>Summary</text>
+</navLabel>
+<content src="ch13.html#ch13lev1sec9"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch14" playOrder="381">
+<navLabel>
+<text>Chapter 14 User Interface Elements</text>
+</navLabel>
+<content src="ch14.html#ch14"/>
+<navPoint id="ch14lev1sec1" playOrder="382">
+<navLabel>
+<text>Adding JavaScript</text>
+</navLabel>
+<content src="ch14.html#ch14lev1sec1"/>
+<navPoint id="ch14lev2sec1" playOrder="383">
+<navLabel>
+<text>Exploring Progressive Enhancement</text>
+</navLabel>
+<content src="ch14.html#ch14lev2sec1"/>
+</navPoint>
+<navPoint id="ch14lev2sec2" playOrder="384">
+<navLabel>
+<text>Graceful Degradation Approaches</text>
+</navLabel>
+<content src="ch14.html#ch14lev2sec2"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch14lev1sec2" playOrder="385">
+<navLabel>
+<text>HTML5 Support for Rich Interaction</text>
+</navLabel>
+<content src="ch14.html#ch14lev1sec2"/>
+<navPoint id="ch14lev2sec3" playOrder="386">
+<navLabel>
+<text>Menus and Context Menus</text>
+</navLabel>
+<content src="ch14.html#ch14lev2sec3"/>
+</navPoint>
+<navPoint id="ch14lev2sec4" playOrder="387">
+<navLabel>
+<text>Drag-and-Drop Functionality</text>
+</navLabel>
+<content src="ch14.html#ch14lev2sec4"/>
+</navPoint>
+<navPoint id="ch14lev2sec5" playOrder="388">
+<navLabel>
+<text>Content Editing</text>
+</navLabel>
+<content src="ch14.html#ch14lev2sec5"/>
+</navPoint>
+<navPoint id="ch14lev2sec6" playOrder="389">
+<navLabel>
+<text>Revealing Content on Demand</text>
+</navLabel>
+<content src="ch14.html#ch14lev2sec6"/>
+</navPoint>
+<navPoint id="ch14lev2sec7" playOrder="390">
+<navLabel>
+<text>User Feedback</text>
+</navLabel>
+<content src="ch14.html#ch14lev2sec7"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch14lev1sec3" playOrder="391">
+<navLabel>
+<text>Summary</text>
+</navLabel>
+<content src="ch14.html#ch14lev1sec3"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch15" playOrder="392">
+<navLabel>
+<text>Chapter 15 Ajax and Remote JavaScript</text>
+</navLabel>
+<content src="ch15.html#ch15"/>
+<navPoint id="ch15lev1sec1" playOrder="393">
+<navLabel>
+<text>Ajax Defined</text>
+</navLabel>
+<content src="ch15.html#ch15lev1sec1"/>
+</navPoint>
+<navPoint id="ch15lev1sec2" playOrder="394">
+<navLabel>
+<text>Hello Ajax World</text>
+</navLabel>
+<content src="ch15.html#ch15lev1sec2"/>
+</navPoint>
+<navPoint id="ch15lev1sec3" playOrder="395">
+<navLabel>
+<text>XML HttpRequest Object</text>
+</navLabel>
+<content src="ch15.html#ch15lev1sec3"/>
+</navPoint>
+<navPoint id="ch15lev1sec4" playOrder="396">
+<navLabel>
+<text>XHR Instantiation and Cross-Browser Concerns</text>
+</navLabel>
+<content src="ch15.html#ch15lev1sec4"/>
+<navPoint id="ch15lev2sec1" playOrder="397">
+<navLabel>
+<text>ActiveX XHR Fallback Details</text>
+</navLabel>
+<content src="ch15.html#ch15lev2sec1"/>
+</navPoint>
+<navPoint id="ch15lev2sec2" playOrder="398">
+<navLabel>
+<text>A Cross-Browser XHR Wrapper</text>
+</navLabel>
+<content src="ch15.html#ch15lev2sec2"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch15lev1sec5" playOrder="399">
+<navLabel>
+<text>XHR Request Basics</text>
+</navLabel>
+<content src="ch15.html#ch15lev1sec5"/>
+</navPoint>
+<navPoint id="ch15lev2sec3" playOrder="400">
+<navLabel>
+<text>Synchronous Requests</text>
+</navLabel>
+<content src="ch15.html#ch15lev2sec3"/>
+</navPoint>
+<navPoint id="ch15lev1sec6" playOrder="401">
+<navLabel>
+<text>Asynchronous Requests</text>
+</navLabel>
+<content src="ch15.html#ch15lev1sec6"/>
+</navPoint>
+<navPoint id="ch15lev1sec7" playOrder="402">
+<navLabel>
+<text>Sending Data via GET</text>
+</navLabel>
+<content src="ch15.html#ch15lev1sec7"/>
+</navPoint>
+<navPoint id="ch15lev1sec8" playOrder="403">
+<navLabel>
+<text>Sending Data via Post</text>
+</navLabel>
+<content src="ch15.html#ch15lev1sec8"/>
+</navPoint>
+<navPoint id="ch15lev1sec9" playOrder="404">
+<navLabel>
+<text>Using Other HTTP Methods</text>
+</navLabel>
+<content src="ch15.html#ch15lev1sec9"/>
+</navPoint>
+<navPoint id="ch15lev1sec10" playOrder="405">
+<navLabel>
+<text>Setting Request Headers</text>
+</navLabel>
+<content src="ch15.html#ch15lev1sec10"/>
+</navPoint>
+<navPoint id="ch15lev1sec11" playOrder="406">
+<navLabel>
+<text>Response Basics</text>
+</navLabel>
+<content src="ch15.html#ch15lev1sec11"/>
+<navPoint id="ch15lev2sec4" playOrder="407">
+<navLabel>
+<text>readyState Explored</text>
+</navLabel>
+<content src="ch15.html#ch15lev2sec4"/>
+</navPoint>
+<navPoint id="ch15lev2sec5" playOrder="408">
+<navLabel>
+<text>status and statusText</text>
+</navLabel>
+<content src="ch15.html#ch15lev2sec5"/>
+</navPoint>
+<navPoint id="ch15lev2sec6" playOrder="409">
+<navLabel>
+<text>responseText</text>
+</navLabel>
+<content src="ch15.html#ch15lev2sec6"/>
+</navPoint>
+<navPoint id="ch15lev2sec7" playOrder="410">
+<navLabel>
+<text>responseXML</text>
+</navLabel>
+<content src="ch15.html#ch15lev2sec7"/>
+</navPoint>
+<navPoint id="ch15lev2sec8" playOrder="411">
+<navLabel>
+<text>response and responseType</text>
+</navLabel>
+<content src="ch15.html#ch15lev2sec8"/>
+</navPoint>
+<navPoint id="ch15lev2sec9" playOrder="412">
+<navLabel>
+<text>JSON</text>
+</navLabel>
+<content src="ch15.html#ch15lev2sec9"/>
+</navPoint>
+<navPoint id="ch15lev2sec10" playOrder="413">
+<navLabel>
+<text>Script Responses</text>
+</navLabel>
+<content src="ch15.html#ch15lev2sec10"/>
+</navPoint>
+<navPoint id="ch15lev2sec11" playOrder="414">
+<navLabel>
+<text>Response Headers</text>
+</navLabel>
+<content src="ch15.html#ch15lev2sec11"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch15lev1sec12" playOrder="415">
+<navLabel>
+<text>Controlling Requests</text>
+</navLabel>
+<content src="ch15.html#ch15lev1sec12"/>
+</navPoint>
+<navPoint id="ch15lev1sec13" playOrder="416">
+<navLabel>
+<text>Authentication with XHRs</text>
+</navLabel>
+<content src="ch15.html#ch15lev1sec13"/>
+</navPoint>
+<navPoint id="ch15lev1sec14" playOrder="417">
+<navLabel>
+<text>Propriety and Emerging XHR Features</text>
+</navLabel>
+<content src="ch15.html#ch15lev1sec14"/>
+<navPoint id="ch15lev2sec12" playOrder="418">
+<navLabel>
+<text>Managing MIME Types</text>
+</navLabel>
+<content src="ch15.html#ch15lev2sec12"/>
+</navPoint>
+<navPoint id="ch15lev2sec13" playOrder="419">
+<navLabel>
+<text>Multipart Responses</text>
+</navLabel>
+<content src="ch15.html#ch15lev2sec13"/>
+</navPoint>
+<navPoint id="ch15lev2sec14" playOrder="420">
+<navLabel>
+<text>onload, onloadstart, and onloadend</text>
+</navLabel>
+<content src="ch15.html#ch15lev2sec14"/>
+</navPoint>
+<navPoint id="ch15lev2sec15" playOrder="421">
+<navLabel>
+<text>onprogress and Partial Responses</text>
+</navLabel>
+<content src="ch15.html#ch15lev2sec15"/>
+</navPoint>
+<navPoint id="ch15lev2sec16" playOrder="422">
+<navLabel>
+<text>onerror</text>
+</navLabel>
+<content src="ch15.html#ch15lev2sec16"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch15lev1sec15" playOrder="423">
+<navLabel>
+<text>Form Serialization</text>
+</navLabel>
+<content src="ch15.html#ch15lev1sec15"/>
+<navPoint id="ch15lev2sec17" playOrder="424">
+<navLabel>
+<text>File Uploads with iframes</text>
+</navLabel>
+<content src="ch15.html#ch15lev2sec17"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch15lev1sec16" playOrder="425">
+<navLabel>
+<text>Cross-Domain Ajax Requests</text>
+</navLabel>
+<content src="ch15.html#ch15lev1sec16"/>
+<navPoint id="ch15lev2sec18" playOrder="426">
+<navLabel>
+<text>Internet Explorer&#8217;s XDRs</text>
+</navLabel>
+<content src="ch15.html#ch15lev2sec18"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch15lev1sec17" playOrder="427">
+<navLabel>
+<text>Non-XHR Communication Methods</text>
+</navLabel>
+<content src="ch15.html#ch15lev1sec17"/>
+<navPoint id="ch15lev2sec19" playOrder="428">
+<navLabel>
+<text>Image Tag</text>
+</navLabel>
+<content src="ch15.html#ch15lev2sec19"/>
+</navPoint>
+<navPoint id="ch15lev2sec20" playOrder="429">
+<navLabel>
+<text>Script Tag</text>
+</navLabel>
+<content src="ch15.html#ch15lev2sec20"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch15lev1sec18" playOrder="430">
+<navLabel>
+<text>Comet and Sockets</text>
+</navLabel>
+<content src="ch15.html#ch15lev1sec18"/>
+<navPoint id="ch15lev2sec21" playOrder="431">
+<navLabel>
+<text>Polling: Fast or Long</text>
+</navLabel>
+<content src="ch15.html#ch15lev2sec21"/>
+</navPoint>
+<navPoint id="ch15lev2sec22" playOrder="432">
+<navLabel>
+<text>The Long Slow Load</text>
+</navLabel>
+<content src="ch15.html#ch15lev2sec22"/>
+</navPoint>
+<navPoint id="ch15lev2sec23" playOrder="433">
+<navLabel>
+<text>WebSockets</text>
+</navLabel>
+<content src="ch15.html#ch15lev2sec23"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch15lev1sec19" playOrder="434">
+<navLabel>
+<text>Ajax Implications and Challenges</text>
+</navLabel>
+<content src="ch15.html#ch15lev1sec19"/>
+</navPoint>
+<navPoint id="ch15lev1sec20" playOrder="435">
+<navLabel>
+<text>Summary</text>
+</navLabel>
+<content src="ch15.html#ch15lev1sec20"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch16" playOrder="436">
+<navLabel>
+<text>Chapter 16 Browser Management</text>
+</navLabel>
+<content src="ch16.html#ch16"/>
+<navPoint id="ch16lev1sec1" playOrder="437">
+<navLabel>
+<text>Browser Detection Basics</text>
+</navLabel>
+<content src="ch16.html#ch16lev1sec1"/>
+</navPoint>
+<navPoint id="ch16lev1sec2" playOrder="438">
+<navLabel>
+<text>The Navigator Object</text>
+</navLabel>
+<content src="ch16.html#ch16lev1sec2"/>
+</navPoint>
+<navPoint id="ch16lev1sec3" playOrder="439">
+<navLabel>
+<text>What to Detect</text>
+</navLabel>
+<content src="ch16.html#ch16lev1sec3"/>
+<navPoint id="ch16lev2sec1" playOrder="440">
+<navLabel>
+<text>Technology Detection</text>
+</navLabel>
+<content src="ch16.html#ch16lev2sec1"/>
+</navPoint>
+<navPoint id="ch16lev2sec2" playOrder="441">
+<navLabel>
+<text>Visual Detection: Screen Object</text>
+</navLabel>
+<content src="ch16.html#ch16lev2sec2"/>
+</navPoint>
+<navPoint id="ch16lev2sec3" playOrder="442">
+<navLabel>
+<text>User Characteristics</text>
+</navLabel>
+<content src="ch16.html#ch16lev2sec3"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch16lev1sec4" playOrder="443">
+<navLabel>
+<text>Network State and Performance</text>
+</navLabel>
+<content src="ch16.html#ch16lev1sec4"/>
+<navPoint id="ch16lev2sec4" playOrder="444">
+<navLabel>
+<text>Simple Page Load Metrics</text>
+</navLabel>
+<content src="ch16.html#ch16lev2sec4"/>
+</navPoint>
+<navPoint id="ch16lev2sec5" playOrder="445">
+<navLabel>
+<text>window.performance.timing</text>
+</navLabel>
+<content src="ch16.html#ch16lev2sec5"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch16lev1sec5" playOrder="446">
+<navLabel>
+<text>Browser Control</text>
+</navLabel>
+<content src="ch16.html#ch16lev1sec5"/>
+<navPoint id="ch16lev2sec6" playOrder="447">
+<navLabel>
+<text>Simulating Browser Button Presses</text>
+</navLabel>
+<content src="ch16.html#ch16lev2sec6"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch16lev1sec6" playOrder="448">
+<navLabel>
+<text>State Management</text>
+</navLabel>
+<content src="ch16.html#ch16lev1sec6"/>
+<navPoint id="ch16lev2sec7" playOrder="449">
+<navLabel>
+<text>Cookies in JavaScript</text>
+</navLabel>
+<content src="ch16.html#ch16lev2sec7"/>
+</navPoint>
+<navPoint id="ch16lev2sec8" playOrder="450">
+<navLabel>
+<text>Using Cookies for User State Management</text>
+</navLabel>
+<content src="ch16.html#ch16lev2sec8"/>
+</navPoint>
+<navPoint id="ch16lev2sec9" playOrder="451">
+<navLabel>
+<text>Cookie Limitations</text>
+</navLabel>
+<content src="ch16.html#ch16lev2sec9"/>
+</navPoint>
+<navPoint id="ch16lev2sec10" playOrder="452">
+<navLabel>
+<text>Storage</text>
+</navLabel>
+<content src="ch16.html#ch16lev2sec10"/>
+</navPoint>
+<navPoint id="ch16lev2sec11" playOrder="453">
+<navLabel>
+<text>IndexedDB</text>
+</navLabel>
+<content src="ch16.html#ch16lev2sec11"/>
+</navPoint>
+<navPoint id="ch16lev2sec12" playOrder="454">
+<navLabel>
+<text>AppCache</text>
+</navLabel>
+<content src="ch16.html#ch16lev2sec12"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch16lev1sec7" playOrder="455">
+<navLabel>
+<text>Script Execution</text>
+</navLabel>
+<content src="ch16.html#ch16lev1sec7"/>
+<navPoint id="ch16lev2sec13" playOrder="456">
+<navLabel>
+<text>Web Workers</text>
+</navLabel>
+<content src="ch16.html#ch16lev2sec13"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch16lev1sec8" playOrder="457">
+<navLabel>
+<text>Summary</text>
+</navLabel>
+<content src="ch16.html#ch16lev1sec8"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch17" playOrder="458">
+<navLabel>
+<text>Chapter 17 Media Management</text>
+</navLabel>
+<content src="ch17.html#ch17"/>
+<navPoint id="ch17lev1sec1" playOrder="459">
+<navLabel>
+<text>Image Handling</text>
+</navLabel>
+<content src="ch17.html#ch17lev1sec1"/>
+<navPoint id="ch17lev2sec1" playOrder="460">
+<navLabel>
+<text>Applied Images</text>
+</navLabel>
+<content src="ch17.html#ch17lev2sec1"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch17lev1sec2" playOrder="461">
+<navLabel>
+<text>DHTML, DOMEffects, and Animation</text>
+</navLabel>
+<content src="ch17.html#ch17lev1sec2"/>
+</navPoint>
+<navPoint id="ch17lev1sec3" playOrder="462">
+<navLabel>
+<text>Client-Side Bitmap Graphics with &#60;canvas&#62;</text>
+</navLabel>
+<content src="ch17.html#ch17lev1sec3"/>
+<navPoint id="ch17lev2sec2" playOrder="463">
+<navLabel>
+<text>Drawing and Styling Lines and Shapes</text>
+</navLabel>
+<content src="ch17.html#ch17lev2sec2"/>
+</navPoint>
+<navPoint id="ch17lev2sec3" playOrder="464">
+<navLabel>
+<text>Drawing Arcs and Curves</text>
+</navLabel>
+<content src="ch17.html#ch17lev2sec3"/>
+</navPoint>
+<navPoint id="ch17lev2sec4" playOrder="465">
+<navLabel>
+<text>Scaling, Rotating, and Translating Drawings</text>
+</navLabel>
+<content src="ch17.html#ch17lev2sec4"/>
+</navPoint>
+<navPoint id="ch17lev2sec5" playOrder="466">
+<navLabel>
+<text>Using Bitmaps in Drawings</text>
+</navLabel>
+<content src="ch17.html#ch17lev2sec5"/>
+</navPoint>
+<navPoint id="ch17lev2sec6" playOrder="467">
+<navLabel>
+<text>Text Support for &#60;canvas&#62;</text>
+</navLabel>
+<content src="ch17.html#ch17lev2sec6"/>
+</navPoint>
+<navPoint id="ch17lev2sec7" playOrder="468">
+<navLabel>
+<text>Compositing</text>
+</navLabel>
+<content src="ch17.html#ch17lev2sec7"/>
+</navPoint>
+<navPoint id="ch17lev2sec8" playOrder="469">
+<navLabel>
+<text>Saving State</text>
+</navLabel>
+<content src="ch17.html#ch17lev2sec8"/>
+</navPoint>
+<navPoint id="ch17lev2sec9" playOrder="470">
+<navLabel>
+<text>&#60;canvas&#62; Considerations</text>
+</navLabel>
+<content src="ch17.html#ch17lev2sec9"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch17lev1sec4" playOrder="471">
+<navLabel>
+<text>Client-Side Vector Graphics with SVG</text>
+</navLabel>
+<content src="ch17.html#ch17lev1sec4"/>
+<navPoint id="ch17lev2sec10" playOrder="472">
+<navLabel>
+<text>Including SVG</text>
+</navLabel>
+<content src="ch17.html#ch17lev2sec10"/>
+</navPoint>
+<navPoint id="ch17lev2sec11" playOrder="473">
+<navLabel>
+<text>Drawing with SVG</text>
+</navLabel>
+<content src="ch17.html#ch17lev2sec11"/>
+</navPoint>
+<navPoint id="ch17lev2sec12" playOrder="474">
+<navLabel>
+<text>SVG Interaction and Animation</text>
+</navLabel>
+<content src="ch17.html#ch17lev2sec12"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch17lev1sec5" playOrder="475">
+<navLabel>
+<text>HTML5 Media Handling</text>
+</navLabel>
+<content src="ch17.html#ch17lev1sec5"/>
+<navPoint id="ch17lev2sec13" playOrder="476">
+<navLabel>
+<text>&#60;video&#62;</text>
+</navLabel>
+<content src="ch17.html#ch17lev2sec13"/>
+</navPoint>
+<navPoint id="ch17lev2sec14" playOrder="477">
+<navLabel>
+<text>&#60;audio&#62;</text>
+</navLabel>
+<content src="ch17.html#ch17lev2sec14"/>
+</navPoint>
+<navPoint id="ch17lev2sec15" playOrder="478">
+<navLabel>
+<text>Media Events</text>
+</navLabel>
+<content src="ch17.html#ch17lev2sec15"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch17lev1sec6" playOrder="479">
+<navLabel>
+<text>Plug-Ins</text>
+</navLabel>
+<content src="ch17.html#ch17lev1sec6"/>
+<navPoint id="ch17lev2sec16" playOrder="480">
+<navLabel>
+<text>Embedding Content for Plug-Ins</text>
+</navLabel>
+<content src="ch17.html#ch17lev2sec16"/>
+</navPoint>
+<navPoint id="ch17lev2sec17" playOrder="481">
+<navLabel>
+<text>MIME Types</text>
+</navLabel>
+<content src="ch17.html#ch17lev2sec17"/>
+</navPoint>
+<navPoint id="ch17lev2sec18" playOrder="482">
+<navLabel>
+<text>Detecting Specific Plug-Ins</text>
+</navLabel>
+<content src="ch17.html#ch17lev2sec18"/>
+</navPoint>
+<navPoint id="ch17lev2sec19" playOrder="483">
+<navLabel>
+<text>Interacting with Plug-Ins</text>
+</navLabel>
+<content src="ch17.html#ch17lev2sec19"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch17lev1sec7" playOrder="484">
+<navLabel>
+<text>ActiveX</text>
+</navLabel>
+<content src="ch17.html#ch17lev1sec7"/>
+<navPoint id="ch17lev2sec20" playOrder="485">
+<navLabel>
+<text>Including ActiveX Controls</text>
+</navLabel>
+<content src="ch17.html#ch17lev2sec20"/>
+</navPoint>
+<navPoint id="ch17lev2sec21" playOrder="486">
+<navLabel>
+<text>Interacting with ActiveX Controls</text>
+</navLabel>
+<content src="ch17.html#ch17lev2sec21"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch17lev1sec8" playOrder="487">
+<navLabel>
+<text>Java Applets</text>
+</navLabel>
+<content src="ch17.html#ch17lev1sec8"/>
+<navPoint id="ch17lev2sec22" playOrder="488">
+<navLabel>
+<text>Including Applets</text>
+</navLabel>
+<content src="ch17.html#ch17lev2sec22"/>
+</navPoint>
+<navPoint id="ch17lev2sec23" playOrder="489">
+<navLabel>
+<text>Java Detection</text>
+</navLabel>
+<content src="ch17.html#ch17lev2sec23"/>
+</navPoint>
+<navPoint id="ch17lev2sec24" playOrder="490">
+<navLabel>
+<text>Accessing Applets in JavaScript</text>
+</navLabel>
+<content src="ch17.html#ch17lev2sec24"/>
+</navPoint>
+<navPoint id="ch17lev2sec25" playOrder="491">
+<navLabel>
+<text>Accessing JavaScript with Applets</text>
+</navLabel>
+<content src="ch17.html#ch17lev2sec25"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch17lev1sec9" playOrder="492">
+<navLabel>
+<text>The Uncertain Future</text>
+</navLabel>
+<content src="ch17.html#ch17lev1sec9"/>
+</navPoint>
+<navPoint id="ch17lev1sec10" playOrder="493">
+<navLabel>
+<text>Summary</text>
+</navLabel>
+<content src="ch17.html#ch17lev1sec10"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch18" playOrder="494">
+<navLabel>
+<text>Chapter 18 Trends and Practices</text>
+</navLabel>
+<content src="ch18.html#ch18"/>
+<navPoint id="ch18lev1sec1" playOrder="495">
+<navLabel>
+<text>Writing Quality JavaScript</text>
+</navLabel>
+<content src="ch18.html#ch18lev1sec1"/>
+<navPoint id="ch18lev2sec1" playOrder="496">
+<navLabel>
+<text>Coding Style</text>
+</navLabel>
+<content src="ch18.html#ch18lev2sec1"/>
+</navPoint>
+<navPoint id="ch18lev2sec2" playOrder="497">
+<navLabel>
+<text>Comments and Documentation</text>
+</navLabel>
+<content src="ch18.html#ch18lev2sec2"/>
+</navPoint>
+<navPoint id="ch18lev2sec3" playOrder="498">
+<navLabel>
+<text>Understanding Errors</text>
+</navLabel>
+<content src="ch18.html#ch18lev2sec3"/>
+</navPoint>
+<navPoint id="ch18lev2sec4" playOrder="499">
+<navLabel>
+<text>Debugging</text>
+</navLabel>
+<content src="ch18.html#ch18lev2sec4"/>
+</navPoint>
+<navPoint id="ch18lev2sec5" playOrder="500">
+<navLabel>
+<text>Defensive Programming</text>
+</navLabel>
+<content src="ch18.html#ch18lev2sec5"/>
+</navPoint>
+<navPoint id="ch18lev2sec6" playOrder="501">
+<navLabel>
+<text>Utilizing Frameworks and Libraries</text>
+</navLabel>
+<content src="ch18.html#ch18lev2sec6"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch18lev1sec2" playOrder="502">
+<navLabel>
+<text>Security</text>
+</navLabel>
+<content src="ch18.html#ch18lev1sec2"/>
+<navPoint id="ch18lev2sec7" playOrder="503">
+<navLabel>
+<text>JavaScript Protection</text>
+</navLabel>
+<content src="ch18.html#ch18lev2sec7"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch18lev1sec3" playOrder="504">
+<navLabel>
+<text>JavaScript&#8217;s Security Policy</text>
+</navLabel>
+<content src="ch18.html#ch18lev1sec3"/>
+<navPoint id="ch18lev2sec8" playOrder="505">
+<navLabel>
+<text>Same-Origin Policy</text>
+</navLabel>
+<content src="ch18.html#ch18lev2sec8"/>
+</navPoint>
+<navPoint id="ch18lev2sec9" playOrder="506">
+<navLabel>
+<text>Trusted External Scripts</text>
+</navLabel>
+<content src="ch18.html#ch18lev2sec9"/>
+</navPoint>
+<navPoint id="ch18lev2sec10" playOrder="507">
+<navLabel>
+<text>Cross-Site Scripting</text>
+</navLabel>
+<content src="ch18.html#ch18lev2sec10"/>
+</navPoint>
+<navPoint id="ch18lev2sec11" playOrder="508">
+<navLabel>
+<text>Cross-Site Request Forgery (CSRF)</text>
+</navLabel>
+<content src="ch18.html#ch18lev2sec11"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch18lev1sec4" playOrder="509">
+<navLabel>
+<text>Performance</text>
+</navLabel>
+<content src="ch18.html#ch18lev1sec4"/>
+<navPoint id="ch18lev2sec12" playOrder="510">
+<navLabel>
+<text>Performance Measurements and Tools</text>
+</navLabel>
+<content src="ch18.html#ch18lev2sec12"/>
+</navPoint>
+<navPoint id="ch18lev2sec13" playOrder="511">
+<navLabel>
+<text>Page-Load Performance</text>
+</navLabel>
+<content src="ch18.html#ch18lev2sec13"/>
+</navPoint>
+<navPoint id="ch18lev2sec14" playOrder="512">
+<navLabel>
+<text>Runtime Performance</text>
+</navLabel>
+<content src="ch18.html#ch18lev2sec14"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch18lev1sec5" playOrder="513">
+<navLabel>
+<text>Trends</text>
+</navLabel>
+<content src="ch18.html#ch18lev1sec5"/>
+<navPoint id="ch18lev2sec15" playOrder="514">
+<navLabel>
+<text>JavaScript Everywhere</text>
+</navLabel>
+<content src="ch18.html#ch18lev2sec15"/>
+</navPoint>
+<navPoint id="ch18lev2sec16" playOrder="515">
+<navLabel>
+<text>&#8220;Fixing&#8221; and Hiding JavaScript</text>
+</navLabel>
+<content src="ch18.html#ch18lev2sec16"/>
+</navPoint>
+<navPoint id="ch18lev2sec17" playOrder="516">
+<navLabel>
+<text>Accepting JavaScript</text>
+</navLabel>
+<content src="ch18.html#ch18lev2sec17"/>
+</navPoint>
+</navPoint>
+<navPoint id="ch18lev1sec6" playOrder="517">
+<navLabel>
+<text>Summary</text>
+</navLabel>
+<content src="ch18.html#ch18lev1sec6"/>
+</navPoint>
+</navPoint>
+</navPoint>
+<navPoint id="app" playOrder="518">
+<navLabel>
+<text>Appendix JavaScript Reserved Words</text>
+</navLabel>
+<content src="appendix.html#app"/>
+<navPoint id="applev1" playOrder="519">
+<navLabel>
+<text>Reserved Quirks</text>
+</navLabel>
+<content src="appendix.html#applev1"/>
+</navPoint>
+</navPoint>
+<navPoint id="index" playOrder="520">
+<navLabel>
+<text>Index</text>
+</navLabel>
+<content src="index.html#index"/>
+</navPoint>
+</navMap>
+</ncx>

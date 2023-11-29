@@ -1,0 +1,542 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<title>JavaScript: The Complete Reference&#153;, Third Edition</title>
+<link href="0071741216.css" rel="stylesheet" type="text/css"/>
+<link href="page-template.xpgt" rel="stylesheet" type="application/vnd.adobe-page-template+xml"/>
+<meta content="urn:uuid:4d1be0af-c0d3-47b8-9bd4-3edcb4dee196" name="Adept.expected.resource"/>
+</head>
+<body>
+<h3 class="h3b" id="ch07"><a id="page_217"/><strong>CHAPTER 7<br/>Array, Date, Math, and Type-Related Objects</strong></h3>
+<p class="noindent">This chapter discusses in detail the capabilities of JavaScript’s built-in objects, particularly <span class="codesample">Array, Date</span>, and <span class="codesample">Math</span>. We will also look into the built-in objects related to the primitive types, such as <span class="codesample">Boolean, Number</span>, and <span class="codesample">String</span>, as well as the somewhat misnamed <span class="codesample">Global</span> object. Notably missing from this chapter is the <span class="codesample">RegExp</span> object, which requires a significant amount of explanation and is the subject of the next chapter. For each object covered in this chapter, the focus will be primarily on those properties in the ECMAScript 5 specification or on those commonly used and supported by the major browsers. We begin our overview of these built-in objects, proceeding in alphabetical order, starting from <span class="codesample">Array</span> and ending in <span class="codesample">String</span>.</p>
+<h4 class="h4"><a id="ch07lev1sec1"/><strong>Array</strong></h4>
+<p class="noindent">Arrays were introduced in <a class="nounder" href="ch03.html#ch03">Chapter 3</a> as composite types that store ordered lists of data. Arrays may be declared using the <span class="codesample">Array()</span> constructor or an array literal. We start first with the object constructor syntax. Here we declare a simple empty array:</p>
+<p class="image"><img alt="image" src="f0217-01.jpg"/></p>
+<p class="noindent">If arguments are passed to the constructor, they are usually interpreted as specifying the elements of the array:</p>
+<p class="image"><img alt="image" src="f0217-02.jpg"/></p>
+<p class="noindent">The exception is when the constructor is passed a single numeric value that creates an empty array but sets the array’s <span class="codesample">length</span> property to the given value:</p>
+<p class="image"><img alt="image" src="f0217-03.jpg"/></p>
+<p class="noindent">There is no particular advantage to using this last syntax as JavaScript arrays can grow and shrink at will, and it is rarely used in practice.</p>
+<p class="indent"><a id="page_218"/>JavaScript 1.2+ allows you to create arrays using array literals. The following declarations are functionally equivalent to those of the previous example:</p>
+<p class="image"><img alt="image" src="f0218-01.jpg"/></p>
+<p class="noindent">The first two declarations should not be surprising, but the third looks rather odd. The given literal has four commas, but the values they separate seem to be missing. The interpreter treats this example as specifying five <span class="codesample">undefined</span> values and sets the array’s length to 5 to <span class="codesample">reflect</span> this. Sometimes you will see a sparse array with such a syntax:</p>
+<p class="image"><img alt="image" src="f0218-02.jpg"/></p>
+<p class="noindent">Fortunately, most programmers stay away from this last array creation method, as it is troublesome to count numerous commas.</p>
+<p class="indent">The values used to initialize arrays need not be literals. The following example is perfectly legal and in fact very common:</p>
+<p class="image"><img alt="image" src="f0218-03.jpg"/></p>
+<h5 class="h5"><a id="ch07lev2sec1"/><strong>Accessing Array Elements</strong></h5>
+<p class="noindent">Accessing the elements of an array is done using the array name with square brackets and a value. For example, we can define a three-element array like so:</p>
+<p class="image"><img alt="image" src="f0218-04.jpg"/></p>
+<p class="noindent">and then just alert it to see what appears as a simple list:</p>
+<p class="image1"><img alt="image" src="f0218-05.jpg"/></p>
+<p class="indent">Given that arrays in JavaScript are indexed beginning with zero, to access the first element we would specify <span class="codesample"><em>myArray[0]</em></span>, then <span class="codesample"><em>myArray[1]</em></span>, and so on. Here we show that indeed that is how the sample array is built:</p>
+<p class="image"><img alt="image" src="f0218-06.jpg"/></p>
+<p class="image1"><a id="page_219"/><img alt="image" src="f0219-01.jpg"/></p>
+<p class="noindent">However, you need to be careful when accessing an element of an array that is not set. For example,</p>
+<p class="image"><img alt="image" src="f0219-02.jpg"/></p>
+<p class="noindent">results in the display of an <span class="codesample">undefined</span> value, since this array element is obviously not set.</p>
+<p class="image1"><img alt="image" src="f0219-03.jpg"/></p>
+<p class="noindent">However, if we wanted to set this array element, doing so is quite straightforward.</p>
+<h5 class="h5"><a id="ch07lev2sec2"/><strong>Adding and Changing Array Elements</strong></h5>
+<p class="noindent">The nice thing about JavaScript arrays, unlike those in many other programming languages, is that you don’t have to allocate more memory explicitly as the size of the array grows. For example, to add a fourth value to <span class="codesample"><em>myArray</em></span>, you would use</p>
+<p class="image"><img alt="image" src="f0219-04.jpg"/></p>
+<p class="indent">You do not have to set array values contiguously (one after the other), so</p>
+<p class="image"><img alt="image" src="f0219-05.jpg"/></p>
+<p class="noindent">is valid as well. However, in this case you start to get a sparsely populated array, as shown by the dialog here that displays the current value of <span class="codesample"><em>myArray</em></span> after our changes:</p>
+<p class="image1"><img alt="image" src="f0219-06.jpg"/></p>
+<p class="indent">Modifying the values of an array is just as easy: just reassign a preexisting indexed value. For example, to change the second value of the array, just assign it like this:</p>
+<p class="image"><img alt="image" src="f0219-07.jpg"/></p>
+<p class="indent"><a id="page_220"/>Of course, when setting array values, you must remember the distinction between reference and primitive types made in previous chapters. In particular, recall that when you manipulate a variable that has been set equal to a reference type, it modifies the original value as well. For example, consider the following:</p>
+<p class="image"><img alt="image" src="f0220-01.jpg"/></p>
+<p class="noindent">You’ll notice, as shown here, that the value in <span class="codesample"><em>firstArray</em></span> was changed!</p>
+<p class="image1"><img alt="image" src="f0220-02.jpg"/></p>
+<p class="indent">This aspect of reference types is very useful, particularly in the case of parameter passing to functions.</p>
+<h5 class="h5"><a id="ch07lev2sec3"/><strong>Removing Array Elements</strong></h5>
+<p class="noindent">Array elements can be removed using the <span class="codesample">delete</span> operator. This operator sets the array element it is invoked on to <span class="codesample">undefined</span> but does not change the array’s <span class="codesample">length</span> (more on this in a moment). For example,</p>
+<p class="image"><img alt="image" src="f0220-03.jpg"/></p>
+<p class="indent">results in</p>
+<p class="image1"><img alt="image" src="f0220-04.jpg"/></p>
+<p class="noindent">The effect is as if no element had ever been placed at that index. However, the length of the array is actually still three, as shown when you alert the entire array’s contents:</p>
+<p class="image1"><img alt="image" src="f0220-05.jpg"/></p>
+<p class="indent">We can also verify that the array hasn’t shrunk by accessing its <span class="codesample">length</span> property, the details of which are discussed next.</p>
+<h5 class="h5"><a id="page_221"/><a id="ch07lev2sec4"/><strong>The length Property</strong></h5>
+<p class="noindent">The <span class="codesample">length</span> property retrieves the index of the next available (unfilled) position at the end of the array. Even if some lower indices are unused, <span class="codesample">length</span> gives the index of the first available slot after the last element. Consider the following:</p>
+<p class="image"><img alt="image" src="f0221-01.jpg"/></p>
+<p class="indent">Even though <span class="codesample"><em>myArray</em></span> has only one element at index <span class="codesample">1000</span>, as we see by the alert dialog <span class="codesample"><em>myArray</em>.length</span>, the next available slot is at the end of the array, <span class="codesample">1001</span>.</p>
+<p class="image1"><img alt="image" src="f0221-02.jpg"/></p>
+<p class="indent">Because of this characteristic of the <span class="codesample">length</span> property, we suggest using array elements in order. Assigning values in a noncontiguous manner leads to arrays that have “holes” between indices holding defined values—the so-called “sparsely populated array” mentioned earlier. Because JavaScript allocates memory only for those array elements that actually contain data, this is not a significant problem in terms of wasting memory. It merely means that you have to be careful that the <span class="codesample">undefined</span> values in the “holes” are not accidentally used.</p>
+<p class="indent">The <span class="codesample">length</span> property is automatically updated as new elements are added to the array. For this reason, <span class="codesample">length</span> is commonly used to iterate through all elements of an array. The following example illustrates array iteration and also a problem that can arise when using an array with “holes”:</p>
+<p class="image"><img alt="image" src="f0221-03.jpg"/></p>
+<p class="noindent">As you can see from the result, something went very wrong. The expected result was 6, but we ended up with a value that is not a number (<span class="codesample">NaN</span>). What happened? The array iteration went as expected, but <span class="codesample"><em>myValues[1]</em></span> was never assigned a value and so remained undefined. You may recall from <a class="nounder" href="ch03.html#ch03">Chapter 3</a> that to multiply <span class="codesample">undefined</span> by a number results in NaN per JavaScript’s type conversion rules, thus the single <span class="codesample">undefined</span> array element clobbered the entire computation.</p>
+<p class="image1"><img alt="image" src="f0221-04.jpg"/></p>
+<p class="indent"><a id="page_222"/>Although the previous example is obviously contrived, using arrays with holes requires the programmer to exercise extra caution. We now present a “careful” version of the example, which gives the expected result:</p>
+<p class="image"><img alt="image" src="f0222-01.jpg"/></p>
+<p class="image1"><img alt="image" src="f0222-02.jpg"/></p>
+<p class="noindent">The only difference with this script is that the multiplication has been placed inside of an <span class="codesample">if</span> statement. The <span class="codesample">if</span> statement checks each element for validity and ensures the proper behavior by skipping <span class="codesample">undefined</span> values.</p>
+<p class="indent">In addition to providing information, the <span class="codesample">length</span> property can be set to perform certain functions. Any indices containing data that are greater than the value assigned to <span class="codesample">length</span> are immediately reset to undefined. So, for example, to remove all elements from an array, you could set length to zero:</p>
+<p class="image"><img alt="image" src="f0222-03.jpg"/></p>
+<p class="noindent">The assignment removes everything from the array by replacing the data at all indices with <span class="codesample">undefined</span>, as if they had never been set. In this case, you really aren’t going to see much:</p>
+<p class="image1"><img alt="image" src="f0222-04.jpg"/></p>
+<p class="indent"><a id="page_223"/>Setting <span class="codesample">length</span> to a value greater than the index of the last valid element has no effect on the array contents, though it will increase the number of <span class="codesample">undefined</span> slots in the array. Consider, for example, the result of the following script,</p>
+<p class="image"><img alt="image" src="f0223-01.jpg"/></p>
+<p class="noindent">which is shown here:</p>
+<p class="image1"><img alt="image" src="f0223-02.jpg"/></p>
+<p class="indent">You shouldn’t bother setting the <span class="codesample">length</span> property directly, since the result of extending an array is usually a sparsely populated array. However, deletion with this method is acceptable. For example, removing the last element in the array with this capability can be done:</p>
+<p class="image"><img alt="image" src="f0223-03.jpg"/></p>
+<p class="noindent">However, modern versions of JavaScript provide a better way to remove the last element with methods the <span class="codesample">Array</span> object provides to simulate stacks and queues.</p>
+<h5 class="h5"><a id="ch07lev2sec5"/><strong>Arrays as Stacks and Queues</strong></h5>
+<p class="noindent">JavaScript 1.2+ and JScript 5.5+ provide methods for treating arrays like stacks and queues. For those readers unfamiliar with these abstract data types, a <em>stack</em> is used to store data in <em>last-in, first-out</em> order, often called LIFO. That is, the first object placed in the stack is the last one retrieved when the stack is read. A <em>queue</em> is an abstract data type used to store data in <em>first-in, first-out</em> order, also called FIFO. Data in a queue is retrieved in the order in which it was added.</p>
+<p class="indent">A stack in the form of an array is manipulated using the <span class="codesample">push()</span> and <span class="codesample">pop()</span> methods. Calling <span class="codesample">push()</span> appends the given arguments (in order) to the end of the array and increments the <span class="codesample">length</span> property accordingly. Calling <span class="codesample">pop()</span> removes the last element from the array, returns it, and decrements the <span class="codesample">length</span> property by one. An example of using the properties is as follows, with the contents of the array and any values returned indicated in the comments:</p>
+<p class="image"><img alt="image" src="f0223-04.jpg"/></p>
+<p class="indent">Of course, you can use <span class="codesample">push()</span> and <span class="codesample">pop()</span> to add data to and remove data from the end of an array without thinking of it as an actual stack.</p>
+<p class="indent"><a id="page_224"/>JavaScript also provides <span class="codesample">unshift()</span> and <span class="codesample">shift()</span> methods. These methods work as <span class="codesample">push()</span> and <span class="codesample">pop()</span> do, except that they add and remove data from the front of the array. Invoking <span class="codesample">unshift()</span> inserts its arguments (in order) at the beginning of the array, shifts existing elements to higher indices, and increments the array’s <span class="codesample">length</span> property accordingly. For example,</p>
+<p class="image"><img alt="image" src="f0224-01.jpg"/></p>
+<p class="noindent">adds two more elements to the front of the array, as shown here:</p>
+<p class="image1"><img alt="image" src="f0224-02.jpg"/></p>
+<p class="indent">Calling <span class="codesample">shift()</span> removes the first element from the array, returns it, shifts the remaining elements down one index, and decrements <span class="codesample">length</span>. You can think of <span class="codesample">shift()</span> as shifting each element in the array down one index, causing the first element to be ejected and returned; so, given the previous example, if we called</p>
+<p class="image"><img alt="image" src="f0224-03.jpg"/></p>
+<p class="noindent">we would end up with an array containing “fun,” 345, 78, and 2. As with <span class="codesample">pop()</span>, invoking <span class="codesample">shift()</span> on an array returns a value that can be used. For example, we could save the value shifted off the array into a variable:</p>
+<p class="image"><img alt="image" src="f0224-04.jpg"/></p>
+<p class="indent">You can use <span class="codesample">push()</span> and <span class="codesample">shift()</span> to simulate a queue. The following example illustrates the principle. We place new data at the end of the array and retrieve data by removing the element at index zero. The contents of the array and any return values are indicated in the comments:</p>
+<p class="image"><img alt="image" src="f0224-05.jpg"/></p>
+<p class="indent">Even if you never use arrays as stacks or queues, the methods discussed in this section can come in handy to manipulate the contents of arrays. Now let’s look at a few more useful array manipulations.</p>
+<hr/>
+<p class="note"><strong>NOTE</strong> These methods require JavaScript 1.2 or JScript 5.5 or better. Archaic browsers like Internet Explorer 5 and earlier will not be able to natively use these features. However, using an <span class="codesample">Array</span> prototype to add our own <span class="codesample">pop()</span> and <span class="codesample">push()</span> methods can fix this problem. See the section entitled “Extending Arrays with Prototypes,” later in this chapter.</p>
+<h5 class="h5"><a id="page_225"/><a id="ch07lev2sec6"/><strong>Manipulating Arrays</strong></h5>
+<p class="noindent">JavaScript provides a wealth of methods for carrying out common operations on arrays. This section provides an overview of these <span class="codesample">Array</span> methods with a brief discussion of some of their quirks.</p>
+<h6 class="h6"><strong>concat() Method</strong></h6>
+<p class="noindent">The <span class="codesample">concat()</span> method returns the array resulting from appending its arguments to the array on which it was invoked. Given the script:</p>
+<p class="image"><img alt="image" src="f0225-01.jpg"/></p>
+<p class="noindent">the expected larger array is shown here:</p>
+<p class="image1"><img alt="image" src="f0225-02.jpg"/></p>
+<p class="indent">Be careful, though: <span class="codesample">concat()</span> does not modify the array in place. Notice the output of this script,</p>
+<p class="image"><img alt="image" src="f0225-03.jpg"/></p>
+<p class="noindent">which is shown here:</p>
+<p class="image1"><img alt="image" src="f0225-04.jpg"/></p>
+<p class="noindent">To save the change, you will need to save the returned value; for example:</p>
+<p class="image"><img alt="image" src="f0225-05.jpg"/></p>
+<p class="noindent">If any argument to <span class="codesample">concat()</span> is itself an array, it is flattened into array elements:</p>
+<p class="image"><img alt="image" src="f0225-06.jpg"/></p>
+<p class="image1"><img alt="image" src="f0225-07.jpg"/></p>
+<p class="noindent"><a id="page_226"/>This flattening is not recursive, so an array argument that contains an array element has only its outer array flattened. An example illustrates this behavior more clearly:</p>
+<p class="image"><img alt="image" src="f0226-01.jpg"/></p>
+<p class="image1"><img alt="image" src="f0226-02.jpg"/></p>
+<p class="noindent">You may notice that arrays are recursively flattened if you output the entire array with an <span class="codesample">alert</span>. However, access the <span class="codesample">length</span> property or the individual elements and it will become apparent that you have nested arrays as shown in the previous example.</p>
+<h6 class="h6"><strong>join() Method</strong></h6>
+<p class="noindent">The <span class="codesample">join()</span> method of JavaScript 1.1+ and JScript 2.0+ converts the array to a string and allows the programmer to specify how the elements are separated in the resulting string. Typically, when you print an array, the output is a comma-separated list of the array elements. You can use <span class="codesample">join()</span> to format the list separators as you’d like:</p>
+<p class="image"><img alt="image" src="f0226-03.jpg"/></p>
+<p class="image1"><img alt="image" src="f0226-04.jpg"/></p>
+<p class="indent">One important thing to note is that the <span class="codesample">join()</span> method will not destroy the array as a side effect of returning the joined string of its elements. You could obviously do this, if you like, by overriding the type of the variable. For example:</p>
+<p class="image"><img alt="image" src="f0226-05.jpg"/></p>
+<p class="indent">The <span class="codesample">join()</span> method is the inverse of the <span class="codesample">split()</span> method of the String object.</p>
+<h6 class="h6"><strong>reverse() Method</strong></h6>
+<p class="noindent">JavaScript 1.1+ and JScript 2.0+ also allow you to reverse the elements of the array in place, meaning you don’t have to save the result as some of the other array methods we have seen.</p>
+<p class="noindent"><a id="page_227"/>The <span class="codesample">reverse()</span> method, as one might expect, reverses the elements of the array it is invoked on:</p>
+<p class="image"><img alt="image" src="f0227-01.jpg"/></p>
+<p class="image1"><img alt="image" src="f0227-02.jpg"/></p>
+<h6 class="h6"><strong>slice() Method</strong></h6>
+<p class="noindent">The <span class="codesample">slice()</span> method of <span class="codesample">Array</span> (supported since JavaScript 1.2+ and JScript 3.0) returns a “slice” (subarray) of the array on which it is invoked. As it does not operate in place, the original array is unharmed. The syntax of <span class="codesample">slice()</span> is</p>
+<p class="image"><img alt="image" src="f0227-03.jpg"/></p>
+<p class="noindent">where the method returns an array containing the elements from index <span class="codesample"><em>start</em></span> up to but not including index <span class="codesample"><em>end</em></span>. If only one argument is given, the method returns the array composed of all elements from that index to the end of the array. Note that <span class="codesample"><em>start</em></span> and <span class="codesample"><em>end</em></span> are allowed to take on negative values. When negative, these values are interpreted as an offset from the end of the array. For example, calling <span class="codesample">slice(-2)</span> returns an array containing the last two elements of the array. These examples show <span class="codesample">slice()</span> in action:</p>
+<p class="image"><img alt="image" src="f0227-04.jpg"/></p>
+<h6 class="h6"><strong>splice() Method</strong></h6>
+<p class="noindent">The <span class="codesample">splice()</span> method, available in JavaScript 1.2+ and JScript 5.5+, can be used to add, replace, or remove elements of an array in place. Any elements that are removed are returned. It takes a variable number of arguments, the first of which is mandatory. The syntax could be summarized as</p>
+<p class="image"><img alt="image" src="f0227-05.jpg"/></p>
+<p class="noindent">The first argument <span class="codesample"><em>start</em></span> is the index at which to perform the operation. The second argument is <span class="codesample"><em>deleteCount</em></span>, the number of elements to delete beginning with index <span class="codesample"><em>start</em></span>. Any further arguments represented by <span class="codesample"><em>replacevalues</em></span> (that are comma separated, if more than one) are inserted in place of the deleted elements:</p>
+<p class="image"><img alt="image" src="f0227-06.jpg"/></p>
+<h6 class="h6"><a id="page_228"/><strong>toString() and <span class="codesample">toSource()</span> Methods</strong></h6>
+<p class="noindent">The <span class="codesample">toString()</span> method returns a string containing the comma-separated values of the array. This method is invoked automatically when you print an array. It is equivalent to invoking <span class="codesample">join()</span> without any arguments. It is also possible to return a localized string using <span class="codesample">toLocaleString()</span>, where the separator may be different given the locale of the browser running the script. However, in most cases, this method will return the same value as <span class="codesample">toString()</span>.</p>
+<p class="indent">The creation of a string that preserves square brackets is available through the <span class="codesample">toSource()</span> method as of JavaScript 1.3:</p>
+<p class="image"><img alt="image" src="f0228-01.jpg"/></p>
+<p class="image1"><img alt="image" src="f0228-02.jpg"/></p>
+<p class="indent">This allows you to create a string representation of an array that can be passed to the <span class="codesample">eval()</span> function to be used as an array later on. The <span class="codesample">eval()</span> function is discussed in the section entitled “Global” later in this chapter.</p>
+<h6 class="h6"><strong>sort() Method</strong></h6>
+<p class="noindent">One of the most useful <span class="codesample">Array</span> methods is <span class="codesample">sort()</span>. Supported since JavaScript 1.1 and JScript 2.0, the <span class="codesample">sort()</span> works much like the <span class="codesample">qsort()</span> function in the standard C library. By default, it sorts the array elements in place according to lexicographic order. It does this by first converting the array elements to a string and then sorting them lexicographically. This can cause an unexpected result in some cases. Consider the following:</p>
+<p class="image1"><img alt="image" src="f0228-03.jpg"/></p>
+<p class="image1"><img alt="image" src="f0228-04.jpg"/></p>
+<p class="noindent">As you see above when running this script, you will find that, according to this JavaScript sort, 3 is larger than 14!</p>
+<p class="indent"><a id="page_229"/>The reason for this result is that, from a string ordering perspective, 14 is smaller than 3. Fortunately, the sort function is very flexible and we can fix this. If you want to sort on a different order, you can pass <span class="codesample">sort()</span> a comparison function that determines the order of your choosing. This function should accept two arguments and return a negative value if the first argument should come before the second in the ordering. (Think: the first is “less” than the second.) If the two elements are equal in the ordering, it should return zero. If the first argument should come after the second, the function should return a positive value. (Think: the first is “greater” than the second.) For example, if we wished to perform a numerical sort, we might write a function like the following.</p>
+<p class="image"><img alt="image" src="f0229-01.jpg"/></p>
+<p class="noindent">Then we could use the function in the previous example:</p>
+<p class="image"><img alt="image" src="f0229-02.jpg"/></p>
+<p class="noindent">Here we get the result that we expect:</p>
+<p class="image1"><img alt="image" src="f0229-03.jpg"/></p>
+<p class="indent">If you want to be more succinct, you can use an anonymous function, as described in <a class="nounder" href="ch05.html#ch05">Chapter 5</a>. Consider this example, which sorts odd numbers before even numbers:</p>
+<p class="image"><img alt="image" src="f0229-04.jpg"/></p>
+<p class="indent">Note that we could make this example more robust by including code that ensures that the even and odd values are each sorted in ascending order. The point here is simply to remind readers that we can use functions inline.</p>
+<h5 class="h5"><a id="page_230"/><a id="ch07lev2sec7"/><strong>Multidimensional Arrays</strong></h5>
+<p class="noindent">Although not explicitly included in the language, most JavaScript implementations support a form of multidimensional arrays. A <em>multidimensional array</em> is an array that has arrays as its elements. For example,</p>
+<p class="image"><img alt="image" src="f0230-01.jpg"/></p>
+<p class="noindent">defines a two-dimensional array. Array elements in multidimensional arrays are accessed as you might expect, by using a set of square brackets to indicate the index of the desired element in each dimension. In the previous example, the number 4 is the third element of the second array and so is addressed as <span class="codesample"><em>tableOfValues[1][2]</em></span>. Similarly, 7 is found at <span class="codesample"><em>tableOfValues[0][2]</em></span>, 6 at <span class="codesample"><em>tableOfValues[2][0]</em></span>, and 9 at <span class="codesample"><em>tableOfValues[2][2]</em></span>. The following simple example shows this access in action:</p>
+<p class="image"><img alt="image" src="f0230-02.jpg"/></p>
+<p class="image1"><img alt="image" src="f0230-03.jpg"/></p>
+<h5 class="h5"><a id="ch07lev2sec8"/><strong>Extending Arrays with Prototypes</strong></h5>
+<p class="noindent">In JavaScript, all nonprimitive data is derived from the <span class="codesample">Object</span> object, which was discussed in <a class="nounder" href="ch06.html#ch06">Chapter 6</a>. We should recall that, because of this, we could add new methods and properties to any object we like using object prototypes. For example, we could add a special <span class="codesample"><em>display()</em></span> method to arrays that alerts the user as to the array contents:</p>
+<p class="image"><img alt="image" src="f0230-04.jpg"/></p>
+<p class="indent">We could then print out the value of arrays using our new <span class="codesample"><em>display()</em></span> method, as illustrated here:</p>
+<p class="image"><a id="page_231"/><img alt="image" src="f0231-01.jpg"/></p>
+<p class="indent">By using prototypes, we can create a “monkey patch” that will fix the lack of <span class="codesample">pop()</span> and <span class="codesample">push()</span> methods in pre-Internet Explorer 5.5 browsers. For example, to add the <span class="codesample">pop()</span> method in older browsers or override safely the built-in <span class="codesample">pop()</span> in newer browsers, we would use the following code to add the missing functionality:</p>
+<p class="image"><img alt="image" src="f0231-02.jpg"/></p>
+<p class="indent">Our own implementation of <span class="codesample">push()</span> is only slightly more complicated and is shown here:</p>
+<p class="image"><img alt="image" src="f0231-03.jpg"/></p>
+<p class="indent">We can see that mastery of the ideas from the previous chapter really can come in handy! While our own functions could be used to resolve issues with older and nonstandard browsers, don’t think the use of prototypes will solve all your problems. In fact, you may find that you inadvertently break things if you start overriding and extending things in JavaScript. This may be required with the introduction of ECMAScript 5 extensions, though, until deployed browsers catch up.</p>
+<h5 class="h5"><a id="ch07lev2sec9"/><strong>ECMAScript 5 Array Additions</strong></h5>
+<p class="noindent">ECMAScript 5 makes official a number of extensions to <span class="codesample">Array</span> that have been found in many browsers for years. In fact, you will see that most of these extensions have been available since JavaScript 1.6 (Firefox 1.5). Many libraries, such as jQuery or Prototype, emulate some or all of these features; and it is quite easy to patch where needed, as Internet Explorer browsers before version 9 do not support these methods.</p>
+<h6 class="h6"><a id="page_232"/><strong>Array.isArray()</strong></h6>
+<p class="noindent">A simple array-related change introduced by ECMAScript 5 is the <span class="codesample">Array.isArray (<em>val</em>)</span> method to see if a passed <span class="codesample"><em>val</em></span> is of the array type or not:</p>
+<p class="image"><img alt="image" src="f0232-01.jpg"/></p>
+<p class="image1"><img alt="image" src="f0232-02.jpg"/></p>
+<p class="noindent">Because a browser may not be ECMAScript 5 compliant, you may patch the lack of <span class="codesample">Array.isArray()</span> using a small code fragment like so:</p>
+<p class="image"><img alt="image" src="f0232-03.jpg"/></p>
+<hr/>
+<p class="noindent"><strong>ONLINE</strong> <a class="nounder" href="http://www.www.javascriptref.com/3ed/ch7/isarray.html">http://www.javascriptref.com/3ed/ch7/isarray.html</a></p>
+<h6 class="h6"><strong>indexOf()</strong></h6>
+<p class="noindent">The <span class="codesample">indexOf()</span> method allows you to easily find the occurrence of an item in an array, as shown in this example:</p>
+<p class="image"><img alt="image" src="f0232-04.jpg"/></p>
+<p class="image1"><img alt="image" src="f0232-05.jpg"/></p>
+<p class="noindent"><a id="page_233"/>If the item is not found, the method returns –1. By default, searching begins at the start of the array (index of 0); however, it is possible to pass a second parameter of the index to start a search from. The complete <span class="codesample">indexOf()</span> syntax is shown here:</p>
+<p class="image"><img alt="image" src="f0233-01.jpg"/></p>
+<p class="noindent">As an example, here we search for another 5 in the test array:</p>
+<p class="image"><img alt="image" src="f0233-02.jpg"/></p>
+<p class="noindent">This would return a different index value showing the second 5 in the array:</p>
+<p class="image1"><img alt="image" src="f0233-04a.jpg"/></p>
+<p class="indent">If we want to search continuously, it is easy enough to construct a loop to do so until we hit a –1 return. The only trick to the code is to make sure we add one to a found index so we don’t redo the search starting at a target value:</p>
+<p class="image"><img alt="image" src="f0233-03.jpg"/></p>
+<p class="image1"><img alt="image" src="f0233-04.jpg"/></p>
+<hr/>
+<p class="noindent"><strong>ONLINE</strong> <a class="nounder" href="http://www.www.javascriptref.com/3ed/ch7/arrayindexof.html">http://www.javascriptref.com/3ed/ch7/arrayindexof.html</a></p>
+<h6 class="h6"><strong>lastIndexOf()</strong></h6>
+<p class="noindent">The <span class="codesample">lastIndexOf()</span> method is similar to the <span class="codesample">indexOf()</span> method except it begins the search for an item from the last element of the array working toward the start at index 0. In the case where there are single elements in an array, the methods will be identical; but in the case of duplicates, they will differ:</p>
+<p class="image"><img alt="image" src="f0233-05.jpg"/></p>
+<p class="image1"><a id="page_234"/><img alt="image" src="f0234-01.jpg"/></p>
+<p class="indent">Like <span class="codesample">indexOf()</span>, you may also pass a second parameter to start a search <span class="codesample"><em>array</em>.lastIndexOf (<em>target</em> [<em>,start</em> ])</span>, as demonstrated here:</p>
+<p class="image"><img alt="image" src="f0234-02.jpg"/></p>
+<p class="indent">Further, another looping style structure can be employed, this time with the start index decremented to find all occurrences of a target within the searched array:</p>
+<p class="image"><img alt="image" src="f0234-03.jpg"/></p>
+<hr/>
+<p class="indent"><strong>ONLINE</strong> <a class="nounder" href="http://www.www.javascriptref.com/3ed/ch7/arraylastindexof.html">http://www.javascriptref.com/3ed/ch7/arraylastindexof.html</a></p>
+<h6 class="h6"><strong>every()</strong></h6>
+<p class="noindent">The <span class="codesample">every()</span> method allows you to apply a passed function to every element in an array. If the function returns <span class="codesample">true</span> for every element it is applied to in the array, <span class="codesample">every()</span> will emit a <span class="codesample">true</span> value; otherwise, it will return false.</p>
+<p class="indent">As a demonstration, we write a simple function to determine if a value is even or not:</p>
+<p class="image"><img alt="image" src="f0234-04.jpg"/></p>
+<p class="noindent">Then we might apply this function to the elements in an array, like so:</p>
+<p class="image"><img alt="image" src="f0234-05.jpg"/></p>
+<p class="image1"><img alt="image" src="f0234-06.jpg"/></p>
+<p class="indent"><a id="page_235"/>We may also inline the function, of course, if it is simple enough:</p>
+<p class="image"><img alt="image" src="f0235-01.jpg"/></p>
+<p class="noindent">The callback function is invoked with up to three parameters: the current value being looked at, its index in the array, and the array itself. Given this extra available data, this function:</p>
+<p class="image"><img alt="image" src="f0235-02.jpg"/></p>
+<p class="noindent">could be used to see if an array was in an ascending sort order:</p>
+<p class="image"><img alt="image" src="f0235-03.jpg"/></p>
+<p class="image1"><img alt="image" src="f0235-04.jpg"/></p>
+<p class="indent">Of course if you think about it, this is not a very efficient approach because it continually partially retraverses the array as it goes. It might be better simply to compare the current element to the previous element:</p>
+<p class="image"><img alt="image" src="f0235-05.jpg"/></p>
+<p class="noindent">This would seem to work:</p>
+<p class="image"><img alt="image" src="f0235-06.jpg"/></p>
+<p class="noindent">However, it would fail in the case of a sparse array, as the previous element comparison would not work:</p>
+<p class="image"><img alt="image" src="f0235-07.jpg"/></p>
+<p class="image1"><a id="page_236"/><img alt="image" src="f0236-01.jpg"/></p>
+<p class="noindent">If we could retain the state of the previous index looked at, that may be useful to fix the function. It turns out that you may pass an optional parameter to <span class="codesample">every()</span> to act as the this object for the executed function. The syntax would look like this:</p>
+<p class="image"><img alt="image" src="f0236-02.jpg"/></p>
+<p class="indent">When not specified, <span class="codesample">this</span> in the callback function will most likely be the <span class="codesample">Window</span> object, but we are free to redefine it to suit our own purposes. In our cases, we have it hold its previously inspected index:</p>
+<p class="image"><img alt="image" src="f0236-03.jpg"/></p>
+<p class="indent">which should work appropriately:</p>
+<p class="image1"><img alt="image" src="f0236-04.jpg"/></p>
+<p class="indent">Because <span class="codesample">every()</span> is a newer feature of ECMAScript 5, though it is supported in many browsers such as Firefox 1.5+, it is possible to add it to <span class="codesample">Array</span> if it is not found natively, as shown here:</p>
+<p class="image"><img alt="image" src="f0236-05.jpg"/></p>
+<hr/>
+<p class="online"><a id="page_237"/><strong>ONLINE</strong> <a class="nounder" href="http://www.www.javascriptref.com/3ed/ch7/arrayevery.html">http://www.javascriptref.com/3ed/ch7/arrayevery.html</a></p>
+<h6 class="h6"><strong>some()</strong></h6>
+<p class="noindent">The <span class="codesample">some()</span> method is applied to an array and will return <span class="codesample">true</span> if some elements(s) of the array make a provided callback function evaluate to <span class="codesample">true</span>. If no elements cause the callback function to evaluate <span class="codesample">true</span>, then the method returns <span class="codesample">false</span>. The following simple example shows whether some elements in an array are even or not. As shown in the example, you can use the callback function inline as well:</p>
+<p class="image"><img alt="image" src="f0237-01.jpg"/></p>
+<p class="image1"><img alt="image" src="f0237-02.jpg"/></p>
+<p class="indent">Like the <span class="codesample">every()</span> method, the supplied callback function has a function signature like this:</p>
+<p class="image"><img alt="image" src="f0237-03.jpg"/></p>
+<p class="noindent">It allows you to easily inspect the current value and index, and the array itself. Also, you may define your own <span class="codesample">this</span> object for use within the callback function; otherwise, the typical value of the <span class="codesample">this</span> object will be used, and this most likely will be <span class="codesample">Window</span>, in the case of browser- based JavaScript. The general syntax looks like this:</p>
+<p class="image"><img alt="image" src="f0237-04.jpg"/></p>
+<p class="indent"><a id="page_238"/>Since it is defined by ECMAScript 5, some browsers—notably IE8 and before—will not support this method; however, it is easily patched using code, like so:</p>
+<p class="image"><img alt="image" src="f0238-01.jpg"/></p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.www.javascriptref.com/3ed/ch7/arraysome.html">http://www.javascriptref.com/3ed/ch7/arraysome.html</a></p>
+<h6 class="h6"><strong>forEach()</strong></h6>
+<p class="noindent">ECMAScript 5’s <span class="codesample">forEach()</span> method for <span class="codesample">Array</span> provides the invocation of a passed function on each element of an array individually using the following syntax:</p>
+<p class="image"><img alt="image" src="f0238-02.jpg"/></p>
+<p class="noindent">The <span class="codesample"><em>callbackFunction</em></span> has the function signature of</p>
+<p class="image"><img alt="image" src="f0238-03.jpg"/></p>
+<p class="noindent">where <span class="codesample"><em>val</em></span> is the current value being looked at, <span class="codesample"><em>index</em></span> is the position of that value in the array, and <span class="codesample"><em>array</em></span> is a reference to the whole array. The <span class="codesample">forEach()</span> method executes on all defined elements, but nothing is returned that controls execution, as other ECMAScript 5 <span class="codesample">Array</span> methods such as <span class="codesample">every()</span> or <span class="codesample">some()</span> do. Furthermore, the elements of the array are not mutated by any manipulation unless you save them back into the array. This simple example shows a doubling of all values in the array:</p>
+<p class="image"><img alt="image" src="f0238-04.jpg"/></p>
+<p class="image1"><img alt="image" src="f0238-05.jpg"/></p>
+<hr/>
+<p class="note"><a id="page_239"/><strong>NOTE</strong> The function of <span class="codesample">forEach()</span> sometimes is more naturally handled by the <span class="codesample">map()</span> method discussed next.</p>
+<p class="indent">As with other ECMAScript <span class="codesample">5 Array</span> additions, the <span class="codesample">forEach()</span> method may not be available but is easy enough to simulate, as demonstrated by this simple patch:</p>
+<p class="image"><img alt="image" src="f0239-01.jpg"/></p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.www.javascriptref.com/3ed/ch7/arrayforeach.html">http://www.javascriptref.com/3ed/ch7/arrayforeach.html</a></p>
+<h6 class="h6"><strong>map()</strong></h6>
+<p class="noindent">ECMAScript 5’s <span class="codesample">map()</span> method for <span class="codesample">Array</span> provides the invocation of a passed function on each element of an array individually using the following syntax:</p>
+<p class="image"><img alt="image" src="f0239-02.jpg"/></p>
+<p class="noindent">The <span class="codesample"><em>callbackFunction</em></span> has the function signature of</p>
+<p class="image"><img alt="image" src="f0239-03.jpg"/></p>
+<p class="noindent">where <span class="codesample"><em>val</em></span> is the current value being looked at, <span class="codesample"><em>index</em></span> is the position of that value in the array, and <span class="codesample"><em>array</em></span> is a reference to the whole array. The <span class="codesample">map()</span> method executes on all defined elements and returns a new element for a new array element returned from the callback. This simple example shows a doubling of all values in the array, done more elegantly than the <span class="codesample">forEach()</span> approach shown in the previous section:</p>
+<p class="image"><img alt="image" src="f0239-04.jpg"/></p>
+<p class="image1"><img alt="image" src="f0239-05.jpg"/></p>
+<p class="indent"><a id="page_240"/>As with other ECMAScript 5 <span class="codesample">Array</span> additions, the <span class="codesample">map()</span> method may not be available but is easy enough to simulate, as demonstrated by this simple patch:</p>
+<p class="image"><img alt="image" src="f0240-01.jpg"/></p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.www.javascriptref.com/3ed/ch7/arraymap.html">http://www.javascriptref.com/3ed/ch7/arraymap.html</a></p>
+<h6 class="h6"><strong>filter()</strong></h6>
+<p class="noindent">ECMAScript 5’s <span class="codesample">filter()</span> method for <span class="codesample">Array</span> provides the invocation of a passed function on each element of an array individually using the following syntax:</p>
+<p class="image"><img alt="image" src="f0240-02.jpg"/></p>
+<p class="noindent">The <span class="codesample"><em>callbackFunction</em></span> has the function signature of</p>
+<p class="image"><img alt="image" src="f0240-03.jpg"/></p>
+<p class="noindent">where <span class="codesample"><em>val</em></span> is the current value being looked at, <span class="codesample"><em>index</em></span> is the position of that value in the array, and <span class="codesample"><em>array</em></span> is a reference to the whole array. If the <span class="codesample"><em>callbackFunction()</em></span> returns <span class="codesample">true</span> for a passed value, the element in question will be returned and placed in the <span class="codesample"><em>newArray</em></span>. If an element does not cause the callback to return <span class="codesample">true</span>, it fails the filter and thus is not included in the newly returned array. As a simple example, we filter an array here for its even numbers:</p>
+<p class="image"><img alt="image" src="f0240-04.jpg"/></p>
+<p class="image1"><a id="page_241"/><img alt="image" src="f0241-01.jpg"/></p>
+<p class="indent">As with other ECMAScript <span class="codesample">5 Array</span> additions, the <span class="codesample">filter()</span> method may not be available but is easy enough to simulate as demonstrated by this simple patch:</p>
+<p class="image"><img alt="image" src="f0241-02.jpg"/></p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.www.javascriptref.com/3ed/ch7/arrayfilter.html">http://www.javascriptref.com/3ed/ch7/arrayfilter.html</a></p>
+<h6 class="h6"><strong>reduce()</strong></h6>
+<p class="noindent">ECMAScript 5’s <span class="codesample">reduce()</span> method for <span class="codesample">Array</span> provides the invocation of a passed function on each element of an array individually, starting from the 0 index and proceeding to the end of the array using the following syntax:</p>
+<p class="image"><img alt="image" src="f0241-03.jpg"/></p>
+<p class="noindent">The <span class="codesample"><em>callbackFunction</em></span> has a different function signature of</p>
+<p class="image"><img alt="image" src="f0241-04.jpg"/></p>
+<p class="noindent">where <span class="codesample"><em>previousValue</em></span> is the previous value accumulated (it may just be the current value of the array), <span class="codesample"><em>currentValue</em></span> is the current one being looked at, <span class="codesample"><em>index</em></span> is the position of that value in the array, and <span class="codesample"><em>array</em></span> is a reference to the whole array. A simple example <a id="page_242"/>illustrates the use. In this situation, we sum all items in the array but print out the various values as we go:</p>
+<p class="image"><img alt="image" src="f0242-01.jpg"/></p>
+<p class="noindent">We see here how the result is added up as the array is traversed, as well as the final result:</p>
+<p class="image"><img alt="image" src="f0242-02.jpg"/></p>
+<p class="indent">Now, some confusion may arise when thinking about simple cases. Here we illustrate the call of smaller arrays, and you see that the reduction of a single element is a base case and two elements are a single application:</p>
+<p class="image"><img alt="image" src="f0242-03.jpg"/></p>
+<p class="image1"><img alt="image" src="f0242-04.jpg"/></p>
+<p class="indent"><a id="page_243"/>Next, given the function signature as well as the optional value shown in the initial syntax, we prime the reduction with an initial value:</p>
+<p class="image"><img alt="image" src="f0243-01.jpg"/></p>
+<p class="indent">Like other ECMAScript 5 <span class="codesample">Array</span> changes shown previously in this section, we can be simulated for nonsupporting browsers:</p>
+<p class="image"><img alt="image" src="f0243-02.jpg"/></p>
+<p class="image"><img alt="image" src="f0243-03.jpg"/></p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.www.javascriptref.com/3ed/ch7/arrayreduce.html">http://www.javascriptref.com/3ed/ch7/arrayreduce.html</a></p>
+<h6 class="h6"><strong>reduceRight()</strong></h6>
+<p class="noindent">ECMAScript 5’s <span class="codesample">reduceRight()</span> method for <span class="codesample">Array</span> provides the invocation of a passed function on each element of an array individually, starting from the end of the array and working toward the start using the following syntax:</p>
+<p class="image"><img alt="image" src="f0243-04.jpg"/></p>
+<p class="noindent"><a id="page_244"/>The <span class="codesample"><em>callbackFunction</em></span> has a different function signature of</p>
+<p class="image"><img alt="image" src="f0244-01.jpg"/></p>
+<p class="noindent">where <span class="codesample"><em>previousValue</em></span> is the previous value accumulated (it may just be the current value of the array), <em>currentValue</em> is the current one being looked at, <span class="codesample"><em>index</em></span> is the position of that value in the array, and <span class="codesample"><em>array</em></span> is a reference to the whole array. A simple example illustrates the use. In this situation, again we sum all items in the array but print out the various values as we go:</p>
+<p class="image"><img alt="image" src="f0244-02.jpg"/></p>
+<p class="image1"><img alt="image" src="f0244-03.jpg"/></p>
+<p class="indent">You’ll notice in the case of summation that there is no difference between a standard reduction or right reduction. However, this will not always be the case. For example, here we apply a simple difference reduction, and the results are quite different from <span class="codesample">reduce()</span> and <span class="codesample">reduceRight()</span>:</p>
+<p class="image"><img alt="image" src="f0244-04.jpg"/></p>
+<p class="image1"><img alt="image" src="f0244-05.jpg"/></p>
+<p class="indent"><a id="page_245"/>Like all the other ECMAScript 5 <span class="codesample">Array</span> extensions, <span class="codesample">reduceRight()</span> can be simulated in nonsupporting browsers.</p>
+<p class="image"><img alt="image" src="f0245-01.jpg"/></p>
+<p class="image"><img alt="image" src="f0245-02.jpg"/></p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.www.javascriptref.com/3ed/ch7/arrayreduceright.html">http://www.javascriptref.com/3ed/ch7/arrayreduceright.html</a></p>
+<h4 class="h4"><a id="ch07lev1sec2"/><strong>Boolean</strong></h4>
+<p class="noindent"><span class="codesample">Boolean</span> is the built-in object corresponding to the primitive Boolean data type. This object is extremely simple. It has no interesting properties of its own. It inherits all of its properties and methods from the generic <span class="codesample">Object</span>, so it has <span class="codesample">toSource(), toString()</span>, and <span class="codesample">valueOf()</span>. Out of these, maybe the only method of practical use is the <span class="codesample">toString()</span> method, which returns the string <span class="codesample">“true”</span> if the value is <span class="codesample">true</span> or <span class="codesample">“false”</span> otherwise. The constructor takes an optional Boolean value indicating its initial value:</p>
+<p class="image"><img alt="image" src="f0245-03.jpg"/></p>
+<p class="noindent"><a id="page_246"/>However, if you don’t set a value with the constructor, it will be <span class="codesample">false</span> by default.</p>
+<p class="image"><img alt="image" src="f0246-01.jpg"/></p>
+<p class="noindent">Because of some subtleties in JavaScript’s type conversion rules, it is almost always preferable to use primitive <span class="codesample">Boolean</span> values rather than Boolean objects.</p>
+<h4 class="h4"><a id="ch07lev1sec3"/><strong>Date</strong></h4>
+<p class="noindent">The <span class="codesample">Date</span> object provides a sophisticated set of methods for manipulating dates and times. Working with some of the more advanced methods that <span class="codesample">Date</span> provides can be a bit confusing, unless you understand the relationship between Greenwich Mean Time (GMT), Coordinated Universal Time (UTC), and local time zones. Fortunately, for the vast majority of applications, you can assume that GMT is the same as UTC and that your computer’s clock is faithfully ticking away in GMT and is aware of your particular time zone.</p>
+<p class="indent">There are several facts to be aware of when working with JavaScript date values:</p>
+<p class="bullettop">• JavaScript stores dates internally as the number of milliseconds since the “epoch,” January 1, 1970 (GMT). This is an artifact of the way UNIX systems store their time and can cause problems if you wish to work with dates prior to the epoch in older browsers.</p>
+<p class="bullet">• When reading the current date and time, your script is at the mercy of the client machine’s clock. If the client’s date or time is incorrect, your script will reflect this fact.</p>
+<p class="bullet">• Days of the week and months of the year are enumerated beginning with zero. So day 0 is Sunday, day 6 is Saturday, month 0 is January, and month 11 is December. Days of the month, however, are numbered beginning with one.</p>
+<h5 class="h5"><a id="ch07lev2sec10"/><strong>Creating Dates</strong></h5>
+<p class="noindent">The syntax of the <span class="codesample">Date()</span> constructor is significantly more powerful than other constructors we have seen. The constructor takes optional arguments that permit the creation of <span class="codesample">Date</span> objects representing points in the past or future. <a class="nounder" href="ch07.html#tab7-1">Table 7-1</a> describes constructor arguments and their results.</p>
+<p class="tabcap"><a id="tab7-1"/><strong>Table 7-1</strong> Arguments to the <span class="codesample">Date()</span> Constructor</p>
+<p class="imagea"><img alt="image" src="t0247-01.jpg"/></p>
+<p class="image0"><img alt="image" src="t0247-02.jpg"/></p>
+<p class="indent"><a class="nounder" href="ch07.html#tab7-1">Table 7-1</a> warrants some commentary. The string version of the constructor argument can be any date string that can be parsed by the <span class="codesample">Date.parse()</span> method. In the syntax of the last two formats, the arguments beyond the year, month, and day are optional. If they are omitted, they are set to zero. The final syntax that includes milliseconds is available only in JavaScript 1.3+.</p>
+<hr/>
+<p class="note"><strong>NOTE</strong> Because of the ambiguity that arises from representing the year with two digits, you should always use four digits when specifying the year. This can be done using the <span class="codesample">getFullYear()</span> method discussed later in this section.</p>
+<p class="indent">It is important to note that <span class="codesample">Date</span> objects you create are static. They do not contain a ticking clock. If you need to use a timer of some sort, the <span class="codesample">setInterval()</span> and <span class="codesample">setTimeout()</span> methods of the <span class="codesample">Window</span> object are much more appropriate. These other methods are discussed in later application-oriented chapters.</p>
+<p class="indent"><a id="page_247"/> <span class="codesample">Date</span> objects are created to be picked apart and manipulated and to assist in formatting dates according to your specific application. You can even calculate the difference between two dates directly:</p>
+<p class="image"><img alt="image" src="f0247-01.jpg"/></p>
+<p class="noindent">The result indicates the approximate number of milliseconds elapsed between January 6, 1995, and December 2, 2010:</p>
+<p class="image1"><img alt="image" src="f0247-02.jpg"/></p>
+<p class="indent">Converting this last example to a more usable value isn’t difficult and is discussed next.</p>
+<h5 class="h5"><a id="page_248"/><a id="ch07lev2sec11"/><strong>Manipulating Dates</strong></h5>
+<p class="noindent">To hide the fact that <span class="codesample">Date</span> objects store values as millisecond offsets from the epoch, dates are manipulated through the methods they provide. That is, <span class="codesample">Date</span> values are set and retrieved by invoking a method rather than setting or reading a property directly. These methods handle the conversion of millisecond offsets to human-friendly formats and back again for you automatically. The following example illustrates a few of the common <span class="codesample">Date</span> methods:</p>
+<p class="image"><img alt="image" src="f0248-01.jpg"/></p>
+<p class="noindent">This example gets the current date and adds one year to it. The result is shown here:</p>
+<p class="image1"><img alt="image" src="f0248-02.jpg"/></p>
+<p class="indent">JavaScript provides a comprehensive set of <span class="codesample">get</span> and <span class="codesample">set</span> methods to read and write each field of a date, including <span class="codesample">getDate()</span>, <span class="codesample">setDate(), getMonth(), setMonth(), getHours(), setHours(), getMinutes(), setMinutes(), getTime(), setTime</span>, and so on. In addition, UTC versions of all these methods are also included: <span class="codesample">getUTCMonth(), getUTCHours(), setUTCMonth(), setUTCHours()</span>, and so forth. One set of methods requires a special comment: <span class="codesample">getDay()</span> and <span class="codesample">setDay()</span>. These are used to manipulate the day of the week that is stored as an integer from 0 (Sunday) to 6 (Saturday). An example that illustrates many of the common <span class="codesample">Date</span> methods in practice is shown here, and the results are shown in <a class="nounder" href="ch07.html#fig7-1">Figure 7-1</a>:</p>
+<p class="image1"><a id="fig7-1"/><img alt="image" src="f0249-01.jpg"/></p>
+<p class="figcap"><strong>Figure 7-1</strong> Common <span class="codesample">Date</span> Functions in Action</p>
+<p class="image1"><img alt="image" src="f0248-03.jpg"/></p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.javascriptref.com/3ed/ch7/datemethods.html">http://javascriptref.com/3ed/ch7/datemethods.html</a></p>
+<h6 class="h6"><a id="page_249"/><strong>Converting Dates to Strings</strong></h6>
+<p class="noindent">There are a variety of ways to convert <span class="codesample">Date</span> objects to strings. If you need to create a date string of a custom format, the best way to do so is to read the individual components from the object and piece the string together manually. If you want to create a string in a standard format, <span class="codesample">Date</span> provides three methods for doing so. These methods are <span class="codesample">toString(), toUTCString()</span>, and <span class="codesample">toGMTString()</span>, and their use is illustrated in the next example. Note that <span class="codesample">toUTCString()</span> and <span class="codesample">toGMTString()</span> format the string according to Internet (GMT) standards, whereas <span class="codesample">toString()</span> creates the string according to “local” time. The result is shown in <a class="nounder" href="ch07.html#fig7-1">Figure 7-2</a>.</p>
+<p class="image1"><a id="fig7-2"/><img alt="image" src="f0250-01.jpg"/></p>
+<p class="figcap"><strong>Figure 7-2</strong> Printing Date Strings</p>
+<p class="image1"><img alt="image" src="f0249-02.jpg"/></p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.javascriptref.com/3ed/ch7/datestrings.html">http://javascriptref.com/3ed/ch7/datestrings.html</a></p>
+<h6 class="h6"><a id="page_250"/><strong>Converting Strings to Dates</strong></h6>
+<p class="noindent">Because you can pass the <span class="codesample">Date()</span> constructor a string, it seems reasonable to assume that JavaScript provides a mechanism for converting strings into <span class="codesample">Date</span> objects. It does so through the class method <span class="codesample">Date.parse()</span>, which returns an integer indicating the number of milliseconds between the epoch and its argument. Notice that this method is a property of the <span class="codesample">Date</span> constructor, not of individual <span class="codesample">Date</span> instances.</p>
+<p class="indent">The <span class="codesample">parse()</span> method is very flexible with regard to the dates it can convert to milliseconds. The string passed as its argument can, naturally, be a valid string of the form indicated in <a class="nounder" href="ch07.html#tab7-1">Table 7-1</a>. Also recognized are standard time zones, time zone offsets from GMT and UTC, and the month/day/year triples formatted with - or / separators, as well as month and day abbreviations such as “Dec” and “Tues.” For example,</p>
+<p class="image"><img alt="image" src="f0250-02.jpg"/></p>
+<p class="noindent">creates <span class="codesample"><em>myDate</em></span> with the correct value shown here:</p>
+<p class="image1"><img alt="image" src="f0250-03.jpg"/></p>
+<p class="indent"><a id="page_251"/>If you are not sure whether the particular string you wish to convert will be recognized by <span class="codesample">Date.parse()</span>, you need to check the value it returns. If it cannot convert the given string to a date, the method returns <span class="codesample">NaN</span>. For example, the invocation in this example,</p>
+<p class="image"><img alt="image" src="f0251-01.jpg"/></p>
+<p class="noindent">results in <span class="codesample">NaN</span> because <span class="codesample"><em>myDay</em></span> does not contain enough information to resolve the date.</p>
+<p class="image1"><img alt="image" src="f0251-02.jpg"/></p>
+<hr/>
+<p class="note"><strong>NOTE</strong> There have been numerous attempts to improve the date creation handling methods of JavaScript so that you can instantiate them with values such as “tomorrow”, “3 days from now”, or other human-friendly strings. However, there is no standardization of such attempts, and we leave readers to search for a library rather than recommend one, since none clearly dominates yet.</p>
+<h6 class="h6"><strong>Limitations of Date Representations</strong></h6>
+<p class="noindent">The nuances of the <span class="codesample">Date</span> object should not be underestimated. Recall that ECMA-262 is the standard governing core JavaScript language features. While most aspects of browser implementations adhere to the specification rigorously, deviation in <span class="codesample">Date</span> object behavior is commonplace in some archaic browsers. For example, <span class="codesample">Date</span> support in very old browsers, particularly Netscape 2, is atrocious. Internet Explorer 3 did not allow dates prior to the epoch. However, modern browsers can handle dates hundreds and thousands of years before or after the epoch, which should be enough to handle most tasks. Of course, using extreme dates such as prior to 1 A.D. or far in the future should be done with caution, if not for concerns of browser support than simple reasonability.</p>
+<h5 class="h5"><a id="ch07lev2sec12"/><strong>ECMAScript 5 Date Additions</strong></h5>
+<p class="noindent">There are not a tremendous number of changes to <span class="codesample">Date</span> from ECMAScript 5. The first is <span class="codesample">Date.now()</span>, which is just a cleaner way to get the current time:</p>
+<p class="image"><img alt="image" src="f0251-03.jpg"/></p>
+<p class="image1"><img alt="image" src="f0251-04.jpg"/></p>
+<p class="noindent"><a id="page_252"/>This, of course, can be easily simulated using a standard <span class="codesample">Date()</span> constructor and employing type conversion or using a more readable method:</p>
+<p class="image"><img alt="image" src="f0252-01.jpg"/></p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.www.javascriptref.com/3ed/ch7/datenow.html">http://www.javascriptref.com/3ed/ch7/datenow.html</a></p>
+<p class="indent">ECMAScript 5 also introduces the method <span class="codesample">toISOString()</span>:</p>
+<p class="image"><img alt="image" src="f0252-02.jpg"/></p>
+<p class="image1"><img alt="image" src="f0252-03.jpg"/></p>
+<p class="noindent">This can be simulated using code like this as well:</p>
+<p class="image"><img alt="image" src="f0252-04.jpg"/></p>
+<p class="image"><img alt="image" src="f0252-05.jpg"/></p>
+<hr/>
+<p class="online"><a id="page_253"/><strong>ONLINE</strong> <a class="nounder" href="http://www.www.javascriptref.com/3ed/ch7/datetoisostring.html">http://www.javascriptref.com/3ed/ch7/datetoisostring.html</a></p>
+<p class="indent">Last but not least, ECMAScript 5 provides an easy way to transform JavaScript <span class="codesample">Date</span> objects into a JSON format using the <span class="codesample">toJSON()</span> method:</p>
+<p class="image"><img alt="image" src="f0253-01.jpg"/></p>
+<p class="noindent">Once the date is serialized into a JSON format, it can be manipulated or transmitted and then easily converted back into a Date object using a typical string parse, like so:</p>
+<p class="image"><img alt="image" src="f0253-02.jpg"/></p>
+<h4 class="h4"><a id="ch07lev1sec4"/><strong>Global</strong></h4>
+<p class="noindent">The <span class="codesample">Global</span> object acts somewhat as a catchall for top-level properties and methods that are not part of any other object. You cannot create an instance of the <span class="codesample">Global</span> object; it is defined in the ECMA-262 standard to be a place for globally accessible, otherwise homeless properties to reside. It provides several essential properties that can be used anywhere in JavaScript. <a class="nounder" href="ch07.html#tab7-2">Table 7-2</a> summarizes its most useful methods. These methods are called directly and are not prefixed with <span class="codesample">global</span>. In fact, doing so will result in an error. It is because the methods appear unrelated to any particular object that some documentation on JavaScript refers to these as “global” or built-in functions.</p>
+<p class="tabcap"><a id="tab7-2"/><strong>Table 7-2</strong> Globally Available Methods</p>
+<p class="imagea"><img alt="image" src="t0254-01.jpg"/></p>
+<p class="image0"><img alt="image" src="t0254-02.jpg"/></p>
+<p class="image0"><img alt="image" src="t0255-01.jpg"/></p>
+<p class="image0"><img alt="image" src="t0255-02.jpg"/></p>
+<hr/>
+<p class="note"><strong>NOTE</strong> The <span class="codesample">Global</span> object also defines the constants <span class="codesample">NaN</span> and <span class="codesample">Infinity</span>, which were used in the examples in <a class="nounder" href="ch07.html#tab7-2">Table 7-2</a>. However, similar constants are also provided by the <span class="codesample">Number</span> object, discussed later in the chapter.</p>
+<p class="indent">The <span class="codesample">Global</span> methods are very useful and will be used in examples throughout the book. Aspiring JavaScript programmers should try to become very familiar with them. In particular, the <span class="codesample">eval()</span> method is quite powerful, and it is interesting to see how very succinct scripts can be written with it. However, with this power comes a price, and many scripts using <span class="codesample">eval()</span> produce very tricky runtime problems. Some feel they cause security issues, so proceed with caution. Do note that, under ECMAScript 5 strict mode, some limitations may be placed upon <span class="codesample">eval()</span>.</p>
+<hr/>
+<p class="note"><strong>NOTE</strong> The authors find the fixation on <span class="codesample">eval()</span> somewhat amusing, as there are numerous ways to cause security mischief with JavaScript without it. Further, for security consistency, if you are against <span class="codesample">eval()</span> you should also be against the commonly used <span class="codesample">innerHTML</span> property, as well as dynamic script element insertion. There are similar quirks and problems with these features.</p>
+<p class="indenttop">Another interesting consideration for <span class="codesample">Global</span> methods is the escaping of strings provided by <span class="codesample">escape()</span> and <span class="codesample">unescape()</span>. Primarily, we see this done on the Web in order to create URL safe strings. You probably have seen this when working with forms. While these methods would be extremely useful, the ECMAScript specification suggests that <span class="codesample">escape()</span> and <span class="codesample">unescape()</span> are deprecated in favor of the more aptly named<a id="page_254"/></p>
+<p class="image"><a id="page_255"/><img alt="image" src="f0255-01.jpg"/></p>
+<p class="indent">While these methods are part of the specification, programmers still often avoid them, given that some browsers do not support them. Furthermore, for better or worse, <span class="codesample">escape()</span> and <span class="codesample">unescape()</span> are commonly used by current JavaScript programmers, so their usage doesn’t seem to be dying down in favor of the specification functions anytime soon. Far more amusing is that, in fact, the encoding process used by these methods does not necessarily act as a browser would. This can be quite a concern when using it with Ajax.</p>
+<p class="noindent"><a id="page_256"/>Here, we present a simple example of “patching” URL encoding to make it work exactly as browsers do:</p>
+<p class="image"><img alt="image" src="f0256-01.jpg"/></p>
+<h4 class="h4"><a id="ch07lev1sec5"/><strong>Math</strong></h4>
+<p class="noindent">The <span class="codesample">Math</span> object holds a set of constants and methods that enable more complex mathematical operations than the basic arithmetic operators discussed in <a class="nounder" href="ch04.html#ch04">Chapter 4</a>. You cannot instantiate a <span class="codesample">Math</span> object as you would an <span class="codesample">Array</span> or <span class="codesample">Date</span>. The <span class="codesample">Math</span> object is static (automatically created by the interpreter), so its properties are accessed directly. For example, to compute the square root of 10, the <span class="codesample">sqrt()</span> method is accessed through the <span class="codesample">Math</span> object directly:</p>
+<p class="image"><img alt="image" src="f0256-02.jpg"/></p>
+<p class="indent"><a class="nounder" href="ch07.html#tab7-3">Table 7-3</a> gives a complete list of constants provided by <span class="codesample">Math</span>. A complete list of mathematical methods is given in <a class="nounder" href="ch07.html#tab7-4">Table 7-4</a>.</p>
+<p class="tabcap"><a id="tab7-3"/><strong>Table 7-3</strong> Constants Provided by the Math Object</p>
+<p class="image"><img alt="image" src="t0256-01.jpg"/></p>
+<p class="tabcap"><a id="tab7-4"/><strong>Table 7-4</strong> Methods Provided by the Math Object</p>
+<p class="image"><img alt="image" src="t0257-01.jpg"/></p>
+<p class="indent"><a id="page_257"/>There are several aspects of the <span class="codesample">Math</span> object that need to be kept in mind. The trigonometric methods work in radians, so you need to multiply any degree measurements by π / 180 before using them. Also, because of the imprecise characteristic of floating-point operations, you might notice minor deviations from the results you expect. For example, though the sine of π is 0, the following code:</p>
+<p class="image"><img alt="image" src="f0257-01.jpg"/></p>
+<p class="noindent">gives the result</p>
+<p class="image1"><img alt="image" src="f0257-02.jpg"/></p>
+<p class="noindent">This value is very close to zero, but is not and might trip us up in sensitive calculations.</p>
+<p class="indent"><a id="page_258"/>It might seem that <span class="codesample">Math</span> does not provide the capability to compute logarithms in bases other than <em>e</em>. Indeed it does not, directly. However, the following mathematical identity can be used to compute logarithms in an arbitrary base:</p>
+<p class="image"><img alt="image" src="f0258-01.jpg"/></p>
+<p class="noindent">For example, you can compute the log base 2 of 64 as</p>
+<p class="image"><img alt="image" src="f0258-02.jpg"/></p>
+<h5 class="h5"><a id="ch07lev2sec13"/><strong>Random Numbers</strong></h5>
+<p class="noindent">Because the <span class="codesample">Math.random()</span> method returns values between zero and one, you must normalize its return value to fit the range of numbers required of your application. An easy way to get random integers in the range <em>m</em> to <em>n</em> (inclusive) is as follows:</p>
+<p class="image"><img alt="image" src="f0258-03.jpg"/></p>
+<p class="noindent">So, to simulate a die roll you would use</p>
+<p class="image"><img alt="image" src="f0258-04.jpg"/></p>
+<p class="noindent">Generating random numbers in this manner is sufficient for most applications, but if “high quality” randomness is required, a more advanced technique should be used.</p>
+<h4 class="h4"><a id="ch07lev1sec6"/><strong>Number</strong></h4>
+<p class="noindent"><span class="codesample">Number</span> is the built-in object corresponding to the primitive number data type. As discussed in <a class="nounder" href="ch03.html#ch03">Chapter 3</a>, all numbers are represented in IEEE 754-1985 double-precision floating-point format. This representation is 64 bits long, permitting floating-point magnitudes as large as ±1.7976×10<sup>308</sup> and as small as ±2.2250×10<sup>-308</sup>. The <span class="codesample">Number()</span> constructor takes an optional argument specifying its initial value:</p>
+<p class="image"><img alt="image" src="f0258-05.jpg"/></p>
+<p class="indent"><a class="nounder" href="ch07.html#tab7-5">Table 7-5</a> lists the special numeric values that are provided as properties of the <span class="codesample">Number</span> object.</p>
+<p class="tabcap"><a id="tab7-5"/><strong>Table 7-5</strong> Properties of the Number Object</p>
+<p class="image"><img alt="image" src="t0258-01.jpg"/></p>
+<p class="indent">The only useful method of this object is <span class="codesample">toString()</span>, which returns the value of the number in a string. Of course it is rarely needed, given that generally a number type converts to a string when we need to use it as such.</p>
+<h4 class="h4"><a id="page_259"/><a id="ch07lev1sec7"/><strong>String</strong></h4>
+<p class="noindent"><span class="codesample">String</span> is the built-in object corresponding to the primitive string data type. It contains a very large number of methods for string manipulation and examination, substring extraction, and even conversion of strings to marked-up HTML, though unfortunately not standards-oriented XHTML. Here we overview them with special focus on those that are most commonly used.</p>
+<p class="indent">The <span class="codesample">String()</span> constructor takes an optional argument that specifies its initial value:</p>
+<p class="image"><img alt="image" src="f0259-01.jpg"/></p>
+<p class="indent">Because you can invoke <span class="codesample">String</span> methods on primitive strings, programmers rarely create <span class="codesample">String</span> objects in practice.</p>
+<p class="indent">The only property of <span class="codesample">String</span> is <span class="codesample">length</span>, which indicates the number of characters in the string.</p>
+<p class="image"><img alt="image" src="f0259-02.jpg"/></p>
+<p class="indent">The <span class="codesample">length</span> property is automatically updated when the string changes and cannot be set by the programmer. In fact, there is <em>no</em> way to manipulate a string directly. That is, <span class="codesample">String</span> methods do not operate on their data “in place.” Any method that would change the value of the string returns a string containing the result. If you want to change the value of the string, you must set the string equal to the result of the operation. For example, converting a string to uppercase with the <span class="codesample">toUpperCase()</span> method would require the following syntax:</p>
+<p class="image"><img alt="image" src="f0259-03.jpg"/></p>
+<p class="indent">Invoking <span class="codesample"><em>str</em>.toUpperCase()</span> without setting <span class="codesample"><em>str</em></span> equal to its result does not change the value of <span class="codesample"><em>str</em></span>. The following does <em>not</em> modify <span class="codesample"><em>str</em></span>:</p>
+<p class="image"><img alt="image" src="f0259-04.jpg"/></p>
+<p class="indent">Other simple string manipulation methods such as <span class="codesample">toLowerCase()</span> work in the same way; forgetting this fact is a common mistake made by new JavaScript programmers.</p>
+<h5 class="h5"><a id="ch07lev2sec14"/><strong>Examining Strings</strong></h5>
+<p class="noindent">Individual characters can be examined with the <span class="codesample">charAt()</span> method. It accepts an integer indicating the position of the character to return. Because JavaScript makes no distinction between individual characters and strings, it returns a string containing the desired character. Remember that, like arrays, characters in JavaScript strings are enumerated beginning with zero, so</p>
+<p class="image"><img alt="image" src="f0259-05.jpg"/></p>
+<p class="noindent">retrieves “a.” You can also retrieve the numeric value associated with a particular character using <span class="codesample">charCodeAt()</span>. Because the value of “a” in Unicode is 97, this statement</p>
+<p class="image"><a id="page_260"/><img alt="image" src="f0260-01.jpg"/></p>
+<p class="noindent">returns 97.</p>
+<p class="indent">Conversion from a character code is easy enough using the <span class="codesample">fromCharCode()</span> method. Unlike the other methods, this one is generally used with the generic object <span class="codesample">String</span> itself rather than a string instance. For example,</p>
+<p class="image"><img alt="image" src="f0260-02.jpg"/></p>
+<p class="noindent">would set the value of the variable <span class="codesample"><em>aChar</em></span> to <span class="codesample">‘R.’</span> Multiple codes can be passed in by separating them with commas. For example,</p>
+<p class="image"><img alt="image" src="f0260-03.jpg"/></p>
+<p class="noindent">would set <span class="codesample">aString</span> to <span class="codesample">“DOG.”</span></p>
+<hr/>
+<p class="note"><strong>NOTE</strong> You will probably receive a ? value or a strange character for any unknown values passed to the <span class="codesample">fromCharCode()</span> method.</p>
+<p class="indent">The <span class="codesample">indexOf()</span> method takes a string argument and returns the index of the first occurrence of the argument in the string. For example,</p>
+<p class="image"><img alt="image" src="f0260-04.jpg"/></p>
+<p class="noindent">returns 4. If the argument is not found, –1 is returned. This method also accepts an optional second argument that specifies the index at which to start the search. When specified, the method returns the index of the first occurrence of the argument at or after the start index. For example,</p>
+<p class="image"><img alt="image" src="f0260-05.jpg"/></p>
+<p class="noindent">returns 3. A related method is <span class="codesample">lastIndexOf()</span>, which returns the index of the last occurrence of the string given as an argument. It also accepts an optional second argument that indicates the index at which to end the search. For example,</p>
+<p class="image"><img alt="image" src="f0260-06.jpg"/></p>
+<p class="noindent">returns 1. This method also returns –1 if the string is not found.</p>
+<p class="indent">There are numerous ways to extract substrings in JavaScript. The best way to do so is with <span class="codesample">substring()</span>. The first argument to <span class="codesample">substring()</span> specifies the index at which the desired substring begins. The optional second argument indicates the index at which the desired substring ends. The method returns a string containing the substring beginning at the given index up to but not including the character at the index specified by the second argument. For example,</p>
+<p class="image"><img alt="image" src="f0260-07.jpg"/></p>
+<p class="noindent">returns <span class="codesample">“aScript”</span>, and</p>
+<p class="image"><img alt="image" src="f0260-08.jpg"/></p>
+<p class="noindent"><a id="page_261"/>returns <span class="codesample">“aScr”</span>. The <span class="codesample">slice()</span> method is a slightly more powerful version of <span class="codesample">substring()</span>. It accepts the same arguments as <span class="codesample">substring()</span>, but the indices are allowed to be negative. A negative index is treated as an offset from the end of the string.</p>
+<p class="indent">The <span class="codesample">match()</span> and <span class="codesample">search()</span> methods use regular expressions to perform more complicated examinations of strings. The use of regular expressions is discussed in <a class="nounder" href="ch08.html#ch08">Chapter 8</a>, and these methods are demonstrated there.</p>
+<h5 class="h5"><a id="ch07lev2sec15"/><strong>Manipulating Strings</strong></h5>
+<p class="noindent">The most basic operation one can perform with strings is concatenation. Concatenating strings with the + operator should be familiar by now. The <span class="codesample">String</span> object also provides a <span class="codesample">concat()</span> method to achieve the same result. It accepts any number of arguments and returns the string obtained by concatenating the arguments to the string on which it was invoked. For example,</p>
+<p class="image"><img alt="image" src="f0261-01.jpg"/></p>
+<p class="noindent">assigns “JavaScript is a flexible language.” to the variable <span class="codesample"><em>s</em></span>, just as the following would:</p>
+<p class="image"><img alt="image" src="f0261-02.jpg"/></p>
+<hr/>
+<p class="note"><strong>NOTE</strong> Some JavaScript aficionados look closely at the performance of string methods versus the standard + or even using other methods to perform similar tasks. In some extreme use, cases such as micro optimizations may be quite warranted, but assuming that the implementation speed of one method over another in JavaScript is consistent across browsers has not been <span class="codesample">true</span> in our experience. In short, knowing some arcane aspects of a browser’s JavaScript implementation can be useful but should be applied with caution. <a class="nounder" href="ch18.html#ch18">Chapter 18</a> has a bit more information on optimizations that are useful if readers are interested.</p>
+<p class="indent">A method that comes in very useful when parsing preformatted strings is <span class="codesample">split()</span>. The <span class="codesample">split()</span> method breaks the string up into separate strings according to a delimiter passed as its first argument. The result is returned in an array. For example,</p>
+<p class="image"><img alt="image" src="f0261-03.jpg"/></p>
+<p class="noindent">assigns <span class="codesample">wordArray</span> an array with three elements: “A,” “simple,” and “example.” Passing the empty string as the delimiter breaks the string up into an array of strings containing individual characters. The method also accepts a second argument that specifies the maximum number of elements into which the string can be broken.</p>
+<p class="indent">As we see, the <span class="codesample">String split()</span> method and the <span class="codesample">Array join()</span> method can work hand in hand, sometimes with some great elegance. As a demonstration, notice here this function <span class="codesample"><em>addClass</em></span>, which adds a new class name to a DOM elements list of <span class="codesample">class</span> attribute values. The <span class="codesample">split()</span> method is used to pull apart the classes; then a new one is added, and they are joined back together in a string and put back in the DOM:</p>
+<p class="image"><img alt="image" src="f0261-04.jpg"/></p>
+<p class="indent"><a id="page_262"/>We’ll see some more applied uses of the methods presented in this chapter later in the book as we create more applied scripts.</p>
+<h5 class="h5"><a id="ch07lev2sec16"/><strong>Marking Up Strings as Traditional HTML</strong></h5>
+<p class="noindent">Because JavaScript is commonly used to manipulate Web pages, the <span class="codesample">String</span> object provides a large set of methods that mark strings up as HTML. Each of these methods returns the string surrounded by a pair of HTML tags. Note that the HTML returned is not standards-oriented HTML 4 or XHTML but more like the old physical-style HTML 3.2. For example, the <span class="codesample">bold()</span> method places <span class="codesample"><strong>&lt;B&gt;</strong></span> and <span class="codesample"><strong>&lt;/B&gt;</strong></span> tags around the string it is invoked on. The following</p>
+<p class="image"><img alt="image" src="f0262-01.jpg"/></p>
+<p class="noindent">places this string in <span class="codesample"><em>str</em></span>:</p>
+<p class="image"><img alt="image" src="f0262-02.jpg"/></p>
+<p class="indent">You may wonder how to apply more than one HTML-related method to a string. This is easily accomplished by chaining method invocations. While chained method invocations can appear intimidating, they come in handy when creating HTML markup from strings. For example,</p>
+<p class="image"><img alt="image" src="f0262-03.jpg"/></p>
+<p class="noindent">assigns the following string to <span class="codesample"><em>str</em></span>:</p>
+<p class="image"><img alt="image" src="f0262-04.jpg"/></p>
+<p class="noindent">This displays a blinking, struck-through, bold string when placed in a Web document. Ignoring the fact that such strings are incredibly annoying, the example illustrates how method invocations can be “chained” together for efficiency. It is easier to write the invocations in a series than to invoke each on <span class="codesample"><em>str</em></span>, one at a time. Note how the methods were invoked “inner-first,” or, equivalently, left to right.</p>
+<p class="indent">The various HTML <span class="codesample">String</span> methods correspond to common HTML and browser-specific tags such as <span class="codesample"><strong>&lt;BLINK&gt;</strong></span>. A complete list of the HTML-related <span class="codesample">String</span> methods can be found in <a class="nounder" href="ch07.html#tab7-6">Table 7-6</a>.</p>
+<p class="tabcap"><a id="tab7-6"/><strong>Table 7-6</strong> HTML-Related String Methods</p>
+<p class="imagea"><img alt="image" src="t0263-01.jpg"/></p>
+<p class="image0"><img alt="image" src="t0263-02.jpg"/></p>
+<hr/>
+<p class="note"><strong>NOTE</strong> You may notice that it is possible to pass just about anything to these HTML methods. For example, <span class="codesample">“bad”.fontcolor (“junk”)</span> will happily create a string containing the markup <span class="codesample"><strong>&lt;FONTCOLOR=“junk”&gt;</strong> bad<strong>&lt;/FONT&gt;</strong></span>. No range or type checking related to HTML is provided by these methods.</p>
+<p class="indent">Notice in <a class="nounder" href="ch07.html#tab7-6">Table 7-6</a> how these JavaScript methods produce uppercase and even nonstandard markup such as <span class="codesample"><strong>&lt;BLINK&gt;</strong></span>, rather than XHTML-compliant tags. In fact, many of the methods like <span class="codesample">fontcolor()</span> create markup strings containing deprecated elements that have been phased out under strict variants of HTML 4 and XHTML in favor of a CSS-based presentation. Fortunately, the <span class="codesample">Document</span> Object Model (DOM) will allow us to easily create and manipulate any HTML element in a more standardized fashion and will be discussed in depth starting in <a class="nounder" href="ch10.html#ch10">Chapter 10</a>.<a id="page_263"/></p>
+<h5 class="h5"><a id="page_264"/><a id="ch07lev2sec17"/><strong>ECMAScript 5 String Changes</strong></h5>
+<p class="noindent">ECMAScript 5 does not change too much in the case of strings but introduces a few useful methods that we examine here. First up is the <span class="codesample">String trim()</span> method, which removes the white space from both the left and right side of a string:</p>
+<p class="image"><img alt="image" src="f0264-01.jpg"/></p>
+<p class="image"><img alt="image" src="f0264-02.jpg"/></p>
+<p class="noindent">This is easy enough to simulate in nonsupporting browsers, particularly if we employ a simple regular expression, a topic which we cover in <a class="nounder" href="ch08.html#ch08">Chapter 8</a>:</p>
+<p class="image"><img alt="image" src="f0264-03.jpg"/></p>
+<p class="indent">What’s interesting is that many JavaScript implementations already support <span class="codesample">trim()</span>, as well as <span class="codesample">trimLeft()</span> and <span class="codesample">trimRight()</span> methods, which remove white space on the left and right side of a string, respectively. These methods are not defined under ECMAScript 5, but they can be added as well, like so:</p>
+<p class="image"><img alt="image" src="f0264-04.jpg"/></p>
+<p class="noindent">The usage of all the <span class="codesample">String</span> trimming methods is demonstrated here:</p>
+<p class="image"><a id="page_265"/><img alt="image" src="f0265-01.jpg"/></p>
+<p class="image"><img alt="image" src="f0265-02.jpg"/></p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.www.javascriptref.com/3ed/ch7/stringtrim.html">http://www.javascriptref.com/3ed/ch7/stringtrim.html</a></p>
+<h4 class="h4"><a id="ch07lev1sec8"/><strong>Summary</strong></h4>
+<p class="noindent">Built-in objects are those provided by the JavaScript language itself, such as <span class="codesample">Array, Boolean, Date, Math, Number</span>, and <span class="codesample">String</span>. Many of the built-in objects are related to the various data types supported in the language. Programmers will often access the methods and properties of the built-in objects related to the complex data types such as arrays and strings. The <span class="codesample">Math</span> and <span class="codesample">Date</span> objects are commonly used in JavaScript applications as well. However, much of the time the fact that the primitive types are objects—as is everything else in JavaScript, including functions—goes unnoticed by JavaScript programmers. Understanding these underlying relationships can make you a better JavaScript programmer. However, if you feel you don’t fully comprehend or care about the interconnectedness of it all and just want to use the provided methods and properties of the various built-in objects, you’ll still find an arsenal of easy-to-use and powerful features at your disposal. <a class="nounder" href="ch08.html#ch08">Chapter 8</a> takes a look at one very useful aspect of JavaScript: regular expressions.<a id="page_266"/></p>
+</body>
+</html>

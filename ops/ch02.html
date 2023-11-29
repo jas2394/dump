@@ -1,0 +1,473 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<title>JavaScript: The Complete Reference&#153;, Third Edition</title>
+<link href="0071741216.css" rel="stylesheet" type="text/css"/>
+<link href="page-template.xpgt" rel="stylesheet" type="application/vnd.adobe-page-template+xml"/>
+<meta content="urn:uuid:4d1be0af-c0d3-47b8-9bd4-3edcb4dee196" name="Adept.expected.resource"/>
+</head>
+<body>
+<h3 class="h3b" id="ch02"><a id="page_37"/><strong>CHAPTER 2<br/>Overview of JavaScript Core Language Features</strong></h3>
+<p class="noindent">The core features of JavaScript that are introduced in this chapter are the syntax rules to which your scripts must adhere and the basic constructs used to store data and manipulate flow control. Once you understand the basic language mechanics, more advanced features can be tackled somewhat independently, without getting bogged down in myriad details. C, C++, and Java programmers will find JavaScript’s syntax familiar and should be able to quickly pick up its general syntax but are duly warned not to underestimate the language’s more advanced features. This chapter is introductory and is meant to provide a quick overview of all of JavaScript’s core features. Most of the topics will be explored in much greater depth in the chapters to follow.</p>
+<h4 class="h4"><a id="ch02lev1sec1"/><strong>Basic Definitions</strong></h4>
+<p class="noindent">Large groups of people sharing a common interest or goal accomplish one thing at the very least: they develop jargon. After spending any significant period of time working with computers, one cannot help but notice that software engineers are particularly fond of the language they use to communicate ideas about programming. The terms employed for discussing programming languages offer a technical vocabulary with which specific ideas can be communicated clearly and concisely.</p>
+<p class="indent">Here we introduce some programming language terminology that will be used throughout the book. <a class="nounder" href="ch02.html#tab2-1">Table 2-1</a> provides precise definitions for concepts that are often only vaguely understood.</p>
+<p class="tabcap"><a id="tab2-1"/><strong>Table 2-1</strong> Common Programming Language Terms</p>
+<p class="imagea"><img alt="image" src="t0037-01.jpg"/></p>
+<p class="image0"><img alt="image" src="t0038-01.jpg"/></p>
+<p class="image0"><img alt="image" src="t0038-02.jpg"/></p>
+<h4 class="h4"><a id="page_38"/><a id="ch02lev1sec2"/><strong>Execution Order</strong></h4>
+<p class="noindent">JavaScript code found in HTML documents is interpreted line by line as it is read top to bottom. As such we should declare code structures like variables and functions before attempting access. Because of this standard execution order, we generally place some code for initial read; for example, in Web documents we might place script references in the <span class="codesample"><strong>&lt;head&gt;</strong></span> tag. However, we will see that because of the sequential and generally blocking nature of JavaScript for Web page load, this can be problematic. See <a class="nounder" href="ch18.html#ch18">Chapter 18</a> for a brief discussion about execution and load order as it relates to performance.</p>
+<h4 class="h4"><a id="ch02lev1sec3"/><strong>Case Sensitivity</strong></h4>
+<p class="noindent">JavaScript is case-sensitive. This means that capital letters are distinct from their lowercase counterparts. For example, if you use the identifiers <span class="codesample">result, Result</span>, and <span class="codesample">RESULT</span> in <a id="page_39"/>your script, each identifier refers to a separate, distinct variable. Case sensitivity applies to all aspects of the language: keywords, operators, variable names, event handlers, object properties, and so on. All JavaScript keywords are lowercase, so when using a feature such as an <span class="codesample">if</span> statement, you need to make sure you type “<span class="codesample">if</span>” and not “<span class="codesample">If</span>” or “<span class="codesample">IF</span>.” Because JavaScript uses the “camel-back” naming convention, many methods and properties use mixed casing. For example, the <em>M</em> in the name of the <span class="codesample">lastModified</span> property of the <span class="codesample">Document</span> object (<span class="codesample">document.lastModified</span>) must be uppercase; using a lowercase <em>m</em> (<span class="codesample">document.lastmodified</span>) will retrieve an <span class="codesample">undefined</span> value.</p>
+<p class="indent">The primary implication of case sensitivity is that you should pay close attention to capitals when defining and accessing variables, when using language constructs such as <span class="codesample">if</span> and <span class="codesample">while</span>, and when accessing properties of objects. One typo can change the meaning of your whole script and require significant debugging effort.</p>
+<h5 class="h5"><a id="ch02lev2sec1"/><strong>HTML and Case Sensitivity</strong></h5>
+<p class="noindent">The fact that JavaScript is commonly embedded directly in HTML can lead to some confusion. Under HTML, element and attribute names are case-insensitive. For example, the following two tags are equivalent:</p>
+<p class="image"><img alt="image" src="f0039-01.jpg"/></p>
+<p class="noindent">This is not a problem in itself. The problem comes when novice programmers see HTML event handlers referenced in two different ways (like <span class="codesample"><strong><small>ONCLICK</small></strong></span> and <span class="codesample"><strong>onClick</strong></span> in the previous example) and assume event handlers can be accessed similarly in JavaScript. This is not the case. The corresponding event handler in JavaScript is <span class="codesample"><strong>onclick</strong></span>, and it must always be referred to as such. The reason that <span class="codesample"><strong><small>ONCLICK</small></strong></span> and <span class="codesample"><strong>onClick</strong></span> work in HTML is that the browser automatically binds them to the correct <span class="codesample"><strong>onclick</strong></span> event handler in JavaScript.</p>
+<p class="indent">To further illuminate the distinction, consider the following two tags, which are <em>not</em> equivalent:</p>
+<p class="image"><img alt="image" src="f0039-02.jpg"/></p>
+<p class="indent">The reason they are not equivalent is that the first modifies the variable <span class="codesample"><em>x</em></span>, while the second modifies <span class="codesample"><em>X.</em></span> Because JavaScript is case-sensitive, these are two distinct variables. This illustrates an important aspect of HTML attributes: while the attribute name is not case-sensitive, its <em>value</em> may be. The <span class="codesample"><strong>onclick</strong></span> HTML attribute is not case-sensitive and so may be written <span class="codesample"><strong>onClick</strong></span>, <span class="codesample"><strong><small>ONCLICK</small></strong></span>, or even <span class="codesample"><strong>oNcLiCk</strong></span>. However, because the value to which the <span class="codesample"><strong>onclick</strong></span> attribute is set contains JavaScript, you must remember that it <em>is</em> case-sensitive.</p>
+<p class="indent">It should be noted that XHTML requires that element and attribute names be written in lowercase. In contrast, older traditional SGML forms of HTML and now HTML5 are not case-sensitive in this way. Given the changes and the fact that we went from standards okay with case variability to then not, and now back, we suggest picking a case style and sticking to it. In our view, we strongly suggest lowercasing the tags and attributes (especially event handlers) of the HTML in which your scripts are embedded. Since JavaScript is case-sensitive, you should be a bit careful not to revert to sloppy case handling lest errors creep into your code, markup, style, or the interaction between the three.</p>
+<h4 class="h4"><a id="page_40"/><a id="ch02lev1sec4"/><strong>Whitespace</strong></h4>
+<p class="noindent"><em>Whitespace</em> characters are those characters that take up space on the screen without any visible representation. Examples include ordinary spaces, tabs, and linebreak characters. Any sequence of excessive whitespace characters is ignored by JavaScript. For example:</p>
+<p class="image"><img alt="image" src="f0040-01.jpg"/></p>
+<p class="noindent">is the same as:</p>
+<p class="image"><img alt="image" src="f0040-02.jpg"/></p>
+<p class="noindent">This suggests that the use of whitespace is more for the benefit of the programmer than the interpreter. Indeed, thoughtful use of whitespace to offset comments, loop contents, and declarations results in more readable, and hopefully, understandable code.</p>
+<hr/>
+<p class="note"><strong>NOTE</strong> Because of JavaScript’s ambivalence to whitespace and most Web users’ frustration with slow download times, some JavaScript programmers choose to “compress” their scripts by removing excess whitespace characters. This practice is generally a part of minification, discussed in <a class="nounder" href="ch18.html#ch18">Chapter 18</a>.</p>
+<p class="indent">The spacing between tokens can be omitted if the meaning is unambiguous. For example:</p>
+<p class="image"><img alt="image" src="f0040-03.jpg"/></p>
+<p class="noindent">contains no spaces but is acceptable because its meaning is clear. However, most operations other than simple arithmetic functions will require a space to indicate the desired meaning. Consider the following:</p>
+<p class="image"><img alt="image" src="f0040-04.jpg"/></p>
+<p class="noindent">The first statement invokes the <span class="codesample">typeof</span> operator on a variable <span class="codesample"><em>x</em></span> and places the result in <span class="codesample"><em>s</em></span>. The second copies the value of a variable called <span class="codesample"><em>typeofx</em></span> into <span class="codesample"><em>s</em></span>. One space changes the entire meaning of the statement.</p>
+<p class="indent">As a rule, JavaScript ignores extra whitespace—but there are exceptions. One is in strings. Whitespace will be preserved in any string enclosed in single or double quotes:</p>
+<p class="image"><img alt="image" src="f0040-05.jpg"/></p>
+<p class="indent">Experienced programmers might wonder what happens if you include a linebreak directly in a string. The answer involves another of the subtleties of whitespace and JavaScript: <em>implicit semicolons</em>.</p>
+<h4 class="h4"><a id="ch02lev1sec5"/><strong>Statements</strong></h4>
+<p class="noindent">Statements are the essence of a language like JavaScript. They are instructions to the interpreter to carry out specific actions. For example, one of the most common statements is an <em>assignment</em>. Assignment uses the <span class="codesample"><strong>=</strong></span> operator and places the value on the right-hand side into the variable on the left. For example:</p>
+<p class="image"><img alt="image" src="f0040-06.jpg"/></p>
+<p class="noindent"><a id="page_41"/>adds <span class="codesample">10</span> to <span class="codesample"><em>y</em></span> and places the value in <span class="codesample"><em>x</em></span>. The assignment operator should not be confused with the “is equal to” comparison operator <span class="codesample">==</span>, which is used in conditional expressions (discussed later in the chapter). One key issue with statements in a programming language is indicating how they are terminated and grouped.</p>
+<h5 class="h5"><a id="ch02lev2sec2"/><strong>Semicolons</strong></h5>
+<p class="noindent">A semicolon indicates the end of a JavaScript statement. For example, you can group multiple statements on one line by separating them with semicolons:</p>
+<p class="image"><img alt="image" src="f0041-01.jpg"/></p>
+<p class="noindent">You can also include more complicated or even empty statements on one line:</p>
+<p class="image"><img alt="image" src="f0041-02.jpg"/></p>
+<p class="noindent">This example increments <em>x</em>, skips past two empty statements, sets <span class="codesample"><em>x</em></span> to zero if <span class="codesample"><em>x</em></span> is greater than <span class="codesample">10</span>, and finally decrements <span class="codesample"><em>y</em></span>. As you can see, including multiple statements on one line is rather unwieldy if worked on directly and as such should be avoided. However, code condensing like this via white space reduction and other techniques is the standard result of minification, which is useful for reducing script size for optimal delivery online.</p>
+<p class="indent">Although statements should be followed by semicolons, they can be omitted if your statements are separated by a line break. For example:</p>
+<p class="image"><img alt="image" src="f0041-03.jpg"/></p>
+<p class="noindent">is treated as:</p>
+<p class="image"><img alt="image" src="f0041-04.jpg"/></p>
+<p class="indent">Of course, if you wish to include two statements on one line, a semicolon must be included to separate them:</p>
+<p class="image"><img alt="image" src="f0041-05.jpg"/></p>
+<p class="indent">The formal rules for implicit semicolon insertion are a bit more complex than the preceding description would lead you to believe. In theory, tokens of a single statement can be separated by a line break without causing an error. However, if the tokens on a line without a semicolon comprise a complete JavaScript statement, a semicolon is inserted even if the next line could plausibly be treated as an extension of the first. The classic example is the <span class="codesample">return</span> statement. Because the argument to <span class="codesample">return</span> is optional, placing <span class="codesample">return</span> and its argument on separate lines causes the <span class="codesample">return</span> to execute without the argument. For example:</p>
+<p class="image"><img alt="image" src="f0041-06.jpg"/></p>
+<p class="noindent">is treated as:</p>
+<p class="image"><img alt="image" src="f0041-07.jpg"/></p>
+<p class="noindent"><a id="page_42"/>rather than what was probably intended:</p>
+<p class="image"><img alt="image" src="f0042-01.jpg"/></p>
+<p class="indent">Relying on implicit semicolon insertion is a bad idea, and poor programming style to boot. This practice should be avoided.</p>
+<h5 class="h5"><a id="ch02lev2sec3"/><strong>Blocks</strong></h5>
+<p class="noindent">Curly braces “<span class="codesample">{ }</span>” are used to group a list of statements together. For example, the statements that make up the body of a function are enclosed in curly braces:</p>
+<p class="image"><img alt="image" src="f0042-02.jpg"/></p>
+<p class="noindent">If more than one statement is to be executed as the result of a conditional or in a loop, the statements are similarly grouped:</p>
+<p class="image"><img alt="image" src="f0042-03.jpg"/></p>
+<p class="indent">Regardless of whether they are used singularly or within groups, statements generally need to modify data, which is often in the form of a variable.</p>
+<h4 class="h4"><a id="ch02lev1sec6"/><strong>Variables</strong></h4>
+<p class="noindent">A variable stores data. Every variable has a name, called its <em>identifier</em>. Variables are declared in JavaScript using <span class="codesample">var</span>, a keyword that allocates storage space for new data and indicates to the interpreter that a new identifier is in use. Declaring a variable is simple:</p>
+<p class="image"><img alt="image" src="f0042-04.jpg"/></p>
+<p class="noindent">This statement tells the interpreter that a new variable <span class="codesample"><em>x</em></span> is about to be used. Variables can be assigned initial values when they are declared:</p>
+<p class="image"><img alt="image" src="f0042-05.jpg"/></p>
+<p class="indent">In addition, multiple variables can be declared with one <span class="codesample">var</span> statement if the variables are separated by commas:</p>
+<p class="image"><img alt="image" src="f0042-06.jpg"/></p>
+<p class="indent">You should not use variables without first declaring them, although it is possible to do so in many cases. In JavaScript, variables are either in the global scope or the local scope. Variables declared within a function belong strictly to that function and cannot be accessed outside of that scope. Variables declared outside of a function are global to the application. However, if a variable is used without a <span class="codesample">var</span> declaration, even inside of a function, that variable will belong to the global scope. We advise you to always declare variables first so that there is no confusion to the variables scope.</p>
+<p class="indent"><a id="page_43"/>Experienced programmers will notice that, unlike C, C++, and Java, that type of information is missing in JavaScript during declaration. This foreshadows that JavaScript’s treatment of variable data types is fundamentally different from these languages.</p>
+<h4 class="h4"><a id="ch02lev1sec7"/><strong>Basic Data Types</strong></h4>
+<p class="noindent">Every variable has a <em>data type</em> that indicates what kind of data the variable holds. There are five basic data types in JavaScript, and they are shown in <a class="nounder" href="ch02.html#tab2-2">Table 2-2</a>.</p>
+<p class="tabcap"><a id="tab2-2"/><strong>Table 2-2</strong> JavaScript’s Primitive Data Types</p>
+<p class="imagea"><img alt="image" src="t0043-01.jpg"/></p>
+<p class="image0"><img alt="image" src="t0043-02.jpg"/></p>
+<p class="indent"><a id="page_44"/>All these data types as well as the details of special characters are discussed in <a class="nounder" href="ch03.html#ch03">Chapter 3</a>. However, one aspect of JavaScript data types should be briefly mentioned in this overview: weak typing.</p>
+<h5 class="h5"><a id="ch02lev2sec4"/><strong>Weak Typing</strong></h5>
+<p class="noindent">A major difference between JavaScript and other languages you might be familiar with is that JavaScript is <em>weakly typed</em>. Every JavaScript variable has a data type, but the type is inferred from the variable’s content. For example, a variable that is assigned a string value assumes the string data type. A consequence of JavaScript’s automatic type inference is that a variable’s type can change dynamically. For example, a variable can hold a string at one point and then later be assigned a Boolean. Its type changes according to the data it holds. This explains why there is only one way to declare variables in JavaScript: there is no need to indicate type in variable declarations.</p>
+<p class="indent">Being weakly typed is both a blessing and a curse for JavaScript. While weak typing appears to free the programmer from having to declare types ahead of time, it does so at the expense of introducing subtle typing errors. For example, given the following script that manipulates various string and number values, we will see type conversion cause potential ambiguities:</p>
+<p class="image"><img alt="image" src="f0044-01.jpg"/></p>
+<p class="noindent">The output of this example when included in an HTML document is shown here:</p>
+<p class="image1"><img alt="image" src="f0044-02.jpg"/></p>
+<p class="noindent">Notice in particular how, in the case of addition, the result was a string “<span class="codesample">55</span>” rather than a number 10, while in the other examples the string was converted to a number before output. The reason the addition didn’t work is that the plus sign is an overloaded operator that serves two meanings, both as addition and as string concatenation.</p>
+<h5 class="h5"><a id="ch02lev2sec5"/><strong>Type Conversion</strong></h5>
+<p class="noindent">Type conversion is automatically carried out in JavaScript. <a class="nounder" href="ch02.html#tab2-3">Table 2-3</a> shows the common conversion rules when data is automatically converted to one type or another. Automatic conversion happens very often when using relational operators discussed later in the section. Type conversion and its subtleties are discussed in more detail in <a class="nounder" href="ch03.html#ch03">Chapter 3</a>.</p>
+<p class="tabcap"><a id="tab2-3"/><strong>Table 2-3</strong> Type Conversions in JavaScript</p>
+<p class="imagea"><a id="page_45"/><img alt="image" src="t0045-01.jpg"/></p>
+<p class="image0"><img alt="image" src="t0045-02.jpg"/></p>
+<p class="indent">Fortunately, there are many ways to convert data predictably in JavaScript using methods like <span class="codesample">parseInt()</span> and <span class="codesample">parseFloat()</span> amongst other schemes. These methods are shown in <a class="nounder" href="ch02.html#tab2-4">Table 2-4</a>.</p>
+<p class="tabcap"><a id="tab2-4"/><strong>Table 2-4</strong> Type Conversion Methods</p>
+<p class="imagea"><a id="page_46"/><img alt="image" src="t0046-01.jpg"/></p>
+<p class="image0"><img alt="image" src="t0046-02.jpg"/></p>
+<p class="image0"><img alt="image" src="t0047-01.jpg"/></p>
+<p class="indent"><a id="page_47"/>Given that it may be unclear what the type of a given value is, you may need to employ the <span class="codesample">typeof</span> operator.</p>
+<p class="image"><img alt="image" src="f0047-01.jpg"/></p>
+<p class="indent">Also, be aware that implicit type conversion can lead to lots of confusion. For example,</p>
+<p class="image"><img alt="image" src="f0047-02.jpg"/></p>
+<p class="noindent">indicates that the two values are equivalent. If you are looking for explicit checking of type and value, you will need to use the <span class="codesample">===</span> and <span class="codesample">!==</span> operators, discussed later. Because of the potential for run-time type errors, explicit conversion is simply more appropriate for safe programming.</p>
+<h4 class="h4"><a id="ch02lev1sec8"/><strong>Composite Types</strong></h4>
+<p class="noindent">Composite types are collections of primitive types into some larger structure. In JavaScript, the most generic composite type from which all other composite types are derived is the object.</p>
+<h5 class="h5"><a id="ch02lev2sec6"/><strong>Objects</strong></h5>
+<p class="noindent">In JavaScript, an object is an unordered set of properties that may be accessed using the dot operator:</p>
+<p class="image"><img alt="image" src="f0047-03.jpg"/></p>
+<p class="noindent">For example:</p>
+<p class="image"><img alt="image" src="f0047-04.jpg"/></p>
+<p class="noindent"><a id="page_48"/>might be used to access the name property of an object called <span class="codesample"><em>myDog</em></span>. Equivalently, this can be represented in an associative array format:</p>
+<p class="image"><img alt="image" src="f0048-01.jpg"/></p>
+<p class="noindent">So the same example in this case would be:</p>
+<p class="image"><img alt="image" src="f0048-02.jpg"/></p>
+<p class="noindent">Generally, the two formats are equivalent, but when accessing properties with spaces in them or doing some forms of loop, the associate array format may be easier to work with.</p>
+<p class="indent">In the case where we are accessing an object’s property and it is a function, more appropriately called a method, it may be invoked as:</p>
+<p class="image"><img alt="image" src="f0048-03.jpg"/></p>
+<p class="noindent">For example, <span class="codesample"><em>myDog</em></span> might have a method <span class="codesample"><em>bark()</em></span> that could be called like so:</p>
+<p class="image"><img alt="image" src="f0048-04.jpg"/></p>
+<p class="indent">Objects are created using the <span class="codesample">new</span> operator in conjunction with a special constructor function.</p>
+<p class="image"><img alt="image" src="f0048-05.jpg"/></p>
+<p class="noindent">For example, here we create a new <span class="codesample">Date</span> object that is built into ECMAScript:</p>
+<p class="image"><img alt="image" src="f0048-06.jpg"/></p>
+<p class="noindent">Constructor functions are, by convention, named in uppercase and can be user defined. This shows an example of creating a simple object <span class="codesample"><em>Dog</em></span> with one property and method.</p>
+<p class="image"><img alt="image" src="f0048-07.jpg"/></p>
+<p class="indent">Besides constructing objects with <span class="codesample">new</span>, it is also possible that an object literal may be used with the following syntax:</p>
+<p class="image"><img alt="image" src="f0048-08.jpg"/></p>
+<p class="noindent">For example:</p>
+<p class="image"><img alt="image" src="f0048-09.jpg"/></p>
+<p class="indent"><a id="page_49"/>Object literals are quite important in JavaScript today as they are being co-opted to create a namespace-like wrapper around various user-defined variables and functions. For example, given:</p>
+<p class="image"><img alt="image" src="f0049-01.jpg"/></p>
+<p class="noindent">you would wrap the values and functions within an object literal, like so:</p>
+<p class="image"><img alt="image" src="f0049-02.jpg"/></p>
+<p class="noindent">and avoid polluting the shared global namespace with many identifiers.</p>
+<p class="indent">Once an instance of an object is created, setting properties is similar to a standard assignment:</p>
+<p class="image"><img alt="image" src="f0049-03.jpg"/></p>
+<p class="noindent">and they can be accessed using the standard dot (‘.’) operator. For example, after creating a simple object, we might just add a new property to it:</p>
+<p class="image"><img alt="image" src="f0049-04.jpg"/></p>
+<p class="indent">Despite what some people think, JavaScript is an object-oriented programming language—it just doesn’t use the magic word “class,” at least not in the current 1.<em>x</em> generation of the language. As a prototypical-based OOP language, we can add to constructors on the fly. For example, we can extend <span class="codesample"><em>Dog</em></span> to have a <span class="codesample"><em>sit()</em></span> method now:</p>
+<p class="image"><img alt="image" src="f0049-05.jpg"/></p>
+<p class="indent">So our created objects now have this feature:</p>
+<p class="image"><img alt="image" src="f0049-06.jpg"/></p>
+<p class="noindent">You can use prototypes to create basic inheritance. For example:</p>
+<p class="image"><img alt="image" src="f0049-07.jpg"/></p>
+<p class="noindent"><a id="page_50"/>Using this idea, it is possible to add prototypes to built-in objects and even overwrite any methods or properties. This is both a powerful but sometimes dangerous aspect of JavaScript.</p>
+<p class="indent">The <span class="codesample">this</span> statement refers to the “current” object; that is, the object inside of which <span class="codesample">this</span> is invoked. Its syntax is:</p>
+<p class="image"><img alt="image" src="f0050-01.jpg"/></p>
+<p class="noindent">It is typically used inside of a function (for example, to access the function’s <span class="codesample">length</span> property) or inside of a constructor in order to access the new instance being created:</p>
+<p class="image"><img alt="image" src="f0050-02.jpg"/></p>
+<p class="noindent">Commonly it is used to shortcut object reference paths. For example, in this markup fragment you might use <span class="codesample">document.getElementById</span> (“<span class="codesample">field1</span>”) in the <span class="codesample">onblur</span> handler, but this is much more concise:</p>
+<p class="image"><img alt="image" src="f0050-03.jpg"/></p>
+<p class="noindent">Used in the global context, <span class="codesample">this</span> refers to the current Window.</p>
+<h6 class="h6"><strong>ECMAScript Built-In Objects and Host Objects</strong></h6>
+<p class="noindent">Now we can certainly make objects for use in our scripts, but often the value of a language comes from its “library”—in other words, the objects, methods, and so on available to us. The core ECMAScript specification does define a core number of objects, as listed in the overview in <a class="nounder" href="ch02.html#tab2-5">Table 2-5</a> and presented in detail primarily in <a class="nounder" href="ch07.html#ch07">Chapter 7</a>. These objects are part of the language itself, as opposed to <em>host</em> objects that are provided by the executing environment.</p>
+<p class="tabcap"><a id="tab2-5"/><strong>Table 2-5</strong> Native Objects Defined by ECMAScript</p>
+<p class="imagea"><img alt="image" src="t0050-01.jpg"/></p>
+<p class="image0"><img alt="image" src="t0050-02.jpg"/></p>
+<p class="indent"><a id="page_51"/>What many people consider JavaScript is not actually JavaScript but instead consists of the constructs provided by the environment in which the language is hosted. For example, <span class="codesample">window, document,</span> and <span class="codesample">navigator</span> are a number of objects you find in client-side JavaScript in a browser that serves as the host environment. In server-side JavaScript, your host environment might provide objects such as <span class="codesample">fs, querystring,</span> and <span class="codesample">url</span>. In this book, we’ll focus generally on client-side JavaScript, but the core language concerns will be transferable regardless of host environment. <a class="nounder" href="ch09.html#ch09">Chapter 9</a> and beyond will present most of the information on the host objects of browser-based Web development.</p>
+<h5 class="h5"><a id="ch02lev2sec7"/><strong>Arrays</strong></h5>
+<p class="noindent">JavaScript arrays are quite similar to objects, as we have alluded to a bit already, but they aren’t full types of their own. For example, you won’t be able to do a <span class="codesample">typeof</span> on a variable that is an array and get confirmation that it is such a structure.</p>
+<p class="indent">The array literal definition is similar to many languages using the following syntax (the brackets are “real” brackets and do not indicate optional components):</p>
+<p class="image"><img alt="image" src="f0051-01.jpg"/></p>
+<p class="noindent">Each <span class="codesample"><em>elementN</em></span> is optional, so you can use an array with “holes” in it; for example:</p>
+<p class="image"><img alt="image" src="f0051-02.jpg"/></p>
+<p class="indent">You can also use the <span class="codesample">Array()</span> constructor:</p>
+<p class="image"><img alt="image" src="f0051-03.jpg"/></p>
+<p class="noindent">If only one numeric argument is passed, it is interpreted as the initial value for the <span class="codesample">length</span> property; however, we stress the word <em>initial</em>. In JavaScript, it is easy to grow arrays simply by adding values. It is not necessary to reallocate memory or redeclare the array.</p>
+<p class="image"><img alt="image" src="f0051-04.jpg"/></p>
+<p class="indent">JavaScript arrays are zero base indexed, so</p>
+<p class="image"><img alt="image" src="f0051-05.jpg"/></p>
+<p class="noindent">would set the value at the first index of the array to the string literal “First in.” Access is the same using a numeric index.</p>
+<p class="image"><img alt="image" src="f0051-06.jpg"/></p>
+<p class="indent">To get the defined <span class="codesample">length</span> of the array, use the length property:</p>
+<p class="image"><img alt="image" src="f0051-07.jpg"/></p>
+<p class="noindent">We might use this property to set the final item of the array:</p>
+<p class="image"><img alt="image" src="f0051-08.jpg"/></p>
+<p class="indent"><a id="page_52"/>Arrays do not have to be indexed solely numerically. We can also use textual keys. For example:</p>
+<p class="image"><img alt="image" src="f0052-01.jpg"/></p>
+<p class="noindent">However, when arrays are utilized in this manner, they perform slightly differently from numerically indexed arrays. In this case, it is not possible to get the length of the array through the <span class="codesample">length</span> property, and it is not possible to loop through the array with a standard <span class="codesample">for</span> loop. However, it is possible to loop through the array using the <span class="codesample">for…in</span> loop.</p>
+<p class="indent">This reminds us again of the close relationship between arrays and objects in JavaScript. Object properties can be accessed not only as <span class="codesample"><em>objectName.propertyName</em></span> but as <span class="codesample"><em>objectName</em> [</span>“<span class="codesample"><em>propertyName”</em></span> <span class="codesample">]</span>. However, this does not mean that array elements can be accessed using an object style; <span class="codesample"><em>arrayName.0</em></span> would not access the first element of an array. Arrays are not quite interchangeable with objects in JavaScript.</p>
+<p class="indent">Arrays will be discussed in depth in Chapters 3 and 7, which will expose the reader to the numerous methods for array manipulation.</p>
+<h5 class="h5"><a id="ch02lev2sec8"/><strong>Functions as Data Types</strong></h5>
+<p class="noindent">Functions end up being classified as composite types as well. Generally, we do not think of them this way, as we usually encounter function literals employing the following syntax:</p>
+<p class="image"><img alt="image" src="f0052-02.jpg"/></p>
+<p class="noindent">where <span class="codesample"><em>args</em></span> is a comma-separated list of identifiers for the function arguments, and <span class="codesample"><em>statements</em></span> is zero or more valid JavaScript statements. Function literals are often found in constructors:</p>
+<p class="image"><img alt="image" src="f0052-03.jpg"/></p>
+<p class="noindent">or when binding them to event handlers:</p>
+<p class="image"><img alt="image" src="f0052-04.jpg"/></p>
+<p class="noindent">or performing other higher-order programming tasks.</p>
+<p class="indent">As a composite type like any other, you do not have to create functions solely as literals; for example, you can also use the <span class="codesample">Function()</span> constructor:</p>
+<p class="image"><img alt="image" src="f0052-05.jpg"/></p>
+<p class="noindent"><a id="page_53"/>The <span class="codesample"><em>argNs</em></span> are the names of the parameters the function accepts, and <span class="codesample"><em>statements</em></span> is the body of the function. For example:</p>
+<p class="image"><img alt="image" src="f0053-01.jpg"/></p>
+<p class="indent">In fact, functions like these other data types are first class data objects. We can use them in expressions, as we did above, and even assign them and use them as values:</p>
+<p class="image"><img alt="image" src="f0053-02.jpg"/></p>
+<p class="indent">We will explore functions in depth in <a class="nounder" href="ch05.html#ch05">Chapter 5</a>.</p>
+<h5 class="h5"><a id="ch02lev2sec9"/><strong>Regular Expression Literals and Object</strong></h5>
+<p class="noindent">Regular expression literals (actually <span class="codesample">RegExp</span> literals) have the following syntax:</p>
+<p class="image"><img alt="image" src="f0053-03.jpg"/></p>
+<p class="noindent">where <span class="codesample"><em>exp</em></span> is a valid regular expression and <span class="codesample"><em>flags</em></span> is zero or more regular expression modifiers (for example, “gi” for global and case-insensitive).</p>
+<p class="indent">Although not strictly a literal, you can use the <span class="codesample">RegExp()</span> constructor inline in JavaScript:</p>
+<p class="image"><img alt="image" src="f0053-04.jpg"/></p>
+<p class="indent">JavaScript regular expressions are quite powerful, and full details on this topic can be found in <a class="nounder" href="ch08.html#ch08">Chapter 8</a>.</p>
+<h4 class="h4"><a id="ch02lev1sec9"/><strong>Expressions</strong></h4>
+<p class="noindent">Expressions are an important part of JavaScript and are the building blocks of many JavaScript statements. Expressions are groups of tokens that can be evaluated; for example,</p>
+<p class="image"><img alt="image" src="f0053-05.jpg"/></p>
+<p class="noindent">is an assignment statement that takes the expression <span class="codesample">3+3</span> and puts the result in the variable <span class="codesample"><em>x</em></span>. Literals and variables are the simplest kinds of expressions and can be used with operators to create more complex expressions.</p>
+<h5 class="h5"><a id="ch02lev2sec10"/><strong>Arithmetic Operators</strong></h5>
+<p class="noindent">Arithmetic operators operate solely on numbers, with one exception, <span class="codesample">+</span>, which is overloaded and provides string concatenation as well. <a class="nounder" href="ch02.html#tab2-6">Table 2-6</a> details the arithmetic operators found in JavaScript.</p>
+<p class="tabcap"><a id="tab2-6"/><strong>Table 2-6</strong> Arithmetic Operators</p>
+<p class="imagea"><img alt="image" src="t0054-01.jpg"/></p>
+<p class="image0"><img alt="image" src="t0054-02.jpg"/></p>
+<h6 class="h6"><a id="page_54"/><strong>Bitwise Operators</strong></h6>
+<p class="noindent">While JavaScript does not allow for standard C-like memory access, it does include bitwise operators. Bitwise operators operate on integers in a bit-by-bit fashion. Most computers store negative numbers using their two’s complement representation, so you should exercise caution when performing bit operations on negative numbers. Most uses of JavaScript rarely involve bitwise operators, but they are presented in <a class="nounder" href="ch02.html#tab2-7">Table 2-7</a> for those so inclined to use them.</p>
+<p class="tabcap"><a id="tab2-7"/><strong>Table 2-7</strong> Bitwise Operators</p>
+<p class="imagea"><img alt="image" src="t0054-03.jpg"/></p>
+<p class="image0"><img alt="image" src="t0055-01.jpg"/></p>
+<h5 class="h5"><a id="page_55"/><a id="ch02lev2sec11"/><strong>Assignment Operators</strong></h5>
+<p class="noindent">Assigning a value to a variable is performed using the = operator. There are a number of shorthand notations in JavaScript that allow you to perform simple arithmetic or bitwise operations and assign the new value at the same time. These operators are shown in <a class="nounder" href="ch02.html#tab2-8">Table 2-8</a>.</p>
+<p class="tabcap"><a id="tab2-8"/><strong>Table 2-8</strong> Binary and Self-Assignment Bitwise Operators</p>
+<p class="imagea"><img alt="image" src="t0055-02.jpg"/></p>
+<p class="image0"><img alt="image" src="t0056-01.jpg"/></p>
+<h5 class="h5"><a id="page_56"/><a id="ch02lev2sec12"/><strong>Logical Operators</strong></h5>
+<p class="noindent">Logical operators operate on Boolean values and are used to construct conditional statements. Logical operators are short-circuited in JavaScript, meaning that once a logical condition is guaranteed, none of the other subexpressions in a conditional expression are evaluated. They are evaluated left to right. <a class="nounder" href="ch02.html#tab2-9">Table 2-9</a> summarizes these operators.</p>
+<p class="tabcap"><a id="tab2-9"/><strong>Table 2-9</strong> Logical Operators</p>
+<p class="image"><img alt="image" src="t0056-02.jpg"/></p>
+<h5 class="h5"><a id="ch02lev2sec13"/><strong>Conditional Operator</strong></h5>
+<p class="noindent">The conditional operator is a ternary operator popular among C programmers. Its syntax is</p>
+<p class="image"><img alt="image" src="f0056-01.jpg"/></p>
+<p class="noindent">where <span class="codesample"><em>expr1</em></span> is an expression evaluating to a Boolean and <span class="codesample"><em>expr2</em></span> and <span class="codesample"><em>expr3</em></span> are expressions. If <span class="codesample"><em>expr1</em></span> evaluates <span class="codesample">true</span>, then the expression takes on the value <span class="codesample"><em>expr2</em></span>; otherwise, it takes on the value <span class="codesample"><em>expr3</em></span>. The operator has gained some popularity in JavaScript, serving as a compact simple conditional often used in feature detection.</p>
+<p class="image"><img alt="image" src="f0056-02.jpg"/></p>
+<h5 class="h5"><a id="ch02lev2sec14"/><strong>Type Operators</strong></h5>
+<p class="noindent">Type operators generally operate on objects or object properties. The most commonly used operators are <span class="codesample">new</span> and <span class="codesample">typeof</span>, but JavaScript supports a range of other type operators as well, as summarized in <a class="nounder" href="ch02.html#tab2-10">Table 2-10</a>.</p>
+<p class="tabcap"><a id="tab2-10"/><strong>Table 2-10</strong> Type-Related Operators</p>
+<p class="image"><img alt="image" src="t0057-01.jpg"/></p>
+<p class="indent"><a id="page_57"/>We previously covered the type operators used for property access and remind you that to access a property <span class="codesample"><em>aProperty</em></span> of an object <span class="codesample"><em>object</em></span>, the following two syntaxes are equivalent:</p>
+<p class="image"><img alt="image" src="f0057-01.jpg"/></p>
+<p class="noindent">Note again that the brackets are “real” brackets and do not imply an optional component.</p>
+<h5 class="h5"><a id="ch02lev2sec15"/><strong>Comma Operator</strong></h5>
+<p class="noindent">The comma operator allows multiple statements to be carried out as one. The syntax of the operator is</p>
+<p class="image"><img alt="image" src="f0057-02.jpg"/></p>
+<p class="noindent">The comma is commonly used to separate variables in declarations or parameters in function calls. However, while uncommon if this operator is used in an expression, its value is the value of the last statement:</p>
+<p class="image"><img alt="image" src="f0057-03.jpg"/></p>
+<h5 class="h5"><a id="page_58"/><a id="ch02lev2sec16"/><strong>Relational Operators</strong></h5>
+<p class="noindent">Relational operators, as detailed in <a class="nounder" href="ch02.html#tab2-11">Table 2-11</a>, are binary operators that compare two like types and evaluate to a Boolean, indicating whether the relationship holds. If the two operands are not of the same type, type conversion is carried out so that the comparison can take place. (See the section immediately following for more information.)</p>
+<p class="tabcap"><a id="tab2-11"/><strong>Table 2-11</strong> Relational Operators</p>
+<p class="image"><img alt="image" src="t0058-01.jpg"/></p>
+<h6 class="h6"><strong>Type Conversion in Comparisons</strong></h6>
+<p class="noindent">A JavaScript implementation should carry out the following steps in order to compare two different types:</p>
+<p class="numberstop">1. If both of the operands are strings, compare them lexicographically.</p>
+<p class="numbers">2. Convert both operands to numbers.</p>
+<p class="numbers">3. If either operand is <span class="codesample">NaN</span>, return <span class="codesample">undefined</span> (which, in turn, evaluates to <span class="codesample">false</span> when converted to a Boolean).</p>
+<p class="numbers">4. If either operand is infinite or zero, evaluate the comparison using the rules that +0 and –0 compare <span class="codesample">false</span> unless the relation includes equality, that <span class="codesample">Infinity</span> is never less than any value, and that <span class="codesample">–Infinity</span> is never more than any value.</p>
+<p class="numbers">5. Compare the operands numerically.</p>
+<hr/>
+<p class="note"><strong>NOTE</strong> Using the strict equality (<span class="codesample">===</span>) operator on operands of two different types will always evaluate <span class="codesample">false</span>, and using the strict inequality (<span class="codesample">!==</span>) on two different types will always evaluate <span class="codesample">true</span>.</p>
+<h6 class="h6"><strong>Lexicographic Comparisons</strong></h6>
+<p class="noindent">The lexicographic comparisons performed on strings adhere to the following guidelines. Note that a string of length <em>n</em> is a “prefix” of some other string of length <em>n</em> or more if they are identical in their first <em>n</em> characters. So, for example, a string is always a prefix of itself.</p>
+<p class="bullet">• If two strings are identical, they are equal. (Note that there are some very rare exceptions when two strings created using different character sets might not compare equal, but this almost never happens.)</p>
+<p class="bullet"><a id="page_59"/>• If one string is a prefix of the other (and they are not identical), then it is “less than” the other. (For example, “a” is less than “aa.”)</p>
+<p class="bullet">• If two strings are identical up to the <em>n</em> th (possibly 0<sup>th</sup>) character, then the (<em>n</em> + 1)<sup>st</sup> character is examined. (For example, the third character of “abc” and “abd” would be examined if they were to be compared.)</p>
+<p class="bullet">• If the numeric value of the character code under examination in the first string is less than that of the character in the second string, the first string is “less than” the second. (The relation “1” &lt; “9” &lt; “A” &lt; “Z” &lt; “a” &lt; “z” is often helpful for remembering which characters come “less” than others.)</p>
+<h5 class="h5"><a id="ch02lev2sec17"/><strong>Operator Precedence and Associativity</strong></h5>
+<p class="noindent">JavaScript assigns a precedence and associativity to each operator so that expressions will be well defined (that is, the same expression will always evaluate to the same value). Operators with higher precedence evaluate before operators with lower precedence. Associativity determines the order in which identical operators evaluate. We use the symbol <img alt="image" src="common.jpg"/> to specify an arbitrary operator, so given the expression:</p>
+<p class="indent"><img alt="image" src="f0059-01.jpg"/></p>
+<p class="noindent">a left-associative operator would evaluate</p>
+<p class="indent"><img alt="image" src="f0059-02.jpg"/></p>
+<p class="noindent">while a right-associative operator would evaluate</p>
+<p class="indent"><img alt="image" src="f0059-03.jpg"/></p>
+<p class="indent">Table 2-12 summarizes operator precedence and associativity in JavaScript.</p>
+<p class="tabcap"><a id="tab2-12"/><strong>Table 2-12</strong> Precedence and Associativity of JavaScript Operators</p>
+<p class="imagea"><img alt="image" src="t0059-01.jpg"/></p>
+<p class="image0"><img alt="image" src="t0060-01.jpg"/></p>
+<p class="indent">This is but the quickest summary of JavaScript expressions; more details and a full discussion can be found in <a class="nounder" href="ch04.html#ch04">Chapter 4</a>.</p>
+<h4 class="h4"><a id="page_60"/><a id="ch02lev1sec10"/><strong>Flow Control</strong></h4>
+<p class="noindent">Statements execute in the order they are found in a script. In order to create useful programs, it is usually necessary to employ <em>flow control</em>, code that governs the “flow” of program execution. JavaScript supports conditionals such as <span class="codesample">if/else</span> and <span class="codesample">switch/case</span> statements that permit the selective execution of pieces of code.</p>
+<p class="indent">JavaScript supports the common <span class="codesample">if</span> conditional, which has numerous forms:</p>
+<p class="image"><img alt="image" src="f0060-01.jpg"/></p>
+<p class="noindent">An example <span class="codesample">if</span> statement is demonstrated here:</p>
+<p class="image"><img alt="image" src="f0060-02.jpg"/></p>
+<p class="noindent"><a id="page_61"/>Given the verbosity of a nested <span class="codesample">if</span> statement, JavaScript, like many languages, supports the <span class="codesample">switch</span> statement, whose syntax is:</p>
+<p class="image"><img alt="image" src="f0061-01.jpg"/></p>
+<p class="indent">A simple <span class="codesample">switch</span> statement is shown here:</p>
+<p class="image"><img alt="image" src="f0061-02.jpg"/></p>
+<p class="noindent">The <span class="codesample">break</span> statement is used to exit the block associated with a <span class="codesample">switch</span>, and it must be included to avoid fall-through for the various cases that may be unintended. Omission of <span class="codesample">break</span> may be purposeful, however, as it allows for the easy simulation of an “or” condition. We will see that a <span class="codesample">break</span> statement is also commonly used within loops, which are discussed next.</p>
+<h4 class="h4"><a id="ch02lev1sec11"/><strong>Loops</strong></h4>
+<p class="noindent">It is often necessary to iterate a number of statements until a particular condition is <span class="codesample">true</span>. For example, you might wish to perform the same operation on each element of an array until you hit the end of the array. Like many other languages, JavaScript enables this behavior with <em>loop</em> statements. Loops continue to execute the body of their code until a halting condition is reached. JavaScript supports <span class="codesample">while, do/while, for,</span> and <span class="codesample">for/in</span> loops. An example of a <span class="codesample">while</span> loop is</p>
+<p class="image"><img alt="image" src="f0061-03.jpg"/></p>
+<p class="noindent"><a id="page_62"/>This loop increments <span class="codesample"><em>x</em></span> continuously, while its conditional, <span class="codesample"><em>x</em></span> less than 10, is <span class="codesample">true</span>. As soon as <span class="codesample"><em>x</em></span> reaches value 10, the condition is <span class="codesample">false</span>, so the loop terminates and execution continues from the first statement after the loop body, as shown here:</p>
+<p class="image1"><img alt="image" src="f0062-01.jpg"/></p>
+<p class="indent">The <span class="codesample">do/while</span> loop is similar to the <span class="codesample">while</span> loop, except that the condition check happens at the end of the loop. This means that the loop will always be executed at least once unless a <span class="codesample">break</span> statement is encountered first.</p>
+<p class="image"><img alt="image" src="f0062-02.jpg"/></p>
+<p class="noindent">The same loop written as a <span class="codesample">for</span> loop is slightly more compact because it sets the loop variable, condition check, and increment all in a single line, as shown here:</p>
+<p class="image"><img alt="image" src="f0062-03.jpg"/></p>
+<p class="indent">One interesting variation of the <span class="codesample">for</span> loop is the <span class="codesample">for/in</span> construct, which is useful for enumerating the properties of an object:</p>
+<p class="image"><img alt="image" src="f0062-04.jpg"/></p>
+<p class="noindent">This simple example here shows <span class="codesample">for/in</span> being used to print out the properties of a browser’s <span class="codesample">window.navigator</span> object:</p>
+<p class="image"><img alt="image" src="f0062-05.jpg"/></p>
+<p class="indent">We’ll see a number of nuances as we enumerate objects, and we’ll need to be careful to understand what properties are defined within versus inherited in a particular object. We’ll also see that some objects will not be able to be enumerated, while others will enumerate properties and methods, and some just properties. A discussion of object enumeration can be found in Chapters 4 and 6.</p>
+<h5 class="h5"><a id="page_63"/><a id="ch02lev2sec18"/><strong>Loop Control</strong></h5>
+<p class="noindent">JavaScript also supports statements generally used to modify flow control, specifically <span class="codesample">break</span> and <span class="codesample">continue</span>. These statements act similarly to the corresponding constructs in C and are often used with loops. The <span class="codesample">break</span> statement will exit a loop early, while the <span class="codesample">continue</span> statement will skip back to the loop condition check. In the next example, which writes out the value of <span class="codesample"><em>x</em></span> starting from <span class="codesample">1</span>, when <span class="codesample"><em>x</em></span> is equal to <span class="codesample">3</span> the <span class="codesample">continue</span> statement continues the loop without printing the value. When <span class="codesample"><em>x</em></span> is equal to <span class="codesample">5</span>, the loop is exited using the <span class="codesample">break</span> statement.</p>
+<p class="image"><img alt="image" src="f0063-01.jpg"/></p>
+<p class="image1"><img alt="image" src="f0063-02.jpg"/></p>
+<p class="indent">Statements can be labeled in JavaScript using a valid identifier followed by a colon like so:</p>
+<p class="image"><img alt="image" src="f0063-03.jpg"/></p>
+<p class="noindent">Jump to labeled statements in a block using either of the following:</p>
+<p class="image"><img alt="image" src="f0063-04.jpg"/></p>
+<p class="noindent">Otherwise:</p>
+<p class="bullet">• <span class="codesample">break</span> exits the loop, beginning execution following the loop body.</p>
+<p class="bullet">• <span class="codesample">continue</span> skips directly to the next iteration (“top”) of the loop.</p>
+<p class="noindent">The following shows a simple example of the use of these statements:</p>
+<p class="image"><img alt="image" src="f0063-05.jpg"/></p>
+<p class="image1"><a id="page_64"/><img alt="image" src="f0064-01.jpg"/></p>
+<p class="indent">All forms of statements including flow control and looping are discussed in detail in <a class="nounder" href="ch04.html#ch04">Chapter 4</a>.</p>
+<h4 class="h4"><a id="ch02lev1sec12"/><strong>Input and Output in JavaScript</strong></h4>
+<p class="noindent">The ability to perform input and output (I/O) is an integral part of most languages. The JavaScript language itself does not contain any functions for simple input and output. However, JavaScript is often executed in a host environment like a Web browser, which does provide facilities for this. We present some of this briefly here as we have used some already to illustrate script output.</p>
+<p class="indent">Input-output, like most useful tasks in JavaScript, is carried out through the objects provided by the browser. For example, if we wanted to simply display a quick dialog to show a message, we might use the <span class="codesample">alert()</span> method of <span class="codesample">Window</span>, which displays its argument message in a dialog box that includes an OK button. For example:</p>
+<p class="image"><img alt="image" src="f0064-02.jpg"/></p>
+<p class="noindent">causes the following dialog box to be presented to the user:</p>
+<p class="image1"><img alt="image" src="f0064-03.jpg"/></p>
+<p class="noindent"><a id="page_65"/>Instead we may wish to output to a debugging console. In most browsers we should be able to use <span class="codesample">console.log()</span>:</p>
+<p class="image"><img alt="image" src="f0065-01.jpg"/></p>
+<p class="noindent">to write a trace statement.</p>
+<p class="image1"><img alt="image" src="f0065-02.jpg"/></p>
+<p class="indent">Most browsers should also support <span class="codesample">console.warn()</span> and <span class="codesample">console.error()</span>, both of which take string arguments:</p>
+<p class="image1"><img alt="image" src="f0065-03.jpg"/></p>
+<p class="indent">Another common form of interaction is through the <span class="codesample">Document</span> object. This object provides many ways to manipulate Web pages, the simplest of which are the <span class="codesample">write()</span> and <span class="codesample">writeln()</span> methods. The <span class="codesample">write()</span> method writes its arguments to the current document. The <span class="codesample">writeln()</span> method is identical, except that it inserts a line break after writing the argument. For example:</p>
+<p class="image"><img alt="image" src="f0065-04.jpg"/></p>
+<p class="indent">The reason you might not notice any difference if you try this example is that JavaScript outputs to HTML. Recall from <a class="nounder" href="ch01.html#ch01">Chapter 1</a> that the intersection between the two languages can provide some frustration for programmers. HTML collapses all newline characters, so a newline won’t make any difference at all in output. This feature probably explains why most JavaScript programmers tend to use <span class="codesample">document.write()</span> instead of <span class="codesample">document.writeln()</span>. If you set white-space rules in HTML with a <span class="codesample"><strong>&lt;pre&gt;</strong></span> tag or with the CSS <span class="codesample">white-space</span> property, you will see that newlines are indeed introduced.</p>
+<p class="indent"><a id="page_66"/>Using the <span class="codesample">document.write()</span> method is only useful as a document is being rendered. If you issue the message after a page is painted, it will reopen the document and remove the existing content. Generally, after page load you should employ DOM methods for outputting information into the document. For example, imagine that you had a <span class="codesample"><strong>&lt;div&gt;</strong></span> tag that was to contain some message with an <span class="codesample"><strong>id</strong></span> of <span class="codesample"><em>outputDiv</em></span>:</p>
+<p class="image"><img alt="image" src="f0066-01.jpg"/></p>
+<p class="noindent">Later you might modify the content of that tag by setting the element’s <span class="codesample">innerHTML</span> property like so:</p>
+<p class="image"><img alt="image" src="f0066-02.jpg"/></p>
+<p class="noindent">This will literally rewrite the HTML of the document so it looks like this:</p>
+<p class="image1"><img alt="image" src="f0066-03.jpg"/></p>
+<p class="noindent">which you will also see if you inspect the source tree:</p>
+<p class="image1"><img alt="image" src="f0066-04.jpg"/></p>
+<p class="indent">There are many methods beyond this quick and dirty use of the <span class="codesample">innerHTML</span> property to write messages into an HTML document. This topic is covered in depth in Chapters 9 and 10.</p>
+<p class="indent">Reading information from a user, in other words taking input, also has two methods. For example, a simple <span class="codesample">window.prompt()</span> could be used to collect a string of data from the user:</p>
+<p class="image"><img alt="image" src="f0066-05.jpg"/></p>
+<p class="image1"><a id="page_67"/><img alt="image" src="f0067-01.jpg"/></p>
+<p class="noindent">However, more likely you might read the contents of an HTML form field using DOM methods. For example, if we had an HTML form field like this:</p>
+<p class="image"><img alt="image" src="f0067-02.jpg"/></p>
+<p class="noindent">we might then find the field of interest by its <span class="codesample"><strong>id</strong></span> attribute and read the value in the field:</p>
+<p class="image"><img alt="image" src="f0067-03.jpg"/></p>
+<p class="noindent">We could then tie this together with a simple event trigger such as a button press and take the data read and put it back into the document, as we previously demonstrated. A simple example is shown here and in <a class="nounder" href="ch02.html#fig2-1">Figure 2-1</a>.</p>
+<p class="image"><img alt="image" src="f0067-04.jpg"/></p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.javascriptref.com/3ed/ch2/simpledom.html">http://javascriptref.com/3ed/ch2/simpledom.html</a></p>
+<p class="image1"><a id="page_68"/><a id="fig2-1"/><img alt="image" src="f0068-01.jpg"/></p>
+<p class="figcap"><strong>Figure 2-1</strong> Very simple complete DOM example</p>
+<p class="indent">The briefest example shown here begins to demonstrate clearly what makes JavaScript challenging—its intersection with HTML, and eventually CSS. In addition, we can collect the results of the user’s actions and send them silently back to the server via Ajax. We will spend a significant amount of time on these topics from <a class="nounder" href="ch09.html#ch09">Chapter 9</a> onward. As we do we will see that we need to write larger scripts, and to do so will require the use of larger coding constructs such as objects or functions, which are discussed next.</p>
+<h4 class="h4"><a id="ch02lev1sec13"/><strong>Functions</strong></h4>
+<p class="noindent">Currently, the function serves as the main approach to encapsulating flow logic in JavaScript for programming in the large. The general syntax of a function is</p>
+<p class="image"><img alt="image" src="f0068-02.jpg"/></p>
+<p class="noindent">From within a function you can <span class="codesample">return</span> a value using the return statement:</p>
+<p class="image"><img alt="image" src="f0068-03.jpg"/></p>
+<p class="indent">If <span class="codesample"><em>expression</em></span> is omitted, the function returns <span class="codesample">undefined</span>. A small example is shown here:</p>
+<p class="image"><img alt="image" src="f0068-04.jpg"/></p>
+<p class="indent">JavaScript’s parameter passing for functions can be troubling since it is dependent on the data type passed. Primitive types are passed to functions by value. Composite types are passed by reference.</p>
+<p class="indent">Functions have their own local scope. Static scoping is employed. You can nest functions creating an inner function. For example, in the following code fragment, <span class="codesample"><em>small1()</em></span> and <span class="codesample"><em>small2()</em></span> are local to the function <span class="codesample"><em>big()</em></span> and are only callable from within it:</p>
+<p class="image"><a id="page_69"/><img alt="image" src="f0069-01.jpg"/></p>
+<p class="indent">Invocation with inner functions can get a bit tricky. This idea is called a <em>closure</em>. Basically, the states of variables are bound up during the creation of an inner function so that the function carries around its environment until it wakes up later on. This is especially useful with timers or asynchronous events such as Ajax calls. A brief example illustrates the idea:</p>
+<p class="image"><img alt="image" src="f0069-02.jpg"/></p>
+<p class="indent">In this case, the inner function <span class="codesample"><em>innerFun()</em></span> prints out the variable <span class="codesample"><em>x</em></span>, which is local to <span class="codesample"><em>outer()</em></span>. However, by the time it wakes up from the timeout two seconds later, the variable <span class="codesample">x</span> should be unbound since the function has exited. Given that JavaScript implements this as a closure, the value is 10.</p>
+<p class="image1"><img alt="image" src="f0069-03.jpg"/></p>
+<p class="indent">Interestingly, if after the timeout was defined we decided to set <span class="codesample"><em>x</em></span> to 20, that would be the bound value later on:</p>
+<p class="image"><img alt="image" src="f0069-04.jpg"/></p>
+<p class="image1"><img alt="image" src="f0069-05.jpg"/></p>
+<p class="indent">If closures confuse you, as they do many developers, you may want to consult <a class="nounder" href="ch05.html#ch05">Chapter 5</a>, which has a more in-depth discussion of them.</p>
+<p class="indent">As previously mentioned, when discussing data types, functions are first class data objects in JavaScript, so they can be assigned:</p>
+<p class="image"><img alt="image" src="f0069-06.jpg"/></p>
+<p class="noindent">They also can be used in place as literals. For example, here we define a function inline and pass it to a <span class="codesample">sort()</span> method for arrays:</p>
+<p class="image"><img alt="image" src="f0069-07.jpg"/></p>
+<p class="indent"><a id="page_70"/>It is also possible to define functions using an object style with <span class="codesample">new</span> and the <span class="codesample">Function()</span> constructor:</p>
+<p class="image"><img alt="image" src="f0070-01.jpg"/></p>
+<p class="indent">Given that they are objects like everything else, there are a variety of useful properties you might explore. For example, you can check how many arguments a function expects by accessing its <span class="codesample">length</span> property:</p>
+<p class="image"><img alt="image" src="f0070-02.jpg"/></p>
+<p class="noindent">The argument values, in addition to being placed in the declared parameters upon invocation, are accessible via the <span class="codesample">arguments[]</span> array. This array holds the actual values passed to the function, so it may hold a different number of arguments than the function expects. With such a feature, you can define variable argument functions that can work with arbitrary amounts of passed data.</p>
+<p class="indent">In summary of this brief discussion, we see that JavaScript functions are quite flexible and powerful. A full discussion of functions can be found in <a class="nounder" href="ch05.html#ch05">Chapter 5</a>.</p>
+<h4 class="h4"><a id="ch02lev1sec14"/><strong>Scoping Rules</strong></h4>
+<p class="noindent">Outside of a function or object, variables are within the global space whether explicitly defined with <span class="codesample">var</span> or not. Within a function or object, if the <span class="codesample">var</span> statement is used, the defined variable will be local to the construct; without the statement, it will be global. The following code fragment shows these possibilities:</p>
+<p class="image"><img alt="image" src="f0070-03.jpg"/></p>
+<p class="indent">Commonly, JavaScript developers make assumptions about scoping rules with <span class="codesample">var</span> that aren’t quite <span class="codesample">true</span>. For example, a <span class="codesample">var</span> statement found within a <span class="codesample">for</span> loop does not scope that value to the loop. In this case, <span class="codesample"><em>j</em></span> is scoped to either the function it is within or to the global space if it is outside a function or an object.</p>
+<p class="image"><img alt="image" src="f0070-04.jpg"/></p>
+<p class="indent">Further, within a block, a <span class="codesample">var</span> statement does nothing different than it would otherwise:</p>
+<p class="image"><img alt="image" src="f0070-05.jpg"/></p>
+<p class="indent"><a id="page_71"/>Under some variants of JavaScript—JavaScript 1.7+, for example—we see the introduction of the <span class="codesample">let</span> statement, which makes things a bit more complicated. You can locally bind values to the scope of a <span class="codesample">let</span> statement and accomplish exactly the two aforementioned ideas:</p>
+<p class="image"><img alt="image" src="f0071-01.jpg"/></p>
+<p class="noindent">If this construct is a guide, JavaScript is changing in some fairly fundamental ways. Unfortunately, we have inconsistent support in browsers, and many of these features are not actually part of the accepted specification. We focus here on a quick tour of the language and only present this idea to illustrate a common misunderstanding. Don’t worry, though, Chapters 3 through 6 will cover a number of the more esoteric and emerging parts of JavaScript in some detail.</p>
+<h4 class="h4"><a id="ch02lev1sec15"/><strong>Regular Expressions</strong></h4>
+<p class="noindent">A very powerful feature of JavaScript is its support for regular expressions. A regular expression can be created as an object using the <span class="codesample">RegExp()</span> constructor.</p>
+<p class="image"><img alt="image" src="f0071-02.jpg"/></p>
+<p class="noindent">This also could have been defined using a regular expression literal:</p>
+<p class="image"><img alt="image" src="f0071-03.jpg"/></p>
+<p class="indent">Once a regular expression is defined, we can use it to pattern-match and potentially change strings. The following simple example matches a piece of the string in the variable <span class="codesample"><em>geographicLocation</em></span> and substitutes it for another string:</p>
+<p class="image"><img alt="image" src="f0071-04.jpg"/></p>
+<p class="indent">The result of this script is shown here:</p>
+<p class="image1"><img alt="image" src="f0071-05.jpg"/></p>
+<p class="indent">JavaScript’s implementation of regular expressions is extremely powerful and very similar to Perl’s, so many programmers should be immediately comfortable with JavaScript’s regular expression facilities. More information on regular expressions can be found in <a class="nounder" href="ch08.html#ch08">Chapter 8</a>.</p>
+<h4 class="h4"><a id="page_72"/><a id="ch02lev1sec16"/><strong>Exceptions</strong></h4>
+<p class="noindent">You can catch programmer-generated and runtime exceptions, as shown in <a class="nounder" href="ch02.html#tab2-13">Table 2-13</a>, but you cannot catch JavaScript syntax errors, though you may handle them in some browsers using <span class="codesample">window.onerror</span>.</p>
+<p class="tabcap"><a id="tab2-13"/><strong>Table 2-13</strong> JavaScript Exceptions</p>
+<p class="image"><img alt="image" src="t0072-01.jpg"/></p>
+<p class="indent">You can invoke exceptions directly using <span class="codesample">throw</span>.</p>
+<p class="image"><img alt="image" src="f0072-01.jpg"/></p>
+<p class="indent">The <span class="codesample"><em>value</em></span> can be any value but is generally an <span class="codesample">Error</span> instance.</p>
+<p class="indent">Exceptions can be handled with the common <span class="codesample">try/catch/finally</span> block structure:</p>
+<p class="image"><img alt="image" src="f0072-02.jpg"/></p>
+<p class="indent">The <span class="codesample">try</span> block must be followed by either exactly one <span class="codesample">catch</span> block or one <span class="codesample">finally</span> block (or one of each). When an exception occurs in the <span class="codesample">catch</span> block, the exception is placed in <span class="codesample">e</span> and the <span class="codesample">catch</span> block is executed. The <span class="codesample">finally</span> block executes unconditionally after <span class="codesample">try/catch</span>. We show a brief example in the context of trying different schemes to address cross-browser Ajax differences by trying various different approaches sequentially and catching any thrown errors.</p>
+<p class="image"><img alt="image" src="f0072-03.jpg"/></p>
+<p class="indent">Exception-handling addresses style as well as syntax. We’ll now make a brief introduction to another syntax style–related topic—commenting—though we leave the bulk of the practices of JavaScript coding for <a class="nounder" href="ch18.html#ch18">Chapter 18</a>.</p>
+<h4 class="h4"><a id="page_73"/><a id="ch02lev1sec17"/><strong>Comments</strong></h4>
+<p class="noindent">Finally, a very important aspect of good programming style is commenting your code. Commenting allows you to insert remarks and commentary directly in source code, making it more readable to yourself and others. Any comments you include will be ignored by the JavaScript interpreter.</p>
+<p class="indent">Comments in JavaScript are similar to those in C++ and Java. There are two types of comments:</p>
+<p class="bullet">• Single-line comments starting with <span class="codesample">//</span>:</p>
+<p class="image"><img alt="image" src="f0073-01.jpg"/></p>
+<p class="indent">These run to the end of the current line only.</p>
+<p class="bullet">• Multiline comments wrapped in <span class="codesample">/*</span> and <span class="codesample">*/</span>:</p>
+<p class="image"><img alt="image" src="f0073-02.jpg"/></p>
+<p class="indent">The following example illustrates both types of comments:</p>
+<p class="image"><img alt="image" src="f0073-03.jpg"/></p>
+<p class="noindent">Note that you <em>cannot</em> nest multiline comments like so:</p>
+<p class="image"><img alt="image" src="f0073-04.jpg"/></p>
+<p class="indent">We point out that commenting is encouraged for a variety of reasons, including license inclusion, explanatory messages, and documentation generation, but is also removed from delivered code for performance and security concerns. We will elaborate on these style and practice concerns for JavaScript and comments in <a class="nounder" href="ch18.html#ch18">Chapter 18</a>.</p>
+<h4 class="h4"><a id="ch02lev1sec18"/><strong>ECMAScript 5 Changes</strong></h4>
+<p class="noindent">At the time of this writing, ECMAScript 5 has been embraced, and the most modern browsers mostly, if not fully, implement the new JavaScript features it entails. It is important to note that many of these features will not work at all in previous versions of JavaScript. Fortunately, <a id="page_74"/>we note that <em>almost</em> every part of this new edition of JavaScript is able to gracefully degrade for older browsers, mostly through feature detection. If you’re wondering why we’re covering all of these language changes in a chapter devoted specifically to objects, you’ll see in a moment that some of the biggest changes coming in JavaScript relate to how programmers, objects, and their properties all interact.</p>
+<p class="indent">We begin with what we hope is an obvious point, which is that when you start implementing these new language features in your code, you’re going to need to do feature detection and only use them for browsers that actually support them. Since most of them have no possible way to implement as a fallback in older JavaScript versions, you’ll either be able to use them or you won’t—no in between. As we’ve seen before, detecting the presence of an object’s property will likely be your best bet in “feature detecting” most of these various new JavaScript features. For example:</p>
+<p class="image"><img alt="image" src="f0074-01.jpg"/></p>
+<h5 class="h5"><a id="ch02lev2sec19"/><strong>“use strict”;</strong></h5>
+<p class="noindent">If you decide to move forward with ECMAScript 5, you may very much want to consider the use of strict mode. Strict mode is an opt-in mode that allows only a much stricter subset of JavaScript. You opt in to strict mode per execution context (that is, globally):</p>
+<p class="image"><img alt="image" src="f0074-02.jpg"/></p>
+<p class="noindent">or you may opt to limit your use to just a particular function by having the first line be exactly and only the strict mode declaration, like this:</p>
+<p class="image"><img alt="image" src="f0074-03.jpg"/></p>
+<p class="indent">Briefly, strict mode will enforce the following rules:</p>
+<p class="bullet">• Assignment to previously undeclared variables is not allowed. In non-strict mode, assignment to an undeclared variable implicitly declares it in the global scope.</p>
+<p class="bullet">• Trying to <span class="codesample">delete</span> things that cannot be deleted is not silent pass-by—it throws an error. For instance, variables declared with the <span class="codesample">var</span> keyword cannot be deleted.</p>
+<p class="bullet">• <span class="codesample">eval</span> cannot be reassigned, overridden, or used as a variable or property name, nor can it introduce new variables to the scope.</p>
+<p class="bullet">• Because <span class="codesample">with</span> is seen as having many bad characteristics, it is not allowed under strict mode.</p>
+<p class="indenttop">The most common case for using strict mode is when developing a new script, or especially for a new programmer, to keep the code to a safer path, with a higher likelihood of success.</p>
+<h5 class="h5"><a id="page_75"/><a id="ch02lev2sec20"/><strong>Native JSON Support</strong></h5>
+<p class="noindent">There’s a new native object <span class="codesample">JSON</span> that allows for the manipulation of JavaScript Object Notation (JSON) values, which are basically stringified JavaScript objects. Most important for this object are <span class="codesample">JSON.parse()</span> and <span class="codesample">JSON.stringify()</span>, which are used for converting a JSON string to an object, and an object to a JSON string, respectively. There are some extra convenience parameters as well, including being able to specify whitespace for the output of <span class="codesample">stringify()</span>. A full discussion of the JSON format and the use of this new object can be found in <a class="nounder" href="ch15.html#ch15">Chapter 15</a>, which covers Ajax.</p>
+<h5 class="h5"><a id="ch02lev2sec21"/><strong>Function.prototype.bind()</strong></h5>
+<p class="noindent">Finally, adding natively to JavaScript what has long been one of the most useful utilities of many different JavaScript frameworks (namely, Prototype), functions can now natively be bound to a specific instance context. For instance:</p>
+<p class="image"><img alt="image" src="f0075-01.jpg"/></p>
+<h5 class="h5"><a id="ch02lev2sec22"/><strong>ISO Dates</strong></h5>
+<p class="noindent"><span class="codesample">Date</span> objects can now convert to and from the ISO 8601 format:</p>
+<p class="image"><img alt="image" src="f0075-02.jpg"/></p>
+<p class="noindent">This minor change is discussed in <a class="nounder" href="ch07.html#ch07">Chapter 7</a>.</p>
+<h5 class="h5"><a id="ch02lev2sec23"/><strong>Native Array Additions</strong></h5>
+<p class="noindent">Array objects now have a number of new methods for manipulating array instances. Many have been implemented previous to the emergence of ECMAScript 5 in some browsers or frameworks. A brief list of ECMAScript 5 <span class="codesample">Array</span> additions is shown here:</p>
+<p class="indenttop"><img alt="image" src="f0075-03.jpg"/></p>
+<p class="noindent">Coverage of each of these different methods is beyond the scope of this chapter, but a full discussion can be found in <a class="nounder" href="ch07.html#ch07">Chapter 7</a>.</p>
+<h5 class="h5"><a id="page_76"/><a id="ch02lev2sec24"/><strong>String.prototype.trim( )</strong></h5>
+<p class="noindent"><span class="codesample">String</span> objects now have a <span class="codesample">trim()</span> method natively on them that trims off whitespace from both sides of a string value. This is discussed in <a class="nounder" href="ch07.html#ch07">Chapter 7</a>.</p>
+<h5 class="h5"><a id="ch02lev2sec25"/><strong>Object/Property Additions</strong></h5>
+<p class="noindent">Objects have several new properties and methods exposed. Most of these deal with functionality that used to be internal but is now exposed to the programmer. These are listed here and will be explained in detail in <a class="nounder" href="ch06.html#ch06">Chapter 6</a>:</p>
+<p class="indenttop"><img alt="image" src="f0076-01.jpg"/></p>
+<h5 class="h5"><a id="ch02lev2sec26"/><strong>Emerging Features</strong></h5>
+<p class="noindent">At the time of this book’s writing, ECMAScript 6 is in the works. Many features will work their way into the browsers before the specification’s release, and some of them have already been implemented in some browsers. The first interesting new feature is the <span class="codesample">let</span> keyword. The <span class="codesample">let</span> statement will allow us to declare variables to the block scope as opposed to solely a function or global scope. The <span class="codesample">yield</span> keyword will support iterator generators. The next new feature is the addition of a <span class="codesample">const</span> marker, which will set a variable to be a constant. In addition to these new keywords, functions will begin to allow default values on the parameters, and strings will be able to span multiple lines. There are even more changes, but some of these are questionable while others such as <span class="codesample">let</span> and <span class="codesample">yield</span> are already implemented in many browsers, just waiting for ubiquity for more use in client-side JavaScript.</p>
+<h4 class="h4"><a id="page_77"/><a id="ch02lev1sec19"/><strong>Summary</strong></h4>
+<p class="noindent">This chapter provided a whirlwind tour of the basic features of JavaScript, a simple yet powerful Web-oriented scripting language most commonly used to develop browser-run scripts found in Web sites/applications. Most of the features of the language are similar to other languages such as C or Java. Common programming constructs such as <span class="codesample">if</span> statements, <span class="codesample">while</span> loops, and functions are found in the language. However, JavaScript is not a simplistic language and it does contain more advanced, and sometimes confused, features including weak type, functions as data types, prototype-based OOP, closures, well-integrated regular expressions, exception handling, and more. Unfortunately, much of what we concern ourselves with when studying JavaScript is not the language itself but the various host-based objects to interact with a Web browser or a loaded HTML document. Because of this, much of this book will be spent covering the use of these objects. Experienced programmers might wish to quickly skim the next few chapters, focusing on the subtle differences between JavaScript and other programming languages, so they can move on to the complexities of DOM programming. However, new programmers should carefully read the next five chapters in order to get a solid foundation to build on. The next chapter will focus on JavaScript’s data types, which can simplify writing scripts if the programmer is careful.<a id="page_78"/></p>
+</body>
+</html>

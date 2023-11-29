@@ -1,0 +1,260 @@
+body
+{
+	margin-right: 1.5em;
+}
+svg
+{
+	height: 98%;
+	width: 100%;
+}
+.h2
+{
+	font-size: x-large;
+	margin-top: 2em;
+	margin-bottom: 2em;
+	text-align: left;
+}
+.h4
+{
+	font-size: 1.3em;
+	margin-top: 1em;
+	margin-bottom: 0.2em;
+}
+.h5
+{
+	font-size: 1.2em;
+	margin-top: 1em;
+	margin-bottom: 0.2em;
+}
+.h6
+{
+	font-size: 1.1em;
+	margin-top: 1em;
+	margin-bottom: 0.2em;
+}
+.image
+{
+	margin-top: 1em;
+	margin-bottom: 0.5em;
+	text-indent: 0.01em;
+}
+.indenttop
+{
+	margin-top: 1em;
+	margin-bottom: 0.4em;
+	text-indent: 1.2em;
+}
+.indexmain1
+{
+	margin-top: 1em;
+	margin-bottom: 0.4em;
+	text-indent: 0.01em;
+}
+.noindent
+{
+	margin-top: 0.2em;
+	margin-bottom: 0.2em;
+	text-indent: 0.001em;
+}
+.noindenttop
+{
+	margin-top: 1em;
+	margin-bottom: 0.2em;
+	text-indent: 0.001em;
+}
+.number
+{
+	margin-top: 0.3em;
+	margin-left: 1.2em;
+	margin-bottom: 0.2em;
+	text-indent: -1em;
+}
+.toc
+{
+	margin-top: 1em;
+	margin-bottom: 0.4em;	
+	margin-left: 1em;
+	text-indent: -0.8em;
+}
+.toc1
+{
+	margin-top: 0.2em;
+	margin-bottom: 0.2em;
+	margin-left: 1em;
+	text-indent: -0.8em;
+}
+.toci
+{
+	margin-top: 0.2em;
+	margin-bottom: 0.2em;
+	margin-left: 0.1em;
+	text-indent: -0.5em;
+}
+.tocchap
+{
+	margin-top: 1em;
+	margin-bottom: 0.4em;
+	text-indent: 0.01em;
+}
+.tocfront
+{
+	margin-top: 0.5em;
+	margin-bottom: 0.4em;
+	text-indent: 0.01em;
+}
+.tocpart
+{
+	margin-top: 1em;
+	margin-bottom: 0.4em;
+	text-indent: 0.01em;
+}
+.tocsec
+{
+	margin-top: 0.2em;
+	margin-bottom: 0.2em;
+	margin-left: 1em;
+	text-indent: 0.01em;
+}
+.tocsec1
+{
+	margin-top: 0.2em;
+	margin-bottom: 0.2em;
+	margin-left: 3.5em;
+	text-indent: -0.5em;
+}
+.h3b
+{
+	font-size: large;
+	margin-top: 2em;
+	margin-bottom: 1em;
+}
+.h3
+{
+	font-size: large;
+	margin-top: 2em;
+	margin-bottom: 1em;
+}
+.bullettop
+{
+	margin-top: 1em;
+	margin-left: 2.5em;
+	margin-bottom: 0.1em;
+	text-indent: -0.7em;
+}
+.bullet
+{
+	margin-top: 0.4em;
+	margin-left: 2.5em;
+	margin-bottom: 0.1em;
+	text-indent: -0.7em;
+}
+.indent
+{
+	margin-top: 0.2em;
+	margin-bottom: 0.2em;
+	text-indent: 1.2em;
+}
+.figcap
+{
+	margin-top: 0.5em;
+	margin-bottom: 1em;
+	text-indent: 0.01em;
+}
+.tabcap
+{
+	margin-top: 0.5em;
+	margin-bottom: 1em;
+	text-indent: 0.01em;
+}
+.numbers
+{
+	margin-top: 0.3em;
+	margin-left: 2.5em;
+	margin-bottom: 0.2em;
+	text-indent: -1.1em;
+}
+.numberstop
+{
+	margin-top: 1em;
+	margin-left: 2.5em;
+	margin-bottom: 0.2em;
+	text-indent: -1.2em;
+}
+.copyright
+{
+	margin-top: 0.5em;
+	margin-bottom: 0.4em;
+	text-indent: 0.01em;
+}
+.nounder
+{
+	text-decoration: none;
+}
+.codesample
+{
+	font-family: "Courier",Monospace;
+}
+.right
+{
+	margin-top: 1em;
+	margin-bottom: 0.4em;
+	margin-right: 5em;
+        text-align: right;
+}
+.online
+{
+	margin-top: 0.1em;
+	margin-bottom: 1em;
+        text-indent: 0.01em;
+}
+.image1
+{
+	margin-top: 1em;
+	margin-bottom: 1em;
+	text-align: center;
+}
+.note
+{
+	margin-top: 0.1em;
+	margin-bottom: 1em;
+	margin-left: 1.8em;
+        text-indent: -1.8em;
+}
+.tip
+{
+	margin-top: 0.1em;
+	margin-bottom: 1em;
+	margin-left: 1.8em;
+        text-indent: -1.8em;
+}
+.caution
+{
+	margin-top: 0.1em;
+	margin-bottom: 1em;
+	margin-left: 1.8em;
+        text-indent: -1.8em;
+}
+.imagea
+{
+	margin-top: 1em;
+	margin-bottom: 0.5em;
+	text-indent: 0.01em;
+}
+.image0
+{
+	margin-top: 0em;
+	margin-bottom: 0em;
+	text-indent: 0.01em;
+}
+.indexmain
+{
+	margin-top: 0.2em;
+	margin-bottom: 0.2em;
+	text-indent: 0.01em;
+}
+.indexsub
+{
+	margin-top: 0.2em;
+	margin-bottom: 0.2em;
+	margin-left: 2.5em;
+}

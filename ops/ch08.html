@@ -1,0 +1,354 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<title>JavaScript: The Complete Reference&#153;, Third Edition</title>
+<link href="0071741216.css" rel="stylesheet" type="text/css"/>
+<link href="page-template.xpgt" rel="stylesheet" type="application/vnd.adobe-page-template+xml"/>
+<meta content="urn:uuid:4d1be0af-c0d3-47b8-9bd4-3edcb4dee196" name="Adept.expected.resource"/>
+</head>
+<body>
+<h3 class="h3b" id="ch08"><a id="page_267"/><strong>CHAPTER 8<br/>Regular Expressions</strong></h3>
+<p class="noindent">Manipulation of textual data is a common task in JavaScript. Checking data entered into forms, creating and parsing cookies, constructing and modifying URLs, and changing the content of Web pages can all involve complicated operations on strings. Text matching and manipulation in JavaScript is provided by the <span class="codesample">String</span> object, as discussed in <a class="nounder" href="ch07.html#ch07">Chapter 7</a>, and <em>regular expressions</em>, a feature enabling you to specify patterns of characters and sets of strings without listing them explicitly.</p>
+<p class="indent">Regular expressions, sometimes referred to as <em>regexps</em> or <em>regexes</em> for brevity, have also long been a part of many operating systems. If you have ever used the <span class="codesample">dir</span> command in Windows or DOS or the <span class="codesample">ls</span> command in UNIX, chances are you’ve used “wildcard” characters such as * or ?. These are primitive regular expressions! Readers who have worked in more depth with regular expressions in other programming languages, especially with Perl, will find JavaScript regular expressions very familiar.</p>
+<p class="indent">This chapter is an introduction to JavaScript’s <span class="codesample">RegExp</span> object. It covers basic syntax, common tasks, and more advanced applications of regular expressions in your scripts.</p>
+<h4 class="h4"><a id="ch08lev1sec1"/><strong>The Need for Regular Expressions</strong></h4>
+<p class="noindent">Consider the task of validating a phone number entered into a form on a Web page. The goal is to verify that the data entered has the proper format before permitting it to be submitted to the server for processing. If you’re only interested in validating North American phone numbers of the form <em>NNN-NNN-NNNN</em>, where <em>N</em> s are digits, you might write code like this:</p>
+<p class="image"><img alt="image" src="f0267-01.jpg"/></p>
+<p class="noindent"><a id="page_268"/>This is a lot of code for such a seemingly simple task. The code is far from elegant, and just imagine how much more complicated it would have to be if you wanted to validate other formats—for example, phone numbers with extensions, international numbers, and numbers with the dashes or area code omitted.</p>
+<p class="indent">Regular expressions simplify tasks like this considerably by allowing programmers to specify a pattern against which a string is “matched.” For example, here we rewrite the previous phone number check with a regular expression found in the <span class="codesample"><em>pattern</em></span> variable:</p>
+<p class="image"><img alt="image" src="f0268-01.jpg"/></p>
+<p class="noindent">Clearly, if the previous example is any indication of how regular expressions can be mastered, it may free us from writing complicated and error-prone text-matching code like we were before. However, that isn’t all regexes can do, as they are not just limited to determining whether a string matches a particular pattern; if the string does match, it is possible to locate, extract, or even replace the matching portions. This vastly simplifies the recognition and extraction of structured data such as URLs, e-mail addresses, phone numbers, and cookies. Just about any type of string data with a predictable format can be operated on with regular expressions.</p>
+<h4 class="h4"><a id="ch08lev1sec2"/><strong>Introduction to JavaScript Regular Expressions</strong></h4>
+<p class="noindent">Regular expressions were introduced in JavaScript 1.2 and JScript 3.0 with the <span class="codesample">RegExp</span> object, so much of their functionality is available through <span class="codesample">RegExp</span> methods. However, many methods of the <span class="codesample">String</span> object take regular expressions as arguments, so you will see regular expressions commonly used in both contexts.</p>
+<p class="indent">Regular expressions are most often created using their literal syntax, in which the characters that make up the pattern are surrounded by slashes (/ and /) followed by some modifiers:</p>
+<p class="image"><img alt="image" src="f0268-02.jpg"/></p>
+<p class="noindent"><a id="page_269"/>For example, to create a regular expression that will match any string containing “http”, you might write the following:</p>
+<p class="image"><img alt="image" src="f0269-01.jpg"/></p>
+<p class="noindent">The way you read this pattern is an “h” followed by a “t”, followed by a “t”, followed by a “p”. Any string containing “http” matches this pattern.</p>
+<p class="indent">Modifiers altering the interpretation of the pattern can be given immediately following the second slash. For example, to specify that the pattern is case-insensitive, the <span class="codesample">i</span> flag is used:</p>
+<p class="image"><img alt="image" src="f0269-02.jpg"/></p>
+<p class="noindent">This declaration creates a pattern that will match strings containing “http” as well as “HTTP” or “HttP”. The common flags used with regular expressions are shown in <a class="nounder" href="ch08.html#tab8-1">Table 8-1</a> and will be illustrated in examples throughout the chapter. Don’t worry about any but <span class="codesample">i</span> for the time being.</p>
+<p class="tabcap"><a id="tab8-1"/><strong>Table 8-1</strong> Flags Altering the Interpretation of a Regular Expression</p>
+<p class="image"><img alt="image" src="t0269-01.jpg"/></p>
+<hr/>
+<p class="note"><strong>NOTE</strong> Some browsers, notably Firefox, also support a modifier <span class="codesample">y</span>, which is used to make the matching process start from the <span class="codesample">lastIndex</span> property value. This modifier allows match at start <span class="codesample">(^)</span> patterns to be used a bit more flexibly.</p>
+<p class="indent">Regular expressions can also be declared using the <span class="codesample">RegExp()</span> constructor. The first argument to the constructor is a string containing the desired pattern. The second argument is optional and contains any special flags for that expression. The two previous examples could equivalently be declared as follows:</p>
+<p class="image"><img alt="image" src="f0269-03.jpg"/></p>
+<p class="noindent">The constructor syntax is most commonly used when the pattern to match against is not determined until runtime. You might allow the user to enter a regular expression and then pass the string containing that expression to the <span class="codesample">RegExp()</span> constructor.</p>
+<p class="indent">The most basic method provided by the <span class="codesample">RegExp</span> object is test(). This method returns a Boolean indicating whether the string given as its argument matches the pattern. For example, we could test</p>
+<p class="image"><img alt="image" src="f0269-04.jpg"/></p>
+<p class="noindent">which displays <span class="codesample">false</span> because <span class="codesample"><em>pattern</em></span> matches only strings containing “http”, or we could test using the case-insensitive pattern, which returns <span class="codesample">true</span> because it matches for strings containing “http” while ignoring case:</p>
+<p class="image"><img alt="image" src="f0269-05.jpg"/></p>
+<p class="indent"><a id="page_270"/>We don’t have to declare the patterns using object style; we can use simple <span class="codesample">RegExp</span> literals, like so:</p>
+<p class="image"><img alt="image" src="f0270-01.jpg"/></p>
+<p class="noindent">and use the <span class="codesample">test()</span> method as before. We can also use the regular expressions as literals in expressions; for example, the following would show an alert dialog saying <span class="codesample">true</span>:</p>
+<p class="image"><img alt="image" src="f0270-02.jpg"/></p>
+<p class="noindent">A full example of simple <span class="codesample">RegExp</span> matching and its output are shown here:</p>
+<p class="image"><img alt="image" src="f0270-03.jpg"/></p>
+<p class="image"><img alt="image" src="f0270-04.jpg"/></p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.www.javascriptref.com/3ed/ch8/simpleregexp.html">http://www.javascriptref.com/3ed/ch8/simpleregexp.html</a></p>
+<p class="image1"><a id="page_271"/><img alt="image" src="f0271-01.jpg"/></p>
+<p class="indent">One subtle thing to note is that if you take two regular expressions and compare them, even if they are the same, they will not compare as such. Being that regular expression are reference types (objects), this form of comparison semantics should be somewhat expected. If you have some desire to compare regular expression patterns, you can use the <span class="codesample">source</span> property of the instance or the <span class="codesample">toString()</span> result for the patterns. The small code fragment here illustrates this minor point that may confuse some coders:</p>
+<p class="image"><img alt="image" src="f0271-02.jpg"/></p>
+<p class="image1"><img alt="image" src="f0271-03.jpg"/></p>
+<h5 class="h5"><a id="page_272"/><a id="ch08lev2sec1"/><strong>Creating Patterns</strong></h5>
+<p class="noindent">The example patterns presented so far merely check for the presence of a particular substring; they exhibit none of the powerful capabilities to which we have alluded. Regular expressions use special character sequences that enable the programmer to create more complicated patterns. For example, special characters provide a way to indicate that a certain character or set of characters should be repeated a certain number of times or that the string must not contain a certain character.</p>
+<h6 class="h6"><strong>Positional Indicators</strong></h6>
+<p class="noindent">The first set of special characters can be thought of as <em>positional indicators</em>, characters that mandate the required position of the pattern in the strings against which it will be matched. These characters are <span class="codesample">^</span> and <span class="codesample">$</span>, indicating the beginning and end of the string, respectively. For example,</p>
+<p class="image"><img alt="image" src="f0272-01.jpg"/></p>
+<p class="noindent">matches only those strings beginning with “http”. The following alerts <span class="codesample">false</span>:</p>
+<p class="image"><img alt="image" src="f0272-02.jpg"/></p>
+<p class="noindent">The <span class="codesample">$</span> character causes the opposite behavior:</p>
+<p class="image"><img alt="image" src="f0272-03.jpg"/></p>
+<p class="noindent">This pattern matches only those strings ending with “http”. You can use both positional indicators in concert to ensure an exact match to the desired pattern:</p>
+<p class="image"><img alt="image" src="f0272-04.jpg"/></p>
+<p class="noindent">This regular expression is read as an “h” at the beginning of the string followed by “tt”, followed by a “p” and the end of the string. This pattern matches only the string “http”.</p>
+<p class="indent">You need to be very careful to employ positional indicators properly when doing matches; otherwise, the regular expression may match strings that are not expected.</p>
+<h6 class="h6"><strong>Escape Codes</strong></h6>
+<p class="noindent">Given the syntax of regular expression literals demonstrated so far, one might wonder how to specify a string that includes slashes, such as <a class="nounder" href="http://www.w3.org/">"http://www.w3.org/"</a>. The answer is that, as with strings, regular expressions use escape codes to indicate characters having special meaning. Escape codes are specified using a backslash character (\). The escape codes used in regular expressions are a superset of those used in strings. (Regular expressions contain far more characters with special meaning, such as <span class="codesample">^</span> and <span class="codesample">$</span>.) These escape codes are listed in <a class="nounder" href="ch08.html#tab8-2">Table 8-2</a>. You don’t have to memorize them all; their use will become clear as we explore more features of regular expressions.</p>
+<p class="tabcap"><a id="tab8-2"/><strong>Table 8-2</strong> Regular Expression Escape Codes</p>
+<p class="imagea"><img alt="image" src="t0273-01.jpg"/></p>
+<p class="image0"><img alt="image" src="t0273-02.jpg"/></p>
+<p class="noindent"><a id="page_273"/>Using the appropriate escape code, we can now define a regular expression that matches <a class="nounder" href="http://www.w3.org/">"http://www.w3.org/"</a> (and any other string containing it):</p>
+<p class="image"><img alt="image" src="f0273-01.jpg"/></p>
+<p class="noindent">Notice in the example that, because / has special meaning in regular expression literals (it means the beginning or end of the pattern), all the forward slashes (/) in the pattern are replaced with their escaped equivalent, \/.</p>
+<p class="indent">The important thing to remember is that whenever you want to include a character in a pattern that has a special regular expression meaning, you must use its escape code instead.</p>
+<h6 class="h6"><a id="page_274"/><strong>Repetition Quantifiers</strong></h6>
+<p class="noindent">Regular expression repetition quantifiers allow you to specify the number of times a particular item in the expression can or must be repeated. For now, consider that by “particular item” we mean “previous character.” The distinction will become clear later in the chapter. As an example of a repetition quantifier, <span class="codesample">*</span> (the asterisk) indicates that the previous item may occur zero or more times. Any sequence of zero or more repetitions of the previous item can be present in the strings the pattern will match. For example, read the <span class="codesample">*</span> here as “repeated zero or more times”:</p>
+<p class="image"><img alt="image" src="f0274-01.jpg"/></p>
+<p class="noindent">Doing so, we read this pattern as matching any string containing an “a” that is followed immediately by “b” repeated zero or more times, followed immediately by a “c”. All the following strings will match this expression:</p>
+<p class="bullettop">• ac</p>
+<p class="bullet">• abc</p>
+<p class="bullet">• abbbbbbbbbbbbbbbbbbbbbbbbbbbc</p>
+<p class="bullet">• The letters abc begin the alphabet</p>
+<p class="indenttop">Similarly, + specifies that the previous character must be repeated one or more times. The following declaration is read as an “a” followed by a “b” repeated one or more times, followed by a “c”:</p>
+<p class="image"><img alt="image" src="f0274-02.jpg"/></p>
+<p class="noindent">Keeping this pattern in mind, you can see that it matches all the following strings:</p>
+<p class="bullettop">• abc</p>
+<p class="bullet">• abbbbbc</p>
+<p class="bullet">• The letters abc begin the alphabet</p>
+<p class="noindenttop">Conversely, the pattern does not match the string “ac” because it does not contain at least one “b” between an “a” and a “c”.</p>
+<p class="indent">The <span class="codesample">?</span> quantifier indicates that the previous item may occur zero times or one time, but no more. For example, read this pattern as an “a” followed by zero or one “b”, followed by a “c”:</p>
+<p class="image"><img alt="image" src="f0274-03.jpg"/></p>
+<p class="noindent">It matches “ac” and “abc”, but not “abbc”. The <span class="codesample">?</span> essentially denotes that the preceding item is optional.</p>
+<p class="indent">The repetition quantifiers haven’t provided any way so far to specify that a particular character is to be repeated some exact number of times. Curly braces (<span class="codesample">{ }</span>) are used to indicate the number of repetitions allowed for the preceding token (character). For example,</p>
+<p class="image"><img alt="image" src="f0274-04.jpg"/></p>
+<p class="noindent"><a id="page_275"/>specifies a pattern consisting of an “a” followed by exactly five “b” characters, and then the letter “c”. Of course, this particular expression also could have been written as</p>
+<p class="image"><img alt="image" src="f0275-01.jpg"/></p>
+<p class="noindent">but this “long” version would be very cumbersome if you wanted to match, say, a character repeated 25 times.</p>
+<p class="indent">Using the curly braces, it is possible to indicate precisely that the number of repetitions falls within a specific range. To do so, list inside the curly braces the fewest number of repetitions allowed, followed by a comma and the maximum allowed. For example,</p>
+<p class="image"><img alt="image" src="f0275-02.jpg"/></p>
+<p class="noindent">creates a regular expression matching a single “a” followed by between five and seven (inclusive) “b” characters, and then the letter “c”.</p>
+<p class="indent">Omitting the maximum amount from within the curly braces (but still including the comma) specifies a minimum number of repetitions. For example,</p>
+<p class="image"><img alt="image" src="f0275-03.jpg"/></p>
+<p class="noindent">creates an expression matching an “a” followed by three or more letter “b” characters, followed by a “c”.</p>
+<p class="indent">The full list of repetition quantifiers is summarized in <a class="nounder" href="ch08.html#tab8-2">Table 8-3</a>.</p>
+<p class="tabcap"><a id="tab8-3"/><strong>Table 8-3</strong> Repetition Quantifiers</p>
+<p class="image"><img alt="image" src="t0275-01.jpg"/></p>
+<p class="indent">Now we’re really starting to discover the power of regular expressions, and there is still much more to cover. Don’t give up just yet—while learning regular expressions can be a challenge, it will pay off in the long run in the time saved by not having to write and debug complex code.</p>
+<h6 class="h6"><strong>Grouping</strong></h6>
+<p class="noindent">Notice how <a class="nounder" href="ch08.html#tab8-3">Table 8-3</a> indicates that the repetition quantifiers match the “previous item” a certain number of times. In the examples seen so far, the “previous item” has been a single character. However, JavaScript regular expressions let you easily group characters together as a single unit, much the way statements can be grouped together in a block using curly braces. The simplest way to group characters in a regular expression is to use parentheses. Any characters surrounded by parentheses are considered a unit with respect to the special regular expression operators. For example,</p>
+<p class="image"><img alt="image" src="f0275-04.jpg"/></p>
+<p class="noindent"><a id="page_276"/>is read as “a” followed by “bc” repeated one or more times. The parentheses group the “b” and “c” together with respect to the +. This pattern matches any string containing an “a” followed immediately by one or more repetitions of “bc”.</p>
+<p class="indent">Here is another example:</p>
+<p class="image"><img alt="image" src="f0276-01.jpg"/></p>
+<p class="noindent">This pattern matches strings containing “very” repeated three, four, or five times followed by a space and the word “hot”.</p>
+<h6 class="h6"><strong>Character Classes</strong></h6>
+<p class="noindent">Sometimes it is necessary to match any character from a group of possibilities. For example, to match phone numbers, the group of characters might be digits, or if you wished to validate a country name, the group of valid characters might be alphabetic.</p>
+<p class="indent">JavaScript allows you to define <em>character classes</em> by including the possible characters between square brackets ([ ]). Any character from the class can be matched in the string, and the class is considered a single unit like parenthesized groups. Consider the following pattern:</p>
+<p class="image"><img alt="image" src="f0276-02.jpg"/></p>
+<p class="noindent">In general, a <span class="codesample">[…]</span> class is read as “any character in the group,” so the class <span class="codesample">[pbm]</span>ill is read as “p” or “b” or “m” followed by “ill”. This pattern matches “pill”, “billiards”, and “paper mill”, but not “chill”.</p>
+<p class="indent">Consider another example:</p>
+<p class="image"><img alt="image" src="f0276-03.jpg"/></p>
+<p class="noindent">The <span class="codesample">[123456789]</span> class is a class containing all digits, and the + repetition quantifier is applied to it. As a result, this pattern matches any string containing one or more digits. This format looks like it could get very messy if you desired to set a large group of allowed characters, but luckily JavaScript allows you to use a dash <span class="codesample">(–)</span> to indicate a range of values:</p>
+<p class="image"><img alt="image" src="f0276-04.jpg"/></p>
+<p class="noindent">This regular expression is the same as the previous example with all the digits, just written more compactly.</p>
+<p class="indent">Any time you use the range operator, you specify a range of valid ASCII values. So, for example, you might do this to match any lowercase alphabetic character:</p>
+<p class="image"><img alt="image" src="f0276-05.jpg"/></p>
+<p class="noindent">or this to match any alphanumeric character:</p>
+<p class="image"><img alt="image" src="f0276-06.jpg"/></p>
+<p class="noindent">JavaScript allows you to place all the valid characters in a contiguous sequence in a character class, as in the last example. It interprets such a class correctly.</p>
+<p class="indent">Character classes finally give us an easy way to construct our phone number validation pattern. We could rewrite our function as follows:</p>
+<p class="image"><a id="page_277"/><img alt="image" src="f0277-01.jpg"/></p>
+<p class="noindent">This pattern matches strings containing any character from the class of digits 0 through 9 repeated three times, followed by a dash, followed by another three digits, a dash, and a final four digits. Notice how our code to validate phone numbers presented at the start of the chapter went from about 20 lines without regular expressions to only four when using them! We can test that this function works:</p>
+<p class="image"><img alt="image" src="f0277-02.jpg"/></p>
+<p class="noindent">The output is shown here:</p>
+<p class="image"><img alt="image" src="f0277-03.jpg"/></p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.www.javascriptref.com/3ed/ch8/regexepermissive.html">http://www.javascriptref.com/3ed/ch8/regexepermissive.html</a></p>
+<p class="indent">The truth is that while it appears to work just fine, our <span class="codesample"><em>isPhoneNumber()</em></span> function has a subtle flaw commonly overlooked by those new to regular expressions: it is too permissive. Consider the following example:</p>
+<p class="image"><img alt="image" src="f0277-04.jpg"/></p>
+<p class="noindent">The result is</p>
+<p class="image1"><img alt="image" src="f0277-05.jpg"/></p>
+<p class="noindent">Since we didn’t specify any positional information in our pattern, the regular expression matches any strings containing it, even if the beginning and end of a string has data that doesn’t match. To correct this flaw, we use the <span class="codesample">$</span> and <span class="codesample">^</span> specifiers:</p>
+<p class="image"><img alt="image" src="f0277-06.jpg"/></p>
+<p class="noindent">Now it will only return <span class="codesample">true</span> if there are no spurious characters preceding or following the phone number.</p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.www.javascriptref.com/3ed/ch8/regexestrict.html">http://www.javascriptref.com/3ed/ch8/regexestrict.html</a></p>
+<p class="indent"><a id="page_278"/>As another example of the application of regular expressions, we create a pattern to match a case-insensitive username beginning with an alphabetic character, followed by zero or more alphanumeric characters as well as underscores and dashes. The following regular expression defines such a pattern:</p>
+<p class="image"><img alt="image" src="f0278-01.jpg"/></p>
+<p class="noindent">This will match, for example, “m”, “m10-120”, “abracadabra”, and “abra_cadabra”, but not “_user” or “10abc”. Note how the dash was included in the character class last to prevent it from being interpreted as the range operator.</p>
+<h6 class="h6"><strong>Negative Character Classes</strong></h6>
+<p class="noindent">Square brackets can also be used when describing “negative” character classes, namely classes that specify which characters <em>cannot</em> be present. A negative class is specified by placing a carat (<span class="codesample">^</span>) at the beginning of the class. For example,</p>
+<p class="image"><img alt="image" src="f0278-02.jpg"/></p>
+<p class="noindent">will match any sequence of one or more nonalphabetic characters, for instance “314”, “!!%&amp;^”, or “__0”.</p>
+<p class="indent">Negative character classes are very useful when matching or parsing fields delimited with a certain value. Sometimes there is no elegant alternative. For example, it is not straightforward to write a clean regular expression to check that a string contains five comma-separated strings <em>without</em> using a negative character class, but it is simple using negative character classes, as shown here:</p>
+<p class="image"><img alt="image" src="f0278-03.jpg"/></p>
+<p class="noindent">Read this as one or more characters that isn’t a comma, followed by a comma, followed by one or more characters that isn’t a comma, and so on. You could even write this pattern more concisely:</p>
+<p class="image"><img alt="image" src="f0278-04.jpg"/></p>
+<p class="noindent">You can test that these patterns work, as shown here:</p>
+<p class="image"><img alt="image" src="f0278-05.jpg"/></p>
+<p class="indent">This is an important lesson: if you’re having trouble coming up with a regular expression for a particular task, try writing an expression using negative character classes first. It may often point the way toward an even cleaner solution.</p>
+<h6 class="h6"><strong>Common Character Classes</strong></h6>
+<p class="noindent">Commonly used character classes have shorthand escape codes. A particularly useful notation is the period, which matches <em>any</em> character except a newline. For instance, given this pattern:</p>
+<p class="image"><img alt="image" src="f0278-06.jpg"/></p>
+<p class="noindent">it would match “abcx7d” or “abc_-d” or “abc$$d”, and on and on.</p>
+<p class="indent"><a id="page_279"/>Other common classes are <span class="codesample">\s</span>, any whitespace character; <span class="codesample">\S</span>, any non-whitespace character; <span class="codesample">\w</span>, any word character; <span class="codesample">\W</span>, any nonword character; <span class="codesample">\d</span>, any digit; and <span class="codesample">\D</span>, any nondigit. (Notice the pattern: the uppercase version of shorthand is the opposite of the lowercase.) The complete list of character classes is given in <a class="nounder" href="ch08.html#tab8-4">Table 8-4</a>.</p>
+<p class="tabcap"><a id="tab8-4"/><strong>Table 8-4</strong> Regular Expression Character Classes</p>
+<p class="image"><img alt="image" src="t0279-01.jpg"/></p>
+<p class="indent">We can use these shorthand forms to write an even more concise version of our <span class="codesample"><em>isPhoneNumber()</em></span> function:</p>
+<p class="image"><img alt="image" src="f0279-01.jpg"/></p>
+<p class="indent">We’ve replaced each <span class="codesample">[0-9]</span> character class with its shorthand, <span class="codesample">\d</span>.</p>
+<h6 class="h6"><strong>Alternatives</strong></h6>
+<p class="noindent">The final major tool necessary to define useful patterns is <span class="codesample">|</span>, which indicates the logical OR of several items. For example, to match a string that begins with “ftp”, “http”, or “https”, you might write this:</p>
+<p class="image"><img alt="image" src="f0279-02.jpg"/></p>
+<p class="indent">Unlike repetition quantifiers that only apply to the previous item, alternation separates complete patterns. If we had written the preceding example as</p>
+<p class="image"><img alt="image" src="f0279-03.jpg"/></p>
+<p class="noindent">the pattern would have matched a string beginning with “http” or a string containing “ftp” or a string containing “https”. The initial <span class="codesample">^</span> would’ve been included only in the first alternative pattern. To further illustrate, consider the following regular expression:</p>
+<p class="image"><img alt="image" src="f0279-04.jpg"/></p>
+<p class="indent"><a id="page_280"/>Since each <span class="codesample">|</span> indicates a new pattern, this matches a string containing “James”, a string containing “Jim”, or a string containing “Charlie Brown”. It does not match a string containing “James Brown”, as you might have thought. Parenthesizing alternatives limits the effect of the <span class="codesample">|</span> to the parenthesized items, so you see the following pattern</p>
+<p class="image"><img alt="image" src="f0280-01.jpg"/></p>
+<p class="noindent">which matches “James Brown”, “Jim Brown”, and “Charlie Brown”.</p>
+<p class="indent">The tools described so far work together to permit the creation of useful regular expressions. It is important to be comfortable interpreting the meaning of regular expressions before delving further into how they are used. <a class="nounder" href="ch08.html#tab8-5">Table 8-5</a> provides some practice examples along with strings they do and do not match. You should work through each example before proceeding.</p>
+<p class="tabcap"><a id="tab8-5"/><strong>Table 8-5</strong> Some Regular Expression Examples</p>
+<p class="image"><img alt="image" src="t0280-01.jpg"/></p>
+<h4 class="h4"><a id="ch08lev1sec3"/><strong>RegExp Object</strong></h4>
+<p class="noindent">Now that we’ve covered how to form regular expressions, it is time to look at how to use them. We do so by discussing the properties and methods of the <span class="codesample">RegExp</span> and <span class="codesample">String</span> objects that can be used to test and parse strings. Recall that regular expressions created with the literal syntax in the previous section are in fact <span class="codesample">RegExp</span> objects. In this section, we favor the object syntax so the reader will be familiar with both.</p>
+<h5 class="h5"><a id="ch08lev2sec2"/><strong>test( )</strong></h5>
+<p class="noindent">The simplest <span class="codesample">RegExp</span> method, which we have already seen in this chapter numerous times, is <span class="codesample">test()</span>. This method returns a Boolean value indicating whether the given string argument matches the regular expression. Here we construct a regular expression and then use it to test against two strings:</p>
+<p class="image"><a id="page_281"/><img alt="image" src="f0281-01.jpg"/></p>
+<h5 class="h5"><a id="ch08lev2sec3"/><strong>Subexpressions</strong></h5>
+<p class="noindent">The <span class="codesample">RegExp</span> object provides an easy way to extract pieces of a string that match parts of your patterns. This is accomplished by grouping (placing parentheses around) the portions of the pattern you wish to extract. For example, suppose you wished to extract first names and phone numbers from strings that look like this,</p>
+<p class="indent"><em>Firstname Lastname NNN-NNNN</em></p>
+<p class="indent">where <em>N</em> s are the digits of a phone number. You could use the following regular expression, grouping the part that is intended to match the first name as well as the part intended to match the phone number:</p>
+<p class="image"><img alt="image" src="f0281-02.jpg"/></p>
+<p class="noindent">This pattern is read as one or more word characters, followed by a space and another sequence of one or more word characters, followed by another space and then an eight-character string composed of digits and dashes.</p>
+<p class="indent">When this pattern is applied to a string, the parentheses induce <em>subexpressions</em>. When a match is successful, these parenthesized subexpressions can be referred to individually by using static properties <span class="codesample">$1</span> to <span class="codesample">$9</span> of the <span class="codesample">RegExp</span> class object. To continue our example:</p>
+<p class="image"><img alt="image" src="f0281-03.jpg"/></p>
+<p class="noindent">Since the pattern contained parentheses that created two subexpressions, <span class="codesample">\w+</span> and <span class="codesample">[\d-] {8}</span>, we can reference the two substrings they match, “Alan” and “555-1212”, individually. Substrings accessed in this manner are numbered from left to right, beginning with <span class="codesample">$1</span> and ending typically with <span class="codesample">$9</span>. For example,</p>
+<p class="image"><img alt="image" src="f0281-04.jpg"/></p>
+<p class="noindent">displays the alert shown here. Notice the use of the <span class="codesample">RegExp</span> class object to access the subexpression components, not the <span class="codesample">RegExp</span> instance or pattern we created.</p>
+<p class="image1"><img alt="image" src="f0281-05.jpg"/></p>
+<hr/>
+<p class="note"><strong>NOTE</strong> According to older ECMA specifications, you should be able to reference more than nine subexpressions. In fact, up to 99 should be allowed using identifiers such as $10, $11, and so on. However, generally no more than nine are supported. This syntax also is deprecated in many browsers but is still commonly used and is unlikely to be disabled.</p>
+<h5 class="h5"><a id="page_282"/><a id="ch08lev2sec4"/><strong>compile( )</strong></h5>
+<p class="noindent">A rather infrequently used method is <span class="codesample">compile()</span>, which replaces an existing regular expression with a new one. Under Firefox browsers it is deprecated, though it is generally still supported. This method takes the same arguments as the <span class="codesample">RegExp()</span> constructor (a string containing the pattern and an optional string containing the flags) and can be used to create a new expression by discarding an old one:</p>
+<p class="image"><img alt="image" src="f0282-01.jpg"/></p>
+<p class="indent">A possible use of this function is for efficiency. Regular expressions declared with the <span class="codesample">RegExp()</span> constructor are “compiled” (turned into string matching routines by the interpreter) each time they are used, and this can be a time-consuming process, particularly if the pattern is complicated. Explicitly calling <span class="codesample">compile()</span> saves the recompilation overhead at each use by compiling a regular expression once, ahead of time.</p>
+<h5 class="h5"><a id="ch08lev2sec5"/><strong>exec( )</strong></h5>
+<p class="noindent">The <span class="codesample">RegExp</span> object also provides a method called <span class="codesample">exec()</span>. This method is used when you’d like to test whether a given string matches a pattern and would additionally like more information about the match, for example, the offset in the string at which the pattern first appears. You can also repeatedly apply this method to a string in order to step through the portions of the string that match, one by one.</p>
+<p class="indent">The <span class="codesample">exec()</span> method accepts a string to match against, and it can be written in shorthand by directly invoking the name of the regular expression as a function. For example, the two invocations in the following example are equivalent:</p>
+<p class="image"><img alt="image" src="f0282-02.jpg"/></p>
+<p class="indent">The <span class="codesample">exec()</span> method returns an array with a variety of properties. The [0] position of the array will contain the last matched characters, and the [1],…[n] positions will show any parenthesized substring matches similar to the $1…$9 concepts mentioned previously. Also, as an array, you may query the <span class="codesample">length</span> of the array. The <span class="codesample">input</span> property will show the original input string, while the <span class="codesample">index</span> property will show the character index (starting from 0) at which the matching portion of the string begins. This simple example shows this:</p>
+<p class="image"><img alt="image" src="f0282-03.jpg"/></p>
+<p class="noindent"><a id="page_283"/>The result is shown here:</p>
+<p class="image1"><img alt="image" src="f0283-01.jpg"/></p>
+<p class="indent">The array returned may have more than one element if subexpressions are used. For example, the following script has a set of three parenthesized subexpressions that are parsed out in the array separately:</p>
+<p class="image"><img alt="image" src="f0283-02.jpg"/></p>
+<p class="noindent">Here is the result:</p>
+<p class="image"><img alt="image" src="f0283-03.jpg"/></p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.www.javascriptref.com/3ed/ch8/execmethod.html">http://www.javascriptref.com/3ed/ch8/execmethod.html</a></p>
+<h6 class="h6"><strong>exec( ) and the Global Flag</strong></h6>
+<p class="noindent">Sometimes you might wish to extract not just the first occurrence of a pattern in a string, but <em>each</em> occurrence of it. Adding the global flag <span class="codesample">(g)</span> to a regular expression indicates the intent to search for every occurrence (that is, globally) instead of just the first.</p>
+<p class="indent">The way the global flag is interpreted by <span class="codesample">RegExp</span> and by <span class="codesample">String</span> is a bit subtle. In <span class="codesample">RegExp</span>, it’s used to perform a global search incrementally—that is, by parsing out each successive occurrence of the pattern one at a time. In <span class="codesample">String</span>, it is used to perform a global search all at once, which means by parsing out all occurrences of the pattern in one single function call. We’ll cover the use of the global flag with <span class="codesample">String</span> methods in the following section.</p>
+<p class="indent"><a id="page_284"/>To demonstrate the difference between a regular expression with the global flag set and one without, consider the following simple example:</p>
+<p class="image"><img alt="image" src="f0284-01.jpg"/></p>
+<p class="noindent">As you can see in the following capture, when the global flag is set, the <span class="codesample">exec()</span> starts searching where the previous match ended:</p>
+<p class="image1"><img alt="image" src="f0284-02.jpg"/></p>
+<p class="noindent">Without the global flag, <span class="codesample">exec()</span> always returns the first matching portion of the string.</p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.www.javascriptref.com/3ed/ch8/execglobal.html">http://www.javascriptref.com/3ed/ch8/execglobal.html</a></p>
+<p class="indent">How does global matching work? The invocation of <span class="codesample">exec()</span> sets the <span class="codesample">lastIndex</span> property of the <span class="codesample">RegExp</span> instance object to point to the character immediately following the substring that was most recently matched. Subsequent calls to the <span class="codesample">exec()</span> method begin their search from the offset <span class="codesample">lastIndex</span> in the string. If no match is found, <span class="codesample">lastIndex</span> is set to zero.</p>
+<hr/>
+<p class="note"><strong>NOTE</strong> Some implementations of JavaScript will have the <span class="codesample">lastIndex</span> on the returned array as well. This is nonstandard and is not available in many modern browsers. Further, some browsers may update <span class="codesample">lastIndex</span> regardless of the global flag <span class="codesample">(g)</span> being set.</p>
+<p class="indent">We’ll demonstrate the use of <span class="codesample">lastIndex</span> with a simple loop using <span class="codesample">exec()</span> to work through each substring matching a regular expression and obtaining complete information about each match. Here we will do a simple match to see all the space-separated words in the given string:</p>
+<p class="image"><img alt="image" src="f0284-03.jpg"/></p>
+<p class="image"><img alt="image" src="f0284-04.jpg"/></p>
+<hr/>
+<p class="online"><a id="page_285"/><strong>ONLINE</strong> <a class="nounder" href="http://www.www.javascriptref.com/3ed/ch8/execloop.html">http://www.javascriptref.com/3ed/ch8/execloop.html</a></p>
+<p class="noindent">The result of the previous example (when used within a <span class="codesample"><strong>&lt;pre&gt;</strong></span> tag for formatting) is shown in <a class="nounder" href="ch08.html#fig8-1">Figure 8-1</a>. Notice how <span class="codesample">lastIndex</span> is set appropriately, as we discussed.</p>
+<p class="image1"><a id="fig8-1"/><img alt="image" src="f0285-01.jpg"/></p>
+<p class="figcap"><strong>Figure 8-1</strong> Execution of <span class="codesample">RegExp</span> word-parsing loop using exec()</p>
+<p class="indent"><a id="page_286"/>One caveat when using the <span class="codesample">exec()</span> method: If you stop a search before finding the last match, you need to manually set the <span class="codesample">lastIndex</span> property of the regular expression to zero. If you do not, the next time you use that regular expression, it will automatically start matching at offset <span class="codesample">lastIndex</span> rather than at the beginning of the string.</p>
+<hr/>
+<p class="note"><strong>NOTE</strong> The <span class="codesample">test()</span> method obeys <span class="codesample">lastIndex</span> as well, so it can be used to incrementally search a string in the same manner as <span class="codesample">exec()</span>. Think of <span class="codesample">test()</span> as a simplified, Boolean version of <span class="codesample">exec()</span>.</p>
+<h5 class="h5"><a id="ch08lev2sec6"/><strong>RegExp Properties</strong></h5>
+<p class="noindent">Examining the internals of regular expression instance objects, as well as the static (class) properties of the <span class="codesample">RegExp</span> object, can be helpful when performing complex matching tasks and during debugging. The instance properties of <span class="codesample">RegExp</span> objects are listed in <a class="nounder" href="ch08.html#tab8-6">Table 8-6</a> and, with a few exceptions, should be familiar to the reader by this point.</p>
+<hr/>
+<p class="note"><strong>NOTE</strong> The Firefox browser supports a sticky instance property to indicate if the pattern search is sticky or not per the presence of the y character modifier.</p>
+<p class="tabcap"><a id="tab8-6"/><strong>Table 8-6</strong> Instance Properties of <span class="codesample">RegExp</span> Objects</p>
+<p class="image"><img alt="image" src="t0286-01.jpg"/></p>
+<p class="noindent"><a id="page_287"/>An example showing the properties in <a class="nounder" href="ch08.html#tab8-6">Table 8-6</a> in action is shown here:</p>
+<p class="image1"><img alt="image" src="f0287-01.jpg"/></p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.www.javascriptref.com/3ed/ch8/regexpinstanceprops.html">http://www.javascriptref.com/3ed/ch8/regexpinstanceprops.html</a></p>
+<p class="indent">Traditionally, the <span class="codesample">RegExp</span> object itself supported useful static properties, but given their future status, you should be cautious. These properties are listed in <a class="nounder" href="ch08.html#tab8-7">Table 8-7</a> and come in two forms. The alternate form uses a dollar sign and a special character and may be recognized by those who are already intimately familiar with regular expressions. A downside to the alternate form is that it has to be accessed in an associative array fashion. Note that using this form will probably confuse those readers unfamiliar with languages such as Perl, so it is definitely best to just stay away from it.</p>
+<p class="tabcap"><a id="tab8-7"/><strong>Table 8-7</strong> Properties of the RegExpConstructorObject</p>
+<p class="imagea"><img alt="image" src="t0288-01.jpg"/></p>
+<p class="image0"><img alt="image" src="t0288-02.jpg"/></p>
+<p class="image0"><img alt="image" src="t0289-01.jpg"/></p>
+<hr/>
+<p class="caution"><strong>CAUTION</strong> While the features in <a class="nounder" href="ch08.html#tab8-7">Table 8-7</a> are widely supported, many browsers indicate this syntax to be deprecated, and some may not support them. Note that ECMAScript 5 does not include them, so they should certainly be avoided in strict mode.</p>
+<p class="indent"><a class="nounder" href="ch08.html#fig8-2">Figure 8-2</a> shows an example of the properties in <a class="nounder" href="ch08.html#tab8-7">Table 8-7</a> in two browsers. You’ll note some small differences in support. As mentioned before, this syntax is not suggested but is presented here for completeness.</p>
+<p class="image1"><a id="fig8-2"/><img alt="image" src="f0289-01.jpg"/></p>
+<p class="figcap"><strong>Figure 8-2</strong> Example of browser differences with <span class="codesample">RegExp</span> object properties</p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.www.javascriptref.com/3ed/ch8/regexpglobalprops.html">http://www.javascriptref.com/3ed/ch8/regexpglobalprops.html</a></p>
+<p class="indent">One interesting aspect of the static <span class="codesample">RegExp</span> class properties is that they are global and therefore change every time you use a regular expression, whether with <span class="codesample">String</span> or <span class="codesample">RegExp</span> methods. For this reason, they are the exception to the rule that JavaScript is statically scoped. These properties are <em>dynamically scoped</em> —that is, changes are reflected in the <span class="codesample">RegExp</span> object in the context of the calling function, rather than in the enclosing context of the source code that is invoked. For example, JavaScript in a frame that calls a function using regular expressions in a different frame will update the static <span class="codesample">RegExp</span> properties in the <em>calling</em> frame, not the frame in which the called function is found. This rarely poses a problem, but it is something you should keep in mind if you are relying on static properties in a framed environment. We can see why this approach should go away— it makes JavaScript more confusing rather than less.<a id="page_288"/><a id="page_289"/></p>
+<h4 class="h4"><a id="page_290"/><a id="ch08lev1sec4"/><strong>String Methods for Regular Expressions</strong></h4>
+<p class="noindent">The <span class="codesample">String</span> object provides four methods that utilize regular expressions. They perform similar, and in some cases more powerful, tasks than the <span class="codesample">RegExp</span> object itself. Whereas the <span class="codesample">RegExp</span> methods are geared toward matching and extracting substrings, the <span class="codesample">String</span> methods use regular expressions to modify or chop strings up, in addition to matching and extracting.</p>
+<h5 class="h5"><a id="ch08lev2sec7"/><strong>search( )</strong></h5>
+<p class="noindent">The simplest regular expression related <span class="codesample">String</span> method is <span class="codesample">search()</span>, which takes a regular expression argument and returns the index of the character at which the first matching substring begins. If no substring matching the pattern is found, –1 is returned. Consider the following two examples. This code</p>
+<p class="image"><img alt="image" src="f0290-01.jpg"/></p>
+<p class="noindent">produces the following result, showing what character position was matched for the provided regular expression:</p>
+<p class="image1"><img alt="image" src="f0290-02.jpg"/></p>
+<p class="noindent">while this code</p>
+<p class="image"><img alt="image" src="f0290-03.jpg"/></p>
+<p class="noindent">produces this result:</p>
+<p class="image1"><img alt="image" src="f0290-04.jpg"/></p>
+<p class="noindent">The second statement searches for a digit and returns –1 because no numeric character is found in the tested string.</p>
+<h5 class="h5"><a id="ch08lev2sec8"/><strong>split( )</strong></h5>
+<p class="noindent">The second method provided by <span class="codesample">String</span> is also fairly simple. The <span class="codesample">split()</span> method splits (for lack of a better word) a string into substrings and returns them in an array. It accepts a string or regular expression argument containing the delimiter at which the string will be broken. For example,</p>
+<p class="image"><img alt="image" src="f0290-05.jpg"/></p>
+<p class="noindent"><a id="page_291"/>places 10, 3, 4, 7, and 9 into the first five indices of the array called <span class="codesample"><em>myArray</em></span>. Of course, you could do this much more tersely:</p>
+<p class="image"><img alt="image" src="f0291-01.jpg"/></p>
+<p class="image1"><img alt="image" src="f0291-02.jpg"/></p>
+<p class="indent">Using <span class="codesample">split()</span> with a regular expression argument (rather than a string argument) allows you the flexibility of ignoring multiple whitespace or delimiter characters. Because regular expressions are greedy (see the section, “Advanced Regular Expressions,” later in this chapter), the regular expression “eats up” as many delimiter characters as it can. If the string “ /” had been used as a delimiter instead of a regular expression, we would have ended up with empty elements in our array.</p>
+<h5 class="h5"><a id="ch08lev2sec9"/><strong>replace( )</strong></h5>
+<p class="noindent">The <span class="codesample">replace()</span> method returns the string that results when you replace text matching the method’s first argument (a regular expression) with the text of the second argument (a string). If the global <span class="codesample">(g)</span> flag is not set in the regular expression declaration, this method replaces only the first occurrence of the pattern. For example,</p>
+<p class="image"><img alt="image" src="f0291-03.jpg"/></p>
+<p class="noindent">produces the following output:</p>
+<p class="image1"><img alt="image" src="f0291-04.jpg"/></p>
+<p class="noindent">Including the <span class="codesample">g</span> flag will cause the interpreter to perform a global replace, finding and replacing every matching substring. For example,</p>
+<p class="image"><img alt="image" src="f0291-05.jpg"/></p>
+<p class="noindent">yields this result:</p>
+<p class="image1"><img alt="image" src="f0291-06.jpg"/></p>
+<h6 class="h6"><a id="page_292"/><strong>replace() with Subexpressions</strong></h6>
+<p class="noindent">Recall that parenthesized subexpressions can be referred to by number using the <span class="codesample">RegExp</span> class object (for example, <span class="codesample">RegExp.$1</span>). You can use this capability in <span class="codesample">replace()</span> to reference certain portions of a string. The substrings matched by parenthesized subexpressions are referred to in the replacement string with a dollar sign ($), followed by the number of the desired subexpression. For example, the following inserts dashes into a hypothetical social security number:</p>
+<p class="image"><img alt="image" src="f0292-01.jpg"/></p>
+<p class="noindent">The result is shown here:</p>
+<p class="image1"><img alt="image" src="f0292-02.jpg"/></p>
+<p class="indent">This technique is called <em>backreferencing</em> and is very useful for formatting data according to your needs. How many times have you entered a phone number into a Web site and been told that you need to include dashes (or not include them)? Since it’s just as easy to <em>fix</em> the problem using regular expressions and backreferencing as it is to <em>detect</em> it, consider using this technique in order to accommodate users who deviate slightly from expected patterns. For example, the following script does some basic normalization on phone numbers:</p>
+<p class="image"><img alt="image" src="f0292-03.jpg"/></p>
+<h5 class="h5"><a id="ch08lev2sec10"/><strong>match( )</strong></h5>
+<p class="noindent">The final method provided by <span class="codesample">String</span> objects is <span class="codesample">match()</span>. This method takes a regular expression as an argument and returns an array containing the results of the match. If the given regular expression has the global (<span class="codesample">g</span>) flag, the array returned contains the results of each substring matched. For example,</p>
+<p class="image"><img alt="image" src="f0292-04.jpg"/></p>
+<p class="indent">places <span class="codesample">22</span> in <span class="codesample"><em>result[0]</em></span>, 48 in <span class="codesample"><em>result[1]</em></span>, and so on, up to <span class="codesample">26</span> in <span class="codesample"><em>result[4]</em></span>.</p>
+<p class="image1"><a id="page_293"/><img alt="image" src="f0293-01.jpg"/></p>
+<p class="indent">Using <span class="codesample">match()</span> with the global flag is a great way to quickly parse strings of a known format.</p>
+<p class="indent">The behavior of <span class="codesample">match()</span> when the expression does not have the global flag is nearly identical to <span class="codesample">RegExp.exec()</span> with the global flag set. The <span class="codesample">match()</span> method places the character position at which the first match begins in an instance property <span class="codesample">index</span> of the array that is returned. The instance property called <span class="codesample">input</span> is also added and contains the entire original string. The contents of the entire matching substring are placed in the first element (index zero) of the array. The rest of the array elements are filled in with the matching subexpressions, with index <em>n</em> holding the value of <span class="codesample">$n</span>. For example,</p>
+<p class="image"><img alt="image" src="f0293-02.jpg"/></p>
+<p class="noindent">produces this result shown here:</p>
+<p class="image1"><img alt="image" src="f0293-03.jpg"/></p>
+<p class="indent">As you can see, all three subexpressions were matched and placed in the array. The entire match was placed in the first element, and the instance properties <span class="codesample">index</span> and <span class="codesample">input</span> reflect the original string (remember, string offsets are enumerated beginning with zero, just like arrays). Note that if <span class="codesample">match()</span> does not find a match, it returns <span class="codesample">null</span>.</p>
+<h4 class="h4"><a id="ch08lev1sec5"/><strong>Advanced Regular Expressions</strong></h4>
+<p class="noindent">There are a few other regular expression tools that are worth spending a little more time on in case you need to perform more advanced string matching.</p>
+<h5 class="h5"><a id="ch08lev2sec11"/><strong>Multiline Matching</strong></h5>
+<p class="noindent">The multiline flag (<span class="codesample">m</span>) causes <span class="codesample">^</span> and <span class="codesample">$</span> to match the beginning and end of a line, in addition to the beginning and end of a string. You could use this flag to parse text such as the following,</p>
+<p class="image"><img alt="image" src="f0293-04.jpg"/></p>
+<p class="noindent">which uses the <span class="codesample">String</span> method <span class="codesample">match()</span> to break the text into individual lines and place them in the array <span class="codesample"><em>lines</em></span>. (The global flag is set so that, as previously discussed, <span class="codesample">match()</span> will find all occurrences of the pattern, not just the first.) The output of this example is shown here:</p>
+<p class="image1"><a id="page_294"/><img alt="image" src="f0294-01.jpg"/></p>
+<h5 class="h5"><a id="ch08lev2sec12"/><strong>Noncapturing Parentheses</strong></h5>
+<p class="noindent">JavaScript also provides more flexible syntax for parenthesized expressions. Using the syntax <span class="codesample">(?:)</span> specifies that the parenthesized expression should not be made available for backreferencing. These are referred to as <em>noncapturing</em> parentheses. For example,</p>
+<p class="image"><img alt="image" src="f0294-02.jpg"/></p>
+<p class="noindent">shows the following result:</p>
+<p class="image1"><img alt="image" src="f0294-03.jpg"/></p>
+<p class="indent">You can see that the first subexpression (one or more “a” characters) was not “captured” (made available) by the <span class="codesample">RegExp</span> object.</p>
+<h5 class="h5"><a id="ch08lev2sec13"/><strong>Lookahead</strong></h5>
+<p class="noindent">JavaScript allows you to specify that a portion of a regular expression matches only if it is or is not followed by a particular subexpression. The <span class="codesample">(?=)</span> syntax specifies a positive lookahead; it only matches the previous item if the item is followed immediately by the expression contained in <span class="codesample">(?=)</span>. The lookahead expression is <em>not</em> included in the match. For example, in the following, <span class="codesample"><em>pattern</em></span> matches only a digit that is followed by a period and one or more digits:</p>
+<p class="image"><img alt="image" src="f0294-04.jpg"/></p>
+<p class="noindent">It matches 3.1 and 3.14159, but not 3.or.3.</p>
+<p class="indent"><a id="page_295"/>Negative lookahead is achieved with the <span class="codesample">(?!)</span> syntax, which behaves like <span class="codesample">(?=)</span>. It matches the previous item only if the expression contained in <span class="codesample">(?!)</span> does not immediately follow. For example, in the following, <span class="codesample"><em>pattern</em></span> matches a string containing a digit that is not followed by a period and another digit:</p>
+<p class="image"><img alt="image" src="f0295-01.jpg"/></p>
+<p class="noindent">It will match 3 but not 3.1 or 3.14. The negative lookahead expression is also not returned on a match.</p>
+<h5 class="h5"><a id="ch08lev2sec14"/><strong>Greedy Matching</strong></h5>
+<p class="noindent">One particularly challenging aspect facing those new to regular expressions is <em>greedy matching</em>. Often termed <em>aggressive</em> or <em>maximal matching</em>, this term refers to the fact that the interpreter will always try to match as many characters as possible for a particular item. A simple way to think about this is that JavaScript will continue matching characters if at all possible. For example, you might think that the pattern would match the word “matching”:</p>
+<p class="image"><img alt="image" src="f0295-02.jpg"/></p>
+<p class="noindent">but the actual output is shown in the following illustration. JavaScript matches the longest substring it can, in this case from the initial “ma” in matching all the way to the final “ing” in “daunting.”</p>
+<p class="image1"><img alt="image" src="f0295-03.jpg"/></p>
+<h6 class="h6"><strong>Disabling Greedy Matching</strong></h6>
+<p class="noindent">You can force a quantifier (<span class="codesample">*, +, ?, {m}, {m,}</span>, or <span class="codesample">{m,n}</span>) to be nongreedy by following it with a question mark. Doing so forces the expression to match the <em>minimum</em> number of characters rather than the maximum. To repeat our previous example, but this time with minimal matching, we’d use the following:</p>
+<p class="image"><img alt="image" src="f0295-04.jpg"/></p>
+<p class="noindent">The output shows that the interpreter found the first shortest matching pattern in the string:</p>
+<p class="image1"><img alt="image" src="f0295-05.jpg"/></p>
+<p class="indent">As we have seen throughout this chapter, regular expressions certainly wield a lot of power as well as complexity. All JavaScript programmers really should aim to master them, as they can aid in common tasks such as form validation. However, before rushing out and adding regular expressions to every script, programmers should consider some of their usage challenges.</p>
+<h4 class="h4"><a id="page_296"/><a id="ch08lev1sec6"/><strong>Limitations of Regular Expressions</strong></h4>
+<p class="noindent">Regular expressions derive their name from the fact that the strings they recognize are (in a formal computer science sense) “regular.” This implies that certain kinds of strings will be very hard, if not impossible, to recognize with regular expressions. Luckily, these strings are not often encountered and usually arise only in parsing things like source code or natural language. If you can’t come up with a regular expression for a particular task, chances are that an expert could. However, there is a slight chance that what you want to do is actually impossible, so it never hurts to ask someone more knowledgeable than yourself.</p>
+<p class="indent">Another issue to keep in mind is that some regular expressions can have exponential complexity. In plain words, this means that it is possible to craft regular expressions that take a <em>really, really</em> long time to test strings against. This usually happens when using the alternative operation <span class="codesample">(|)</span> to give many complex options. If regular expressions are slowing down your script, consider simplifying them.</p>
+<p class="indent">A common gotcha when performing form validation with regular expressions is validating e-mail addresses. Most people aren’t aware of the variety of forms e-mail addresses can take. Valid e-mail addresses can contain punctuation characters such as ! and +, and they can employ IP addresses instead of domain names (such as root@127.0.0.1). You’ll need to do a bit of research and some experimentation to ensure that the regular expressions you create will be robust enough to match the types of strings you’re interested in. There are two lessons here. First, when performing form validation, always err on the side of being too permissive rather than too restrictive. Second, educate yourself on the formats the data you’re validating can take. For example, if you’re validating phone numbers, be sure to research common formats for phone numbers in other countries.</p>
+<p class="indent">And finally, it is important to remember that even the best-crafted pattern cannot test for semantic validity. For example, you might be able to verify that a credit card number has the proper format, but without more complicated server-side functionality, your script has no way to check whether the card is truly valid. Still, associating a syntax checker with forms to look at user-entered data such as credit card numbers is a convenient way to catch common errors before submission to the server.</p>
+<h4 class="h4"><a id="ch08lev1sec7"/><strong>Summary</strong></h4>
+<p class="noindent">JavaScript regular expressions provide powerful matching and manipulation of string data based on patterns. Regular expressions can be created using literal syntax with <span class="codesample">\pattern\</span> format or the <span class="codesample">RegExp()</span> constructor and are used in <span class="codesample">String</span> methods, such as <span class="codesample">match(), replace(), search()</span>, and <span class="codesample">split()</span>. Regular expression objects also provide <span class="codesample">test(), match()</span>, and <span class="codesample">exec()</span> methods for basic invocation of an expression on a string. Regular expressions themselves are composed of strings of characters along with special escape codes, character classes, and repetition quantifiers. The special escape codes provide the means to include otherwise problematic characters, such as newlines and those characters that have a special meaning in regular expressions. Character classes provide a way to specify a class or range of characters that a string must or must not draw from. Repetition quantifiers allow you to specify the number of times a particular expression must be repeated in the string in order to match. Regular expressions are at times hard to get right, so they should be crafted with care. Properly used, they provide a very powerful way to recognize, replace, and extract patterns of characters from strings.</p>
+</body>
+</html>

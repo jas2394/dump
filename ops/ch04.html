@@ -1,0 +1,454 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<title>JavaScript: The Complete Reference&#153;, Third Edition</title>
+<link href="0071741216.css" rel="stylesheet" type="text/css"/>
+<link href="page-template.xpgt" rel="stylesheet" type="application/vnd.adobe-page-template+xml"/>
+<meta content="urn:uuid:4d1be0af-c0d3-47b8-9bd4-3edcb4dee196" name="Adept.expected.resource"/>
+</head>
+<body>
+<h3 class="h3b" id="ch04"><a id="page_119"/><strong>CHAPTER 4<br/>Operators, Expressions, and Statements</strong></h3>
+<p class="noindent">This chapter provides an overview of the basic building blocks of every script: operators, expressions, and statements. The data types introduced in the last chapter are used directly as literals or within variables in combination with simple operators, such as addition or subtraction operators, and so on, to create expressions. An <em>expression</em> is a code fragment that can be evaluated to some data type the language supports. For example, 2+2 is an expression with the numeric value 4. Expressions are, in turn, used to form <em>statements</em> —the most basic unit of script execution. The execution of statements is controlled using conditional logic and loops.</p>
+<p class="indent">For those readers new to programming, after reading this chapter simple scripts should start to make sense. For experienced programmers, this chapter should contain no surprises because JavaScript is similar to so many other languages: arithmetic and logical operators are part of the language, as are traditional imperative flow-control constructs such as <span class="codesample">if, while</span>, and <span class="codesample">switch</span>. Seasoned programmers may only need to skim this chapter with an eye for the subtleties of the language.</p>
+<h4 class="h4"><a id="ch04lev1sec1"/><strong>Statement Basics</strong></h4>
+<p class="noindent">A JavaScript program is made up of statements. For example, a common statement we saw in the last chapter is one that assigns a value to a variable. The statements here use the keyword <span class="codesample">var</span> to define variables and the assignment operator (<span class="codesample">=</span>) to set values for them.</p>
+<p class="image"><img alt="image" src="f0119-01.jpg"/></p>
+<p class="noindent">Assignment uses the = operator and places the value on the right-hand side into the variable on the left. For example,</p>
+<p class="image"><img alt="image" src="f0119-02.jpg"/></p>
+<p class="noindent">adds 10 to <span class="codesample"><em>y</em></span> and places the result in <span class="codesample"><em>x</em></span>.</p>
+<h5 class="h5"><a id="page_120"/><a id="ch04lev2sec1"/><strong>Whitespace</strong></h5>
+<p class="noindent">Whitespace between tokens is not significant in JavaScript. For example, the following two statements are equivalent:</p>
+<p class="image"><img alt="image" src="f0120-01.jpg"/></p>
+<p class="noindent">However, do not make the leap that whitespace is not important; on the contrary, it can be very problematic, particularly for the novice programmer. For example, while the following are equivalent:</p>
+<p class="image"><img alt="image" src="f0120-02.jpg"/></p>
+<p class="noindent">if you were to remove the space between the keyword <span class="codesample">var</span> and <span class="codesample"><em>x</em></span> you would have</p>
+<p class="image"><img alt="image" src="f0120-03.jpg"/></p>
+<p class="noindent">which actually would create a new variable called <span class="codesample"><em>varx</em></span>. In other cases, you will see that the omission of white space will cause syntax errors. This is particularly common because line breaks can be used for statement termination in JavaScript.</p>
+<hr/>
+<p class="note"><strong>NOTE</strong> Under ECMAScript 5 strict mode, the previous example would have been caught as a syntax error because automatic variable creation is disallowed.</p>
+<h5 class="h5"><a id="ch04lev2sec2"/><strong>Termination: Semicolons and Returns</strong></h5>
+<p class="noindent">A semicolon is primarily used to indicate the end of a JavaScript statement. For example, you can group multiple statements on one line by separating them with semicolons:</p>
+<p class="image"><img alt="image" src="f0120-04.jpg"/></p>
+<p class="noindent">You can also include more complicated or even empty statements on one line:</p>
+<p class="image"><img alt="image" src="f0120-05.jpg"/></p>
+<p class="noindent">The translation of the preceding line is as follows: after incrementing <span class="codesample"><em>x</em></span>, the interpreter skips past the two empty statements, sets <span class="codesample"><em>x</em></span> to 0 if <span class="codesample"><em>x</em></span> is greater than 10, and finally decrements <span class="codesample"><em>y</em></span>. As you can see, including multiple statements on one line makes code hard to read and should be avoided in production code, though we note that for delivered code it may be appropriate, as it is a minified form.</p>
+<p class="indent">Although semicolons should follow statements, in JavaScript they can be omitted if your statements are separated by a line break. The following statements</p>
+<p class="image"><img alt="image" src="f0120-06.jpg"/></p>
+<p class="noindent">are treated the same as</p>
+<p class="image"><a id="page_121"/><img alt="image" src="f0121-01.jpg"/></p>
+<p class="noindent">Of course, if you wish to include two statements on one line, a semicolon must be included to separate them, like so:</p>
+<p class="image"><img alt="image" src="f0121-02.jpg"/></p>
+<p class="noindent">This feature is called <em>implicit semicolon insertion</em>. The idea seems nice: to free programmers from having to remember to terminate simple statements with semicolons. However, the reality is that relying on this feature is a dubious practice. It can get you into trouble in numerous ways. For example, given the last example, these statements</p>
+<p class="image"><img alt="image" src="f0121-03.jpg"/></p>
+<p class="noindent">are fine. However, if you make it</p>
+<p class="image"><img alt="image" src="f0121-04.jpg"/></p>
+<p class="noindent">you will throw an error. Also, if you break a statement up into multiple lines you might cause a problem. A classic example is the <span class="codesample">return</span> statement. Because the argument to <span class="codesample">return</span> is optional, placing <span class="codesample">return</span> and its argument on separate lines causes the <span class="codesample">return</span> to execute without the argument. For example,</p>
+<p class="image"><img alt="image" src="f0121-05.jpg"/></p>
+<p class="noindent">is treated as</p>
+<p class="image"><img alt="image" src="f0121-06.jpg"/></p>
+<p class="noindent">rather than what was probably intended:</p>
+<p class="image"><img alt="image" src="f0121-07.jpg"/></p>
+<p class="noindent">For this reason and others, such as readability of your code, terminating statements with a line break and relying on implicit semicolon insertion is not only poor programming style, but invites errors and should be avoided.</p>
+<h5 class="h5"><a id="ch04lev2sec3"/><strong>Blocks</strong></h5>
+<p class="noindent">Curly braces (<span class="codesample">{ }</span>) are used to group a series of consecutive statements together. Doing so creates one large statement, so a block of statements enclosed in curly braces can be used anywhere in JavaScript that a single statement could. For example, a statement is expected as the body of an <span class="codesample">if</span> conditional:</p>
+<p class="image"><img alt="image" src="f0121-08.jpg"/></p>
+<p class="noindent"><a id="page_122"/>Because a block is treated as a single statement, you could also write</p>
+<p class="image"><img alt="image" src="f0122-01.jpg"/></p>
+<p class="indent">As we’ve said, whitespace between tokens isn’t significant, so the placement of curly braces with respect to an associated statement is merely a matter of style. While correct alignment of blocks can certainly improve code readability, the slight differences between</p>
+<p class="image"><img alt="image" src="f0122-02.jpg"/></p>
+<p class="noindent">and</p>
+<p class="image"><img alt="image" src="f0122-03.jpg"/></p>
+<p class="noindent">are really more an issue of personal preference than anything else, despite endless flame wars to the contrary. We will aim to be consistent with our choice in example, but, frankly, this is somewhat arbitrary, and readers are of course welcome to change examples to fit their favorite formatting style as they type them in.</p>
+<p class="indent">Similarly, it is customary (but not required) to indent the statements of a block to improve readability:</p>
+<p class="image"><img alt="image" src="f0122-04.jpg"/></p>
+<p class="noindent">Indenting nested blocks some consistent number of spaces gives the reader a visual cue that the indented code is part of the same group.</p>
+<p class="indent">Statements, regardless of their groupings or style, generally modify data. We say they <em>operate</em> on data, and the parts of the language that do so are called <em>operators</em>.</p>
+<h4 class="h4"><a id="ch04lev1sec2"/><strong>Operators</strong></h4>
+<p class="noindent">JavaScript supports a variety of operators. Some of them, such as those for arithmetic and comparison, are easy to understand, even for those new to programming. Others, such as the bitwise AND (<span class="codesample">&amp;</span>), increment (<span class="codesample">++</span>), and some conditional (<span class="codesample">?</span>) operators, may be less <a id="page_123"/>obvious to those who have not programmed before. Fortunately for readers of all levels, JavaScript supports few operators that are unique to the language, and the language mimics C-like languages, both in the kinds of operators it provides and in their functionality.</p>
+<h5 class="h5"><a id="ch04lev2sec4"/><strong>Assignment Operator</strong></h5>
+<p class="noindent">The most basic operator is the assignment operator (<span class="codesample">=</span>), which is used to assign a value to a variable. Often this operator is used to set a variable to a literal value, such as in these examples:</p>
+<p class="image"><img alt="image" src="f0123-01.jpg"/></p>
+<p class="indent">Generally, the assignment operator is used to assign a value to a single variable, but it is possible to perform multiple assignments at once by stringing them together with the <span class="codesample">=</span> operator. For example, the statement</p>
+<p class="image"><img alt="image" src="f0123-02.jpg"/></p>
+<p class="noindent">sets all three variables to a value of 7. Be careful here, though, because the first variable <span class="codesample"><em>x</em></span>, depending on where the variable is being defined, may be in a local scope, while the <span class="codesample"><em>y</em></span> and <span class="codesample"><em>z</em></span> may be the global scope, as the <span class="codesample">var</span> statement applies only to the first variable in the expression.</p>
+<p class="indent">Assignments can also be used to set a variable to hold the value of an expression. For example, this script fragment demonstrates how variables can be set to the sum of two literal values as well as a combination of literals and variables:</p>
+<p class="image"><img alt="image" src="f0123-03.jpg"/></p>
+<h5 class="h5"><a id="ch04lev2sec5"/><strong>Arithmetic Operators</strong></h5>
+<p class="noindent">JavaScript supports all the basic arithmetic operators that readers should be familiar with, including addition (<span class="codesample">+</span>), subtraction (<span class="codesample">–</span>), multiplication (<span class="codesample">*</span>), division (<span class="codesample">/</span>), and modulus (<span class="codesample">%</span>, also known as the remainder operator). <a class="nounder" href="ch04.html#tab4-1">Table 4-1</a> details all of these operators and presents examples of each.</p>
+<p class="tabcap"><a id="tab4-1"/><strong>Table 4-1</strong> Basic Arithmetic Operators</p>
+<p class="image"><img alt="image" src="t0124-01.jpg"/></p>
+<hr/>
+<p class="note"><strong>NOTE</strong> JavaScript itself doesn’t directly support any mathematical operations other than the basic ones discussed here. However, the specification does provide the <span class="codesample">Math</span> object, which contains more than enough methods available to accommodate most advanced mathematical calculations. The section entitled “Math” in <a class="nounder" href="ch07.html#ch07">Chapter 7</a> provides an overview of these features.</p>
+<hr/>
+<p class="note"><strong>NOTE</strong> Recall from <a class="nounder" href="ch03.html#ch03">Chapter 3</a> that numeric values can take on special values such as <span class="codesample">Infinity</span> or <span class="codesample">–Infinity</span>, as a result of becoming respectively too large or small to be represented, or <span class="codesample">NaN</span>, as the result of an <span class="codesample">undefined</span> operation such as <span class="codesample">0/0</span>.</p>
+<h6 class="h6"><a id="page_124"/><strong>String Concatenation Using +</strong></h6>
+<p class="noindent">The addition operator <span class="codesample">(+)</span> has a different behavior when operating on strings as opposed to numbers. In this other role, the + operator performs string concatenation. That is, it joins its operands together into a single string. The following outputs the string “<span class="codesample">JavaScript is great</span>” to the document:</p>
+<p class="image"><img alt="image" src="f0124-01.jpg"/></p>
+<p class="indent">Of course, you’re not limited to just joining two string variables together. You can join any number of strings or literals together using this operator. For example:</p>
+<p class="image"><img alt="image" src="f0124-02.jpg"/></p>
+<p class="noindent">After execution, the variable <span class="codesample"><em>goodBook</em></span> contains the string “<span class="codesample">The Time Machine by H.G. Wells</span>”.</p>
+<p class="indent">The fact that + operates in one way on numbers and in another on strings gives rise to a subtlety of JavaScript that often trips up beginners, which is what happens when you use <span class="codesample">+</span> in an expression in which one operand is a string and the other is not. For example:</p>
+<p class="image"><img alt="image" src="f0124-03.jpg"/></p>
+<p class="noindent">The rule is that the interpreter will always treat the + operator as string concatenation if at least one of the operands is a string. So the preceding code fragment results in assignment <a id="page_125"/>of the string “<span class="codesample">Mixed types10</span>” to <span class="codesample"><em>x.</em></span> Automatic type conversion was carried out in order to convert the number 10 to a string. (See <a class="nounder" href="ch03.html#ch03">Chapter 3</a> for more information on type conversion.)</p>
+<p class="indent">There is one further wrinkle with the <span class="codesample">+</span> operator. Because addition and concatenation in an expression are evaluated by the interpreter from left to right, any leading occurrences of + with two numeric operands (or types that can be automatically converted to numbers) will be treated as addition. For example,</p>
+<p class="image"><img alt="image" src="f0125-01.jpg"/></p>
+<p class="noindent">displays the following dialog:</p>
+<p class="image1"><img alt="image" src="f0125-02.jpg"/></p>
+<p class="noindent">The addition of <span class="codesample"><em>w</em></span> and <span class="codesample"><em>x</em></span> happens before the string concatenation occurs. However, you could force a different order of evaluation with the appropriate application of parentheses. See the section “Operator Precedence and Associativity,” later in this chapter, for more information.</p>
+<p class="indent">One trick often used to force + to function as string concatenation is to use the empty string at the beginning of the expression. For example:</p>
+<p class="image"><img alt="image" src="f0125-03.jpg"/></p>
+<p class="indent">The result is</p>
+<p class="image1"><img alt="image" src="f0125-04.jpg"/></p>
+<p class="noindent">To force <span class="codesample">+</span> to operate as addition, you need to use an explicit type conversion function, as discussed in Chapters 3 and 7, or use the unary plus operator scheme discussed next.</p>
+<hr/>
+<p class="note"><a id="page_126"/><strong>NOTE</strong> JavaScript also supports a great number of other string operations beyond concatenation, but most of these are part of the <span class="codesample">String</span> object, which is discussed in <a class="nounder" href="ch07.html#ch07">Chapter 7</a>.</p>
+<h6 class="h6"><strong>Unary Plus and Type Conversion</strong></h6>
+<p class="noindent">A single plus sign can be placed in front of a literal value or variable. It operates on only a single value (or operand) and thus is termed a <em>unary operator</em>. The unary plus operator can be placed in front of a numeric literal and generally appears to do nothing:</p>
+<p class="image"><img alt="image" src="f0126-01.jpg"/></p>
+<p class="noindent">It might be assumed that the operator can make a value positive:</p>
+<p class="image"><img alt="image" src="f0126-02.jpg"/></p>
+<p class="noindent">but it doesn’t do this. However, it can be used, as shown previously in <a class="nounder" href="ch03.html#ch03">Chapter 3</a>, to perform a type conversion. These few examples should illustrate the operator’s value:</p>
+<p class="image"><img alt="image" src="f0126-03.jpg"/></p>
+<p class="noindent">Notice that the unary <span class="codesample">+</span> conversion is similar to the <span class="codesample">Number()</span> constructor, rather than <span class="codesample">parseInt()</span> or <span class="codesample">parseFloat()</span>, as it does not stem any values off the front of strings.</p>
+<p class="indent">Given these examples, we see that the unary + operator can be useful to quickly convert some collected string value to a number, as shown here:</p>
+<p class="image"><img alt="image" src="f0126-04.jpg"/></p>
+<h6 class="h6"><strong>Negation</strong></h6>
+<p class="noindent">Another use of the <span class="codesample">–</span> symbol besides subtraction is to negate a value. As in basic mathematics, placing a minus sign in front of a value will make positive values negative and negative values positive. The basic use of the unary negation operator is simple, as illustrated by these examples:</p>
+<p class="image"><img alt="image" src="f0126-05.jpg"/></p>
+<h5 class="h5"><a id="ch04lev2sec6"/><strong>Bitwise Operators</strong></h5>
+<p class="noindent">JavaScript supports the entire range of bitwise operators for the manipulation of bit strings (implemented as the binary representation of integers). JavaScript converts numeric data into a 32-bit integer before performing a bitwise operation on it. The operator in question is then applied, bit by bit, to this binary representation.</p>
+<p class="indent"><a id="page_127"/>As an example, if we were to perform a bitwise AND operation (<span class="codesample">&amp;</span>) on 3 and 5, first the numbers would be converted to bit strings of 00000011 for 3 and 00000101 for 5 (we omit the leading 24 0’s). The AND of each digit is then computed, with 1 representing <span class="codesample">true</span> and 0 representing <span class="codesample">false</span>. The truth tables for the AND, OR, and XOR (exclusive OR) operations on bits are shown in <a class="nounder" href="ch04.html#tab4-2">Table 4-2</a>.</p>
+<p class="tabcap"><a id="tab4-2"/><strong>Table 4-2</strong> Truth Tables for Bitwise Operations</p>
+<p class="image"><img alt="image" src="t0127-01.jpg"/></p>
+<p class="indent">So given the results specified in <a class="nounder" href="ch04.html#tab4-2">Table 4-2</a>, if we AND the two bit strings in our example together, we get the value shown here:</p>
+<p class="indent"><img alt="image" src="f0127-01.jpg"/></p>
+<p class="noindent">This bit string has the decimal value of 1. If you try</p>
+<p class="image"><img alt="image" src="f0127-02.jpg"/></p>
+<p class="noindent">you will see the appropriate result, shown here:</p>
+<p class="image1"><img alt="image" src="f0127-03.jpg"/></p>
+<p class="indent">Table 4-3 shows the bitwise operators JavaScript supports, as well as examples of their usage.</p>
+<p class="tabcap"><a id="tab4-3"/><strong>Table 4-3</strong> JavaScript’s Bitwise Operators</p>
+<p class="image"><img alt="image" src="t0128-01.jpg"/></p>
+<p class="indent">The bitwise NOT operator (<span class="codesample">~</span>) can be a little confusing. Like the other bitwise operators, <span class="codesample">~</span> converts its operand to a 32-bit binary number first. Next, it inverts the bit string, turning all zeros to ones and all ones to zeros. The result in decimal can be somewhat confusing if you are not familiar with binary representations of negative numbers. For example, <span class="codesample">~3</span> returns a value of <span class="codesample">–4</span>, while <span class="codesample">~(–3)</span> returns a value of <span class="codesample">2</span>. An easy way to calculate the result manually is to flip all the bits and add 1 to the result. This way of writing negative numbers is the <em>two’s complement</em> representation and is the way most computers represent negative numbers.</p>
+<hr/>
+<p class="note"><strong>NOTE</strong> It is possible to use any numeric representation JavaScript supports with a bitwise operator. For example, given that the hex value <span class="codesample">0xFF</span> is equivalent to <span class="codesample">255</span>, performing a bitwise NOT (<span class="codesample">~0xFF</span>) results in a value of <span class="codesample">–256</span>.</p>
+<h5 class="h5"><a id="page_128"/><a id="ch04lev2sec7"/><strong>Bitwise Shift Operators</strong></h5>
+<p class="noindent">The bitwise operators we’ve covered so far modify the bits of the binary representation of a number according to bitwise rules of logic. There is another class of bitwise operators that operate on the binary representation of 32-bit integers but are used to move or, like the operator name suggests, shift bits around rather than set them.</p>
+<p class="indent">Bitwise shift operators take two operands. The first is the number to be shifted, and the second specifies the number of bit positions by which all the bits in the first operand are to be shifted. The direction of the shift operation is controlled by the operator used, <span class="codesample">&lt;&lt;</span> for left shift and <span class="codesample">&gt;&gt;</span> for right shift. For example, given the left-shift operation of <span class="codesample">4 &lt;&lt; 3</span>, the digits making up the number 4 (<span class="codesample">00000100</span>) will be shifted left three places. Any digits shifted off the left side will be dropped, and the digits to the right will be replaced with zeros. Thus, the result is <span class="codesample">00100000</span>, which equals <span class="codesample">32</span>.</p>
+<p class="indent">The supported bitwise shift operators are presented in <a class="nounder" href="ch04.html#tab4-4">Table 4-4</a>. The difference between the right shifts <span class="codesample">&gt;&gt;</span> and <span class="codesample">&gt;&gt;&gt;</span> is significant: The first operator preserves the sign in the bit string by copying the left-most bit to the right, while the second uses a zero fill, which does not preserve the sign. For nonnegative numbers, the zero-fill right shift (<span class="codesample">&gt;&gt;&gt;</span>) and sign-propagating right shift (<span class="codesample">&gt;&gt;</span>) yield the same result.</p>
+<p class="tabcap"><a id="tab4-4"/><strong>Table 4-4</strong> Bitwise Shift Operators</p>
+<p class="image"><img alt="image" src="t0128-02.jpg"/></p>
+<p class="indent">Given the high-level nature of JavaScript when used in a Web browser, the bitwise operators may seem a little out of place. However, remember that JavaScript’s core features <a id="page_129"/>are based on ECMAScript, which is the basis of many languages where low-level bit manipulations may be commonplace.</p>
+<p class="indent">While rarely used on the Web, bitwise operators can be creatively used to store or manipulate data succinctly. They aren’t common, but they are still part of the language.</p>
+<h5 class="h5"><a id="ch04lev2sec8"/><strong>Combining Arithmetic and Bitwise Operations with Assignment</strong></h5>
+<p class="noindent">Like many languages, JavaScript offers operators that combine an arithmetic or bitwise operation with assignment. These shorthand forms let you express common statements concisely but are otherwise equivalent to their expanded forms. <a class="nounder" href="ch04.html#tab4-5">Table 4-5</a> summarizes these operators.</p>
+<p class="tabcap"><a id="tab4-5"/><strong>Table 4-5</strong> Shorthand Assignment with Arithmetic or Bitwise Operation</p>
+<p class="imagea"><img alt="image" src="t0129-01.jpg"/></p>
+<p class="image0"><img alt="image" src="t0129-02.jpg"/></p>
+<p class="indent"><a id="page_130"/>Interestingly, many of the shorthand forms are not used as often as you might think; however, the one described in the next section is often used, as it describes a common form of assignment: adding or subtracting one.</p>
+<h5 class="h5"><a id="ch04lev2sec9"/><strong>Increment and Decrement</strong></h5>
+<p class="noindent">The <span class="codesample">++</span> operator is used to increment—or simply to add 1—to its operand. For example, with</p>
+<p class="image"><img alt="image" src="f0130-01.jpg"/></p>
+<p class="noindent">the value of <span class="codesample"><em>x</em></span> is set to <span class="codesample">4</span>. Of course, you could also write the increment portion of the previous example as</p>
+<p class="image"><img alt="image" src="f0130-02.jpg"/></p>
+<p class="indent">Similar to the <span class="codesample">++</span> operator is the <span class="codesample">--</span> operator, used to decrement (subtract one from) its operand. So the following leaves a value of 2 in the variable <span class="codesample"><em>x</em></span>:</p>
+<p class="image"><img alt="image" src="f0130-03.jpg"/></p>
+<p class="noindent">Of course, this statement could also have been written the “long” way:</p>
+<p class="image"><img alt="image" src="f0130-04.jpg"/></p>
+<p class="indent">While adding or subtracting 1 from a variable may not seem terribly useful to those readers new to programming, these operators are very important and are found at the heart of looping structures, which are discussed later in this chapter.</p>
+<h6 class="h6"><strong>Post- and Pre-Increment/Decrement</strong></h6>
+<p class="noindent">A subtle nuance of the increment (<span class="codesample">++</span>) and decrement (<span class="codesample">--</span>) operators is the position of the operator in relation to the operand. When the increment operator appears on the left of the operand, it is termed a <em>pre-increment</em>, while if it appears on the right it is a <em>post-increment.</em> The importance of the position of the operator is best illustrated by an example. Consider this script:</p>
+<p class="image"><img alt="image" src="f0130-05.jpg"/></p>
+<p class="noindent">You will see</p>
+<p class="image1"><img alt="image" src="f0130-06.jpg"/></p>
+<p class="noindent">even though the value of <span class="codesample"><em>x</em></span> following the <span class="codesample">alert()</span> method will be <span class="codesample">4</span>. Compare this to the script</p>
+<p class="image"><a id="page_131"/><img alt="image" src="f0131-01.jpg"/></p>
+<p class="noindent">The result is more as expected:</p>
+<p class="image1"><img alt="image" src="f0131-02.jpg"/></p>
+<p class="noindent">and of course the variable <span class="codesample"><em>x</em></span> will contain <span class="codesample">4</span> on conclusion. What’s going on here is that the value the operand takes on in the expression depends on whether the operator is pre- or post-increment. Pre-increment adds one to the value of the operand <em>before</em> using it in the expression. Post-increment adds one to the value <em>after</em> its value has been used. Pre- and post-decrement work the same way.</p>
+<hr/>
+<p class="note"><strong>NOTE</strong> It is not possible to combine pre- and post-increment/decrement at the same time; for example, <span class="codesample">++x++</span> results in an error.</p>
+<h5 class="h5"><a id="ch04lev2sec10"/><strong>Comparison Operators</strong></h5>
+<p class="noindent">A comparison expression evaluates to a Boolean value indicating whether its comparison is <span class="codesample">true</span> or <span class="codesample">false</span>. Most of JavaScript’s comparison operators should be familiar from elementary mathematics or from other programming languages. These operators are summarized in <a class="nounder" href="ch04.html#tab4-6">Table 4-6</a>.</p>
+<p class="tabcap"><a id="tab4-6"/><strong>Table 4-6</strong> Comparison Operators</p>
+<p class="image"><img alt="image" src="t0131-01.jpg"/></p>
+<p class="indent">A few of these operators warrant further discussion, particularly the equality operators. A common mistake is using a single equal sign (<span class="codesample">=</span>), which specifies an assignment, when one really wants a double equal sign (<span class="codesample">==</span>), which specifies the equality comparison. The following example illustrates this problem in action:</p>
+<p class="image"><img alt="image" src="f0131-03.jpg"/></p>
+<p class="noindent"><a id="page_132"/>In this situation, regardless of the values of the variables, the <span class="codesample">if</span> statement will always evaluate <span class="codesample">true</span>:</p>
+<p class="image1"><img alt="image" src="f0132-01.jpg"/></p>
+<p class="noindent">This happens because the value of an assignment statement in an expression is the value that was assigned (in this case <span class="codesample">5</span>, which when automatically converted to a Boolean is <span class="codesample">true</span>; zero is <span class="codesample">false</span> and non-zero is <span class="codesample">true</span>).</p>
+<p class="indent">More interesting is the situation of values that do not appear the same but compare as such. For example,</p>
+<p class="image"><img alt="image" src="f0132-02.jpg"/></p>
+<p class="noindent">returns a <span class="codesample">true</span> value because of JavaScript’s automatic type conversion:</p>
+<p class="image1"><img alt="image" src="f0132-03.jpg"/></p>
+<p class="indent">Strict equality is handled using the identity operator (<span class="codesample">===</span>), as shown here. This operator returns <span class="codesample">true</span> if the operands are equal <em>and</em> of the same type (that is, it does no type conversion). The script,</p>
+<p class="image"><img alt="image" src="f0132-04.jpg"/></p>
+<p class="noindent">displays <span class="codesample">false</span> as expected:</p>
+<p class="image1"><img alt="image" src="f0132-05.jpg"/></p>
+<hr/>
+<p class="note"><strong>NOTE</strong> The comparison operators <span class="codesample">===</span> and <span class="codesample">!==</span> are not available in very early browsers such as Netscape 2 and 3, though they are available in JavaScript 1.3 and beyond.</p>
+<h6 class="h6"><a id="page_133"/><strong>Comparing Strings</strong></h6>
+<p class="noindent">While it is clear what comparison operators mean for numbers, what about strings? For example, is the following expression <span class="codesample">true</span>?</p>
+<p class="image"><img alt="image" src="f0133-01.jpg"/></p>
+<p class="indent">When you compare strings, JavaScript evaluates the comparison based on a string’s lexicographic order. <em>Lexicographic order</em> is essentially alphabetic order, with a few extra rules thrown in to deal with upper- and lower-case characters, as well as to accommodate strings of different lengths.</p>
+<p class="indent">The following general rules apply:</p>
+<p class="bullet">• Lowercase characters are less than uppercase characters.</p>
+<p class="bullet">• Shorter strings are less than longer strings.</p>
+<p class="bullet">• Letters occurring earlier in the alphabet are less than those occurring later.</p>
+<p class="bullet">• Characters with lower ASCII or Unicode values are less than those with larger values.</p>
+<p class="noindent">The interpreter examines strings on a character-by-character basis. As soon as one of the previous rules applies to the strings in question (for example, the two characters are different), the expression is evaluated accordingly.</p>
+<p class="indent">The following comparisons are all <span class="codesample">true</span>:</p>
+<p class="image"><img alt="image" src="f0133-02.jpg"/></p>
+<p class="noindent">While this ordering might seem confusing at first blush, it is quite standard and consistent across most programming languages. Of course, given JavaScript’s weak typing, you can imagine that trouble can be encountered quickly; for example, if you see <span class="codesample">10</span> coming before <span class="codesample">9</span> in a sort, it isn’t wrong; the values just became a string, so it was really “<span class="codesample">10</span>” coming before “<span class="codesample">9</span>”.</p>
+<h5 class="h5"><a id="ch04lev2sec11"/><strong>Logical Operators</strong></h5>
+<p class="noindent">As previously stated, the comparison operators described in the preceding section evaluate to Boolean values. The logical operators <span class="codesample">&amp;&amp;</span> (AND), <span class="codesample">||</span> (OR), and <span class="codesample">!</span> (NOT) are useful for combining such values together in order to implement more complicated logic. Descriptions and examples of each logical operator are shown in <a class="nounder" href="ch04.html#tab4-7">Table 4-7</a>.</p>
+<p class="tabcap"><a id="tab4-7"/><strong>Table 4-7</strong> Logical Operators</p>
+<p class="image"><img alt="image" src="t0133-01.jpg"/></p>
+<p class="indent"><a id="page_134"/>The most common use of the logical operators is to control the flow of script execution using an <span class="codesample">if</span> statement. (See the section titled “if Statements,” later in this chapter, for use of logical operators within an <span class="codesample">if</span> statement.) The conditional operator (<span class="codesample">?</span>), discussed next, is similar to the <span class="codesample">if</span> statement and can be used in an expression, whereas an <span class="codesample">if</span> statement cannot.</p>
+<h5 class="h5"><a id="ch04lev2sec12"/><strong>? Operator</strong></h5>
+<p class="noindent">The <span class="codesample">?</span> operator is used to create a quick conditional branch. The basic syntax for this operator is</p>
+<p class="image"><img alt="image" src="f0134-01.jpg"/></p>
+<p class="noindent">where <span class="codesample"><em>expression</em></span> is any expression that will evaluate eventually to <span class="codesample">true</span> or <span class="codesample">false</span>. If <span class="codesample"><em>expression</em></span> evaluates <span class="codesample">true</span>, then <span class="codesample"><em>if-true-statement</em></span> is evaluated and returned. Otherwise, <span class="codesample"><em>if-false-statement</em></span> is executed and returned. In this example,</p>
+<p class="image"><img alt="image" src="f0134-02.jpg"/></p>
+<p class="noindent"><span class="codesample">result</span> will contain a different string based on the value of the variable <span class="codesample"><em>x</em></span>. Contextually, if the conditional expression evaluates <span class="codesample">true</span>, the first statement indicating the value is greater than 5 is returned; if <span class="codesample">false</span>, the second statement stating the opposite will be returned.</p>
+<p class="indent">Often developers throw away the return value and may employ the <span class="codesample">?</span> operator as some shorthand notation for an <span class="codesample">if</span> statement. For example,</p>
+<p class="image"><img alt="image" src="f0134-03.jpg"/></p>
+<p class="noindent">would perform an alert, depending on the value of <span class="codesample"><em>x</em></span>. This seems very much as an <span class="codesample">if</span> statement, which would be written as:</p>
+<p class="image"><img alt="image" src="f0134-04.jpg"/></p>
+<p class="indent">While in some languages its usage is somewhat rare, the conditional operator is used relatively frequently by JavaScript programmers. For example, here we see it employed with object detection:</p>
+<p class="image"><img alt="image" src="f0134-05.jpg"/></p>
+<p class="noindent">This compact script sets the variable <span class="codesample"><em>nativeJSON</em></span> to <span class="codesample">true</span> or <span class="codesample">false</span> depending on the existence of native JSON support in a browser. For readability, you still may prefer <span class="codesample">if</span> statements, but the terseness of this operator does make it useful in large scripts that need to perform a great deal of simple conditional checks.</p>
+<p class="indent">One apparent difference between <span class="codesample">?</span> and if is that the <span class="codesample">?</span> operator allows only a single statement for the <span class="codesample">true</span> and <span class="codesample">false</span> conditions. Thus,</p>
+<p class="image"><img alt="image" src="f0134-06.jpg"/></p>
+<p class="indent"><a id="page_135"/>doesn’t work. In fact, because the <span class="codesample">?</span> operator is used to form a single statement, the inclusion of the semicolon (<strong>;</strong>) anywhere within the expression terminates the statement. Adding a block is not allowed. There is, however, a workaround using an anonymous function expression, as follows:</p>
+<p class="image"><img alt="image" src="f0135-01.jpg"/></p>
+<p class="noindent">While it would seem that we can make <span class="codesample">?</span> act like an <span class="codesample">if</span> statement, the converse doesn’t work because <span class="codesample">if</span> is a statement and an expression. Here we show a quick demonstration of the flexibility of the conditional operator in an expression:</p>
+<p class="image"><img alt="image" src="f0135-02.jpg"/></p>
+<p class="noindent">The equivalent <span class="codesample">if</span> statement would have taken several lines to write.</p>
+<h5 class="h5"><a id="ch04lev2sec13"/><strong>Comma Operator</strong></h5>
+<p class="noindent">The comma operator <span class="codesample">(,)</span> allows multiple expressions to be strung together and treated as one expression. Expressions strung together with commas evaluate to the value of the rightmost expression. For example, in this assignment, the final assignment will return the value <span class="codesample">56</span> as a side-effect; thus, the variable <span class="codesample"><em>a</em></span> is set to this value:</p>
+<p class="image"><img alt="image" src="f0135-03.jpg"/></p>
+<p class="image1"><img alt="image" src="f0135-04.jpg"/></p>
+<p class="indent">The comma operator is rarely used in JavaScript outside of variable declarations, except occasionally in complex loops expressions, as shown here:</p>
+<p class="image"><img alt="image" src="f0135-05.jpg"/></p>
+<p class="indent">However, the use of the comma operator is not suggested.</p>
+<hr/>
+<p class="note"><strong>NOTE</strong> Commas are also used to separate parameters in function calls (see <a class="nounder" href="ch05.html#ch05">Chapter 5</a>). This usage really has nothing to do with the comma operator and, for many, reaffirms the operator as more syntactic sugar than valuable operator.</p>
+<h5 class="h5"><a id="page_136"/><a id="ch04lev2sec14"/><strong>void Operator</strong></h5>
+<p class="noindent">The <span class="codesample">void</span> operator specifies an expression to be evaluated without returning a value. For example, take the previous example with the comma operator and void it out:</p>
+<p class="image"><img alt="image" src="f0136-01.jpg"/></p>
+<p class="noindent">In this case, the value of <span class="codesample"><em>a</em></span> will be <span class="codesample">undefined</span>, as shown here:</p>
+<p class="image1"><img alt="image" src="f0136-02.jpg"/></p>
+<p class="indent">The most common use of the <span class="codesample">void</span> operator is when using the <span class="codesample">javascript</span>: pseudoURL in conjunction with an HTML <span class="codesample">href</span> attribute. Some browsers, notably early versions of Netscape, had problems when script was used in links, as it may return a <span class="codesample">true</span> or <span class="codesample">false</span> value effecting link load. The only way to avoid these problems and force a link click to do nothing when scripting is on is to use <span class="codesample">void</span>, as shown here:</p>
+<p class="image"><img alt="image" src="f0136-03.jpg"/></p>
+<p class="noindent">While modern browsers implement pseudo-URLs properly, this practice interestingly has not fallen completely out of use and currently serves as a talisman statement doing little but looking impressive.</p>
+<h5 class="h5"><a id="ch04lev2sec15"/><strong>typeof</strong></h5>
+<p class="noindent">The <span class="codesample">typeof</span> operator returns a string indicating the data type of its operand. The script fragment here shows its basic use:</p>
+<p class="image"><img alt="image" src="f0136-04.jpg"/></p>
+<p class="indent">Table 4-8 shows the values returned by <span class="codesample">typeof</span> on the basis of the type of value it is presented.</p>
+<p class="tabcap"><a id="tab4-8"/><strong>Table 4-8</strong> Return Values for the <span class="codesample">typeof</span> Operator</p>
+<p class="image"><img alt="image" src="t0137-01.jpg"/></p>
+<p class="indent">The last set of operators to discuss before moving on to statements are the various object operators.</p>
+<h5 class="h5"><a id="page_137"/><a id="ch04lev2sec16"/><strong>Object Operators</strong></h5>
+<p class="noindent">This section provides a syntax overview of various JavaScript object operators. A more complete discussion with usage can be found in <a class="nounder" href="ch06.html#ch06">Chapter 6</a>. For now, recall from <a class="nounder" href="ch03.html#ch03">Chapter 3</a> that an object is a composite data type that contains any number of properties and methods. Each property has a name and a value, and the period (.) operator is used to access them; for example,</p>
+<p class="image"><img alt="image" src="f0137-01.jpg"/></p>
+<p class="noindent">references the <span class="codesample">lastModified</span> property of the <span class="codesample">document</span> object, which contains the date that an HTML document was last modified.</p>
+<p class="indent">Object properties can also be accessed using array bracket operators (<span class="codesample">[ ]</span>) enclosing a string containing the name of the property. For example,</p>
+<p class="image"><img alt="image" src="f0137-02.jpg"/></p>
+<p class="noindent">is the same as</p>
+<p class="image"><img alt="image" src="f0137-03.jpg"/></p>
+<p class="indent">A more common use of square brackets is the array index operator (<span class="codesample">[ ]</span>) used to access the elements of arrays. For example, here we define an array called <span class="codesample">myArray</span>:</p>
+<p class="image"><img alt="image" src="f0137-04.jpg"/></p>
+<p class="noindent">To display the individual elements of the array starting from the first position (0), we would use a series of statements such as these:</p>
+<p class="image"><img alt="image" src="f0137-05.jpg"/></p>
+<p class="indent"><a id="page_138"/>In the previous example, we created an <span class="codesample">Array</span> object using an array literal. We could also have used the <span class="codesample">new</span> operator to do so. For example:</p>
+<p class="image"><img alt="image" src="f0138-01.jpg"/></p>
+<p class="indent">The <span class="codesample">new</span> operator is used to create objects. It can be used both to create user-defined objects and to create instances of built-in objects. The following script creates a new instance of the <span class="codesample">Date</span> object and places it in the variable <span class="codesample"><em>today</em></span>.</p>
+<p class="image"><img alt="image" src="f0138-02.jpg"/></p>
+<p class="noindent">The result is shown here:</p>
+<p class="image1"><img alt="image" src="f0138-03.jpg"/></p>
+<p class="indent">Commonly, programming languages that allow you to create an object with <span class="codesample">new</span> allow you to destroy one with <span class="codesample">delete</span>. This isn’t quite <span class="codesample">true</span> of JavaScript. To destroy an object, you set it to <span class="codesample">null</span>. For example, to destroy the object in the previous example, you would write</p>
+<p class="image"><img alt="image" src="f0138-04.jpg"/></p>
+<p class="indent">In JavaScript, the <span class="codesample">delete</span> operator is used to remove a property from an object and to remove an element from an array. The following script illustrates its use for the latter purpose:</p>
+<p class="image"><img alt="image" src="f0138-05.jpg"/></p>
+<p class="indent">Notice that the third item, <span class="codesample">78</span>, has been removed from the array:</p>
+<p class="image1"><img alt="image" src="f0138-06.jpg"/></p>
+<p class="indent">Note, of course, that while this action may detail the contents of <span class="codesample"><em>myArray[2]</em></span>, the length of the array is still three and the value of <span class="codesample"><em>myArray[3]</em></span> stays <span class="codesample">1767</span>. Shifting elements around and performing other operations on arrays requires using the methods described in <a class="nounder" href="ch07.html#ch07">Chapter 7</a>.</p>
+<p class="indent"><a id="page_139"/>The last operator that is associated with objects is the parentheses operator. This operator is used to invoke an object’s method just as it invokes functions. For example, we have already seen the <span class="codesample">Document</span> object’s <span class="codesample">write()</span> method:</p>
+<p class="image"><img alt="image" src="f0139-01.jpg"/></p>
+<p class="noindent">In this case, we pass a single parameter, the string “Hello from JavaScript”, to the <span class="codesample">write</span> method so that it is printed to the HTML document. In general, we can invoke arbitrary object methods, as follows:</p>
+<p class="image"><img alt="image" src="f0139-02.jpg"/></p>
+<h5 class="h5"><a id="ch04lev2sec17"/><strong>Operator Precedence and Associativity</strong></h5>
+<p class="noindent">Operators have a predefined order of precedence—that is, the order in which they are evaluated in an expression. This is particularly obvious with arithmetic operators and is similar to the evaluation of equations in algebra, where multiplication and division have higher precedence over addition and subtraction. For example, the result of</p>
+<p class="image"><img alt="image" src="f0139-03.jpg"/></p>
+<p class="noindent">will be <span class="codesample">8</span> because the multiplication is performed before the addition. We see that multiplication has higher precedence than addition. Using parentheses, we can group expressions and force their evaluation in an order of our choice. Parenthesized expressions are evaluated first. For example,</p>
+<p class="image"><img alt="image" src="f0139-04.jpg"/></p>
+<p class="noindent">will display <span class="codesample">10</span>.</p>
+<p class="indent">Of course, expression evaluation is also influenced by the operator associativity. <em>Associativity</em> essentially means the “direction” in which an expression containing an operator is evaluated. For example, consider the following combination of addition and string concatenation operations:</p>
+<p class="image"><img alt="image" src="f0139-05.jpg"/></p>
+<p class="noindent">The result will be the string “<span class="codesample">11Hello</span>” rather than “<span class="codesample">56Hello</span>”. Even though the two instances of <span class="codesample">+</span> would appear to have the same precedence, the <span class="codesample">+</span> operator is “left associative,” meaning that it is evaluated left to right, so the numeric addition is performed first. Conversely, in this example,</p>
+<p class="image"><img alt="image" src="f0139-06.jpg"/></p>
+<p class="noindent">the multiplication is performed first because the assignment operator (<span class="codesample">=</span>) is “right associative.” The result is that <span class="codesample">100</span> is computed, then assigned to <span class="codesample"><em>y</em></span>, and only then assigned to <span class="codesample"><em>x</em></span>.</p>
+<p class="indent">The precedence and associativity of the various operators in JavaScript are presented in <a class="nounder" href="ch04.html#tab4-9">Table 4-9</a>. Note that by computer science tradition, precedence is indicated by a number, with <em>lower</em> numbers indicating <em>higher</em> precedence.</p>
+<p class="tabcap"><a id="tab4-9"/><strong>Table 4-9</strong> Precedence and Associativity of JavaScript’s Operators <a id="page_140"/></p>
+<p class="imagea"><img alt="image" src="t0140-01.jpg"/></p>
+<p class="image0"><img alt="image" src="t0140-02.jpg"/></p>
+<p class="image0"><img alt="image" src="t0140-03.jpg"/></p>
+<p class="indent"><a id="page_141"/>Based on this discussion of operator precedence, you might assume that using parentheses could force the evaluation of all the operators discussed so far. However, this isn’t always the case. For example, consider the post- and pre-increment/decrement operators. As we saw earlier, the results of</p>
+<p class="image"><img alt="image" src="f0141-01.jpg"/></p>
+<p class="noindent">and</p>
+<p class="image"><img alt="image" src="f0141-02.jpg"/></p>
+<p class="noindent">show different values because of the difference when the incrementing happens in relation to the application of the <span class="codesample">alert()</span> method. However, if you add parentheses and try to force the incrementing to always happen before the alert is displayed, as shown here,</p>
+<p class="image"><img alt="image" src="f0141-03.jpg"/></p>
+<p class="noindent">you won’t see any difference.</p>
+<p class="indent">Now that we have covered all of the various operators in JavaScript, it is time to combine these together and form full statements.</p>
+<h4 class="h4"><a id="ch04lev1sec3"/><strong>Core JavaScript Statements</strong></h4>
+<p class="noindent">JavaScript supports a core set of statements that should be familiar to anyone who has programmed in a modern imperative programming language. These include flow control (<span class="codesample">if-else, switch</span>), loops (<span class="codesample">while, do-while, for</span>), and loop control (<span class="codesample">break</span> and <span class="codesample">continue</span>). JavaScript also supports some object-related statements (<span class="codesample">with, for-in</span>), as well as some basic error handling (<span class="codesample">try-catch-throw</span>).</p>
+<h5 class="h5"><a id="ch04lev2sec18"/><strong>if Statements</strong></h5>
+<p class="noindent">The <span class="codesample">if</span> statement is JavaScript’s basic decision-making control statement. The basic syntax of the <span class="codesample">if</span> statement is</p>
+<p class="image"><img alt="image" src="f0141-04.jpg"/></p>
+<p class="noindent">The given <span class="codesample"><em>expression</em></span> is evaluated to a Boolean, and, if the condition is <span class="codesample">true</span>, the <span class="codesample"><em>statement</em></span> is executed. Otherwise, it moves on to the next statement. For example, given this script fragment,</p>
+<p class="image"><img alt="image" src="f0141-05.jpg"/></p>
+<p class="noindent"><a id="page_142"/>the expression evaluates to <span class="codesample">true</span>, displays the message “x is greater than 1,” and then displays the second alert dialog afterward. However, if the value of variable <span class="codesample"><em>x</em></span> were something like zero, the expression would evaluate <span class="codesample">false</span>, resulting in skipping the first alert and immediately displaying the second one that the script has moved on.</p>
+<p class="indent">To execute multiple statements with an <span class="codesample">if</span> statement, a block could be used, as shown by the simple example here:</p>
+<p class="image"><img alt="image" src="f0142-01.jpg"/></p>
+<p class="indent">Additional logic can be applied with an <span class="codesample">else</span> statement. When the condition of the first statement is not met, the code in the <span class="codesample">else</span> statement will be executed:</p>
+<p class="image"><img alt="image" src="f0142-02.jpg"/></p>
+<p class="noindent">Given this syntax, we could expand the previous example as follows:</p>
+<p class="image"><img alt="image" src="f0142-03.jpg"/></p>
+<p class="indent">More advanced logic can be added using <span class="codesample">else if</span> clauses:</p>
+<p class="image"><img alt="image" src="f0142-04.jpg"/></p>
+<p class="indent">This simple example illustrates how <span class="codesample">if</span> statements might be chained together:</p>
+<p class="image"><img alt="image" src="f0142-05.jpg"/></p>
+<p class="noindent"><a id="page_143"/>As you can see, it is pretty easy to get carried away with complex <span class="codesample">if-else</span> statements.</p>
+<p class="indent">When <span class="codesample">if</span> statements are nested deeply, we run into the always contentious decision of whether or not the ever-increasing numbers of matched curly braces (<span class="codesample">{ }</span>) should be formatted. Some people prefer a style that aligns the braces underneath in a straight line:</p>
+<p class="image"><img alt="image" src="f0143-01.jpg"/></p>
+<p class="indent">Others prefer a method that matches the right close brace to the expression and avoids burning an extra line for the opening brace, like so:</p>
+<p class="image"><img alt="image" src="f0143-02.jpg"/></p>
+<p class="noindent">It probably doesn’t really matter which method you choose for complex <span class="codesample">if</span> statements, as long as you are consistent. Interestingly, the need for such a debate suggests the consideration of a <span class="codesample">switch</span> statement, discussed shortly, which often can be a more elegant alternative to long <span class="codesample">if-else</span> chains. However, before moving on, we should illustrate a subtlety with the logical expressions.</p>
+<h6 class="h6"><strong>Short-Circuit Evaluation of Logical Expressions</strong></h6>
+<p class="noindent">Like many languages, JavaScript “short circuits” the evaluation of a logical AND (<span class="codesample">&amp;&amp;</span>) or logical OR (<span class="codesample">||</span>) expression once the interpreter has enough information to infer the result. For example, if the first expression of an <span class="codesample">||</span> operation is <span class="codesample">true</span>, there really is no point in evaluating the rest of the expression, since the entire expression will evaluate to <span class="codesample">true</span>, regardless of the other value. Similarly, if the first expression of an <span class="codesample">&amp;&amp;</span> operation evaluates to <span class="codesample">false</span>, there is no need to continue evaluation of the right-hand operand <a id="page_144"/>since the entire expression will always be <span class="codesample">false</span>. The script here demonstrates the effect of short-circuit evaluation:</p>
+<p class="image"><img alt="image" src="f0144-01.jpg"/></p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.javascriptref.com/3ed/ch4/shortcircuiteval.html">http://javascriptref.com/3ed/ch4/shortcircuiteval.html</a></p>
+<p class="indent">The results of the script are shown in <a class="nounder" href="ch04.html#fig4-1">Figure 4-1</a>. Notice how the second part of the script executes only the left half of the logical expression.</p>
+<p class="image1"><a id="fig4-1"/><img alt="image" src="f0144-02.jpg"/></p>
+<p class="figcap"><strong>Figure 4-1</strong> Short-circuit evaluation in effect</p>
+<p class="indent"><a id="page_145"/>Because logical expressions rarely have side effects, the subtlety of short-circuit evaluation of logical expressions often won’t matter to a programmer. However, if the evaluation produces the side effect of modifying a value, a subtle error may result because of the short circuit. There is one useful use in the world of JavaScript, though, as discussed next.</p>
+<h6 class="h6"><strong>Applied Short-Circuit Evaluation: Object Detection</strong></h6>
+<p class="noindent">Performing object detection in JavaScript is much improved by the inclusion of short-circuit evaluation. For example, say you were interested in seeing if a browser supported some DOM feature. You could use the <span class="codesample">document.implementation.hasFeature()</span> method. However, invoking this method in some ancient browser might be a bit dangerous, as you are assuming that it and its parent object implementation exist, short circuit to the rescue. First, we utilize the fact that JavaScript’s weak typing can be used for good since it converts an object to <span class="codesample">true</span> if it exists and <span class="codesample">false</span> if not. So this</p>
+<p class="image"><img alt="image" src="f0145-01.jpg"/></p>
+<p class="noindent">safely executes since if the <span class="codesample">document.implementation</span> object doesn’t exist it converts to <span class="codesample">false</span> and the if statement stops executing. If it does exist, it then safely further evaluates the <span class="codesample">hasFeature()</span> method. Knowing the details of JavaScript really can help us more properly use it.</p>
+<h5 class="h5"><a id="ch04lev2sec19"/><strong>switch</strong></h5>
+<p class="noindent">Starting with JavaScript 1.2, you can use a <span class="codesample">switch</span> statement rather than relying solely on <span class="codesample">if</span> statements to select a statement to execute from among many alternatives. The basic syntax of the <span class="codesample">switch</span> statement is to give an expression to evaluate and several different statements to execute based on the value of the expression. The interpreter checks each case against the value of the expression until a match is found. If nothing matches, a <span class="codesample">default</span> condition will be used. The basic syntax is shown here:</p>
+<p class="image"><img alt="image" src="f0145-02.jpg"/></p>
+<p class="noindent">The <span class="codesample">break</span> statements indicate to the interpreter the end of that particular case. If they were omitted, the interpreter would continue executing each statement in each of the following cases.</p>
+<p class="indent">Consider the following example, which shows how a <span class="codesample">switch</span> statement might be used:</p>
+<p class="image"><img alt="image" src="f0145-03.jpg"/></p>
+<p class="noindent"><a id="page_146"/>You could certainly imitate this idea with <span class="codesample">if</span> statements, but doing so may be considerably harder to read:</p>
+<p class="image"><img alt="image" src="f0146-01.jpg"/></p>
+<p class="noindent">Obviously, when using numerous <span class="codesample">if</span> statements, things can get messy very quickly.</p>
+<p class="indent">There are a few issues to understand with <span class="codesample">switch</span> statements. First, it is not necessary to use curly braces to group together blocks of statements. Consider the following example, which demonstrates this:</p>
+<p class="image"><img alt="image" src="f0146-02.jpg"/></p>
+<p class="indent"><a id="page_147"/>The next aspect of <span class="codesample">switch</span> to be aware of is that “fall through” actions occur when you omit a <span class="codesample">break</span>. You can use this feature to create multiple situations that produce the same result. Consider a rewrite of the previous example that allows a bit more granularity on the grade matching:</p>
+<p class="image"><img alt="image" src="f0147-01.jpg"/></p>
+<p class="image"><img alt="image" src="f0147-02.jpg"/></p>
+<p class="noindent">Notice here that, depending on the entry point, the code execution falls through. For example, entering in at <span class="codesample">A</span>, <span class="codesample">A</span>-, <span class="codesample">B</span>+, or <span class="codesample">B</span> produces the same result. However, note that it is possible to be additive with fall through code. Note that the <span class="codesample">A+</span> entry issues a unique alert before it falls through and executes more code.</p>
+<p class="indent">Because of JavaScript’s weak typing, you can produce some occasional odd-looking <span class="codesample">switch</span> statements. Consider here that there is nothing wrong with having different types for the individual cases:</p>
+<p class="image"><img alt="image" src="f0147-03.jpg"/></p>
+<p class="noindent"><a id="page_148"/>so this should beg the question, what happens if we set <span class="codesample">test</span> to “<span class="codesample">5</span>”? Does the value type convert in comparison and match the first statement? Turns out the answer is no; the comparisons are strict (=== as opposed to ==), so it will match type and value. The switch would be equivalent to the following:</p>
+<p class="image"><img alt="image" src="f0148-01.jpg"/></p>
+<p class="noindent">As we keep demonstrating, the <span class="codesample">switch</span> and <span class="codesample">if</span> statements perform the concept of selection and thus are equivalent in capability, but you may be able to express some code more succinctly or clearly with one structure or another. The next set of statements we cover are loops. They are similar, and they perform the same general purpose, but they do so in slightly different ways.</p>
+<h5 class="h5"><a id="ch04lev2sec20"/><strong>while Loops</strong></h5>
+<p class="noindent">Loops are used to perform some action over and over again. The most basic loop in JavaScript is the <span class="codesample">while</span> loop, whose syntax is shown here:</p>
+<p class="image"><img alt="image" src="f0148-02.jpg"/></p>
+<p class="noindent">The purpose of a <span class="codesample">while</span> loop is to execute a statement or code block repeatedly as long as <span class="codesample"><em>expression</em></span> is <span class="codesample">true</span>. Once <span class="codesample"><em>expression</em></span> becomes <span class="codesample">false</span> or a <span class="codesample">break</span> statement is encountered, the loop will be exited. This script illustrates a basic <span class="codesample">while</span> loop:</p>
+<p class="image"><img alt="image" src="f0148-03.jpg"/></p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.www.javascriptref.com/3ed/ch4/simplewhileloop.html">http://www.javascriptref.com/3ed/ch4/simplewhileloop.html</a></p>
+<p class="indent">In this situation, the value of <span class="codesample"><em>count</em></span> is initially zero, and then the loop enters, the value of <span class="codesample"><em>count</em></span> is output, and the value is increased. The body of the loop repeats until <span class="codesample"><em>count</em></span> reaches 10, at which point the conditional expression becomes <span class="codesample">false</span>. At this point, the loop exits and executes the statement following the loop body. The output of the loop is shown here:</p>
+<p class="image1"><a id="page_149"/><img alt="image" src="f0149-01.jpg"/></p>
+<p class="indent">The initialization, loop, and conditional expression can be set up in a variety of ways. Consider this loop that counts downward from 100 in steps of <span class="codesample">10</span> or more:</p>
+<p class="image"><img alt="image" src="f0149-02.jpg"/></p>
+<p class="indent">One issue with <span class="codesample">while</span> loops is that, depending on the loop test expression, the loop may never actually execute:</p>
+<p class="image"><img alt="image" src="f0149-03.jpg"/></p>
+<p class="indent">Lastly, an important consideration with any loop—a <span class="codesample">while</span> loop or a loop of a different sort discussed in the following sections—is to make sure that the loop eventually terminates. If there’s no way for the conditional expression to become <span class="codesample">false</span>, there’s no way for the loop to end. For example:</p>
+<p class="image"><img alt="image" src="f0149-04.jpg"/></p>
+<p class="noindent"><a id="page_150"/>As written and performed on page load, this may crash your browser since the document keeps growing and growing. If you live dangerously, try for yourself.</p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.www.javascriptref.com/3ed/ch4/simplewhile.html">http://www.javascriptref.com/3ed/ch4/simplewhile.html</a></p>
+<p class="indent">In early browsers, runaway loops were quite dangerous. Later, most vendors added script time execution safeties. For example, in many variations of Firefox, the script had to return within five seconds. The browser running a long running script could then pop a dialog to allow the user to interrupt things, as illustrated here:</p>
+<p class="image1"><img alt="image" src="f0150-01.jpg"/></p>
+<p class="indent">This safety check is both a pro and a con. While it can help recover from bad situations, it doesn’t allow for scripts that might be intensive to run without significant hiccups. Today, in more modern browsers, it appears that script execution time limitations have been vastly increased or removed, so infinite loops are back to causing big trouble. It should be noted that in some browsers such as Firefox you can configure script timeout directly by typing <strong>about:config</strong> in the address bar and setting a max script runtime larger or smaller, as you like:</p>
+<p class="image1"><img alt="image" src="f0150-02.jpg"/></p>
+<p class="indent">You cannot, however, assume that browsers or end users will mitigate your dangerous code. Code your loops carefully!</p>
+<h5 class="h5"><a id="ch04lev2sec21"/><strong>do-while Loops</strong></h5>
+<p class="noindent">The <span class="codesample">do-while</span> loop is similar to the <span class="codesample">while</span> loop except that the condition check happens at the end of the loop. This means that the loop will always be executed at least once (unless a <span class="codesample">break</span> is encountered first). The basic syntax of the loop is as follows:</p>
+<p class="image"><img alt="image" src="f0150-03.jpg"/></p>
+<p class="noindent"><a id="page_151"/>Note the semicolon used at the end of the <span class="codesample">do-while</span> loop.</p>
+<p class="indent">The example here shows the <span class="codesample">while</span> loop counting example from the preceding section rewritten in the form of a <span class="codesample">do-while</span> loop:</p>
+<p class="image"><img alt="image" src="f0151-01.jpg"/></p>
+<h5 class="h5"><a id="ch04lev2sec22"/><strong>for Loops</strong></h5>
+<p class="noindent">The <span class="codesample">for</span> loop is the most compact form of looping and includes the loop initialization, test statement, and iteration statement all in one line. The basic syntax is shown here:</p>
+<p class="image"><img alt="image" src="f0151-02.jpg"/></p>
+<p class="indent">The <span class="codesample"><em>initialization</em></span> statement is executed before the loop begins, the loop continues executing until <span class="codesample"><em>test condition</em></span> becomes <span class="codesample">false</span>, and at each iteration the <span class="codesample"><em>iteration statement</em></span> is executed. An example is shown here:</p>
+<p class="image"><img alt="image" src="f0151-03.jpg"/></p>
+<p class="indent">The result of this loop would be identical to the first <span class="codesample">while</span> loop example shown in the preceding section: it prints the numbers zero through nine. As with the <span class="codesample">while</span> loop, by using a statement block it is possible to execute numerous statements in the loop body.</p>
+<p class="image"><img alt="image" src="f0151-04.jpg"/></p>
+<p class="indent">A common problem when using a <span class="codesample">for</span> loop is the accidental placement of the semicolon at the end of the statement. For example,</p>
+<p class="image"><img alt="image" src="f0151-05.jpg"/></p>
+<p class="noindent"><a id="page_152"/>will output what appears to be a single execution of the loop, as well as the statement that the loop has finished:</p>
+<p class="image1"><img alt="image" src="f0152-01.jpg"/></p>
+<p class="indent">The reason for this is that the semicolon acts as an empty statement for the body of the loop. The loop iterates ten times doing nothing, executes the following block as usual, and then prints the loop’s finish message.</p>
+<h5 class="h5"><a id="ch04lev2sec23"/><strong>Loop Control with continue and break</strong></h5>
+<p class="noindent">The <span class="codesample">break</span> and <span class="codesample">continue</span> statements can be used to more precisely control the execution of a loop. The <span class="codesample">break</span> statement, which was briefly introduced with the <span class="codesample">switch</span> statement, is used to exit a loop early, breaking out of the enclosing curly braces. The example here illustrates its use with a <span class="codesample">while</span> loop. Notice how the loop breaks out early once <span class="codesample"><em>x</em></span> reaches 8:</p>
+<p class="image"><img alt="image" src="f0152-02.jpg"/></p>
+<p class="image1"><img alt="image" src="f0152-03.jpg"/></p>
+<p class="indent">The <span class="codesample">continue</span> statement tells the interpreter to start the next iteration of the loop immediately. When it’s encountered, program flow will move to the loop check expression immediately. The example presented here shows how the <span class="codesample">continue</span> statement is used to skip printing when the index held in variable <span class="codesample"><em>x</em></span> reaches 8:</p>
+<p class="image"><img alt="image" src="f0152-04.jpg"/></p>
+<p class="image1"><a id="page_153"/><img alt="image" src="f0153-01.jpg"/></p>
+<p class="indent">A potential problem with the use of <span class="codesample">continue</span> is that you have to make sure that iteration still occurs; otherwise, it may inadvertently cause the loop to execute endlessly. That’s why the increment in the previous example was placed <em>before</em> the conditional with the <span class="codesample">continue</span> statement.</p>
+<h6 class="h6"><strong>Labels and Flow Control</strong></h6>
+<p class="noindent">A label can be used with <span class="codesample">break</span> and <span class="codesample">continue</span> to direct flow control more precisely. A label is simply an identifier followed by a colon that is applied to a statement or block of code. The script here shows an example:</p>
+<p class="image"><img alt="image" src="f0153-02.jpg"/></p>
+<p class="indent">Notice that the outermost loop is labeled “<span class="codesample">outerloop</span>,” and the <span class="codesample">break</span> statement is set to break all the way out of the enclosing loops. Without the targeted break, you would only break the inner loop and much more would be output. <a class="nounder" href="ch04.html#fig4-2">Figure 4-2</a> shows the dramatic difference between the execution of the loop with and without the label.</p>
+<p class="image1"><a id="fig4-2"/><img alt="image" src="f0154-01.jpg"/></p>
+<p class="figcap"><strong>Figure 4-2</strong> With and without labeled breaks</p>
+<p class="indent"><a id="page_154"/>A label can also be used with a <span class="codesample">continue</span> statement. The <span class="codesample">continue</span> statement will cause flow control to resume at the loop indicated by the label. The following example illustrates the use of labels in conjunction with <span class="codesample">continue</span>:</p>
+<p class="image"><img alt="image" src="f0154-02.jpg"/></p>
+<p class="noindent">The script’s output with and without the labeled <span class="codesample">continue</span> statement is shown in <a class="nounder" href="ch04.html#fig4-3">Figure 4-3</a>.</p>
+<p class="image1"><a id="page_155"/><a id="fig4-3"/><img alt="image" src="f0155-01.jpg"/></p>
+<p class="figcap"><strong>Figure 4-3</strong> Labeled continue example</p>
+<p class="indent">Labels stop short of providing the jump flow control of the notorious <span class="codesample">GOTO</span> statement found in a number of programming languages and despised by many programmers.</p>
+<h5 class="h5"><a id="ch04lev2sec24"/><strong>Object-Related Statements</strong></h5>
+<p class="noindent">An important group of statements to cover in JavaScript is related to the use of objects. A brief introduction to these statements is presented here, and another application-related discussion of the use of these statements, as well as of related keywords such as <span class="codesample">this</span>, is reserved primarily for <a class="nounder" href="ch06.html#ch06">Chapter 6</a>.</p>
+<h6 class="h6"><strong>with Statement</strong></h6>
+<p class="noindent">JavaScript’s <span class="codesample">with</span> statement allows programmers to use a shorthand notation when referencing objects. For example, to write to an HTML document, normally we would use the <span class="codesample">write()</span> method of the <span class="codesample">Document</span> object:</p>
+<p class="image"><img alt="image" src="f0155-02.jpg"/></p>
+<p class="indent">The <span class="codesample">with</span> statement indicates an object that will be used implicitly inside the statement body. The general syntax is as follows:</p>
+<p class="image"><img alt="image" src="f0155-03.jpg"/></p>
+<p class="noindent">Using a <span class="codesample">with</span> statement, we could shorten the reference to the object, as shown here:</p>
+<p class="image"><img alt="image" src="f0155-04.jpg"/></p>
+<p class="indent">The <span class="codesample">with</span> statement is certainly a convenience, as it avoids having to type the same object names over and over again. However, it can occasionally lead to trouble because you <a id="page_156"/>may accidentally reference other methods and properties when inside a <span class="codesample">with</span> statement block, so that the statement causes confusion or readability concerns. Consider the following:</p>
+<p class="image"><img alt="image" src="f0156-01.jpg"/></p>
+<p class="indent">Does this mean that we are saying <span class="codesample"><em>someObj.x</em> = <em>someObj.y</em></span>? Of course, <span class="codesample"><em>x</em></span> and <span class="codesample"><em>y</em></span> might not even be part of that object, so it might be <span class="codesample">x = y</span> as it is; or one or the other might be part of the object, so it might mean <span class="codesample"><em>someObj.x</em> = <em>y</em></span> or, alternatively, <span class="codesample"><em>x</em> = <em>someObj.y</em></span>. Obviously, when using <span class="codesample">with</span>, the results seem a bit confusing; and given the amount of unraveling to determining the appropriate assignment, its use isn’t going to lead to the best performance.</p>
+<hr/>
+<p class="note"><strong>NOTE</strong> Under ECMAScript 5 in the strict mode enabled using “<span class="codesample">use strict</span>”;, the <span class="codesample">with</span> statement simply is not allowed. Besides the <span class="codesample">with</span> statement being bad practice, its future is clearly suspect.</p>
+<h6 class="h6"><strong>Object Iteration Using for…in</strong></h6>
+<p class="noindent">Another statement that is useful with objects is <span class="codesample">for…in</span>, which is used to loop through an object’s properties. The basic syntax is this:</p>
+<p class="image"><img alt="image" src="f0156-02.jpg"/></p>
+<p class="indent">Consider the following example, which prints out the properties of a Web browser’s <span class="codesample">Navigator</span> object.</p>
+<p class="image"><img alt="image" src="f0156-03.jpg"/></p>
+<p class="noindent">This will loop and print out the properties of the browser that can be enumerated and run the script. We might further expand the script to evaluate each property to see what its value is.</p>
+<p class="image"><img alt="image" src="f0156-04.jpg"/></p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.www.javascriptref.com/3ed/ch4/forin.html">http://www.javascriptref.com/3ed/ch4/forin.html</a></p>
+<p class="indent">The result when this example is run with the Chrome 5 and Internet Explorer 8 browsers is shown in <a class="nounder" href="ch04.html#fig4-4">Figure 4-4</a>, and you should note that some of the property names as well as values are different.</p>
+<p class="image1"><a id="fig4-4"/><img alt="image" src="f0157-01.jpg"/></p>
+<p class="figcap"><strong>Figure 4-4</strong> A for-in example that reveals browser differences</p>
+<p class="indent"><a id="page_157"/>This previous example shows us both how useful the <span class="codesample">for-in</span> statement can be when used to reflect the properties that may be supported by an implementation of an object in a particular browser, as well as that what we may find there is sadly different. We’ll revisit this structure and the challenges of object specifics across browsers multiple times in this book.</p>
+<h5 class="h5"><a id="ch04lev2sec25"/><strong>Other Statements</strong></h5>
+<p class="noindent">There are other statements we might cover, such as error-handling statements (for example, <span class="codesample">try...catch</span> and <span class="codesample">throw</span>), which we will discuss in <a class="nounder" href="ch18.html#ch18">Chapter 18</a>, and statements that are part of some not-yet-standard implementations of JavaScript. For example, versions of Firefox support emerging ideas such as <span class="codesample">let</span> and <span class="codesample">yield</span>, which while interesting are not standard, and at the time of this edition’s writing still quite unsafe to use. At this point, the only other core statements we have not discussed are related to functions, so let’s move on and combine the various core statements we have learned so far into these reusable units of code.</p>
+<h4 class="h4"><a id="ch04lev1sec4"/><strong>Summary</strong></h4>
+<p class="noindent">The preceding chapter presented data types as the core of the language. This chapter showed how data types can be combined using operators to form expressions. JavaScript supports operators familiar to most programmers, including mathematical (<span class="codesample">+, -, *</span>, and <span class="codesample">%</span>), bitwise (<span class="codesample">&amp;, |, ^, &lt;&lt;, &gt;&gt;</span>, and <span class="codesample">&gt;&gt;&gt;</span>), comparison (<span class="codesample">&lt;, &gt;, ==, ===, !=, &gt;=</span>, and <span class="codesample">&lt;</span>), assignment (<span class="codesample">=, +=</span>, and so on), and logical (<span class="codesample">&amp;&amp;, ||</span>, and <span class="codesample">!</span>). It also supports less common operators such as the conditional operator (<span class="codesample">?</span>) and the string concatenation operator (<span class="codesample">+</span>). JavaScript operators are combined with variables and data literals to form expressions. Expressions must be carefully formed to reflect the precedence of evaluation, and liberal application of parentheses will help avoid any problems. Statements can then be formed from expressions to make up the individual steps of a program. Individual statements are delimited in JavaScript using a semicolon or a return character. Semicolons should always be used to <a id="page_158"/>avoid ambiguity and improve script safety. The most common statements are assignment statements, functions, and method calls. These perform the basic tasks of most scripts. Control statements such as <span class="codesample">if</span> and <span class="codesample">switch</span> can alter program flow. A variety of loops can be formed using <span class="codesample">while, for</span>, or <span class="codesample">do-while</span> in order to iterate a particular piece of code. Further program flow control can be achieved with <span class="codesample">break</span> and <span class="codesample">continue</span>. As larger scripts are built using the constructs presented in this chapter, repetitive code is often introduced. To eliminate redundancy and create more modular programs, functions—the topic of the next chapter—should be employed.</p>
+</body>
+</html>

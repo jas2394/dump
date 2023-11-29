@@ -1,0 +1,526 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<title>JavaScript: The Complete Reference&#153;, Third Edition</title>
+<link href="0071741216.css" rel="stylesheet" type="text/css"/>
+<link href="page-template.xpgt" rel="stylesheet" type="application/vnd.adobe-page-template+xml"/>
+<meta content="urn:uuid:4d1be0af-c0d3-47b8-9bd4-3edcb4dee196" name="Adept.expected.resource"/>
+</head>
+<body>
+<h2 class="h2" id="contents"><a id="page_vii"/><strong>Contents</strong></h2>
+<p class="tocfront"><a class="nounder" href="ack.html#ack">Acknowledgments</a></p>
+<p class="tocfront"><a class="nounder" href="intro.html#intro">Introduction</a></p>
+<p class="tocpart"><a class="nounder" href="part01.html#part01"><strong>Part I Introduction</strong></a></p>
+<p class="tocchap"><a class="nounder" href="ch01.html#ch01"><strong>Chapter 1 Introduction to JavaScript</strong></a></p>
+<p class="tocsec"><a class="nounder" href="ch01.html#ch01lev1sec1">Hello JavaScript World</a></p>
+<p class="tocsec1"><a class="nounder" href="ch01.html#ch01lev2sec1">Hello Errors</a></p>
+<p class="tocsec"><a class="nounder" href="ch01.html#ch01lev1sec2">Adding JavaScript to XHTML Documents</a></p>
+<p class="tocsec1"><a class="nounder" href="ch01.html#ch01lev2sec2">The &lt;script&gt; Element</a></p>
+<p class="tocsec1"><a class="nounder" href="ch01.html#ch01lev2sec3">Event Handlers</a></p>
+<p class="tocsec1"><a class="nounder" href="ch01.html#ch01lev2sec4">Linked Scripts</a></p>
+<p class="tocsec1"><a class="nounder" href="ch01.html#ch01lev2sec5">JavaScript Pseudo-URL</a></p>
+<p class="tocsec"><a class="nounder" href="ch01.html#ch01lev1sec3">JavaScript Usage Considerations</a></p>
+<p class="tocsec1"><a class="nounder" href="ch01.html#ch01lev2sec6">Script Masking</a></p>
+<p class="tocsec1"><a class="nounder" href="ch01.html#ch01lev2sec7">The &lt;noscript&gt; Element</a></p>
+<p class="tocsec1"><a class="nounder" href="ch01.html#ch01lev2sec8">Language Versions</a></p>
+<p class="tocsec1"><a class="nounder" href="ch01.html#ch01lev2sec9">Cross-Browser Concerns</a></p>
+<p class="tocsec1"><a class="nounder" href="ch01.html#ch01lev2sec10">Living with Other Scripts</a></p>
+<p class="tocsec"><a class="nounder" href="ch01.html#ch01lev1sec4">JavaScript: A Real Programming Language</a></p>
+<p class="tocsec1"><a class="nounder" href="ch01.html#ch01lev2sec11">History of JavaScript</a></p>
+<p class="tocsec1"><a class="nounder" href="ch01.html#ch01lev2sec12">Common Uses of JavaScript</a></p>
+<p class="tocsec1"><a class="nounder" href="ch01.html#ch01lev2sec13">The Rise of JavaScript Libraries</a></p>
+<p class="tocsec1"><a class="nounder" href="ch01.html#ch01lev2sec14">The Future of JavaScript</a></p>
+<p class="tocsec"><a class="nounder" href="ch01.html#ch01lev1sec5">Summary</a></p>
+<p class="tocchap"><a class="nounder" href="ch02.html#ch02"><strong>Chapter 2 Overview of JavaScript Core Language Features</strong></a></p>
+<p class="tocsec"><a class="nounder" href="ch02.html#ch02lev1sec1">Basic Definitions</a></p>
+<p class="tocsec"><a class="nounder" href="ch02.html#ch02lev1sec2">Execution Order</a></p>
+<p class="tocsec"><a class="nounder" href="ch02.html#ch02lev1sec3">Case Sensitivity</a></p>
+<p class="tocsec1"><a class="nounder" href="ch02.html#ch02lev2sec1">HTML and Case Sensitivity</a></p>
+<p class="tocsec"><a class="nounder" href="ch02.html#ch02lev1sec4">Whitespace</a></p>
+<p class="tocsec"><a class="nounder" href="ch02.html#ch02lev1sec5">Statements</a></p>
+<p class="tocsec1"><a class="nounder" href="ch02.html#ch02lev2sec2">Semicolons</a></p>
+<p class="tocsec1"><a class="nounder" href="ch02.html#ch02lev2sec3">Blocks</a></p>
+<p class="tocsec"><a class="nounder" href="ch02.html#ch02lev1sec6">Variables</a></p>
+<p class="tocsec"><a class="nounder" href="ch02.html#ch02lev1sec7">Basic Data Types</a></p>
+<p class="tocsec1"><a class="nounder" href="ch02.html#ch02lev2sec4">Weak Typing</a></p>
+<p class="tocsec1"><a class="nounder" href="ch02.html#ch02lev2sec5">Type Conversion</a></p>
+<p class="tocsec"><a id="page_viii"/><a class="nounder" href="ch02.html#ch02lev1sec8">Composite Types</a></p>
+<p class="tocsec1"><a class="nounder" href="ch02.html#ch02lev2sec6">Objects</a></p>
+<p class="tocsec1"><a class="nounder" href="ch02.html#ch02lev2sec7">Arrays</a></p>
+<p class="tocsec1"><a class="nounder" href="ch02.html#ch02lev2sec8">Functions as Data Types</a></p>
+<p class="tocsec1"><a class="nounder" href="ch02.html#ch02lev2sec9">Regular Expression Literals and Object</a></p>
+<p class="tocsec"><a class="nounder" href="ch02.html#ch02lev1sec9">Expressions</a></p>
+<p class="tocsec1"><a class="nounder" href="ch02.html#ch02lev2sec10">Arithmetic Operators</a></p>
+<p class="tocsec1"><a class="nounder" href="ch02.html#ch02lev2sec11">Assignment Operators</a></p>
+<p class="tocsec1"><a class="nounder" href="ch02.html#ch02lev2sec12">Logical Operators</a></p>
+<p class="tocsec1"><a class="nounder" href="ch02.html#ch02lev2sec13">Conditional Operator</a></p>
+<p class="tocsec1"><a class="nounder" href="ch02.html#ch02lev2sec14">Type Operators</a></p>
+<p class="tocsec1"><a class="nounder" href="ch02.html#ch02lev2sec15">Comma Operator</a></p>
+<p class="tocsec1"><a class="nounder" href="ch02.html#ch02lev2sec16">Relational Operators</a></p>
+<p class="tocsec1"><a class="nounder" href="ch02.html#ch02lev2sec17">Operator Precedence and Associativity</a></p>
+<p class="tocsec"><a class="nounder" href="ch02.html#ch02lev1sec10">Flow Control</a></p>
+<p class="tocsec"><a class="nounder" href="ch02.html#ch02lev1sec11">Loops</a></p>
+<p class="tocsec1"><a class="nounder" href="ch02.html#ch02lev2sec18">Loop Control</a></p>
+<p class="tocsec"><a class="nounder" href="ch02.html#ch02lev1sec12">Input and Output in JavaScript</a></p>
+<p class="tocsec"><a class="nounder" href="ch02.html#ch02lev1sec13">Functions</a></p>
+<p class="tocsec"><a class="nounder" href="ch02.html#ch02lev1sec14">Scoping Rules</a></p>
+<p class="tocsec"><a class="nounder" href="ch02.html#ch02lev1sec15">Regular Expressions</a></p>
+<p class="tocsec"><a class="nounder" href="ch02.html#ch02lev1sec16">Exceptions</a></p>
+<p class="tocsec"><a class="nounder" href="ch02.html#ch02lev1sec17">Comments</a></p>
+<p class="tocsec"><a class="nounder" href="ch02.html#ch02lev1sec18">ECMAScript 5 Changes</a></p>
+<p class="tocsec1"><a class="nounder" href="ch02.html#ch02lev2sec19">“use strict”;</a></p>
+<p class="tocsec1"><a class="nounder" href="ch02.html#ch02lev2sec20">Native JSON Support</a></p>
+<p class="tocsec1"><a class="nounder" href="ch02.html#ch02lev2sec21">Function.prototype.bind( )</a></p>
+<p class="tocsec1"><a class="nounder" href="ch02.html#ch02lev2sec22">ISO Dates</a></p>
+<p class="tocsec1"><a class="nounder" href="ch02.html#ch02lev2sec23">Native Array Additions</a></p>
+<p class="tocsec1"><a class="nounder" href="ch02.html#ch02lev2sec24">String.prototype.trim( )</a></p>
+<p class="tocsec1"><a class="nounder" href="ch02.html#ch02lev2sec25">Object/Property Additions</a></p>
+<p class="tocsec1"><a class="nounder" href="ch02.html#ch02lev2sec26">Emerging Features</a></p>
+<p class="tocsec"><a class="nounder" href="ch02.html#ch02lev1sec19">Summary</a></p>
+<p class="tocpart"><a class="nounder" href="part02.html#part02"><strong>Part II Core Language</strong></a></p>
+<p class="tocchap"><a class="nounder" href="ch03.html#ch03"><strong>Chapter 3 Data Types and Variables</strong></a></p>
+<p class="tocsec"><a class="nounder" href="ch03.html#ch03lev1sec1">Key Concepts</a></p>
+<p class="tocsec1"><a class="nounder" href="ch03.html#ch03lev2sec1">Weak Typing</a></p>
+<p class="tocsec"><a class="nounder" href="ch03.html#ch03lev1sec2">JavaScript’s Primitive Types</a></p>
+<p class="tocsec1"><a class="nounder" href="ch03.html#ch03lev2sec2">Numbers</a></p>
+<p class="tocsec1"><a class="nounder" href="ch03.html#ch03lev2sec3">Strings</a></p>
+<p class="tocsec1"><a class="nounder" href="ch03.html#ch03lev2sec4">Booleans</a></p>
+<p class="tocsec1"><a class="nounder" href="ch03.html#ch03lev2sec5">Undefined and Null</a></p>
+<p class="tocsec"><a class="nounder" href="ch03.html#ch03lev1sec3">Composite Types</a></p>
+<p class="tocsec1"><a class="nounder" href="ch03.html#ch03lev2sec6">Objects</a></p>
+<p class="tocsec1"><a class="nounder" href="ch03.html#ch03lev2sec7">Arrays</a></p>
+<p class="tocsec1"><a class="nounder" href="ch03.html#ch03lev2sec8">Functions</a></p>
+<p class="tocsec1"><a class="nounder" href="ch03.html#ch03lev2sec9">The typeof Operator</a></p>
+<p class="tocsec"><a class="nounder" href="ch03.html#ch03lev1sec4">Type Conversion</a></p>
+<p class="tocsec1"><a class="nounder" href="ch03.html#ch03lev2sec10">Conversion Rules for Primitive Types</a></p>
+<p class="tocsec1"><a id="page_ix"/><a class="nounder" href="ch03.html#ch03lev2sec11">Promotion of Primitive Data to Objects</a></p>
+<p class="tocsec1"><a class="nounder" href="ch03.html#ch03lev2sec12">Explicit Type Conversion</a></p>
+<p class="tocsec"><a class="nounder" href="ch03.html#ch03lev1sec5">Variables</a></p>
+<p class="tocsec1"><a class="nounder" href="ch03.html#ch03lev2sec13">Identifiers</a></p>
+<p class="tocsec1"><a class="nounder" href="ch03.html#ch03lev2sec14">Variable Declaration</a></p>
+<p class="tocsec1"><a class="nounder" href="ch03.html#ch03lev2sec15">Implicit Variable Declaration</a></p>
+<p class="tocsec1"><a class="nounder" href="ch03.html#ch03lev2sec16">Variable Scope</a></p>
+<p class="tocsec"><a class="nounder" href="ch03.html#ch03lev1sec6">Constants</a></p>
+<p class="tocsec"><a class="nounder" href="ch03.html#ch03lev1sec7">Summary</a></p>
+<p class="tocchap"><a class="nounder" href="ch04.html#ch04"><strong>Chapter 4 Operators, Expressions, and Statements</strong></a></p>
+<p class="tocsec"><a class="nounder" href="ch04.html#ch04lev1sec1">Statement Basics</a></p>
+<p class="tocsec1"><a class="nounder" href="ch04.html#ch04lev2sec1">Whitespace</a></p>
+<p class="tocsec1"><a class="nounder" href="ch04.html#ch04lev2sec2">Termination: Semicolons and Returns</a></p>
+<p class="tocsec1"><a class="nounder" href="ch04.html#ch04lev2sec3">Blocks</a></p>
+<p class="tocsec"><a class="nounder" href="ch04.html#ch04lev1sec2">Operators</a></p>
+<p class="tocsec1"><a class="nounder" href="ch04.html#ch04lev2sec4">Assignment Operator</a></p>
+<p class="tocsec1"><a class="nounder" href="ch04.html#ch04lev2sec5">Arithmetic Operators</a></p>
+<p class="tocsec1"><a class="nounder" href="ch04.html#ch04lev2sec6">Bitwise Operators</a></p>
+<p class="tocsec1"><a class="nounder" href="ch04.html#ch04lev2sec7">Bitwise Shift Operators</a></p>
+<p class="tocsec1"><a class="nounder" href="ch04.html#ch04lev2sec8">Combining Arithmetic and Bitwise Operations with Assignment</a></p>
+<p class="tocsec1"><a class="nounder" href="ch04.html#ch04lev2sec9">Increment and Decrement</a></p>
+<p class="tocsec1"><a class="nounder" href="ch04.html#ch04lev2sec10">Comparison Operators</a></p>
+<p class="tocsec1"><a class="nounder" href="ch04.html#ch04lev2sec11">Logical Operators</a></p>
+<p class="tocsec1"><a class="nounder" href="ch04.html#ch04lev2sec12">? Operator</a></p>
+<p class="tocsec1"><a class="nounder" href="ch04.html#ch04lev2sec13">Comma Operator</a></p>
+<p class="tocsec1"><a class="nounder" href="ch04.html#ch04lev2sec14">void Operator</a></p>
+<p class="tocsec1"><a class="nounder" href="ch04.html#ch04lev2sec15">typeof</a></p>
+<p class="tocsec1"><a class="nounder" href="ch04.html#ch04lev2sec16">Object Operators</a></p>
+<p class="tocsec1"><a class="nounder" href="ch04.html#ch04lev2sec17">Operator Precedence and Associativity</a></p>
+<p class="tocsec"><a class="nounder" href="ch04.html#ch04lev1sec3">Core JavaScript Statements</a></p>
+<p class="tocsec1"><a class="nounder" href="ch04.html#ch04lev2sec18">if Statements</a></p>
+<p class="tocsec1"><a class="nounder" href="ch04.html#ch04lev2sec19">switch</a></p>
+<p class="tocsec1"><a class="nounder" href="ch04.html#ch04lev2sec20">while Loops</a></p>
+<p class="tocsec1"><a class="nounder" href="ch04.html#ch04lev2sec21">do-while Loops</a></p>
+<p class="tocsec1"><a class="nounder" href="ch04.html#ch04lev2sec22">for Loops</a></p>
+<p class="tocsec1"><a class="nounder" href="ch04.html#ch04lev2sec23">Loop Control with continue and break</a></p>
+<p class="tocsec1"><a class="nounder" href="ch04.html#ch04lev2sec24">Object-Related Statements</a></p>
+<p class="tocsec1"><a class="nounder" href="ch04.html#ch04lev2sec25">Other Statements</a></p>
+<p class="tocsec"><a class="nounder" href="ch04.html#ch04lev1sec4">Summary</a></p>
+<p class="tocchap"><a class="nounder" href="ch05.html#ch05"><strong>Chapter 5 Functions</strong></a></p>
+<p class="tocsec"><a class="nounder" href="ch05.html#ch05lev1sec1">Function Basics</a></p>
+<p class="tocsec1"><a class="nounder" href="ch05.html#ch05lev2sec1">Parameter Passing Basics</a></p>
+<p class="tocsec1"><a class="nounder" href="ch05.html#ch05lev2sec2">Return Statements</a></p>
+<p class="tocsec1"><a class="nounder" href="ch05.html#ch05lev2sec3">Parameter Passing: In and Out</a></p>
+<p class="tocsec"><a class="nounder" href="ch05.html#ch05lev1sec2">Global and Local Variables</a></p>
+<p class="tocsec1"><a class="nounder" href="ch05.html#ch05lev2sec4">Variable Naming for Scope</a></p>
+<p class="tocsec1"><a class="nounder" href="ch05.html#ch05lev2sec5">Inner Functions</a></p>
+<p class="tocsec"><a class="nounder" href="ch05.html#ch05lev1sec3">Closures</a></p>
+<p class="tocsec"><a class="nounder" href="ch05.html#ch05lev1sec4">Functions as Objects</a></p>
+<p class="tocsec1"><a class="nounder" href="ch05.html#ch05lev2sec6">Function Literals</a></p>
+<p class="tocsec1"><a id="page_x"/><a class="nounder" href="ch05.html#ch05lev2sec7">Static Variables</a></p>
+<p class="tocsec1"><a class="nounder" href="ch05.html#ch05lev2sec8">Advanced Parameter Passing</a></p>
+<p class="tocsec1"><a class="nounder" href="ch05.html#ch05lev2sec9">Advanced Function Properties and Methods</a></p>
+<p class="tocsec"><a class="nounder" href="ch05.html#ch05lev1sec5">Recursive Functions</a></p>
+<p class="tocsec"><a class="nounder" href="ch05.html#ch05lev1sec6">Summary</a></p>
+<p class="tocchap"><a class="nounder" href="ch06.html#ch06"><strong>Chapter 6 Objects</strong></a></p>
+<p class="tocsec"><a class="nounder" href="ch06.html#ch06lev1sec1">Objects in JavaScript</a></p>
+<p class="tocsec"><a class="nounder" href="ch06.html#ch06lev1sec2">Object Fundamentals</a></p>
+<p class="tocsec1"><a class="nounder" href="ch06.html#ch06lev2sec1">Object Creation</a></p>
+<p class="tocsec1"><a class="nounder" href="ch06.html#ch06lev2sec2">Object Destruction and Garbage Collection</a></p>
+<p class="tocsec1"><a class="nounder" href="ch06.html#ch06lev2sec3">Properties</a></p>
+<p class="tocsec1"><a class="nounder" href="ch06.html#ch06lev2sec4">Objects Are Reference Types</a></p>
+<p class="tocsec1"><a class="nounder" href="ch06.html#ch06lev2sec5">Common Properties and Methods</a></p>
+<p class="tocsec"><a class="nounder" href="ch06.html#ch06lev1sec3">Object-Oriented JavaScript</a></p>
+<p class="tocsec1"><a class="nounder" href="ch06.html#ch06lev2sec6">Prototype-Based Objects</a></p>
+<p class="tocsec1"><a class="nounder" href="ch06.html#ch06lev2sec7">Constructors</a></p>
+<p class="tocsec1"><a class="nounder" href="ch06.html#ch06lev2sec8">Prototypes</a></p>
+<p class="tocsec1"><a class="nounder" href="ch06.html#ch06lev2sec9">Class Properties</a></p>
+<p class="tocsec1"><a class="nounder" href="ch06.html#ch06lev2sec10">Inheritance via the Prototype Chain</a></p>
+<p class="tocsec1"><a class="nounder" href="ch06.html#ch06lev2sec11">Overriding Default Methods and Properties</a></p>
+<p class="tocsec"><a class="nounder" href="ch06.html#ch06lev1sec4">ECMAScript 5 Object-Related Changes</a></p>
+<p class="tocsec"><a class="nounder" href="ch06.html#ch06lev1sec5">JavaScript’s Object-Oriented Reality</a></p>
+<p class="tocsec"><a class="nounder" href="ch06.html#ch06lev1sec6">Summary</a></p>
+<p class="tocchap"><a class="nounder" href="ch07.html#ch07"><strong>Chapter 7 Array, Date, Math, and Type-Related Objects</strong></a></p>
+<p class="tocsec"><a class="nounder" href="ch07.html#ch07lev1sec1">Array</a></p>
+<p class="tocsec1"><a class="nounder" href="ch07.html#ch07lev2sec1">Accessing Array Elements</a></p>
+<p class="tocsec1"><a class="nounder" href="ch07.html#ch07lev2sec2">Adding and Changing Array Elements</a></p>
+<p class="tocsec1"><a class="nounder" href="ch07.html#ch07lev2sec3">Removing Array Elements</a></p>
+<p class="tocsec1"><a class="nounder" href="ch07.html#ch07lev2sec4">The length Property</a></p>
+<p class="tocsec1"><a class="nounder" href="ch07.html#ch07lev2sec5">Arrays as Stacks and Queues</a></p>
+<p class="tocsec1"><a class="nounder" href="ch07.html#ch07lev2sec6">Manipulating Arrays</a></p>
+<p class="tocsec1"><a class="nounder" href="ch07.html#ch07lev2sec7">Multidimensional Arrays</a></p>
+<p class="tocsec1"><a class="nounder" href="ch07.html#ch07lev2sec8">Extending Arrays with Prototypes</a></p>
+<p class="tocsec1"><a class="nounder" href="ch07.html#ch07lev2sec9">ECMAScript 5 Array Additions</a></p>
+<p class="tocsec"><a class="nounder" href="ch07.html#ch07lev1sec2">Boolean</a></p>
+<p class="tocsec"><a class="nounder" href="ch07.html#ch07lev1sec3">Date</a></p>
+<p class="tocsec1"><a class="nounder" href="ch07.html#ch07lev2sec10">Creating Dates</a></p>
+<p class="tocsec1"><a class="nounder" href="ch07.html#ch07lev2sec11">Manipulating Dates</a></p>
+<p class="tocsec1"><a class="nounder" href="ch07.html#ch07lev2sec12">ECMAScript 5 Date Additions</a></p>
+<p class="tocsec"><a class="nounder" href="ch07.html#ch07lev1sec4">Global</a></p>
+<p class="tocsec"><a class="nounder" href="ch07.html#ch07lev1sec5">Math</a></p>
+<p class="tocsec1"><a class="nounder" href="ch07.html#ch07lev2sec13">Random Numbers</a></p>
+<p class="tocsec"><a class="nounder" href="ch07.html#ch07lev1sec6">Number</a></p>
+<p class="tocsec"><a class="nounder" href="ch07.html#ch07lev1sec7">String</a></p>
+<p class="tocsec1"><a class="nounder" href="ch07.html#ch07lev2sec14">Examining Strings</a></p>
+<p class="tocsec1"><a class="nounder" href="ch07.html#ch07lev2sec15">Manipulating Strings</a></p>
+<p class="tocsec1"><a class="nounder" href="ch07.html#ch07lev2sec16">Marking Up Strings as Traditional HTML</a></p>
+<p class="tocsec1"><a class="nounder" href="ch07.html#ch07lev2sec17">ECMAScript 5 String Changes</a></p>
+<p class="tocsec"><a class="nounder" href="ch07.html#ch07lev1sec8">Summary</a></p>
+<p class="tocchap"><a id="page_xi"/><a class="nounder" href="ch08.html#ch08"><strong>Chapter 8 Regular Expressions</strong></a></p>
+<p class="tocsec"><a class="nounder" href="ch08.html#ch08lev1sec1">The Need for Regular Expressions</a></p>
+<p class="tocsec"><a class="nounder" href="ch08.html#ch08lev1sec2">Introduction to JavaScript Regular Expressions</a></p>
+<p class="tocsec1"><a class="nounder" href="ch08.html#ch08lev2sec1">Creating Patterns</a></p>
+<p class="tocsec"><a class="nounder" href="ch08.html#ch08lev1sec3">RegExp Object</a></p>
+<p class="tocsec1"><a class="nounder" href="ch08.html#ch08lev2sec2">test( )</a></p>
+<p class="tocsec1"><a class="nounder" href="ch08.html#ch08lev2sec3">Subexpressions</a></p>
+<p class="tocsec1"><a class="nounder" href="ch08.html#ch08lev2sec4">compile( )</a></p>
+<p class="tocsec1"><a class="nounder" href="ch08.html#ch08lev2sec5">exec( )</a></p>
+<p class="tocsec1"><a class="nounder" href="ch08.html#ch08lev2sec6">RegExp Properties</a></p>
+<p class="tocsec"><a class="nounder" href="ch08.html#ch08lev1sec4">String Methods for Regular Expressions</a></p>
+<p class="tocsec1"><a class="nounder" href="ch08.html#ch08lev2sec7">search( )</a></p>
+<p class="tocsec1"><a class="nounder" href="ch08.html#ch08lev2sec8">split( )</a></p>
+<p class="tocsec1"><a class="nounder" href="ch08.html#ch08lev2sec9">replace( )</a></p>
+<p class="tocsec1"><a class="nounder" href="ch08.html#ch08lev2sec10">match( )</a></p>
+<p class="tocsec"><a class="nounder" href="ch08.html#ch08lev1sec5">Advanced Regular Expressions</a></p>
+<p class="tocsec1"><a class="nounder" href="ch08.html#ch08lev2sec11">Multiline Matching</a></p>
+<p class="tocsec1"><a class="nounder" href="ch08.html#ch08lev2sec12">Noncapturing Parentheses</a></p>
+<p class="tocsec1"><a class="nounder" href="ch08.html#ch08lev2sec13">Lookahead</a></p>
+<p class="tocsec1"><a class="nounder" href="ch08.html#ch08lev2sec14">Greedy Matching</a></p>
+<p class="tocsec"><a class="nounder" href="ch08.html#ch08lev1sec6">Limitations of Regular Expressions</a></p>
+<p class="tocsec"><a class="nounder" href="ch08.html#ch08lev1sec7">Summary</a></p>
+<p class="tocchap"><a class="nounder" href="ch09.html#ch09"><strong>Chapter 9 JavaScript Object Models</strong></a></p>
+<p class="tocsec"><a class="nounder" href="ch09.html#ch09lev1sec1">Object Model Overview</a></p>
+<p class="tocsec"><a class="nounder" href="ch09.html#ch09lev1sec2">The Initial JavaScript Object Model</a></p>
+<p class="tocsec"><a class="nounder" href="ch09.html#ch09lev1sec3">The <span class="codesample">Document</span> Object</a></p>
+<p class="tocsec1"><a class="nounder" href="ch09.html#ch09lev2sec1">Accessing <span class="codesample">Document</span> Elements by Position</a></p>
+<p class="tocsec1"><a class="nounder" href="ch09.html#ch09lev2sec2">Accessing <span class="codesample">Document</span> Elements by Name</a></p>
+<p class="tocsec"><a class="nounder" href="ch09.html#ch09lev1sec4">Simple Event Handling</a></p>
+<p class="tocsec1"><a class="nounder" href="ch09.html#ch09lev2sec3">Setting Event Handlers Inline</a></p>
+<p class="tocsec1"><a class="nounder" href="ch09.html#ch09lev2sec4">Direct Assignment of Event Handlers</a></p>
+<p class="tocsec1"><a class="nounder" href="ch09.html#ch09lev2sec5">Setting Event Listeners</a></p>
+<p class="tocsec1"><a class="nounder" href="ch09.html#ch09lev2sec6">Invoking Event Handlers</a></p>
+<p class="tocsec"><a class="nounder" href="ch09.html#ch09lev1sec5">JavaScript + DOM + Selection + Events = Program</a></p>
+<p class="tocsec"><a class="nounder" href="ch09.html#ch09lev1sec6">The Evolution of the JavaScript Object Model</a></p>
+<p class="tocsec1"><a class="nounder" href="ch09.html#ch09lev2sec7">The Early Evolution of Browser Object Models</a></p>
+<p class="tocsec1"><a class="nounder" href="ch09.html#ch09lev2sec8">DHTML-Oriented Object Models</a></p>
+<p class="tocsec1"><a class="nounder" href="ch09.html#ch09lev2sec9">Internet Explorer 4’s DHTML Object Model</a></p>
+<p class="tocsec1"><a class="nounder" href="ch09.html#ch09lev2sec10">Beyond the DHTML Object Models</a></p>
+<p class="tocsec"><a class="nounder" href="ch09.html#ch09lev1sec7">Summary</a></p>
+<p class="tocchap"><a class="nounder" href="ch10.html#ch10"><strong>Chapter 10 The Standard <span class="codesample">Document</span> Object Model</strong></a></p>
+<p class="tocsec"><a class="nounder" href="ch10.html#ch10lev1sec1">DOM Flavors</a></p>
+<p class="tocsec1"><a class="nounder" href="ch10.html#ch10lev2sec1">What Browsers Say Is Implemented</a></p>
+<p class="tocsec"><a class="nounder" href="ch10.html#ch10lev1sec2">Document Trees</a></p>
+<p class="tocsec"><a class="nounder" href="ch10.html#ch10lev1sec3">Basic Element Access: getElementById( )</a></p>
+<p class="tocsec1"><a class="nounder" href="ch10.html#ch10lev2sec2">Tree Traversal Basics</a></p>
+<p class="tocsec"><a class="nounder" href="ch10.html#ch10lev1sec4">Other Element Access Methods</a></p>
+<p class="tocsec1"><a class="nounder" href="ch10.html#ch10lev2sec3">getElementsByName( )</a></p>
+<p class="tocsec1"><a class="nounder" href="ch10.html#ch10lev2sec4">Common JavaScript Collections</a></p>
+<p class="tocsec1"><a id="page_xii"/><a class="nounder" href="ch10.html#ch10lev2sec5">getElementsByTagName( )</a></p>
+<p class="tocsec1"><a class="nounder" href="ch10.html#ch10lev2sec6">Common Tree Traversal Starting Points</a></p>
+<p class="tocsec1"><a class="nounder" href="ch10.html#ch10lev2sec7">document.getElementsByClassName( )</a></p>
+<p class="tocsec1"><a class="nounder" href="ch10.html#ch10lev2sec8">querySelector( ) and querySelectorAll( )</a></p>
+<p class="tocsec"><a class="nounder" href="ch10.html#ch10lev1sec5">Creating Nodes</a></p>
+<p class="tocsec"><a class="nounder" href="ch10.html#ch10lev1sec6">Appending and Inserting Nodes</a></p>
+<p class="tocsec1"><a class="nounder" href="ch10.html#ch10lev2sec9">Text Nodes and normalize( ) Method</a></p>
+<p class="tocsec1"><a class="nounder" href="ch10.html#ch10lev2sec10">insertBefore( ) method</a></p>
+<p class="tocsec1"><a class="nounder" href="ch10.html#ch10lev2sec11">Other Insertion Methods</a></p>
+<p class="tocsec"><a class="nounder" href="ch10.html#ch10lev1sec7">Dynamic Markup Insertion Realities</a></p>
+<p class="tocsec1"><a class="nounder" href="ch10.html#ch10lev2sec12">innerHTML</a></p>
+<p class="tocsec1"><a class="nounder" href="ch10.html#ch10lev2sec13">outerHTML</a></p>
+<p class="tocsec"><a class="nounder" href="ch10.html#ch10lev1sec8">innerText and outerText</a></p>
+<p class="tocsec1"><a class="nounder" href="ch10.html#ch10lev2sec14">insertAdjacentHTML( ) and insertAdjacentText( )</a></p>
+<p class="tocsec1"><a class="nounder" href="ch10.html#ch10lev2sec15">document.write( ) and document.writeln( )</a></p>
+<p class="tocsec"><a class="nounder" href="ch10.html#ch10lev1sec9">Copying Nodes</a></p>
+<p class="tocsec"><a class="nounder" href="ch10.html#ch10lev1sec10">Deleting and Replacing Nodes</a></p>
+<p class="tocsec1"><a class="nounder" href="ch10.html#ch10lev2sec16">Modifying Text Nodes</a></p>
+<p class="tocsec"><a class="nounder" href="ch10.html#ch10lev1sec11">Manipulating Attributes</a></p>
+<p class="tocsec1"><a class="nounder" href="ch10.html#ch10lev2sec17">Attribute Nodes</a></p>
+<p class="tocsec"><a class="nounder" href="ch10.html#ch10lev1sec12">Other Node Methods</a></p>
+<p class="tocsec"><a class="nounder" href="ch10.html#ch10lev1sec13">Namespaces</a></p>
+<p class="tocsec"><a class="nounder" href="ch10.html#ch10lev1sec14">The DOM and HTML Elements</a></p>
+<p class="tocsec1"><a class="nounder" href="ch10.html#ch10lev2sec18">HTML Element Mappings</a></p>
+<p class="tocsec"><a class="nounder" href="ch10.html#ch10lev1sec15">DOM Table Manipulation</a></p>
+<p class="tocsec"><a class="nounder" href="ch10.html#ch10lev1sec16">The DOM and CSS</a></p>
+<p class="tocsec1"><a class="nounder" href="ch10.html#ch10lev2sec19">Inline Style Manipulation</a></p>
+<p class="tocsec1"><a class="nounder" href="ch10.html#ch10lev2sec20">Dynamic Style Using Classes and Collections</a></p>
+<p class="tocsec1"><a class="nounder" href="ch10.html#ch10lev2sec21">Computed Style</a></p>
+<p class="tocsec1"><a class="nounder" href="ch10.html#ch10lev2sec22">Accessing Complex Style Rules</a></p>
+<p class="tocsec"><a class="nounder" href="ch10.html#ch10lev1sec17">DOM Traversal API</a></p>
+<p class="tocsec"><a class="nounder" href="ch10.html#ch10lev1sec18">DOM Range Selections</a></p>
+<p class="tocsec"><a class="nounder" href="ch10.html#ch10lev1sec19">Continued DOM Evolution</a></p>
+<p class="tocsec"><a class="nounder" href="ch10.html#ch10lev1sec20">Summary</a></p>
+<p class="tocchap"><a class="nounder" href="ch11.html#ch11"><strong>Chapter 11 Event Handling</strong></a></p>
+<p class="tocsec"><a class="nounder" href="ch11.html#ch11lev1sec1">Overview of Events and Event Handling</a></p>
+<p class="tocsec"><a class="nounder" href="ch11.html#ch11lev1sec2">The Traditional Event Model</a></p>
+<p class="tocsec1"><a class="nounder" href="ch11.html#ch11lev2sec1">Event Binding with HTML Attributes</a></p>
+<p class="tocsec1"><a class="nounder" href="ch11.html#ch11lev2sec2">Binding Event Handler Attributes with JavaScript</a></p>
+<p class="tocsec1"><a class="nounder" href="ch11.html#ch11lev2sec3">Event Handler Scope Details</a></p>
+<p class="tocsec1"><a class="nounder" href="ch11.html#ch11lev2sec4">Return Values</a></p>
+<p class="tocsec1"><a class="nounder" href="ch11.html#ch11lev2sec5">Firing Events Manually</a></p>
+<p class="tocsec"><a class="nounder" href="ch11.html#ch11lev1sec3">Overview of Modern Event Models</a></p>
+<p class="tocsec"><a class="nounder" href="ch11.html#ch11lev1sec4">Internet Explorer’s Proprietary Model</a></p>
+<p class="tocsec1"><a class="nounder" href="ch11.html#ch11lev2sec6">attachEvent( ) and detachEvent( )</a></p>
+<p class="tocsec1"><a class="nounder" href="ch11.html#ch11lev2sec7">Event Object</a></p>
+<p class="tocsec1"><a class="nounder" href="ch11.html#ch11lev2sec8">Event Bubbling</a></p>
+<p class="tocsec1"><a class="nounder" href="ch11.html#ch11lev2sec9">Simulating Event Routing</a></p>
+<p class="tocsec1"><a class="nounder" href="ch11.html#ch11lev2sec10">Event Creation</a></p>
+<p class="tocsec"><a id="page_xiii"/><a class="nounder" href="ch11.html#ch11lev1sec5">DOM Event Model</a></p>
+<p class="tocsec1"><a class="nounder" href="ch11.html#ch11lev2sec11">Traditional Binding Changes</a></p>
+<p class="tocsec1"><a class="nounder" href="ch11.html#ch11lev2sec12">addEventListener( ) and removeEventListener( )</a></p>
+<p class="tocsec1"><a class="nounder" href="ch11.html#ch11lev2sec13">Event Object</a></p>
+<p class="tocsec1"><a class="nounder" href="ch11.html#ch11lev2sec14">Preventing Default Actions</a></p>
+<p class="tocsec1"><a class="nounder" href="ch11.html#ch11lev2sec15">Controlling Event Propagation</a></p>
+<p class="tocsec1"><a class="nounder" href="ch11.html#ch11lev2sec16">Event Creation</a></p>
+<p class="tocsec"><a class="nounder" href="ch11.html#ch11lev1sec6">Event Types</a></p>
+<p class="tocsec1"><a class="nounder" href="ch11.html#ch11lev2sec17">Mouse Events</a></p>
+<p class="tocsec1"><a class="nounder" href="ch11.html#ch11lev2sec18">UI Events</a></p>
+<p class="tocsec1"><a class="nounder" href="ch11.html#ch11lev2sec19">Focus Events</a></p>
+<p class="tocsec1"><a class="nounder" href="ch11.html#ch11lev2sec20">Keyboard Events</a></p>
+<p class="tocsec1"><a class="nounder" href="ch11.html#ch11lev2sec21">Text Events</a></p>
+<p class="tocsec1"><a class="nounder" href="ch11.html#ch11lev2sec22">Mutation Events</a></p>
+<p class="tocsec1"><a class="nounder" href="ch11.html#ch11lev2sec23">Nonstandard Events</a></p>
+<p class="tocsec1"><a class="nounder" href="ch11.html#ch11lev2sec24">Custom Events</a></p>
+<p class="tocsec1"><a class="nounder" href="ch11.html#ch11lev2sec25">Browser State and Loading Events</a></p>
+<p class="tocsec"><a class="nounder" href="ch11.html#ch11lev1sec7">Event Model Issues</a></p>
+<p class="tocsec"><a class="nounder" href="ch11.html#ch11lev1sec8">Summary</a></p>
+<p class="tocpart"><a class="nounder" href="part03.html#part03"><strong>Part III Applied JavaScript</strong></a></p>
+<p class="tocchap"><a class="nounder" href="ch12.html#ch12"><strong>Chapter 12 Windows, Frames, and Overlays</strong></a></p>
+<p class="tocsec"><a class="nounder" href="ch12.html#ch12lev1sec1">Introduction to the window Object</a></p>
+<p class="tocsec"><a class="nounder" href="ch12.html#ch12lev1sec2">Dialogs</a></p>
+<p class="tocsec1"><a class="nounder" href="ch12.html#ch12lev2sec1">alert( )</a></p>
+<p class="tocsec1"><a class="nounder" href="ch12.html#ch12lev2sec2">confirm( )</a></p>
+<p class="tocsec1"><a class="nounder" href="ch12.html#ch12lev2sec3">prompt( )</a></p>
+<p class="tocsec"><a class="nounder" href="ch12.html#ch12lev1sec3">Emerging and Proprietary Dialog Methods</a></p>
+<p class="tocsec1"><a class="nounder" href="ch12.html#ch12lev2sec4">showModalDialog( )</a></p>
+<p class="tocsec1"><a class="nounder" href="ch12.html#ch12lev2sec5">showModelessDialog( )</a></p>
+<p class="tocsec1"><a class="nounder" href="ch12.html#ch12lev2sec6">createPopup( )</a></p>
+<p class="tocsec"><a class="nounder" href="ch12.html#ch12lev1sec4">Opening and Closing Generic Windows</a></p>
+<p class="tocsec1"><a class="nounder" href="ch12.html#ch12lev2sec7">Window Features</a></p>
+<p class="tocsec"><a class="nounder" href="ch12.html#ch12lev1sec5">Detecting and Controlling window Chrome</a></p>
+<p class="tocsec"><a class="nounder" href="ch12.html#ch12lev1sec6">Practicalities of Spawned Windows</a></p>
+<p class="tocsec1"><a class="nounder" href="ch12.html#ch12lev2sec8">Building window Contents</a></p>
+<p class="tocsec1"><a class="nounder" href="ch12.html#ch12lev2sec9">Overlays Instead of Windows</a></p>
+<p class="tocsec"><a class="nounder" href="ch12.html#ch12lev1sec7">Controlling Windows</a></p>
+<p class="tocsec1"><a class="nounder" href="ch12.html#ch12lev2sec10">focus( ) and blur( )</a></p>
+<p class="tocsec1"><a class="nounder" href="ch12.html#ch12lev2sec11">stop( )</a></p>
+<p class="tocsec1"><a class="nounder" href="ch12.html#ch12lev2sec12">print( )</a></p>
+<p class="tocsec1"><a class="nounder" href="ch12.html#ch12lev2sec13">find( )</a></p>
+<p class="tocsec1"><a class="nounder" href="ch12.html#ch12lev2sec14">Moving Windows</a></p>
+<p class="tocsec1"><a class="nounder" href="ch12.html#ch12lev2sec15">Resizing Windows</a></p>
+<p class="tocsec1"><a class="nounder" href="ch12.html#ch12lev2sec16">Scrolling Windows</a></p>
+<p class="tocsec1"><a class="nounder" href="ch12.html#ch12lev2sec17">Accessing and Setting a Window’s Location</a></p>
+<p class="tocsec1"><a class="nounder" href="ch12.html#ch12lev2sec18">Hash Values in URLs</a></p>
+<p class="tocsec"><a class="nounder" href="ch12.html#ch12lev1sec8">Manipulating a Window’s History</a></p>
+<p class="tocsec1"><a class="nounder" href="ch12.html#ch12lev2sec19">pushstate( ) and replacestate( )</a></p>
+<p class="tocsec1"><a class="nounder" href="ch12.html#ch12lev2sec20">Trying to Control the Window’s Status Bar</a></p>
+<p class="tocsec"><a id="page_xiv"/><a class="nounder" href="ch12.html#ch12lev1sec9">Setting window Timeouts and Intervals</a></p>
+<p class="tocsec"><a class="nounder" href="ch12.html#ch12lev1sec10">Window Events</a></p>
+<p class="tocsec"><a class="nounder" href="ch12.html#ch12lev1sec11">Interwindow Communication Basics</a></p>
+<p class="tocsec1"><a class="nounder" href="ch12.html#ch12lev2sec21">Interwindow Message Passing with postMessage( )</a></p>
+<p class="tocsec"><a class="nounder" href="ch12.html#ch12lev1sec12">Frames: A Special Case of Windows</a></p>
+<p class="tocsec1"><a class="nounder" href="ch12.html#ch12lev2sec22">Inline Frames</a></p>
+<p class="tocsec1"><a class="nounder" href="ch12.html#ch12lev2sec23">Applied Frames</a></p>
+<p class="tocsec"><a class="nounder" href="ch12.html#ch12lev1sec13">Summary</a></p>
+<p class="tocchap"><a class="nounder" href="ch13.html#ch13"><strong>Chapter 13 Form Handling</strong></a></p>
+<p class="tocsec"><a class="nounder" href="ch13.html#ch13lev1sec1">The Need for JavaScript Form Checking</a></p>
+<p class="tocsec"><a class="nounder" href="ch13.html#ch13lev1sec2">Form Basics</a></p>
+<p class="tocsec1"><a class="nounder" href="ch13.html#ch13lev2sec1">Accessing Forms and Fields</a></p>
+<p class="tocsec"><a class="nounder" href="ch13.html#ch13lev1sec3">Form Fields</a></p>
+<p class="tocsec1"><a class="nounder" href="ch13.html#ch13lev2sec2">Common Input Element Properties</a></p>
+<p class="tocsec1"><a class="nounder" href="ch13.html#ch13lev2sec3">Buttons</a></p>
+<p class="tocsec1"><a class="nounder" href="ch13.html#ch13lev2sec4">Traditional Text Fields</a></p>
+<p class="tocsec1"><a class="nounder" href="ch13.html#ch13lev2sec5">HTML5 Semantic Text Fields</a></p>
+<p class="tocsec1"><a class="nounder" href="ch13.html#ch13lev2sec6">Text Areas</a></p>
+<p class="tocsec1"><a class="nounder" href="ch13.html#ch13lev2sec7">Checkboxes and Radio Buttons</a></p>
+<p class="tocsec1"><a class="nounder" href="ch13.html#ch13lev2sec8">Select Menus</a></p>
+<p class="tocsec1"><a class="nounder" href="ch13.html#ch13lev2sec9">Date Pickers</a></p>
+<p class="tocsec1"><a class="nounder" href="ch13.html#ch13lev2sec10">Color</a></p>
+<p class="tocsec1"><a class="nounder" href="ch13.html#ch13lev2sec11">Sliders</a></p>
+<p class="tocsec1"><a class="nounder" href="ch13.html#ch13lev2sec12">File Upload Fields</a></p>
+<p class="tocsec1"><a class="nounder" href="ch13.html#ch13lev2sec13">Hidden Fields</a></p>
+<p class="tocsec1"><a class="nounder" href="ch13.html#ch13lev2sec14">Other Form Features: Label, Fieldset, Output, and Legend</a></p>
+<p class="tocsec"><a class="nounder" href="ch13.html#ch13lev1sec4">Form Usability and JavaScript</a></p>
+<p class="tocsec1"><a class="nounder" href="ch13.html#ch13lev2sec15">First Field Focus</a></p>
+<p class="tocsec1"><a class="nounder" href="ch13.html#ch13lev2sec16">Labels and Field Selection</a></p>
+<p class="tocsec1"><a class="nounder" href="ch13.html#ch13lev2sec17">Advisory and Status Messages</a></p>
+<p class="tocsec1"><a class="nounder" href="ch13.html#ch13lev2sec18">Data Lists</a></p>
+<p class="tocsec1"><a class="nounder" href="ch13.html#ch13lev2sec19">Disabled and Read-Only Fields</a></p>
+<p class="tocsec"><a class="nounder" href="ch13.html#ch13lev1sec5">Form Validation</a></p>
+<p class="tocsec1"><a class="nounder" href="ch13.html#ch13lev2sec20">Abstracting Form Validation</a></p>
+<p class="tocsec1"><a class="nounder" href="ch13.html#ch13lev2sec21">Error Messages</a></p>
+<p class="tocsec1"><a class="nounder" href="ch13.html#ch13lev2sec22">onchange Handlers</a></p>
+<p class="tocsec1"><a class="nounder" href="ch13.html#ch13lev2sec23">Keyboard Masking</a></p>
+<p class="tocsec"><a class="nounder" href="ch13.html#ch13lev1sec6">HTML5 Validation Improvements</a></p>
+<p class="tocsec1"><a class="nounder" href="ch13.html#ch13lev2sec24">Validation Attributes</a></p>
+<p class="tocsec1"><a class="nounder" href="ch13.html#ch13lev2sec25">Validation Properties and Methods</a></p>
+<p class="tocsec1"><a class="nounder" href="ch13.html#ch13lev2sec26">novalidate Attribute</a></p>
+<p class="tocsec"><a class="nounder" href="ch13.html#ch13lev1sec7">Miscellaneous HTML5 Form Changes</a></p>
+<p class="tocsec"><a class="nounder" href="ch13.html#ch13lev1sec8">Internationalization</a></p>
+<p class="tocsec"><a class="nounder" href="ch13.html#ch13lev1sec9">Summary</a></p>
+<p class="tocchap"><a class="nounder" href="ch14.html#ch14"><strong>Chapter 14 User Interface Elements</strong></a></p>
+<p class="tocsec"><a class="nounder" href="ch14.html#ch14lev1sec1">Adding JavaScript</a></p>
+<p class="tocsec1"><a class="nounder" href="ch14.html#ch14lev2sec1">Exploring Progressive Enhancement</a></p>
+<p class="tocsec1"><a class="nounder" href="ch14.html#ch14lev2sec2">Graceful Degradation Approaches</a></p>
+<p class="tocsec"><a id="page_xv"/><a class="nounder" href="ch14.html#ch14lev1sec2">HTML5 Support for Rich Interaction</a></p>
+<p class="tocsec1"><a class="nounder" href="ch14.html#ch14lev2sec3">Menus and Context Menus</a></p>
+<p class="tocsec1"><a class="nounder" href="ch14.html#ch14lev2sec4">Drag-and-Drop Functionality</a></p>
+<p class="tocsec1"><a class="nounder" href="ch14.html#ch14lev2sec5">Content Editing</a></p>
+<p class="tocsec1"><a class="nounder" href="ch14.html#ch14lev2sec6">Revealing Content on Demand</a></p>
+<p class="tocsec1"><a class="nounder" href="ch14.html#ch14lev2sec7">User Feedback</a></p>
+<p class="tocsec"><a class="nounder" href="ch14.html#ch14lev1sec3">Summary</a></p>
+<p class="tocchap"><a class="nounder" href="ch15.html#ch15"><strong>Chapter 15 Ajax and Remote JavaScript</strong></a></p>
+<p class="tocsec"><a class="nounder" href="ch15.html#ch15lev1sec1">Ajax Defined</a></p>
+<p class="tocsec"><a class="nounder" href="ch15.html#ch15lev1sec2">Hello Ajax World</a></p>
+<p class="tocsec"><a class="nounder" href="ch15.html#ch15lev1sec3">XMLHttpRequest Object</a></p>
+<p class="tocsec"><a class="nounder" href="ch15.html#ch15lev1sec4">XHR Instantiation and Cross-Browser Concerns</a></p>
+<p class="tocsec1"><a class="nounder" href="ch15.html#ch15lev2sec1">ActiveX XHR Fallback Details</a></p>
+<p class="tocsec1"><a class="nounder" href="ch15.html#ch15lev2sec2">A Cross-Browser XHR Wrapper</a></p>
+<p class="tocsec"><a class="nounder" href="ch15.html#ch15lev1sec5">XHR Request Basics</a></p>
+<p class="tocsec1"><a class="nounder" href="ch15.html#ch15lev2sec3">Synchronous Requests</a></p>
+<p class="tocsec"><a class="nounder" href="ch15.html#ch15lev1sec6">Asynchronous Requests</a></p>
+<p class="tocsec"><a class="nounder" href="ch15.html#ch15lev1sec7">Sending Data via GET</a></p>
+<p class="tocsec"><a class="nounder" href="ch15.html#ch15lev1sec8">Sending Data via Post</a></p>
+<p class="tocsec"><a class="nounder" href="ch15.html#ch15lev1sec9">Using Other HTTP Methods</a></p>
+<p class="tocsec"><a class="nounder" href="ch15.html#ch15lev1sec10">Setting Request Headers</a></p>
+<p class="tocsec"><a class="nounder" href="ch15.html#ch15lev1sec11">Response Basics</a></p>
+<p class="tocsec1"><a class="nounder" href="ch15.html#ch15lev2sec4">readyState Explored</a></p>
+<p class="tocsec1"><a class="nounder" href="ch15.html#ch15lev2sec5">status and statusText</a></p>
+<p class="tocsec1"><a class="nounder" href="ch15.html#ch15lev2sec6">responseText</a></p>
+<p class="tocsec1"><a class="nounder" href="ch15.html#ch15lev2sec7">responseXML</a></p>
+<p class="tocsec1"><a class="nounder" href="ch15.html#ch15lev2sec8">response and responseType</a></p>
+<p class="tocsec1"><a class="nounder" href="ch15.html#ch15lev2sec9">JSON</a></p>
+<p class="tocsec1"><a class="nounder" href="ch15.html#ch15lev2sec10">Script Responses</a></p>
+<p class="tocsec1"><a class="nounder" href="ch15.html#ch15lev2sec11">Response Headers</a></p>
+<p class="tocsec"><a class="nounder" href="ch15.html#ch15lev1sec12">Controlling Requests</a></p>
+<p class="tocsec"><a class="nounder" href="ch15.html#ch15lev1sec13">Authentication with XHRs</a></p>
+<p class="tocsec"><a class="nounder" href="ch15.html#ch15lev1sec14">Propriety and Emerging XHR Features</a></p>
+<p class="tocsec1"><a class="nounder" href="ch15.html#ch15lev2sec12">Managing MIME Types</a></p>
+<p class="tocsec1"><a class="nounder" href="ch15.html#ch15lev2sec13">Multipart Responses</a></p>
+<p class="tocsec1"><a class="nounder" href="ch15.html#ch15lev2sec14">onload, onloadstart, and onloadend</a></p>
+<p class="tocsec1"><a class="nounder" href="ch15.html#ch15lev2sec15">onprogress and Partial Responses</a></p>
+<p class="tocsec1"><a class="nounder" href="ch15.html#ch15lev2sec16">onerror</a></p>
+<p class="tocsec"><a class="nounder" href="ch15.html#ch15lev1sec15">Form Serialization</a></p>
+<p class="tocsec1"><a class="nounder" href="ch15.html#ch15lev2sec17">File Uploads with iframes</a></p>
+<p class="tocsec"><a class="nounder" href="ch15.html#ch15lev1sec16">Cross-Domain Ajax Requests</a></p>
+<p class="tocsec1"><a class="nounder" href="ch15.html#ch15lev2sec18">Internet Explorer’s XDRs</a></p>
+<p class="tocsec"><a class="nounder" href="ch15.html#ch15lev1sec17">Non-XHR Communication Methods</a></p>
+<p class="tocsec1"><a class="nounder" href="ch15.html#ch15lev2sec19">Image Tag</a></p>
+<p class="tocsec1"><a class="nounder" href="ch15.html#ch15lev2sec20">Script Tag</a></p>
+<p class="tocsec"><a class="nounder" href="ch15.html#ch15lev1sec18">Comet and Sockets</a></p>
+<p class="tocsec1"><a class="nounder" href="ch15.html#ch15lev2sec21">Polling: Fast or Long</a></p>
+<p class="tocsec1"><a class="nounder" href="ch15.html#ch15lev2sec22">The Long Slow Load</a></p>
+<p class="tocsec1"><a class="nounder" href="ch15.html#ch15lev2sec23">WebSockets</a></p>
+<p class="tocsec"><a id="page_xvi"/><a class="nounder" href="ch15.html#ch15lev1sec19">Ajax Implications and Challenges</a></p>
+<p class="tocsec"><a class="nounder" href="ch15.html#ch15lev1sec20">Summary</a></p>
+<p class="tocchap"><a class="nounder" href="ch16.html#ch16"><strong>Chapter 16 Browser Management</strong></a></p>
+<p class="tocsec"><a class="nounder" href="ch16.html#ch16lev1sec1">Browser Detection Basics</a></p>
+<p class="tocsec"><a class="nounder" href="ch16.html#ch16lev1sec2">The Navigator Object</a></p>
+<p class="tocsec"><a class="nounder" href="ch16.html#ch16lev1sec3">What to Detect</a></p>
+<p class="tocsec1"><a class="nounder" href="ch16.html#ch16lev2sec1">Technology Detection</a></p>
+<p class="tocsec1"><a class="nounder" href="ch16.html#ch16lev2sec2">Visual Detection: Screen Object</a></p>
+<p class="tocsec1"><a class="nounder" href="ch16.html#ch16lev2sec3">User Characteristics</a></p>
+<p class="tocsec"><a class="nounder" href="ch16.html#ch16lev1sec4">Network State and Performance</a></p>
+<p class="tocsec1"><a class="nounder" href="ch16.html#ch16lev2sec4">Simple Page Load Metrics</a></p>
+<p class="tocsec1"><a class="nounder" href="ch16.html#ch16lev2sec5">window.performance.timing</a></p>
+<p class="tocsec"><a class="nounder" href="ch16.html#ch16lev1sec5">Browser Control</a></p>
+<p class="tocsec1"><a class="nounder" href="ch16.html#ch16lev2sec6">Simulating Browser Button Presses</a></p>
+<p class="tocsec"><a class="nounder" href="ch16.html#ch16lev1sec6">State Management</a></p>
+<p class="tocsec1"><a class="nounder" href="ch16.html#ch16lev2sec7">Cookies in JavaScript</a></p>
+<p class="tocsec1"><a class="nounder" href="ch16.html#ch16lev2sec8">Using Cookies for User State Management</a></p>
+<p class="tocsec1"><a class="nounder" href="ch16.html#ch16lev2sec9">Cookie Limitations</a></p>
+<p class="tocsec1"><a class="nounder" href="ch16.html#ch16lev2sec10">Storage</a></p>
+<p class="tocsec1"><a class="nounder" href="ch16.html#ch16lev2sec11">IndexedDB</a></p>
+<p class="tocsec1"><a class="nounder" href="ch16.html#ch16lev2sec12">AppCache</a></p>
+<p class="tocsec"><a class="nounder" href="ch16.html#ch16lev1sec7">Script Execution</a></p>
+<p class="tocsec1"><a class="nounder" href="ch16.html#ch16lev2sec13">Web Workers</a></p>
+<p class="tocsec"><a class="nounder" href="ch16.html#ch16lev1sec8">Summary</a></p>
+<p class="tocchap"><a class="nounder" href="ch17.html#ch17"><strong>Chapter 17 Media Management</strong></a></p>
+<p class="tocsec"><a class="nounder" href="ch17.html#ch17lev1sec1">Image Handling</a></p>
+<p class="tocsec1"><a class="nounder" href="ch17.html#ch17lev2sec1">Applied Images</a></p>
+<p class="tocsec"><a class="nounder" href="ch17.html#ch17lev1sec2">DHTML, DOMEffects, and Animation</a></p>
+<p class="tocsec"><a class="nounder" href="ch17.html#ch17lev1sec3">Client-Side Bitmap Graphics with &lt;canvas&gt;</a></p>
+<p class="tocsec1"><a class="nounder" href="ch17.html#ch17lev2sec2">Drawing and Styling Lines and Shapes</a></p>
+<p class="tocsec1"><a class="nounder" href="ch17.html#ch17lev2sec3">Drawing Arcs and Curves</a></p>
+<p class="tocsec1"><a class="nounder" href="ch17.html#ch17lev2sec4">Scaling, Rotating, and Translating Drawings</a></p>
+<p class="tocsec1"><a class="nounder" href="ch17.html#ch17lev2sec5">Using Bitmaps in Drawings</a></p>
+<p class="tocsec1"><a class="nounder" href="ch17.html#ch17lev2sec6">Text Support for &lt;canvas&gt;</a></p>
+<p class="tocsec1"><a class="nounder" href="ch17.html#ch17lev2sec7">Compositing</a></p>
+<p class="tocsec1"><a class="nounder" href="ch17.html#ch17lev2sec8">Saving State</a></p>
+<p class="tocsec1"><a class="nounder" href="ch17.html#ch17lev2sec9">&lt;canvas&gt; Considerations</a></p>
+<p class="tocsec"><a class="nounder" href="ch17.html#ch17lev1sec4">Client-Side Vector Graphics with SVG</a></p>
+<p class="tocsec1"><a class="nounder" href="ch17.html#ch17lev2sec10">Including SVG</a></p>
+<p class="tocsec1"><a class="nounder" href="ch17.html#ch17lev2sec11">Drawing with SVG</a></p>
+<p class="tocsec1"><a class="nounder" href="ch17.html#ch17lev2sec12">SVG Interaction and Animation</a></p>
+<p class="tocsec"><a class="nounder" href="ch17.html#ch17lev1sec5">HTML5 Media Handling</a></p>
+<p class="tocsec1"><a class="nounder" href="ch17.html#ch17lev2sec13">&lt;video&gt;</a></p>
+<p class="tocsec1"><a class="nounder" href="ch17.html#ch17lev2sec14">&lt;audio&gt;</a></p>
+<p class="tocsec1"><a class="nounder" href="ch17.html#ch17lev2sec15">Media Events</a></p>
+<p class="tocsec"><a class="nounder" href="ch17.html#ch17lev1sec6">Plug-Ins</a></p>
+<p class="tocsec1"><a class="nounder" href="ch17.html#ch17lev2sec16">Embedding Content for Plug-Ins</a></p>
+<p class="tocsec1"><a class="nounder" href="ch17.html#ch17lev2sec17">MIME Types</a></p>
+<p class="tocsec1"><a id="page_xvii"/><a class="nounder" href="ch17.html#ch17lev2sec18">Detecting Specific Plug-Ins</a></p>
+<p class="tocsec1"><a class="nounder" href="ch17.html#ch17lev2sec19">Interacting with Plug-Ins</a></p>
+<p class="tocsec"><a class="nounder" href="ch17.html#ch17lev1sec7">ActiveX</a></p>
+<p class="tocsec1"><a class="nounder" href="ch17.html#ch17lev2sec20">Including ActiveX Controls</a></p>
+<p class="tocsec1"><a class="nounder" href="ch17.html#ch17lev2sec21">Interacting with ActiveX Controls</a></p>
+<p class="tocsec"><a class="nounder" href="ch17.html#ch17lev1sec8">Java Applets</a></p>
+<p class="tocsec1"><a class="nounder" href="ch17.html#ch17lev2sec22">Including Applets</a></p>
+<p class="tocsec1"><a class="nounder" href="ch17.html#ch17lev2sec23">Java Detection</a></p>
+<p class="tocsec1"><a class="nounder" href="ch17.html#ch17lev2sec24">Accessing Applets in JavaScript</a></p>
+<p class="tocsec1"><a class="nounder" href="ch17.html#ch17lev2sec25">Accessing JavaScript with Applets</a></p>
+<p class="tocsec"><a class="nounder" href="ch17.html#ch17lev1sec9">The Uncertain Future</a></p>
+<p class="tocsec"><a class="nounder" href="ch17.html#ch17lev1sec10">Summary</a></p>
+<p class="tocchap"><a class="nounder" href="ch18.html#ch18"><strong>Chapter 18 Trends and Practices</strong></a></p>
+<p class="tocsec"><a class="nounder" href="ch18.html#ch18lev1sec1">Writing Quality JavaScript</a></p>
+<p class="tocsec1"><a class="nounder" href="ch18.html#ch18lev2sec1">Coding Style</a></p>
+<p class="tocsec1"><a class="nounder" href="ch18.html#ch18lev2sec2">Comments and Documentation</a></p>
+<p class="tocsec1"><a class="nounder" href="ch18.html#ch18lev2sec3">Understanding Errors</a></p>
+<p class="tocsec1"><a class="nounder" href="ch18.html#ch18lev2sec4">Debugging</a></p>
+<p class="tocsec1"><a class="nounder" href="ch18.html#ch18lev2sec5">Defensive Programming</a></p>
+<p class="tocsec1"><a class="nounder" href="ch18.html#ch18lev2sec6">Utilizing Frameworks and Libraries</a></p>
+<p class="tocsec"><a class="nounder" href="ch18.html#ch18lev1sec2">Security</a></p>
+<p class="tocsec1"><a class="nounder" href="ch18.html#ch18lev2sec7">JavaScript Protection</a></p>
+<p class="tocsec"><a class="nounder" href="ch18.html#ch18lev1sec3">JavaScript’s Security Policy</a></p>
+<p class="tocsec1"><a class="nounder" href="ch18.html#ch18lev2sec8">Same-Origin Policy</a></p>
+<p class="tocsec1"><a class="nounder" href="ch18.html#ch18lev2sec9">Trusted External Scripts</a></p>
+<p class="tocsec1"><a class="nounder" href="ch18.html#ch18lev2sec10">Cross-Site Scripting</a></p>
+<p class="tocsec1"><a class="nounder" href="ch18.html#ch18lev2sec11">Cross-Site Request Forgery (CSRF)</a></p>
+<p class="tocsec"><a class="nounder" href="ch18.html#ch18lev1sec4">Performance</a></p>
+<p class="tocsec1"><a class="nounder" href="ch18.html#ch18lev2sec12">Performance Measurements and Tools</a></p>
+<p class="tocsec1"><a class="nounder" href="ch18.html#ch18lev2sec13">Page-Load Performance</a></p>
+<p class="tocsec1"><a class="nounder" href="ch18.html#ch18lev2sec14">Runtime Performance</a></p>
+<p class="tocsec"><a class="nounder" href="ch18.html#ch18lev1sec5">Trends</a></p>
+<p class="tocsec1"><a class="nounder" href="ch18.html#ch18lev2sec15">JavaScript Everywhere</a></p>
+<p class="tocsec1"><a class="nounder" href="ch18.html#ch18lev2sec16">“Fixing” and Hiding JavaScript</a></p>
+<p class="tocsec1"><a class="nounder" href="ch18.html#ch18lev2sec17">Accepting JavaScript</a></p>
+<p class="tocsec"><a class="nounder" href="ch18.html#ch18lev1sec6">Summary</a></p>
+<p class="tocchap"><a class="nounder" href="appendix.html#app"><strong>Appendix JavaScript Reserved Words</strong></a></p>
+<p class="tocsec1"><a class="nounder" href="appendix.html#applev1">Reserved Quirks</a></p>
+<p class="tocchap"><a class="nounder" href="index.html#index"><strong>Index</strong></a><a id="page_xviii"/></p>
+</body>
+</html>

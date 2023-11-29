@@ -1,0 +1,567 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<title>JavaScript: The Complete Reference&#153;, Third Edition</title>
+<link href="0071741216.css" rel="stylesheet" type="text/css"/>
+<link href="page-template.xpgt" rel="stylesheet" type="application/vnd.adobe-page-template+xml"/>
+<meta content="urn:uuid:4d1be0af-c0d3-47b8-9bd4-3edcb4dee196" name="Adept.expected.resource"/>
+</head>
+<body>
+<h3 class="h3b" id="ch13"><a id="page_549"/><strong>CHAPTER 13<br/>Form Handling</strong></h3>
+<p class="noindent">One of the most common uses of JavaScript is for checking the contents of forms before sending them to server-side programs. Commonly known as <em>form validation</em>, this use of JavaScript was actually one of the original driving forces behind the development of the language and, as a result, many of the techniques presented in this chapter will work in even the oldest JavaScript implementations. However, progress has been made in this ancient application of script code because HTML5 improves our possibilities. Throughout the chapter, we will also remind readers that, while the script syntax of this common use of JavaScript may be simple, it is consistently misapplied. To address this trend, we will try to present many execution details, ranging from progressive enhancement to usability improvements, to motivate better use of the techniques.</p>
+<h4 class="h4"><a id="ch13lev1sec1"/><strong>The Need for JavaScript Form Checking</strong></h4>
+<p class="noindent">It can be quite annoying to fill out a form on a Web site only to have the page returned with complaints about malformed data after a round trip to the server. With JavaScript, we can cut down on the frustration of waiting for failure and improve the usability of Web forms by checking the data <em>before</em> it is submitted to the server for processing.</p>
+<p class="indent">There are two primary approaches we can take to validate form entries using JavaScript. The first involves checking each field as it is filled in, either upon blur or using a keyboard mask if appropriate. The second approach is to check all the fields of a form when a submission is triggered. Each approach has its pros and cons from a usability and coding perspective, so we’ll make sure to explore each in turn.</p>
+<p class="indent">Understand that JavaScript-based form validation is primarily a usability convenience. Web servers also benefit from form validation. Because incomplete or invalid form field entries can be caught before submission, the number of interactions the browser will make with the server decreases and the apparent speed of form use increases. JavaScript validation provides no truly meaningful data security. Client-side form validation is entirely circumventable by malicious end users, as all client-side technology can be. Readers are strongly warned to remember this limitation and never assume that data is sanitized on the server side, as validations may not <a id="page_550"/>have been applied. All data consumed on the server side ultimately should be considered tainted and rechecked if there is to be any hope for secure Web application development.</p>
+<p class="indent">To start our discussion, let’s take a look at how to access a <span class="codesample"><strong>&lt;form&gt;</strong></span> tag using JavaScript.</p>
+<h4 class="h4"><a id="ch13lev1sec2"/><strong>Form Basics</strong></h4>
+<p class="noindent">Traditionally, JavaScript provides access to the forms within an HTML document through the <span class="codesample">Form</span> object (known as an <span class="codesample">HTMLFormElement</span> in the DOM), which is a child of the <span class="codesample">Document</span> object. As with all <span class="codesample">Document</span> objects, the properties and methods of this object correspond to the various features and attributes of a <span class="codesample"><strong>&lt;form&gt;</strong></span> tag, the common attributes of which are summarized here:</p>
+<p class="imagea"><img alt="image" src="f0550-01.jpg"/></p>
+<p class="indent">As we have seen already in our discussion of object models, the JavaScript properties for the <span class="codesample">Form</span> object should correspond to the attributes of the <span class="codesample"><strong>&lt;form&gt;</strong></span> tag. A summary of the most useful properties available from JavaScript’s <span class="codesample">Form</span> object is presented in <a class="nounder" href="ch13.html#tab13-1">Table 13-1</a>.</p>
+<p class="tabcap"><a id="tab13-1"/><strong>Table 13-1</strong> Properties of the Form Object</p>
+<p class="imagea"><img alt="image" src="t0550-01.jpg"/></p>
+<p class="image0"><img alt="image" src="t0551-01.jpg"/></p>
+<p class="indent">Traditionally, form objects have only two form-specific methods. The <span class="codesample">reset()</span> method clears the form’s fields, similar to clicking a button defined by <span class="codesample"><strong>&lt;input type=“reset”&gt;</strong></span>. The <span class="codesample">submit()</span> method triggers the submission of the form, similar to clicking the button <a id="page_551"/>defined by <span class="codesample"><strong>&lt;input type=“submit”&gt;</strong></span>. In addition to the ability to trigger form reset and submission, you often want to react to these events as well, so the <span class="codesample"><strong>&lt;form&gt;</strong></span> tag supports the corresponding <span class="codesample"><strong>onreset</strong></span> and <span class="codesample"><strong>onsubmit</strong></span> event handler attributes. As with all events, handler scripts can return a value of <span class="codesample">false</span> to cancel the reset or submit. Returning <span class="codesample">true</span> (or not returning a value) permits the event to occur normally. Given this behavior, the following form would allow all form resets but deny submissions:</p>
+<p class="imagea"><img alt="image" src="f0551-01.jpg"/></p>
+<hr/>
+<p class="note"><strong>NOTE</strong> A potentially surprising aspect of calling the <span class="codesample">submit()</span> method is that it typically bypasses any <span class="codesample">onsubmit</span> event handler. The reasoning is that since you’re triggering submission with script, your script should also be capable of doing whatever the event handler does.</p>
+<p class="noindenttop">HTML5 adds a new validation method to the <span class="codesample">Form</span> object. The <span class="codesample">checkValidity()</span> method returns <span class="codesample">true</span> or <span class="codesample">false</span>, depending on whether or not the form fields are valid. All of the common methods of the <span class="codesample">Form</span> object are summarized in <a class="nounder" href="ch13.html#tab13-2">Table 13-2</a>.</p>
+<p class="tabcap"><a id="tab13-2"/><strong>Table 13-2</strong> Methods for Form Objects</p>
+<p class="imagea"><img alt="image" src="t0551-02.jpg"/></p>
+<h5 class="h5"><a id="ch13lev2sec1"/><a id="page_552"/><strong>Accessing Forms and Fields</strong></h5>
+<p class="noindent">Before exploring the examination and manipulation of form fields, we need to make sure that we are capable of accessing a <span class="codesample">Form</span> properly. This is just a brief reminder of what is covered in <a class="nounder" href="ch09.html#ch09">Chapter 9</a>. In general, a form is accessed by <span class="codesample"><strong>name</strong></span>, position, or <span class="codesample"><strong>id</strong></span>. To illustrate these methods, we present the following simple form:</p>
+<p class="imagea"><img alt="image" src="f0552-01.jpg"/></p>
+<p class="noindent">If we assume this is the first form in the document, we might access the form using the traditional <span class="codesample">document.forms[]</span> collection indexed by numeric value:</p>
+<p class="imagea"><img alt="image" src="f0552-02.jpg"/></p>
+<p class="noindent">Alternatively, we could use the <span class="codesample"><strong>name</strong></span> attribute of the form to retrieve it via the collection:</p>
+<p class="imagea"><img alt="image" src="f0552-03.jpg"/></p>
+<p class="noindent">Traditionally, a path access name is also supported, like so:</p>
+<p class="imagea"><img alt="image" src="f0552-04.jpg"/></p>
+<p class="noindent">Of course, since standard DOM methods can be employed, we can use the common <span class="codesample">getElementById()</span> method:</p>
+<p class="imagea"><img alt="image" src="f0552-05.jpg"/></p>
+<p class="indenttop">Retrieving the fields of the forms is easily performed using the <span class="codesample">getElementById()</span> method, assuming a unique <span class="codesample"><strong>id</strong></span> value. However, other access methods have been widely employed for field access even in the oldest browsers.</p>
+<p class="indent">First we note that each form contains a collection of form fields that can be accessed through the <span class="codesample">elements[]</span> collection. So, given the form of the previous example, <span class="codesample">document.customerform.elements[0]</span> refers to the first field. Similarly, we could access the fields by name, such as with <span class="codesample">document.customerform.firstname</span> or <span class="codesample">document.customerform.elements[“firstname”]</span>. We should also point out that we may employ a DOM method called <span class="codesample">getElementsByName(“firstname”)</span>.</p>
+<p class="indent">Given that this may be run on a document, it could return many values since the <span class="codesample"><strong>name</strong></span> attribute does not have to be unique:</p>
+<p class="imagea"><img alt="image" src="f0552-06.jpg"/></p>
+<p class="noindenttop">When run on a single form, it will likely return a single value except in the case of radio buttons, which purposefully share the same <span class="codesample"><strong>name</strong></span> value:</p>
+<p class="imagea"><a id="page_553"/><img alt="image" src="f0553-01.jpg"/></p>
+<p class="noindent">We note that, while this is the more modern way of accessing fields by the <span class="codesample"><strong>name</strong></span> attribute, it actually is somewhat clumsy to use:</p>
+<p class="imagea"><img alt="image" src="f0553-02.jpg"/></p>
+<p class="noindenttop">Given the awkwardness of the syntax, it is no wonder that the traditional syntax lives on.</p>
+<p class="indent">Finally, we should note that, since we have a collection of form fields, we could iterate over the <span class="codesample">elements[]</span> collection:</p>
+<p class="imagea"><img alt="image" src="f0553-03.jpg"/></p>
+<p class="noindenttop">We should note that we can use a shorthand for looking at the number of fields in a form just looking at the <span class="codesample">length</span> property of the Form itself, like so:</p>
+<p class="imagea"><img alt="image" src="f0553-04.jpg"/></p>
+<p class="indenttop">Before taking a look at the objects that represent the different kinds of form fields, we present a brief example to demonstrate the access of the various <span class="codesample">Form</span> object properties and methods:</p>
+<p class="imagea"><img alt="image" src="f0553-05.jpg"/></p>
+<p class="imagea"><img alt="image" src="f0553-06.jpg"/></p>
+<hr/>
+<p class="online"><a id="page_554"/><strong>ONLINE</strong> <a class="nounder" href="http://www.javascriptref.com/3ed/ch13/formobject.html">http://javascriptref.com/3ed/ch13/formobject.html</a></p>
+<p class="indenttop">A rendering of this example is shown in <a class="nounder" href="ch13.html#fig13-1">Figure 13-1.</a></p>
+<p class="imagea"><a id="fig13-1"/><img alt="image" src="f0555-01.jpg"/></p>
+<p class="figcap"><strong>Figure 13-1</strong> Sample rendering of Form object eExample</p>
+<h4 class="h4"><a id="ch13lev1sec3"/><strong>Form Fields</strong></h4>
+<p class="noindent">HTML 4 supports a variety of form elements, including single-line and mutiline text boxes, password fields, radio buttons, checkboxes, pull-down menus, scrolled lists, hidden fields, and numerous types of buttons. HTML5 adds even more, including sliders, type-ahead lists, color pickers, and more. This section presents a short review of each of these tags and shows how JavaScript can be used to access and modify their properties.</p>
+<h5 class="h5"><a id="page_555"/><a id="ch13lev2sec2"/><strong>Common Input Element Properties</strong></h5>
+<p class="noindent">All <span class="codesample"><strong>&lt;input&gt;</strong></span> tags are represented in the DOM as <span class="codesample">HTMLInputElement</span> objects. These objects share a number of properties related to their functionality as form fields, as well as the HTML standard properties you would expect (<span class="codesample">id, title, lang</span>, and so on.). The properties common to most all objects representing <span class="codesample"><strong>&lt;input&gt;</strong></span> tags are shown in <a class="nounder" href="ch13.html#tab13-3">Table 13-3</a>. Specific types of input elements, such as <span class="codesample"><strong>&lt;input type=“image”&gt;</strong></span>, have additional properties and methods specific to the type of input they handle. For example, input with <span class="codesample"><strong>type</strong></span> equal to <span class="codesample"><strong>“image”</strong></span> defines an <span class="codesample"><strong>src</strong></span> attribute, which is <span class="codesample">undefined</span> with other type values.</p>
+<p class="tabcap"><a id="tab13-3"/><strong>Table 13-3</strong> Common Properties on Form Field Objects</p>
+<p class="imagea"><img alt="image" src="t0556-01.jpg"/></p>
+<p class="indent">A few properties do require some brief discussion. First, the <span class="codesample">form</span> property references the <span class="codesample">Form</span> object that the element is enclosed within. So, given</p>
+<p class="imagea"><img alt="image" src="f0555-02.jpg"/></p>
+<p class="noindent"><a id="page_556"/>the value of <span class="codesample">document.myform.field1.form</span> is the <span class="codesample">Form</span> object named <span class="codesample"><em>myform</em></span>. Of course, you might wonder about the usefulness of this, since we knew the form name to access the property. In short, it is most useful when a function or object is given some generic form field object without any indication of the form it is enclosed within.</p>
+<p class="indent">The next property that requires a short discussion is <span class="codesample">defaultValue</span>. This property holds the string set by the <span class="codesample"><strong>value</strong></span> attribute in the original HTML file. So, given <span class="codesample"><strong>&lt;inputtype=“text” name=“testfield” value=“First value”&gt;</strong></span> within the form named <span class="codesample"><strong>testform</strong></span>, the value of <span class="codesample">document.testform.testfield.defaultValue</span> would be the string “First value”. This will also be held in the property <span class="codesample">document.testform.testfield.value</span> at first. However, as the user changes the contents of the field, the <span class="codesample">value</span> property will change to reflect the user’s modifications, while the <span class="codesample">defaultValue</span> property will remain constant. In fact, executing <span class="codesample">reset()</span> on the form sets all the form’s elements’ values to their default values. Interestingly, while it is obvious that <span class="codesample">value</span> is changeable both by the user and by script, it turns out that <span class="codesample">defaultValue</span> is also defined to be settable by script, though the value of this is not as obvious.</p>
+<p class="indent">In traditional JavaScript as well as under DOM Level 1, all forms of text fields support the <span class="codesample">blur()</span> and <span class="codesample">focus()</span> methods. The text input fields also support <span class="codesample">select()</span> methods. So given these methods, <span class="codesample">onblur</span>, <span class="codesample">onfocus</span>, and <span class="codesample">onselect</span> are of course supported. Other event handlers are more focused on user activities, so many fields also support <span class="codesample">onchange</span>, which is fired once a field’s content has changed and the field has lost focus. Also supported are a variety of keyboard-related events, such as <span class="codesample">onkeypress</span>, <a id="page_557"/> <span class="codesample">onkeyup</span>, and <span class="codesample">onkeydown</span>. Rather than enumerate everything now and discuss limitations, let’s just explore how the different kinds of form fields are used in context.</p>
+<h5 class="h5"><a id="ch13lev2sec3"/><strong>Buttons</strong></h5>
+<p class="noindent">There are three basic types of buttons in HTML: Submit, Reset, and generic buttons. A fourth type is the image button, and a fifth is a generalized button element. The last two types are slightly different from the basic types and will be discussed separately.</p>
+<p class="indent">All three of the basic button types are defined with the versatile <span class="codesample"><strong>&lt;input&gt;</strong></span> tag. You use <span class="codesample"><strong>&lt;input type=“submit”&gt;</strong></span> to create a Submit button, <span class="codesample"><strong>&lt;input type=“reset”&gt;</strong></span> to create a Reset button, and <span class="codesample"><strong>&lt;input type=“button”&gt;</strong></span> to create a generic button. To specify the text appearing on the button, set the <span class="codesample"><strong>value</strong></span> attribute—for example, <span class="codesample"><strong>&lt;inputtype=“button” value=“Click me please!”&gt;</strong></span>.</p>
+<p class="indent">The common attributes previously mentioned should not be forgotten; we can use them to improve the look and usability of a button, as demonstrated here:</p>
+<p class="imagea"><img alt="image" src="f0557-01.jpg"/></p>
+<p class="indent">The default behavior of a Submit button is to send the form fields to the server for processing. Not surprisingly, the Reset button causes all form fields to revert to their original state, the state they were in when the page loaded. The generic button has no default action; to make use of it, you generally attach an <span class="codesample"><strong>onclick</strong></span> event handler that causes something useful to happen when the button is clicked.</p>
+<p class="indent">You can force a “click” of a button by invoking its <span class="codesample">click()</span> method. Similarly, like all input elements, you can focus a button using its <span class="codesample">focus()</span> method and move away from it using <span class="codesample">blur()</span>. Often a browser will highlight a button in some fashion when it has focus—for example, under Internet Explorer a dotted line is placed around its edge, whereas other browsers may place glow around the edge of the button:</p>
+<p class="imagea"><img alt="image" src="f0557-04.jpg"/></p>
+<p class="indent">The following simple example shows many of the methods and events for buttons in action:</p>
+<p class="imagea"><img alt="image" src="f0557-02.jpg"/></p>
+<p class="imagea"><img alt="image" src="f0557-03.jpg"/></p>
+<hr/>
+<p class="online"><a id="page_558"/><strong>ONLINE</strong> <a class="nounder" href="http://www.javascriptref.com/3ed/ch13/standardbuttons.html">http://javascriptref.com/3ed/ch13/standardbuttons.html</a></p>
+<p class="indent">Remember that these buttons (indeed, all form fields) generally should only appear within a <span class="codesample"><strong>&lt;form&gt;</strong></span> tag. While many browsers and the HTML5 specification will let you get away with using form elements anywhere in a document, older specifications and browsers enforcing such standards may not render form field elements outside a <span class="codesample"><strong>&lt;form&gt;</strong></span> tag, so aim to get your markup correct.</p>
+<h6 class="h6"><strong>Image Buttons</strong></h6>
+<p class="noindent">The simple gray button provided by HTML leaves a bit to be desired. A good approach to livening up your buttons is to apply CSS to them. However, some designers instead use image buttons. There are a few ways to create image buttons in markup. The first is simply to wrap an <span class="codesample"><strong>&lt;img&gt;</strong></span> tag within a link and trigger some JavaScript, as shown here:</p>
+<p class="imagea"><a id="page_559"/><img alt="image" src="f0559-01.jpg"/></p>
+<p class="noindent">Alternatively, you can use the <span class="codesample"><strong>&lt;input type=“image”&gt;</strong></span> form field. Under XHTML, such fields are used to create graphical submit buttons. For example, to create a submission button consisting of an image, you might use the following:</p>
+<p class="imagea"><img alt="image" src="f0559-02.jpg"/></p>
+<p class="indent">The unique properties of image buttons are discussed in <a class="nounder" href="ch13.html#tab13-4">Table 13-4</a>. Most of the unique attributes are obvious (<span class="codesample"><strong>alt, height, width</strong></span>), considering the use of an image; however, it is important to point out that image maps can be used with image buttons via the <span class="codesample"><strong>usemap</strong></span> attribute. Yet, interestingly, regardless of the use of a <span class="codesample"><strong>usemap</strong></span> attribute, image-based submit buttons always send an <span class="codesample"><em>x</em></span> and <em>y</em> value in during submission that indicates the pixel coordinates of the image when it was clicked.</p>
+<p class="tabcap"><a id="tab13-4"/><strong>Table 13-4</strong> Additional Properties for Image Button Objects</p>
+<p class="imagea"><img alt="image" src="t0559-01.jpg"/></p>
+<h6 class="h6"><strong>Generalized Buttons</strong></h6>
+<p class="noindent">HTML 4 introduced the <span class="codesample"><strong>&lt;button&gt;</strong></span> tag, which is much more flexible than <span class="codesample"><strong>&lt;input&gt;</strong></span> and provides the possibility of having visually richer buttons. The basic syntax of the <span class="codesample"><strong>&lt;button&gt;</strong></span> tag is presented here:</p>
+<p class="imagea"><img alt="image" src="f0559-03.jpg"/></p>
+<p class="indent">Two examples of <span class="codesample"><strong>&lt;button&gt;</strong></span> in use are shown here:</p>
+<p class="imagea"><img alt="image" src="f0559-04.jpg"/></p>
+<p class="indent"><a id="page_560"/>Renderings unfortunately might not be as expected:</p>
+<p class="imagea"><img alt="image" src="f0560-01.jpg"/></p>
+<p class="indent">In general, you will find that it is more accessible and appropriate to use CSS to style this type of form button rather than using a graphic button. Here we see a quick replication of the previous button with CSS, which is sadly a bit ugly because of the various browser differences:</p>
+<p class="imagea"><img alt="image" src="f0560-02.jpg"/></p>
+<p class="imagea"><img alt="image" src="button.jpg"/></p>
+<p class="indenttop">The DOM defines the expected properties for the <span class="codesample">HTMLButtonElement</span> object shown in <a class="nounder" href="ch13.html#tab13-5">Table 13-5</a>. Scripting-wise, there isn’t terribly much to say about the element; likely, you would just bind click handlers to it.</p>
+<p class="tabcap"><a id="tab13-5"/><strong>Table 13-5</strong> Properties of the HTML Button Object</p>
+<p class="imagea"><img alt="image" src="t0561-01.jpg"/></p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.www.javascriptref.com/3ed/ch13/button.html">http://www.javascriptref.com/3ed/ch13/button.html</a></p>
+<h5 class="h5"><a id="ch13lev2sec4"/><strong>Traditional Text Fields</strong></h5>
+<p class="noindent">Traditionally, there are only three kinds of text input fields in HTML: single-line text entries, password fields, and multiline text fields called <em>text areas</em>. We’ll see in a moment that HTML5 has increased our choices with more semantic text fields, but for now we focus on the traditional fields.</p>
+<p class="indent"><a id="page_561"/>A single-line text field is defined by <span class="codesample"><strong>&lt;input type=“text”&gt;</strong></span>, while a password field is defined by <span class="codesample"><strong>&lt;input type=“password”&gt;</strong></span>. Under traditional HTML, both of these forms of the <span class="codesample"><strong>&lt;input&gt;</strong></span> element support the same attributes. The main attributes you will use are summarized here:</p>
+<p class="imagea"><img alt="image" src="f0561-01.jpg"/></p>
+<p class="indent">The properties and methods that text and password fields have in addition to those common to all input elements are shown in <a class="nounder" href="ch13.html#tab13-6">Table 13-6</a>.</p>
+<p class="tabcap"><a id="tab13-6"/><strong>Table 13-6</strong> Field-Specific Properties for Text and Password Field Objects</p>
+<p class="imagea"><img alt="image" src="t0561-02.jpg"/></p>
+<p class="indent">The two fields really are identical save the lack of echoing the keystrokes to the screen. The implied security of the password field is minimal. It does not echo, though it may briefly on mobile devices. However, the values in the field are just as easily viewed with JavaScript and network sniffing as standard text fields:</p>
+<p class="imagea"><img alt="image" src="f0561-02.jpg"/></p>
+<p class="indent"><a id="page_562"/>Method-wise, text fields have standard <span class="codesample">blur()</span> and <span class="codesample">focus()</span>, but they also have an important <span class="codesample">select()</span> method that selects the contents of the field, such as in preparation for replacement or clipboard copying. The following example shows the use of text fields and their properties and methods, including both reading and setting values:</p>
+<p class="imagea"><img alt="image" src="f0562-01.jpg"/></p>
+<p class="imagea"><img alt="image" src="f0562-02.jpg"/></p>
+<hr/>
+<p class="online"><a id="page_563"/><strong>ONLINE</strong> <a class="nounder" href="http://www.www.javascriptref.com/3ed/ch13/textfields.html">http://www.javascriptref.com/3ed/ch13/textfields.html</a></p>
+<p class="indenttop">A rendering of this example is shown in <a class="nounder" href="ch13.html#fig13-2">Figure 13-2</a>.</p>
+<p class="imagea"><a id="fig13-2"/><img alt="image" src="f0563-01.jpg"/></p>
+<p class="figcap"><strong>Figure 13-2</strong> Rendering of text field testing example</p>
+<h5 class="h5"><a id="ch13lev2sec5"/><strong>HTML5 Semantic Text Fields</strong></h5>
+<p class="noindent">HTML5 defines a variety of new form fields, many of which originated in the WhatWG’s WebForms 2.0 specification. A few of these fields may present themselves as text fields with some minor variations. The specification defines <span class="codesample"><strong>type=tel, email</strong></span>, and <span class="codesample"><strong>url</strong></span> as text fields that are supposed to contain telephone numbers, e-mail addresses, and URLs, respectively. A <span class="codesample"><strong>type</strong></span> value of <span class="codesample"><strong>search</strong></span> should present a Search field, but fundamentally this will look like a modified text field. A value of <span class="codesample"><strong>number</strong></span> for <span class="codesample"><strong>type</strong></span> should indicate that the field takes some number. It may present itself as a simple text field, but more likely it will include spin box arrows as well. <a class="nounder" href="ch13.html#tab13-7">Table 13-7</a> details each of these fields. We’ll see a bit later on that these semantics are more than just nice to do; they bring with them some implicit validation capabilities we can take advantage of in modern browsers.</p>
+<p class="tabcap"><a id="tab13-7"/><strong>Table 13-7</strong> HTML5 Semantic Form Elements</p>
+<p class="imagea"><img alt="image" src="t0564-01.jpg"/></p>
+<p class="indent"><a id="page_564"/>Most of the fields look the same, but in some browsers you will see the Search field render differently:</p>
+<p class="imagea"><img alt="image" src="f0564-04.jpg"/></p>
+<p class="indent">Further, you may find the search type provides some small usability tweaks such as a built-in clear mechanism:</p>
+<p class="imagea"><img alt="image" src="f0564-05.jpg"/></p>
+<p class="indent">The other differences with the fields come mostly from the validation schemes discussed later. However, the Number field type does have a few aspects that should be noted. First of all, notice that the field often presents itself with a spin box:</p>
+<p class="imagea"><img alt="image" src="c0564-01.jpg"/></p>
+<p class="indent">The <span class="codesample"><strong>number</strong></span> type will disallow nonnumeric input and will also support <span class="codesample"><strong>min</strong></span> and <span class="codesample"><strong>max</strong></span> values as well as a defined <span class="codesample"><strong>step</strong></span>, without which the spin box will increment and decrement by one. Some simple markup to demonstrate these attributes is shown here:</p>
+<p class="imagea"><img alt="image" src="f0564-01.jpg"/></p>
+<p class="indent">JavaScript adds in <span class="codesample">stepUp()</span> and <span class="codesample">stepDown()</span> methods to these fields, which is equivalent to clicking the spin box in the corresponding direction:</p>
+<p class="imagea"><img alt="image" src="f0564-02.jpg"/></p>
+<p class="noindent">Like other fields, you can set the value of these fields with JavaScript, but based on the semantics of the field, setting some values may fail, as they should:</p>
+<p class="imagea"><img alt="image" src="f0564-03.jpg"/></p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.www.javascriptref.com/3ed/ch13/inputnumber.html">http://www.javascriptref.com/3ed/ch13/inputnumber.html</a></p>
+<p class="indent"><a id="page_565"/>One change introduced by HTML5 that is introduced somewhat in the context of the number input type is the new property <span class="codesample">valueAsNumber</span>. The basic idea is that if you had a field called <span class="codesample"><em>numberFld</em></span> you could set the type of the field as a number directly with this attribute. The difference shown here is that the first value is going to be a text value and the second a number:</p>
+<p class="imagea"><img alt="image" src="f0565-01.jpg"/></p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.www.javascriptref.com/3ed/ch13/valueasnumber.html">http://www.javascriptref.com/3ed/ch13/valueasnumber.html</a></p>
+<p class="noindent">This particular property is not specific to the number type and could be used for an arbitrary text field value as well. Unfortunately, given the relative newness of the property, developers may wish to use traditional JavaScript type conversion mechanisms to coerce values to numbers, such as by casting them:</p>
+<p class="imagea"><img alt="image" src="f0565-02.jpg"/></p>
+<p class="noindenttop">Another method is to use running conversion methods, as shown here, among other less readable schemes such as using a unary plus operator:</p>
+<p class="imagea"><img alt="image" src="f0565-03.jpg"/></p>
+<h5 class="h5"><a id="ch13lev2sec6"/><strong>Text Areas</strong></h5>
+<p class="noindent">Closely related to these single-line text input forms are <span class="codesample"><strong>&lt;textarea&gt;</strong></span> tags, which are multiline text entry fields. The basic syntax for <span class="codesample"><strong>&lt;textarea&gt;</strong></span> is shown here:</p>
+<p class="imagea"><img alt="image" src="f0565-04.jpg"/></p>
+<p class="indent">Even though it is not, strictly speaking, an <span class="codesample"><strong>&lt;input&gt;</strong></span> tag, the <span class="codesample">HTMLTextAreaElement</span> has all the properties and methods of <span class="codesample"><strong>&lt;input type=“text”&gt;</strong></span>, plus those listed in <a class="nounder" href="ch13.html#tab13-8">Table 13-8</a>.</p>
+<p class="tabcap"><a id="tab13-8"/><strong>Table 13-8</strong> Editions to the Text Area Element</p>
+<p class="imagea"><img alt="image" src="t0565-01.jpg"/></p>
+<hr/>
+<p class="note"><strong>NOTE</strong> Initially, the <span class="codesample"><strong>&lt;textarea&gt;</strong></span> did not support a <span class="codesample"><strong>maxlength</strong></span> attribute and corresponding <span class="codesample">maxLength</span> property, but under HTML5 it does.</p>
+<p class="indent">Using a <span class="codesample"><strong>&lt;textarea&gt;</strong></span> in JavaScript is pretty much the same approach as using a standard single-line text field. The main differences, of course, being the rows and columns to <a id="page_566"/>change the size of the region. Also, the value that you retrieve out of a text area may be a bit different because it supports line breaks:</p>
+<p class="imagea"><img alt="image" src="f0566-01.jpg"/></p>
+<p class="indent">Probably the most interesting aspect of the <span class="codesample"><strong>&lt;textarea&gt;</strong></span> tag that bears some discussion is the <span class="codesample"><strong>maxlength</strong></span> attribute. For many years, there was no obvious way to set the maximum amount of content that can be entered in the field. However, we could easily employ a <span class="codesample">keypress</span> event to catch keystrokes that would make the <span class="codesample"><strong>maxlength</strong></span> attribute work in any browser. Here, a simple polyfill-style function could be applied to fix older browsers that don’t support the method:</p>
+<p class="imagea"><img alt="image" src="f0566-02.jpg"/></p>
+<p class="indent">Given that defined limits on a large field may be difficult for end users to keep track of, many sites opt to inform users of the number of characters that may be typed. Using a similar keypress mechanism to the previous example, we might enable that as well:</p>
+<p class="imagea"><img alt="image" src="f0566-03.jpg"/></p>
+<hr/>
+<p class="online"><a id="page_567"/><strong>ONLINE</strong> <a class="nounder" href="http://www.www.javascriptref.com/3ed/ch13/charcount.html">http://www.javascriptref.com/3ed/ch13/charcount.html</a></p>
+<p class="indent">While not really directly related to forms, given that it is a global aspect of HTML5, the <span class="codesample"><strong>spellcheck</strong></span> attribute is often quite useful for text areas. Setting a value on the field’s <span class="codesample"><strong>spellcheck</strong></span> attribute, like so, would set the browser to underline spelling errors:</p>
+<p class="imagea"><img alt="image" src="f0567-01.jpg"/></p>
+<p class="noindenttop">Many browsers may have this on by default, while others may limit the attribute based on field size or type. To be safe, if you want spell checking enabled, set it yourself:</p>
+<p class="imagea"><img alt="image" src="f0567-02.jpg"/></p>
+<p class="noindenttop">We should point out that setting the <span class="codesample">spellcheck</span> property on many fields will be quite a bad idea, as browsers will not logically be able to determine if names, addresses, and other values are spelled correctly or not.</p>
+<h5 class="h5"><a id="ch13lev2sec7"/><strong>Checkboxes and Radio Buttons</strong></h5>
+<p class="noindent">Checkboxes and radio buttons (“radios,” for short) have much more limited functionality than text fields, and thus there is less to manipulate via JavaScript. In terms of XHTML syntax, checkboxes and radio buttons are very similar, and both use the <span class="codesample"><strong>&lt;input&gt;</strong></span> tag. The basic HTML syntax for checkboxes and radios is shown here:</p>
+<p class="imagea"><img alt="image" src="f0567-03.jpg"/></p>
+<p class="noindenttop"><a id="page_568"/>The JavaScript objects corresponding to these elements have all the properties of normal <span class="codesample"><strong>input</strong></span> elements, plus those listed in <a class="nounder" href="ch13.html#tab13-9">Table 13-9</a>.</p>
+<p class="tabcap"><a id="tab13-9"/><strong>Table 13-9</strong> Additional Properties for Radio and Checkbox DOM Objects</p>
+<p class="imagea"><img alt="image" src="t0568-01.jpg"/></p>
+<p class="noindent">Two attributes of checkboxes and radios require some extra discussion. First is the <span class="codesample"><strong>checked</strong></span> attribute, which simply sets the field to be checked by default when the page loads or is reset. (It is reflected in the corresponding object as the <span class="codesample">checked</span> and <span class="codesample">defaultChecked</span> properties.) Second, the content of the <span class="codesample"><strong>value</strong></span> attribute is sent to a server-side program upon form submission if the field is checked. For example, given <img alt="image" src="f0568-01.jpg"/> the name-value pair <span class="codesample">testbox=green</span> is transmitted when the field is checked. However, if no <span class="codesample"><strong>value</strong></span> attribute is provided, a value of <span class="codesample">on</span> is transmitted instead, resulting in the pair <span class="codesample">testbox=on</span>.</p>
+<p class="indent">Like other <span class="codesample"><strong>&lt;input&gt;</strong></span> fields, you can, of course, invoke the <span class="codesample">blur()</span> and <span class="codesample">focus()</span> methods for checkboxes as well as radios. These fields also support the <span class="codesample">click()</span> method to change the state of the control. Given these methods, the events <span class="codesample">onblur</span>, <span class="codesample">onclick</span>, and <span class="codesample">onfocus</span> are supported. The event <span class="codesample">onchange</span> is also very useful with these fields. The simple example here should give you a sense of using this field:</p>
+<p class="imagea"><img alt="image" src="f0568-02.jpg"/></p>
+<p class="indenttop">HTML5 does introduce one quite interesting change for checkboxes with a new value of <span class="codesample">indeterminate</span> for the field. This read-write property will change the checkbox to a state like this:</p>
+<p class="imagea"><img alt="image" src="check.jpg"/></p>
+<p class="indent">The value of adding a third state that isn’t really a state seems a bit dubious to us, so we caution readers to check to see if this HTML5 change lives on by the time you use it. This simple example shows its basic usage:</p>
+<p class="imagea"><img alt="image" src="f0568-03.jpg"/></p>
+<hr/>
+<p class="online"><a id="page_569"/><strong>ONLINE</strong> <a class="nounder" href="http://www.www.javascriptref.com/3ed/ch13/checkbox.html">http://www.javascriptref.com/3ed/ch13/checkbox.html</a></p>
+<h6 class="h6"><strong>Collections of Radio Buttons</strong></h6>
+<p class="noindent">Checkboxes are like many other elements, and typically they have unique names for easy access using a method such as <span class="codesample">getElementById();</span> however, groups of radio buttons <em>must</em> be named with the same <span class="codesample"><strong>name</strong></span> attribute value because radios are used to select one item out of many. So the following is correct and works properly:</p>
+<p class="imagea"><img alt="image" src="f0569-01.jpg"/></p>
+<p class="noindent">but if you named matching <span class="codesample"><strong>id</strong></span> and <span class="codesample"><strong>name</strong></span> attributes, as you often do, it fails to preserve the expected “one of many selection” of radio buttons:</p>
+<p class="imagea"><img alt="image" src="f0569-02.jpg"/></p>
+<p class="noindent">Given that, with radio groups it is actually easier looping over the named items than trying each unique <span class="codesample"><strong>id</strong></span> value to determine the state of the radios, as shown in this simple example:</p>
+<p class="imagea"><img alt="image" src="f0569-03.jpg"/></p>
+<hr/>
+<p class="online"><a id="page_570"/><strong>ONLINE</strong> <a class="nounder" href="http://www.www.javascriptref.com/3ed/ch13/radio.html">http://www.javascriptref.com/3ed/ch13/radio.html</a></p>
+<h5 class="h5"><a id="ch13lev2sec8"/><strong>Select Menus</strong></h5>
+<p class="noindent">In HTML, the <span class="codesample"><strong>&lt;select&gt;</strong></span> tag is used to create two different kinds of pull-down menus. The first and most common is a single-choice menu, often simply called a <em>pull-down</em>. The second form of the menu allows for multiple choices to be made and is generally referred to as a <em>scrolled list</em>. Under JavaScript, we traditionally refer to both tags through one object, simply termed the <span class="codesample">Select</span> object. Under DOM Level 1, this combination is preserved, but the object is correctly known as the <span class="codesample">HTMLSelectElement</span>.</p>
+<p class="indent">To begin the discussion, we first present an example of both the common single-item pull-down and the multiple-choice item in HTML:</p>
+<p class="imagea"><img alt="image" src="f0570-01.jpg"/></p>
+<p class="imagea"><img alt="image" src="f0570-02.jpg"/></p>
+<p class="indent"><a id="page_571"/>An <span class="codesample">HTMLSelectElement</span> has the properties common to other form fields (<span class="codesample">autofocus, disabled, form, name, required, tabIndex</span>, and so on), as well as the additional properties shown in <a class="nounder" href="ch13.html#tab13-10">Table 13-10</a>.</p>
+<p class="tabcap"><a id="tab13-10"/><strong>Table 13-10</strong> Extra Properties for HTMLSelectElement</p>
+<p class="imagea"><img alt="image" src="t0571-01.jpg"/></p>
+<hr/>
+<p class="note"><strong>NOTE</strong> The <span class="codesample">value</span> property of the <span class="codesample">Select</span> object is not widely supported in very old browsers. Depending on your coding posture you may avoid using it for this reason. Instead, use the <span class="codesample">selectedIndex</span> in conjunction with the <span class="codesample">options[]</span> collection to extract the selected value manually.</p>
+<p class="indent">The key to scripting a select menu, be it a single- or multiple-choice menu, is an awareness of how to examine the <span class="codesample">options[]</span> collection for the currently selected value. Many of the similar event handlers such as <span class="codesample">onfocus</span> are available for the object, but the most useful event handler for <span class="codesample"><strong>&lt;select&gt;</strong></span> is <span class="codesample">onchange</span>, which is fired whenever the user selects a different option in the menu. This is often a good time to consult the currently selected value. Given a single-choice menu, the currently selected option is held in the <span class="codesample">selectedIndex</span> property and is easily obtained. For example, given a <span class="codesample"><strong>&lt;select&gt;</strong></span> tag called <span class="codesample"><strong>testselect</strong></span> to see the value of the selected option, you would have to use a fairly long statement, such as this:</p>
+<p class="imagea"><img alt="image" src="f0571-01.jpg"/></p>
+<p class="noindent">As you can see, that becomes unwieldy very quickly; so often, in fact, that the <span class="codesample">this</span> shorthand form is used with <span class="codesample"><strong>&lt;select&gt;</strong></span>, as demonstrated here:</p>
+<p class="imagea"><img alt="image" src="f0571-02.jpg"/></p>
+<p class="indent"><a id="page_572"/>However, when the <span class="codesample"><strong>multiple</strong></span> attribute is <span class="codesample"><strong>true</strong></span>, you will need to loop through the <span class="codesample">options[]</span> collection to find all the selected items:</p>
+<p class="imagea"><img alt="image" src="f0572-01.jpg"/></p>
+<h6 class="h6"><strong>Option Elements</strong></h6>
+<p class="noindent">Now that we’ve covered how to access options in a select menu, let’s take a look at the properties of the <span class="codesample">Option</span> object itself. These objects have most of the attributes and methods of other form elements, plus those listed in <a class="nounder" href="ch13.html#tab13-11">Table 13-11</a>.</p>
+<p class="tabcap"><a id="tab13-11"/><strong>Table 13-11</strong> Extra Properties for HTMLOptionElement</p>
+<p class="imagea"><img alt="image" src="t0573-01.jpg"/></p>
+<p class="indent">An interesting and somewhat underused aspect of select lists is that you can group your options using an <span class="codesample"><strong>&lt;optgroup&gt;</strong></span> tag:</p>
+<p class="imagea"><img alt="image" src="f0572-02.jpg"/></p>
+<p class="noindent"><a id="page_573"/>In most modern browsers, you should see something like this:</p>
+<p class="imagea"><img alt="image" src="f0573-03.jpg"/></p>
+<p class="indent">The DOM provides only two properties for manipulating this element via the <span class="codesample">HTMLOptGroupElement</span> object beyond those standard to any HTML element. They are <span class="codesample">disabled</span> and <span class="codesample">label</span>, which allow you to turn the option group on or off, or access its label, respectively.</p>
+<h6 class="h6"><strong>Scripting Select Menus</strong></h6>
+<p class="noindent">The fact that form fields are scriptable means that you can affect the appearance or content of one element in response to actions users perform on another. We’ll see this technique several times later in this chapter, but perhaps the most common application is with select menus.</p>
+<p class="indent">Related select menus provide the ability to present a large number of options very quickly to the user. The key to building such menus in JavaScript is understanding how to edit or even add new <span class="codesample"><strong>&lt;option&gt;</strong></span> tags to a menu on the fly. The traditional way to do this in JavaScript is to use the <span class="codesample">new</span> operator on the <span class="codesample">Option()</span> constructor, and then insert the resulting option into the menu. The <span class="codesample">Option</span> constructor syntax is</p>
+<p class="imagea"><img alt="image" src="f0573-01.jpg"/></p>
+<p class="noindent">where <span class="codesample"><em>optionText</em></span> is a string holding the text enclosed by the opening and closing <span class="codesample"><strong>&lt;option&gt;</strong></span> tags and <span class="codesample"><em>optionValue</em></span> is a string specifying the element’s <span class="codesample"><strong>value</strong></span> attribute. Obviously, using the standard DOM you can forego this and use the <span class="codesample">createElement()</span> method, like so:</p>
+<p class="imagea"><img alt="image" src="f0573-02.jpg"/></p>
+<p class="indent"><a id="page_574"/>Once again, we see an interesting ease and terseness with older syntax. Regardless of how they are constructed, <span class="codesample">Option</span> objects, once created, can be inserted into the <span class="codesample">options[]</span> collection for a select menu. For example, we might use the <span class="codesample">add()</span> method as shown here to add a new option to the end of a menu:</p>
+<p class="imagea"><img alt="image" src="f0574-01.jpg"/></p>
+<p class="noindent">To put it at another location, in the <span class="codesample">add()</span> method use a reference to the element to put the item in front of. For example, to put it at the head of the list, you would use the following:</p>
+<p class="imagea"><img alt="image" src="f0574-02.jpg"/></p>
+<p class="noindent">To remove an option, we would use the <span class="codesample">remove()</span> method and pass it the index of what we are looking to remove. For example, the following would remove the first item from the list of options:</p>
+<p class="imagea"><img alt="image" src="f0574-03.jpg"/></p>
+<p class="noindent">The basic syntax of the two methods is detailed in <a class="nounder" href="ch13.html#tab13-12">Table 13-12</a>.</p>
+<p class="tabcap"><a id="tab13-12"/><strong>Table 13-12</strong> Methods for Adding and Deleting Menu Options</p>
+<p class="imagea"><img alt="image" src="t0574-01.jpg"/></p>
+<p class="indent">A full example that manipulates option lists is found online, but it is omitted from print given its length.</p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.www.javascriptref.com/3ed/ch13/select.html">http://www.javascriptref.com/3ed/ch13/select.html</a></p>
+<h5 class="h5"><a id="ch13lev2sec9"/><strong>Date Pickers</strong></h5>
+<p class="noindent">HTML5 introduces a number of new form fields for selecting date and time. The simple example here presents each available field:</p>
+<p class="imagea"><img alt="image" src="f0574-04.jpg"/></p>
+<p class="imagea"><img alt="image" src="f0575-01.jpg"/></p>
+<hr/>
+<p class="online"><a id="page_575"/><strong>ONLINE</strong> <a class="nounder" href="http://www.www.javascriptref.com/3ed/ch13/inputdate.html">http://www.javascriptref.com/3ed/ch13/inputdate.html</a></p>
+<p class="indent">Depending on the browser, the rendering of these data pickers can vary quite a bit, as shown here:</p>
+<p class="imagea"><img alt="image" src="f0575-02.jpg"/></p>
+<p class="noindent">Given the dramatic variations you may see, you might also wonder about the degree of customization. At the time of the edition’s publication, the styling opportunities were limited at best, but we expect that to change in the very near future.</p>
+<p class="indent">Programmatically, there are a few aspects to consider with this field type. First, we should point out that, when reading the value in the field, you may find it useful to access the <span class="codesample">valueAsNumber</span> or <span class="codesample">valueAsDate</span> property to retrieve the value within in a useful manner. The <span class="codesample">valueAsDate</span> is quite useful because it returns a JavaScript <span class="codesample">Date</span> object. As discussed in <a class="nounder" href="ch07.html#ch07">Chapter 7</a>, this object has a variety of useful methods such as <span class="codesample">getFullYear()</span>, <span class="codesample">getMilliseconds()</span>, and so on, that can now be directly run off the returned value:</p>
+<p class="imagea"><img alt="image" src="f0575-03.jpg"/></p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.www.javascriptref.com/3ed/ch13/valueasdate.html">http://www.javascriptref.com/3ed/ch13/valueasdate.html</a></p>
+<p class="indent"><a id="page_576"/>You also may find it useful to provide the <span class="codesample"><strong>min</strong></span> and <span class="codesample"><strong>max</strong></span> attributes that we previously saw used on number inputs:</p>
+<p class="imagea"><img alt="image" src="f0576-01.jpg"/></p>
+<p class="noindent">These, of course, can be accessed programmatically. Further, if you set the <span class="codesample"><strong>step</strong></span> attribute, you can use the <span class="codesample">stepUp()</span> and <span class="codesample">stepDown()</span> methods, like so:</p>
+<p class="imagea"><img alt="image" src="f0576-02.jpg"/></p>
+<hr/>
+<p class="note"><strong>NOTE</strong> Because the rich HTML5 form controls such as <span class="codesample">color</span> (discussed next) and <span class="codesample">date</span> will degrade into a standard text field in noncompliant browsers, many developers will include JavaScript libraries, often called “polyfills,” that will patch in these missing fields in down-level browsers.</p>
+<h5 class="h5"><a id="ch13lev2sec10"/><strong>Color</strong></h5>
+<p class="noindent">Another exciting and rich form field introduced by HTML5 is the color picker. The markup is fairly simple:</p>
+<p class="imagea"><img alt="image" src="f0576-03.jpg"/></p>
+<p class="indent">In supporting browsers, you may see a color picker, wheel, or other widget. For example, here is one browser’s early implementation of this field:</p>
+<p class="imagea"><img alt="image" src="f0576-04.jpg"/></p>
+<p class="noindent">The value of the picked color will be in 6-Hex format (#<em>RRGGBB</em>), common in HTML. For example, black is #000000, red is #FF0000, and so on. Like all form fields, the value can be read and set programmatically:</p>
+<p class="imagea"><img alt="image" src="f0576-05.jpg"/></p>
+<p class="indent"><a id="page_577"/>According to specification, color keywords may be allowed for setting the color, but they will be converted to hex upon retrieval. However, in the first implementations only hex values seem to be allowed, and there are currently no conversion mechanisms for these values. We expect that to change in time.</p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.www.javascriptref.com/3ed/ch13/inputcolor.html">http://www.javascriptref.com/3ed/ch13/inputcolor.html</a></p>
+<h5 class="h5"><a id="ch13lev2sec11"/><strong>Sliders</strong></h5>
+<p class="noindent">HTML5 introduces sliders with <span class="codesample"><strong>&lt;input type=“range”&gt;</strong></span>. The following simple example shows the slider with a set value, minimum value (<span class="codesample"><strong>min</strong></span>), maximum value (<span class="codesample"><strong>max</strong></span>), and <span class="codesample"><strong>step</strong></span>, as you move the slider from side to side:</p>
+<p class="imagea"><img alt="image" src="f0577-01.jpg"/></p>
+<p class="imagea"><img alt="image" src="c0577-01.jpg"/></p>
+<p class="indent">Programatically, you can read the value as you would any other field:</p>
+<p class="imagea"><img alt="image" src="f0577-02.jpg"/></p>
+<p class="noindenttop">Like other number related fields, you can employ the <span class="codesample">stepUp()</span> and <span class="codesample">stepDown()</span> methods to move the slider:</p>
+<p class="imagea"><img alt="image" src="f0577-03.jpg"/></p>
+<p class="indent">The other range-related attributes such as <span class="codesample"><strong>min</strong></span>, <span class="codesample"><strong>max</strong></span>, and <span class="codesample"><strong>step</strong></span> can be modified by JavaScript like all other form elements, either with direct bindings or with the <span class="codesample">getAttribute()</span> and <span class="codesample">setAttribute()</span> methods. The example online demonstrates all of this.</p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.www.javascriptref.com/3ed/ch13/inputrange.html">http://www.javascriptref.com/3ed/ch13/inputrange.html</a></p>
+<p class="indent">Given the interactive nature of the slider, we may desire to show its value as we adjust it. This would be easy enough to do with an <span class="codesample">onchange</span> event handler, as you can see here:</p>
+<p class="imagea"><img alt="image" src="f0577-04.jpg"/></p>
+<hr/>
+<p class="online"><a id="page_578"/><strong>ONLINE</strong> <a class="nounder" href="http://www.www.javascriptref.com/3ed/ch13/outputrange.html">http://www.javascriptref.com/3ed/ch13/outputrange.html</a></p>
+<p class="indent">It is interesting to note the introduction of the <span class="codesample"><strong>&lt;output&gt;</strong></span> tag here. HTML5 defines this tag to be the destination for the output of calculations or other form-related duties. We set its value and it sets the contents of the element. You may wonder, why not use a <span class="codesample"><strong>&lt;span&gt;</strong></span> tag and <span class="codesample">innerHTML</span> or <span class="codesample">innerText</span>? Well, you could, and for backward compatibility you probably should. We’ll see a bit more with the <span class="codesample"><strong>&lt;output&gt;</strong></span> tag in <a class="nounder" href="ch14.html#ch14">Chapter 14</a>.</p>
+<h5 class="h5"><a id="ch13lev2sec12"/><strong>File Upload Fields</strong></h5>
+<p class="noindent">A powerful type of the <span class="codesample"><strong>&lt;input&gt;</strong></span> tag is the file upload control as defined by <span class="codesample"><strong>&lt;inputtype=“file”&gt;</strong></span>. The basic HTML syntax for the field is shown here:</p>
+<p class="imagea"><img alt="image" src="f0578-01.jpg"/></p>
+<p class="noindent">The tag creates a file upload field similar to this one:</p>
+<p class="imagea"><a id="page_579"/><img alt="image" src="f0579-01.jpg"/></p>
+<p class="indent">We should note that browsers may display the file pick list a bit differently and may provide a help message or even omit the path box:</p>
+<p class="imagea"><img alt="image" src="c0579-01.jpg"/></p>
+<p class="indent">File upload fields have one extra property, the <span class="codesample">accept</span> attribute, which is used to define the MIME types the user may upload. For some time, browsers did not support this attribute, but many now do, and it is useful to limit what users initially select to post.</p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.www.javascriptref.com/3ed/ch13/accept.html">http://www.javascriptref.com/3ed/ch13/accept.html</a></p>
+<hr/>
+<p class="note"><strong>NOTE</strong> A common oversight with file upload fields is that in order for the file upload to be successful, the form must have <span class="codesample"><strong>method=“POST”</strong></span>, and the <span class="codesample"><strong>enctype</strong></span> attribute must be set to <span class="codesample"><strong>“multipart/form-data”</strong></span>.</p>
+<h6 class="h6"><strong>HTML5 File Handling Modifications</strong></h6>
+<p class="noindent">One important improvement from HTML5 is that you can now select multiple values on a field. If you add the attribute <span class="codesample"><strong>multiple</strong></span>, it will allow extra values to be set—and in the case of a file picker, it will allow multiple files to be selected at once. This is a great improvement over the past mechanisms for uploading many files at once. Before this addition, developers had to make new file upload files one at a time for each extra file the user wanted to send, or they had to embed a Flash SWF file or Java applet that could support multiple file uploads. Now, because we are uploading a set of things, we should set the name of the field using an array-style syntax, so the server-side knows it is receiving multiple things named the same, like so:</p>
+<p class="imagea"><img alt="image" src="f0579-02.jpg"/></p>
+<p class="indent"><a id="page_580"/>Now, another improvement we have with HTML5 is some programmatic access to files using the emerging File API (<a href="http://www.w3.org/TR/file-upload/">http://www.w3.org/TR/file-upload/</a>). To illustrate its use, first we bind a listener to the file upload field we specified a moment ago:</p>
+<p class="imagea"><img alt="image" src="f0580-01.jpg"/></p>
+<p class="noindenttop">Here, when we invoke the <span class="codesample">listFiles</span> function, we can access the <span class="codesample">FileList</span> object from the event target. As we loop over the attached files, we can read their <span class="codesample">name</span> (just name, no path), <span class="codesample">type</span> (the MIME type), and <span class="codesample">size</span> in bytes quite easily with similarly named properties:</p>
+<p class="imagea"><img alt="image" src="f0580-02.jpg"/></p>
+<p class="indent">If we wanted to access the data in a file on the client side, this emerging File API also allows for that using the <span class="codesample">FileReader</span> object. We would instantiate a <span class="codesample">FileReader</span>, and then we could read data into it:</p>
+<p class="imagea"><img alt="image" src="f0580-03.jpg"/></p>
+<p class="noindenttop">For example, here we read the binary data from the attached file and turn it into a data URL automatically:</p>
+<p class="imagea"><img alt="image" src="f0580-04.jpg"/></p>
+<p class="noindenttop">Once it is created, we could then even write the image into the Web page:</p>
+<p class="imagea"><img alt="image" src="f0580-05.jpg"/></p>
+<p class="noindenttop">A full example is shown here:</p>
+<p class="imagea"><img alt="image" src="f0580-06.jpg"/></p>
+<p class="imagea"><img alt="image" src="f0580-07.jpg"/></p>
+<hr/>
+<p class="online"><a id="page_581"/><strong>ONLINE</strong> <a class="nounder" href="http://www.www.javascriptref.com/3ed/ch13/file.html">http://www.javascriptref.com/3ed/ch13/file.html</a></p>
+<p class="indent">You can see an example of this code in action in <a class="nounder" href="ch13.html#fig13-3">Figure 13-3</a>.</p>
+<p class="imagea"><a id="fig13-3"/><img alt="image" src="f0582-01.jpg"/></p>
+<p class="figcap"><strong>Figure 13-3</strong> Multiple file picking and local image display</p>
+<p class="indent">There is more to file handling than we show here, but sadly the specification and implementation is variable at the moment. We do present more in the next two chapters, including dragging and dropping of files and Ajax-based uploads, but given the flux of support we do encourage readers to use the Web to find the latest syntax now that you are aware of the possibilities.</p>
+<h5 class="h5"><a id="page_582"/><a id="ch13lev2sec13"/><strong>Hidden Fields</strong></h5>
+<p class="noindent">Hidden form fields are defined using <span class="codesample"><strong>&lt;input type=“hidden”&gt;</strong></span>. Hidden form elements will never render onscreen, though their name-value pairs will be sent during form submission. Because it is nonvisual and noninteractive, the syntax of a hidden field is fairly basic and usually looks like this:</p>
+<p class="imagea"><img alt="image" src="f0582-02.jpg"/></p>
+<p class="indenttop">The JavaScript properties useful for manipulation of hidden fields are <span class="codesample">disabled</span>, <span class="codesample">form, id, name</span>, and <span class="codesample">value</span>, and they have been discussed for text fields previously. Here, for example, we set the hidden field to the current time:</p>
+<p class="imagea"><img alt="image" src="f0582-03.jpg"/></p>
+<p class="noindenttop">We might, then, calculate the end time and submit the time the user took in the form with the submission. The example is meant to inspire what you might do with this type of form field, as some readers may not see much use for them. In general, you find they hold control information or even state information. However, the example should also inspire some concern because the value may suggest that the server-side trusts the form contents now. Readers must remember that, hidden or not, these fields are easily manipulated in script and with debugging tools. The data may be hidden, but it certainly is not secure. However, in general, you should assume that for <em>any</em> form field.</p>
+<h5 class="h5"><a id="ch13lev2sec14"/><a id="page_583"/><strong>Other Form Features: Label, Fieldset, Output, and Legend</strong></h5>
+<p class="noindent">HTML supports a few other tags for forms that are primarily related to accessibility improvements and style sheets. For example, the <span class="codesample"><strong>&lt;label&gt;</strong></span> tag applies a label to the form fields it encloses for both improved usability and nonvisual user agents. The following are two examples of the use of the <span class="codesample"><strong>&lt;label&gt;</strong></span> tag:</p>
+<p class="imagea"><img alt="image" src="f0583-01.jpg"/></p>
+<p class="indenttop">The properties supported by the <span class="codesample"><strong>HTMLLabelElement</strong></span> object are fairly basic, but one bears particular attention. Because the tag has an attribute called <span class="codesample"><strong>for</strong></span>, which is a reserved word, the property <span class="codesample">htmlFor</span> is used instead.</p>
+<p class="indent">The <span class="codesample"><strong>&lt;fieldset&gt;</strong></span> tag is used to define a grouping of a set of elements. The <span class="codesample"><strong>&lt;legend&gt;</strong></span> tag is used within <span class="codesample"><strong>&lt;fieldset&gt;</strong></span> to create a label for the grouping. Here is an example of the usage of the two tags:</p>
+<p class="imagea"><img alt="image" src="f0583-02.jpg"/></p>
+<p class="indent">Generally, a browser will render elements in a <span class="codesample"><strong>&lt;fieldset&gt;</strong></span> within a box, as shown here:</p>
+<p class="imagea"><img alt="image" src="f0583-03.jpg"/></p>
+<p class="indent">There is very limited control over <span class="codesample"><strong>&lt;fieldset&gt;</strong></span> and <span class="codesample"><strong>&lt;legend&gt;</strong></span> from JavaScript outside of standard DOM methods. We mention them mostly for completeness. Now that we have reviewed how to access all types of HTML form elements from JavaScript, it is time to put our knowledge to work by improving form usage.</p>
+<h4 class="h4"><a id="ch13lev1sec4"/><strong>Form Usability and JavaScript</strong></h4>
+<p class="noindent">There are a variety of form usability improvements that can be made using JavaScript, including focusing fields, automatically moving to other fields once a field is complete, intelligent use of the <span class="codesample">readOnly</span> and <span class="codesample">disabled</span> properties, managing keyboard access, and providing advice upon interaction with an element. This section presents an overview of a few of the possibilities with these usability improvements.</p>
+<h5 class="h5"><a id="ch13lev2sec15"/><a id="page_584"/><strong>First Field Focus</strong></h5>
+<p class="noindent">The user should quickly be able to begin entering data into a form when arriving at a page. While the tab key can be used to move between fields quickly, notice that most browsers do not focus the first form field on the page by default, and the user may be forced to click the field before starting keyboard entry. With JavaScript, it is easy to focus the first field in a form, and this should improve form entry in a subtle but noticeable way. We might use the <span class="codesample">onload</span> event for the document to trigger the focus. For example, given a field named <span class="codesample">testfield</span>, we would set the following:</p>
+<p class="imagea"><img alt="image" src="f0584-01.jpg"/></p>
+<p class="noindent">Of course, you could write a generic routine to focus the first field of the first form using something like this:</p>
+<p class="imagea"><img alt="image" src="f0584-02.jpg"/></p>
+<p class="noindenttop">HTML5 addresses the idea of focusing form elements without code using the <span class="codesample"><strong>autofocus</strong></span> attribute. Given this small snippet, we imagine a field in the middle of a page that is immediately focused upon load due to the presence of the <span class="codesample"><strong>autofocus</strong></span> attribute:</p>
+<p class="imagea"><img alt="image" src="f0584-03.jpg"/></p>
+<p class="noindent">Obviously, we could write a polyfill-style function that finds all form fields and then looks for the <span class="codesample"><strong>autofocus</strong></span> attribute and invokes a <span class="codesample">focus()</span> method on page load. We’ll leave that, in the words of many computer book authors, as an exercise for the reader.</p>
+<h5 class="h5"><a id="ch13lev2sec16"/><strong>Labels and Field Selection</strong></h5>
+<p class="noindent">While the <span class="codesample"><strong>&lt;label&gt;</strong></span> tag is useful for grouping items in forms for reading by nonvisual browsers, it also could be used with JavaScript to improve form usability. For example, here we have a field that is wrapped by a label:</p>
+<p class="imagea"><img alt="image" src="f0584-04.jpg"/></p>
+<p class="noindenttop">Alternatively, we might instead relate the field with the <span class="codesample"><strong>for</strong></span> attribute, like so:</p>
+<p class="imagea"><img alt="image" src="f0584-05.jpg"/></p>
+<p class="indent"><a id="page_585"/>In most modern browsers, we could then focus the related field simply by selecting the label (usually by clicking). If, however, we wanted to ensure this action for some reason, since some older browsers lack this function, we could patch it up with JavaScript. For example, we might find all the <span class="codesample"><strong>label</strong></span> elements in the document and bind a click handler to them that focuses either the DOM element of the related <span class="codesample">for</span> attribute value or the first form field found with them. This is just a demonstration of what we could do to improve form usability in browsers. Fortunately, most modern browsers are adding in such features, so we can focus more on polish and design improvements and less on omissions.</p>
+<h5 class="h5"><a id="ch13lev2sec17"/><strong>Advisory and Status Messages</strong></h5>
+<p class="noindent">It is important to let users know what they can do with a field. Commonly, developers will set the value of the field to some advisory text, like so:</p>
+<p class="imagea"><img alt="image" src="f0585-01.jpg"/></p>
+<p class="noindent">Alternatively, they might even set it to give an example of the data required:</p>
+<p class="imagea"><img alt="image" src="f0585-02.jpg"/></p>
+<p class="noindenttop">Unfortunately, while this will work, often you will also see many submissions of this advisory text. Further, you will have to work to clear the value on focus. For example, when the field is initially focused, you would check the current <span class="codesample">value</span> and see if it looks like the <span class="codesample">defaultValue</span> and, if so, clear the value. Lots of work for a simple polish. Fortunately, HTML5 allows us to address this quite easily using the <span class="codesample"><strong>placeholder</strong></span> attribute, like so:</p>
+<p class="imagea"><img alt="image" src="f0585-03.jpg"/></p>
+<p class="imagea"><img alt="image" src="c0585-01.jpg"/></p>
+<p class="noindenttop">We also could advise users with a tool tip by relying on the form field’s <span class="codesample"><strong>title</strong></span> attribute:</p>
+<p class="imagea"><img alt="image" src="f0585-04.jpg"/></p>
+<p class="noindent">Then, if we hover over the field long enough, we will see the message:</p>
+<p class="imagea"><img alt="image" src="f0585-05.jpg"/></p>
+<p class="indent"><a id="page_586"/>Unfortunately, the control of the title-based advisory information is somewhat limited. Instead, we might desire to utilize the status bar to provide information to the user about the meaning and use of various form fields. Even though the status bar may not be in the primary area of focus for the user, unlike the tool tip it is not transitory and can be set to display a message as long as the field is in focus. We can use the <span class="codesample">status</span> property of the <span class="codesample">Window</span>object to set the status message when a field is focused. For example:</p>
+<p class="imagea"><img alt="image" src="f0586-01.jpg"/></p>
+<p class="noindent">Unfortunately, this example won’t work in most modern browsers because status bars often are not visible. Also, because of Internet phishing scams, JavaScript-based manipulation of the status is often restricted in browsers. We present this only as a constant reminder that, unlike some coding environments, the browser is a bit more volatile a platform than we would like to admit. So any nice code-based improvement may literally “rust” over time as the host environment is modified.</p>
+<p class="indent">A more modern solution to advisory information may be to present a little message upon clicking. For example, we might place a question mark near the field in question and then reveal text on clicking or hovering. Rather than coding this in a custom fashion, we can use HTML5, and this simple example demonstrates HTML5’s new <span class="codesample"><strong>&lt;details&gt;</strong></span> tag, which can easily accomplish such an effect:</p>
+<p class="imagea"><img alt="image" src="f0586-02.jpg"/></p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.javascriptref.com/3ed/ch13/detailshelp.html">http://javascriptref.com/3ed/ch13/detailshelp.html</a></p>
+<p class="imagea"><a id="page_587"/><img alt="image" src="f0587-01.jpg"/></p>
+<p class="indent">We do not need the <span class="codesample"><strong>&lt;details&gt;</strong></span> tag to create this scheme. A <span class="codesample"><strong>&lt;div&gt;</strong></span> tag with appropriate CSS would have worked just fine and is likely safer, considering that this tag is relatively new to browsers.</p>
+<h5 class="h5"><a id="ch13lev2sec18"/><strong>Data Lists</strong></h5>
+<p class="noindent">HTML5 introduces data lists, which can be a very useful form feature. By setting a <span class="codesample"><strong>list</strong></span> attribute on a form field, we can relate the field to a <span class="codesample"><strong>&lt;datalist&gt;</strong></span> tag in the page that contains some predefined options that we may use. For example, here we show a URL field with a few sample sites to visit:</p>
+<p class="imagea"><img alt="image" src="f0587-02.jpg"/></p>
+<p class="indenttop">In conforming browsers, we should see a nice drop-down list, like so:</p>
+<p class="imagea"><img alt="image" src="f0587-03.jpg"/></p>
+<p class="indent">Now we can modify what is in the list programmatically, but it is just a matter of using simple DOM calls to add, remove, or modify the <span class="codesample"><strong>&lt;option&gt;</strong></span> tags found within a <span class="codesample"><strong>&lt;datalist&gt;</strong></span>. We present a demo online for you to see this. Of course, we must point out that the items in the <span class="codesample"><strong>&lt;datalist&gt;</strong></span> are not the only allowed values but are suggested or easy-to-pick values. If you are looking for a constrained field, a <span class="codesample"><strong>&lt;select&gt;</strong></span> tag is likely the way to go.</p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.www.javascriptref.com/3ed/ch13/datalist.html">http://www.javascriptref.com/3ed/ch13/datalist.html</a></p>
+<h5 class="h5"><a id="ch13lev2sec19"/><strong>Disabled and Read-Only Fields</strong></h5>
+<p class="noindent">One way to improve the usability of a form is to choose appropriate controls and limit inputs. In other cases, you may disallow input or the modification of input based on previous actions. JavaScript in conjunction with a few HTML attributes can easily do this. For example, a disabled form field should not accept input from the user, is not part of the tabbing order of a page, and is not submitted with the rest of the form contents. The presence of the attribute <span class="codesample"><strong>disabled</strong></span>, as shown here, would be all that is necessary to disable a field under an XHTML 1.0 or HTML 4.0–compliant browser:</p>
+<p class="imagea"><img alt="image" src="f0587-04.jpg"/></p>
+<p class="noindent">The browser usually renders a disabled field as grayed out.</p>
+<p class="indent"><a id="page_588"/>JavaScript can be used to turn disabled fields on and off, depending on context. The following markup shows how this might be used:</p>
+<p class="imagea"><img alt="image" src="f0588-01.jpg"/></p>
+<p class="imagea"><img alt="image" src="f0588-02.jpg"/></p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.www.javascriptref.com/3ed/ch13/disabled.html">http://www.javascriptref.com/3ed/ch13/disabled.html</a></p>
+<p class="indent">Unfortunately, the previous example does not work in some ancient browsers, but it is quite possible to simulate disabled fields in even very old browsers with continual use of the <span class="codesample">blur()</span> method for the “pseudo-disabled” fields as a user tries to focus them. Obviously, such a technique is best left for the history books, but it is possible if extreme backward compatibility is your goal.</p>
+<p class="indent">While it is a worthy goal to help users avoid making mistakes and smooth rough edges with JavaScript, users likely will input inappropriate values. JavaScript can address this concern quite readily, so this is the subject of the next section.</p>
+<p class="indent">We can also set a field as read-only by setting an attribute on the field, as shown here, and of course using a simple DOM method to change that attribute:</p>
+<p class="imagea"><img alt="image" src="f0588-03.jpg"/></p>
+<h4 class="h4"><a id="ch13lev1sec5"/><a id="page_589"/><strong>Form Validation</strong></h4>
+<p class="noindent">One of the most common actions performed with JavaScript is to check to make sure that a form is filled in properly. Checking form contents before submission saves server processor cycles as well as the user’s time waiting for the network round trip to see if the proper data has been entered into the form. This section provides an overview of some common techniques for form validation.</p>
+<p class="indent">The first issue to consider with form validation is when to catch form fill-in errors. There are three possible choices:</p>
+<p class="bullet">• Before they happen (prevent them from happening)</p>
+<p class="bullet">• As they happen</p>
+<p class="bullet">• After they happen</p>
+<p class="indenttop">Generally, forms tend to be validated after input has occurred, just before submission. Typically, a set of validation functions in the form’s <span class="codesample">onsubmit</span> event handler is responsible for the validation. If a field contains invalid data, a message is displayed and submission is canceled by returning <span class="codesample">false</span> from the handler. If the fields are valid, the handler returns <span class="codesample">true</span> and submission continues normally.</p>
+<p class="indent">Consider this brief example, which performs a simple check to make sure that a field is not empty:</p>
+<p class="imagea"><img alt="image" src="f0589-01.jpg"/></p>
+<p class="imagea"><img alt="image" src="f0589-02.jpg"/></p>
+<hr/>
+<p class="online"><a id="page_590"/><strong>ONLINE</strong> <a class="nounder" href="http://www.javascriptref.com/3ed/ch13/simplevalidation.html">http://javascriptref.com/3ed/ch13/simplevalidation.html</a></p>
+<p class="indent">The previous example is not terribly abstract in that the validation function works with only the <em>username</em> field in that document; it can’t be applied to a generic field. Also, the validation doesn’t bring the field that is in error into focus. Finally, the check of an empty value can be better handled with a regular expression. A better example for correcting these deficiencies is presented here:</p>
+<p class="imagea"><img alt="image" src="f0590-01.jpg"/></p>
+<p class="imagea"><img alt="image" src="f0590-02.jpg"/></p>
+<hr/>
+<p class="online"><a id="page_591"/><strong>ONLINE</strong> <a class="nounder" href="http://www.www.javascriptref.com/3ed/ch13/simplevalidation2.html">http://www.javascriptref.com/3ed/ch13/simplevalidation2.html</a></p>
+<h5 class="h5"><a id="ch13lev2sec20"/><strong>Abstracting Form Validation</strong></h5>
+<p class="noindent">The previous example illustrated how writing generic input validation routines can be useful. Instead of having to recode the same or similar field by checking functions for each form on your site, you can write a library of validation functions that can be easily inserted into your pages. In order to be reusable, such functions should not be hardcoded with form and field names. The validation functions should not pull the data to be validated out of the form by name; rather, the data should be passed into the function for checking. This allows you to drop your functions into any page and apply them to a form using only a bit of event handler “glue” that passes them the appropriate fields.</p>
+<p class="indent">Form-checking functions should go beyond checking that fields are non-empty. Common checks include making sure a field is a number, is a number in some range, is a number of some form (such as a postal code or phone number), is only a range of certain characters such as just alpha characters, and whether input is something that at least looks like an e-mail address or a credit card number. Many of the checks, particularly the e-mail address and credit card number checks, are not really robust. Just because an e-mail address <em>looks</em> valid doesn’t mean it is. We’ll present e-mail and numeric checks here as a demonstration of common validation routines in action.</p>
+<hr/>
+<p class="note"><strong>NOTE</strong> Regular expressions are an invaluable tool for form validation because they let you check input strings against a pattern using very little code. Without them, you’d be stuck writing complex string-parsing functions manually. We’ll use a combination of manual techniques and regular expressions. Observe how much easier it is to use regexps.</p>
+<p class="indent">Many forms are used to collect e-mail addresses, and it is nice to ferret out any problems with addresses before submission. Unfortunately, it is difficult to guarantee that addresses are even in a valid form. In general, about the best you can say quickly about an e-mail address is that it is of the form <em>userid</em> @<em>domain</em>, where <em>userid</em> is a string and <em>domain</em> is a string containing a dot. The “real” rules for what constitutes a valid e-mail address are actually quite complicated and take into consideration outdated mail addressing formats, IP addresses, and other corner cases. Because of the wide variation in e-mail address <a id="page_592"/>formats, many validation routines generally look simply for something of the form <em>string@ string</em>. If you want to be extremely precise, it is even possible not to have a dot (.) on the right side of an e-mail! The function shown here checks the field passed in to see if it looks like a valid e-mail address:</p>
+<p class="imagea"><img alt="image" src="f0592-01.jpg"/></p>
+<p class="indent">We can write this more elegantly using a regular expression:</p>
+<p class="imagea"><img alt="image" src="f0592-02.jpg"/></p>
+<p class="noindent">The regular expression above should be read as “one or more non-@ characters, followed by an @, followed by one or more non-@ characters.” Clearly, we can be more restrictive than this in our check if we like. For example, using <span class="codesample">/[^@]+@(\w+\.)+\w+/</span> does a better job. It matches strings with characters (for example, “john”) followed by an @, followed by one or more sequences of word characters, followed by dots (for example, “mail.yahoo.”), followed by word characters (for example, “com”).</p>
+<p class="indent">Checking numbers isn’t terribly difficult either. You can look for digits, and you can even detect whether or not a passed number is within some allowed range. The routines here show a way of doing just that:</p>
+<p class="imagea"><a id="page_593"/><img alt="image" src="f0593-01.jpg"/></p>
+<p class="indent">Since the <span class="codesample"><em>isDigit()</em></span> routine is so simple, the regular expression version isn’t much better. But consider this more complicated example:</p>
+<p class="imagea"><img alt="image" src="f0593-02.jpg"/></p>
+<p class="indent">The regular expression version is <em>far</em> more elegant:</p>
+<p class="imagea"><img alt="image" src="f0593-03.jpg"/></p>
+<p class="indent">The <span class="codesample">RegExp</span> used should be read, “at the very beginning of the string is an optional negative sign, followed by one or more digits up to the end of the string.”</p>
+<hr/>
+<p class="note"><strong>NOTE</strong> You could also write a similarly elegant <span class="codesample">isInteger()</span> function by passing the string data to <span class="codesample">parseInt()</span> and checking whether <span class="codesample">NaN</span> is returned.</p>
+<p class="indent">Since regular expressions are only useful for pattern matching, they are of limited value in some situations:</p>
+<p class="imagea"><img alt="image" src="f0593-04.jpg"/></p>
+<p class="noindent"><a id="page_594"/>There are more routines we could write, but you get the idea. There are only so many validations to write, and we could build primitives to build up more complex checks.</p>
+<h6 class="h6"><strong>Drop-In Form Validation</strong></h6>
+<p class="noindent">The last question is how to add in these routines easily to work with any form. There are many ways to do this. In the next example, we use an array holding the names of the fields and the type of validation required. You would then loop through the array and apply the appropriate validation routine, as shown here:</p>
+<p class="imagea"><img alt="image" src="f0594-01.jpg"/></p>
+<p class="imagea"><img alt="image" src="f0594-02.jpg"/></p>
+<p class="imagea"><img alt="image" src="f0594-03.jpg"/></p>
+<p class="imagea"><img alt="image" src="f0594-04.jpg"/></p>
+<p class="imagea"><img alt="image" src="f0594-05.jpg"/><a id="page_595"/></p>
+<hr/>
+<p class="online"><a id="page_596"/><strong>ONLINE</strong> <a class="nounder" href="http://www.www.javascriptref.com/3ed/ch13/validationarray.html">http://www.javascriptref.com/3ed/ch13/validationarray.html</a></p>
+<p class="indent">The nice thing about this approach is that it’s easy to add these validation routines to just about any page. Just place the script in the page, customize the <span class="codesample"><em>validations[]</em></span> array to hold the form fields you wish to validate and the string to indicate the validation to perform, and then add the call to <span class="codesample"><em>validate()</em></span> as the <span class="codesample">onsubmit</span> handler for your form. Separating the mechanism of validation (the checking functions) from the policy (which fields check for what) leads to reusability and decreased maintenance costs in the long run.</p>
+<h6 class="h6"><strong>Form Validation via Hidden Fields</strong></h6>
+<p class="noindent">An even more elegant possibility is to use the HTML itself to set up the validation and (believe it or not) routines that are even more generic than those we just saw. There are many different ways we can configure the validation through HTML. A pre-HTML5 example would be using hidden fields to set the validation options. For example, you might define pairs of fields like this:</p>
+<p class="imagea"><img alt="image" src="f0596-01.jpg"/></p>
+<p class="indent">You would define hidden form fields for each entry to validate, so to check that a field called <span class="codesample"><em>username</em></span> is not blank, you might use the following:</p>
+<p class="imagea"><img alt="image" src="f0596-02.jpg"/></p>
+<p class="noindent">To check for an e-mail address, you might use this:</p>
+<p class="imagea"><img alt="image" src="f0596-03.jpg"/></p>
+<p class="indent"><a id="page_597"/>You would then write a loop to look through forms being submitted for hidden fields and to look for ones in the form of <span class="codesample"><em>fieldname_check</em></span>. When you find one, you could use string routines to parse out the field name and the check to run on it. If the check fails, you can easily find the associated error message to show by accessing the field <span class="codesample"><em>fieldname_errormsg</em></span>.</p>
+<hr/>
+<p class="note"><strong>NOTE</strong> One of the main reasons the hidden field approach is more elegant is that we can easily have the server side of the Web equation look at the hidden values passed and run similar validation checks. This double-checking may seem like a waste of time, but it actually improves security because it is not possible to truly know if client-side validation in JavaScript was run.</p>
+<p class="indent">Another option would be to use class names to set up the validation. In this case, the validation options would be set directly on the element to validate, which makes it very obvious what is configured:</p>
+<p class="imagea"><img alt="image" src="f0597-01.jpg"/></p>
+<p class="noindent">Then it would be possible to look at the <span class="codesample"><strong>class</strong></span> values of each element via the <span class="codesample">className</span> property to see if any validation should occur. The downside to this approach is the inability to set the error message through the tag. It is possible to add some keywords to the <span class="codesample"><strong>class</strong></span>, but not a full error message. With the addition of HTML5, a far cleaner approach would be to use the <span class="codesample"><strong>data-*</strong></span> attributes. In this sense, it is possible to customize each tag exactly as needed and maintain a clean separation of markup and code.</p>
+<p class="indent">In the following example, three <span class="codesample"><strong>data-*</strong></span> attributes are added to the tags. In our example, <span class="codesample"><strong>data-required</strong></span> is a Boolean that specifies whether or not the tag is required. The presence of this attribute will call the <span class="codesample"><em>isEmpty()</em></span> function during validation. The next attribute is the <span class="codesample"><strong>data-format</strong></span> attribute. This attribute specifies the expected format of the input. The validation method will determine which methods to validate against based on this value. Finally, the <span class="codesample"><strong>data-error-message</strong></span> attribute specifies a custom error to present in case the validation fails. It is often desirable to use the default error message to reduce redundancy, but there are occasions when a custom message is more appropriate:</p>
+<p class="imagea"><img alt="image" src="f0597-02.jpg"/></p>
+<p class="imagea"><img alt="image" src="f0597-03.jpg"/></p>
+<p class="imagea"><img alt="image" src="f0597-04.jpg"/></p>
+<p class="imagea"><img alt="image" src="f0597-05.jpg"/><a id="page_598"/></p>
+<hr/>
+<p class="online"><a id="page_599"/><strong>ONLINE</strong> <a class="nounder" href="http://www.www.javascriptref.com/3ed/ch13/validationdataattrs.html">http://www.javascriptref.com/3ed/ch13/validationdataattrs.html</a></p>
+<p class="indent">Finally, you could use built-in attributes from HTML5 that contain many of the common validation needs. These include <span class="codesample"><strong>required, min, max, step</strong></span>, and <span class="codesample"><strong>pattern</strong></span>, as well as the built-in type validations of the new input types such as <span class="codesample"><strong>email, url</strong></span>, and <span class="codesample"><strong>number</strong></span>. We will look at all of these in greater detail in the next section.</p>
+<p class="indent">Regardless of the method you choose, it should be clear that the approach is useful, as it allows you to separate out reused JavaScript validation functions into .js files and reference them from just about any form page.</p>
+<h5 class="h5"><a id="ch13lev2sec21"/><strong>Error Messages</strong></h5>
+<p class="noindent">So far, we have seen the error messages presented as an alert. This certainly is not the most elegant way to implement error messages and may succeed in chasing off the user. There are many alternatives to alert boxes. The first is setting an error message <span class="codesample"><strong>&lt;div&gt;</strong></span> tag somewhere on your page and placing all the error messages there. Of course, if you employ this technique, you will have to ensure that the error messages specify which field they apply to:</p>
+<p class="imagea"><img alt="image" src="f0599-01.jpg"/></p>
+<p class="imagea"><img alt="image" src="f0599-02.jpg"/></p>
+<hr/>
+<p class="online"><a id="page_600"/><strong>ONLINE</strong> <a class="nounder" href="http://www.www.javascriptref.com/3ed/ch13/validationerrordiv.html">http://www.javascriptref.com/3ed/ch13/validationerrordiv.html</a></p>
+<p class="imagea"><img alt="image" src="f0600-01.jpg"/></p>
+<p class="indent">Another common method is to place the error message individually next to the input field. This will require either adding empty tags next to every element or dynamically creating them as needed. For example, the email section will now look like this:</p>
+<p class="imagea"><img alt="image" src="f0600-02.jpg"/></p>
+<p class="noindenttop">The <span class="codesample"><strong>id</strong></span> of the <span class="codesample"><strong>&lt;span&gt;</strong></span> tag is set to be the name of the email field and then the string “-error”. It is important to do this in a consistent manner so that the validation code can find the span to print the error message to. Our modified <span class="codesample"><em>validate()</em></span> method now looks like this:</p>
+<p class="imagea"><a id="page_601"/><img alt="image" src="f0601-01.jpg"/></p>
+<p class="imagea"><img alt="image" src="f0601-02.jpg"/></p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.www.javascriptref.com/3ed/ch13/validationerrorspan.html">http://www.javascriptref.com/3ed/ch13/validationerrorspan.html</a></p>
+<p class="noindent">One more thing to note in the above code is that we ensure the error message is set to ““ if there is no error. This is important in case the user fixes one mistake but not all of them. This will remove the fixed error messages and only display the current errors. Finally, when using this method, check that the error field exists first, as there may not be an error message tag for every form element:</p>
+<p class="imagea"><img alt="image" src="f0601-03.jpg"/></p>
+<p class="noindent"><a id="page_602"/>A small addition to the above methods would be modifying the actual form element when the element is in error. This provides a visual clue to where the error is occurring. This can be done with simple DOM-style manipulation or by setting an error class on the element. Once again, clear the error class when the error is fixed:</p>
+<p class="imagea"><img alt="image" src="f0602-01.jpg"/></p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.www.javascriptref.com/3ed/ch13/validationerrorcss.html">http://www.javascriptref.com/3ed/ch13/validationerrorcss.html</a></p>
+<p class="imagea"><img alt="image" src="f0602-02.jpg"/></p>
+<h5 class="h5"><a id="ch13lev2sec22"/><strong>onchange Handlers</strong></h5>
+<p class="noindent">There is no reason you need to wait for the form to be submitted in order to validate its fields. You can validate a field immediately after the user has modified it by using an <span class="codesample">onchange</span> event handler, as shown here:</p>
+<p class="imagea"><img alt="image" src="f0602-03.jpg"/></p>
+<hr/>
+<p class="online"><a id="page_603"/><strong>ONLINE</strong> <a class="nounder" href="http://www.www.javascriptref.com/3ed/ch13/validationzip.html">http://www.javascriptref.com/3ed/ch13/validationzip.html</a></p>
+<p class="noindent">The <span class="codesample"><em>validateZip()</em></span> function is invoked when the ZIP code field loses focus after the user changes it. If the ZIP code isn’t valid, the handler returns <span class="codesample">false</span>, causing the default action (blurring of the field) to be canceled. The user must enter a valid ZIP code before they will be able to give focus to another field on the page.</p>
+<p class="indent">Preventing the user from giving focus to another field until the most recently modified field is correct is questionable from a usability standpoint. Often, users might want to enter partial information and then come back to complete the field later. Or they might begin entering data into a field by mistake and then realize they don’t want any data to go in that field after all. Having the focus of input “trapped” in one form field can be frustrating for the user. For this reason, it is best avoided. Instead, alert the user to the error, but return <span class="codesample">true</span> from the <span class="codesample">onchange</span> handler anyway, allowing them to move along in the form. However, it will still be necessary to perform validation on submission so that the invalid value isn’t submitted with the form.</p>
+<h5 class="h5"><a id="ch13lev2sec23"/><strong>Keyboard Masking</strong></h5>
+<p class="noindent">We’ve seen how to catch errors at submission time and right after they occur, but what about preventing them in the first place? JavaScript makes it possible to limit the type of data entered into a field as it is typed. This technique catches and prevents errors as they happen. The following script could be used in browsers that support a modern event model (as discussed in <a class="nounder" href="ch11.html#ch11">Chapter 11</a>). It forces the field to accept only numeric characters by checking each character as it is entered in an <span class="codesample">onkeypress</span> handler:</p>
+<p class="imagea"><img alt="image" src="f0603-01.jpg"/></p>
+<p class="imagea"><img alt="image" src="f0603-02.jpg"/></p>
+<hr/>
+<p class="online"><a id="page_604"/><strong>ONLINE</strong> <a class="nounder" href="http://www.www.javascriptref.com/3ed/ch13/keyboardmask.html">http://www.javascriptref.com/3ed/ch13/keyboardmask.html</a></p>
+<p class="noindent">In this script, we detect the key as it is pressed and look to see if we will allow it or not. We could easily vary this script to accept only letters or even convert letters from lower- to uppercase as they are typed.</p>
+<p class="indent">The benefit of masking a field is that it avoids us having to do heavy validation later on by trying to stop errors before they happen. Of course, you need to let users know that this is happening, by both clearly labeling fields, using advisory text, and even giving an error message, as we did by setting the message <span class="codesample"><strong>div</strong></span> tag.</p>
+<h4 class="h4"><a id="ch13lev1sec6"/><strong>HTML5 Validation Improvements</strong></h4>
+<p class="noindent">As we saw in the previous section, there are many ways to provide client-side validation and many things to consider when implementing it. HTML5 assists us in these efforts by adding in validation at the browser level based on the attributes of the form elements. As with JavaScript-based client-side validation, this browser-based validation is not an adequate substitute for server-side validation. Also, while the browsers have been quick to adopt these improvements, they are not all universally implemented at the time of this writing, especially in cases where the input type hasn’t been implemented.</p>
+<h5 class="h5"><a id="ch13lev2sec24"/><strong>Validation Attributes</strong></h5>
+<p class="noindent">The most obvious attribute that HTML5 offers validation on is <span class="codesample"><strong>required</strong></span>. When <span class="codesample"><strong>required</strong></span> is set, the form will not submit unless the field contains data. The <span class="codesample"><strong>required</strong></span> attribute is an empty attribute, so just set it like so:</p>
+<p class="imagea"><img alt="image" src="f0604-01.jpg"/></p>
+<p class="noindenttop">Now, if you try to submit the form without filling out the field, an error message will appear and the submission will not go through:</p>
+<p class="imagea"><img alt="image" src="f0604-02.jpg"/></p>
+<p class="noindent"><a id="page_605"/>The browsers will also validate type, depending on the input <span class="codesample"><strong>type</strong></span> attribute. For example, a string will not be allowed if the type is set to <span class="codesample"><strong>number</strong></span> or <span class="codesample"><strong>date</strong></span>. No consistent method for validating type across elements and browsers seems to exist. Some don’t even allow an invalid character to be entered, some clear the value on blur, some alert with a message such as “Input Email Address,” and others give the cryptic message “Invalid Value.” Be aware that type is checked, and ensure that the form provides the details so the user knows what to input.</p>
+<p class="indent">An error message is also displayed if <span class="codesample"><strong>min, max, maxlength</strong></span>, or <span class="codesample"><strong>step</strong></span> are set and the element’s value does not match those criteria:</p>
+<p class="imagea"><img alt="image" src="f0605-01.jpg"/></p>
+<p class="noindenttop">In the case of <span class="codesample"><strong>min, max</strong></span>, and <span class="codesample"><strong>maxlength</strong></span>, an error message will be shown that indicates the incorrect value.</p>
+<p class="imagea"><img alt="image" src="f0605-04.jpg"/></p>
+<p class="noindenttop">In the case of a step error, the error message differs among browsers, but essentially it says “Invalid Value” or does not give a great description; so, once again, make sure users understand the requirements of the form.</p>
+<p class="indent">Finally, the browser will validate against the <span class="codesample"><strong>pattern</strong></span> attribute. If <span class="codesample"><strong>pattern</strong></span> is used, it should be set to a regular expression. It is also recommended to set a <span class="codesample"><strong>title</strong></span> indicating the expected format:</p>
+<p class="imagea"><img alt="image" src="f0605-02.jpg"/></p>
+<p class="noindent">Not only will the title text display when you mouse over the field, it will also be included in the error message if the user provides the wrong format:</p>
+<p class="imagea"><img alt="image" src="f0605-05.jpg"/></p>
+<p class="indent">It is important that you are careful when setting the <span class="codesample"><strong>pattern</strong></span> attribute. If an element has a built-in type validation that does not match the user-defined pattern, it may prevent the element from ever validating successfully:</p>
+<p class="imagea"><img alt="image" src="f0605-03.jpg"/></p>
+<p class="imagea"><img alt="image" src="f0605-06.jpg"/></p>
+<p class="imagea"><img alt="image" src="f0605-07.jpg"/></p>
+<p class="indent"><a id="page_606"/>So far, all the error messages have been defined by the browser, with the exception of the inclusion of the <span class="codesample"><strong>title</strong></span> attribute value in addition to the browser-defined error message. It is also possible to set your own error message, though it is not as simple as setting an attribute. In order to set a custom error message, call the <span class="codesample">setCustomValidity(<em>errorMessage</em>)</span> method on the appropriate element. Once this method is invoked, the form will not be validated until it is called again with the empty string as the value:</p>
+<p class="imagea"><img alt="image" src="f0606-01.jpg"/></p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.javascriptref.com/3ed/ch13/customvalidation.html">http://javascriptref.com/3ed/ch13/customvalidation.html</a></p>
+<h5 class="h5"><a id="ch13lev2sec25"/><strong>Validation Properties and Methods</strong></h5>
+<p class="noindent">It is possible to check various validation properties of a particular element via JavaScript. Three new properties and one method have been added to check the validation of an individual element. These properties and the method are shown in <a class="nounder" href="ch13.html#tab13-13">Table 13-13</a>.</p>
+<p class="tabcap"><a id="tab13-13"/><strong>Table 13-13</strong> Element Validation Method and Properties</p>
+<p class="imagea"><img alt="image" src="t0606-01.jpg"/></p>
+<p class="indent">The properties of the <span class="codesample">ValidityState</span> object are shown in <a class="nounder" href="ch13.html#tab13-14">Table 13-14</a>.</p>
+<p class="tabcap"><a id="tab13-14"/><strong>Table 13-14</strong> Properties of the ValidityState Object</p>
+<p class="imagea"><img alt="image" src="t0607-01.jpg"/></p>
+<p class="indent">In addition to the JavaScript properties, there are several new CSS selectors that provide the user with visual clues to the status of their input. These selectors are summarized in <a class="nounder" href="ch13.html#tab13-15">Table 13-15</a>.</p>
+<p class="tabcap"><a id="tab13-15"/><strong>Table 13-15</strong> CSS Selectors Useful for HTML5 Validity</p>
+<p class="imagea"><img alt="image" src="t0607-02.jpg"/></p>
+<p class="indent"><a id="page_607"/>As we saw earlier in the section, when a form is submitted with elements that do not validate, the browsers display an error message. These error bubbles are not easily customizable, though there are some emerging proprietary CSS selectors for styling them.</p>
+<p class="noindent">These selectors are highly volatile, so we will not present them here. We hope they will be standardized by the time this book is released, so you are encouraged to look online for these CSS selectors.</p>
+<p class="imagea"><img alt="image" src="f0607-01.jpg"/></p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.www.javascriptref.com/3ed/ch13/validity.html">http://www.javascriptref.com/3ed/ch13/validity.html</a></p>
+<h5 class="h5"><a id="page_608"/><a id="ch13lev2sec26"/><strong>novalidate Attribute</strong></h5>
+<p class="noindent">So far, we have focused on utilizing the built-in browser validation by employing various attributes and peering at the properties through JavaScript. If, instead, you would prefer to maintain JavaScript-based validation or no validation at all, it is possible to turn off the browser validation by setting the <span class="codesample"><strong>novalidate</strong></span> attribute on the entire form. This can be set programmatically as well. You may imagine using only browser-based validation if JavaScript is turned off and then disabling it with JavaScript if it is enabled.</p>
+<p class="imagea"><img alt="image" src="f0608-01.jpg"/></p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.www.javascriptref.com/3ed/ch13/novalidate.html">http://www.javascriptref.com/3ed/ch13/novalidate.html</a></p>
+<h4 class="h4"><a id="ch13lev1sec7"/><strong>Miscellaneous HTML5 Form Changes</strong></h4>
+<p class="noindent">You can control aspects of forms from the Submit fields themselves, and this is partially due to the fact that you do not necessarily have to embed form controls within forms but may place them in many different parts of an HTML document. The attributes in <a class="nounder" href="ch13.html#tab13-16">Table 13-16</a> show the attributes you can place on the Submit buttons to change the behavior of the form.</p>
+<p class="tabcap"><a id="tab13-16"/><strong>Table 13-16</strong> Form Submit Button Attributes for Controlling Forms</p>
+<p class="imagea"><img alt="image" src="t0608-01.jpg"/></p>
+<p class="indent">Using these attributes on Submit buttons, you can have several Submit buttons for a single form that all perform different actions:</p>
+<p class="imagea"><img alt="image" src="f0608-02.jpg"/></p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.www.javascriptref.com/3ed/ch13/formattributes.html">http://www.javascriptref.com/3ed/ch13/formattributes.html</a></p>
+<p class="indent"><a id="page_609"/>As mentioned above, it is not necessary to keep form fields as a descendant of the associated form. This can be useful if there is input data throughout the page or multiple forms that are interspersed. Simply set the <span class="codesample"><strong>form</strong></span> attribute on the form field element to the form with which it should be associated:</p>
+<p class="imagea"><img alt="image" src="f0609-01.jpg"/></p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.www.javascriptref.com/3ed/ch13/form.html">http://www.javascriptref.com/3ed/ch13/form.html</a></p>
+<p class="indent">As we wind down the section, a final repeat of the most important observation that often escapes many developers is that you always need to validate form fields at the server. Client-side validation is <em>not</em> a substitute for server-side validation; it’s a performance and usability improvement because it reduces the number of times the server must reject input. Remember that users can always turn off JavaScript in their browser or save a page to disk and edit it manually before submission. This is a serious security concern, and JavaScript developers would be mistaken to think that their validation routines will keep the determined from injecting bad data into their Web application.</p>
+<h4 class="h4"><a id="ch13lev1sec8"/><strong>Internationalization</strong></h4>
+<p class="noindent">One last detail to finish the chapter off is a small improvement introduced by HTML5 for form internationalization, which is the introduction of the <span class="codesample"><strong>dirname</strong></span> attribute for elements. This attribute should be set to a string that will then submit as an extra field to the form.</p>
+<p class="indent"><a id="page_610"/>This field will hold the name specified in <span class="codesample"><strong>dirname</strong></span> as the key, and the value will be the <span class="codesample"><strong>dir</strong></span> value for that field:</p>
+<p class="imagea"><img alt="image" src="f0610-01.jpg"/></p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.www.javascriptref.com/3ed/ch13/dirname.html">http://www.javascriptref.com/3ed/ch13/dirname.html</a></p>
+<h4 class="h4"><a id="ch13lev1sec9"/><strong>Summary</strong></h4>
+<p class="noindent">Form fields have been accessible via JavaScript since the earliest incarnations of the language. The primary goal in accessing form elements is to validate their contents before submission. However, we also saw in this chapter that usability improvements are possible using very small amounts of code. Validations can also easily be added using JavaScript, though HTML5 is providing many built-in features that allow us to focus our coding attention on more complex features. Regardless of how they are implemented, we warn the reader one last time that client-side logic and validation are completely ineffective for thwarting a nefarious user, as all client-side code can be modified or disabled with relative ease. For now, we put our security worries away and focus on building more complex forms, and even applications, in the next chapter.</p>
+</body>
+</html>

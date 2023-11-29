@@ -1,0 +1,43 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<title>JavaScript: The Complete Reference&#153;, Third Edition</title>
+<link href="0071741216.css" rel="stylesheet" type="text/css"/>
+<link href="page-template.xpgt" rel="stylesheet" type="application/vnd.adobe-page-template+xml"/>
+<meta content="urn:uuid:4d1be0af-c0d3-47b8-9bd4-3edcb4dee196" name="Adept.expected.resource"/>
+</head>
+<body>
+<h2 class="h2" id="app"><a id="page_913"/><strong>APPENDIX<br/>JavaScript Reserved Words</strong></h2>
+<p class="noindent">All languages, including JavaScript, have numerous reserved words that cannot be used as variable names, function names, or any other form of identifiers without causing some problem. If one of these reserved words is used as a user-defined identifier, such as a variable or function name, it should result in a syntax error. For example, the following declares a variable called <span class="codesample">for</span>, which, as you have seen, is a JavaScript keyword used for looping:</p>
+<p class="imagea"><img alt="image" src="f0913-01.jpg"/></p>
+<p class="indent">You should expect some form of error to occur if you misuse the reserved identifier:</p>
+<p class="imagea"><img alt="image" src="f0913-02.jpg"/></p>
+<p class="indenttop">Generally speaking, reserved words are reserved from use because they already have a defined meaning in some variant of JavaScript or a related technology. According to the ECMAScript specification, reserved words include keywords (such as <span class="codesample">switch</span>, <span class="codesample">while</span>, and <span class="codesample">for</span>), future reserved words (such as <span class="codesample">abstract</span>, <span class="codesample">class</span>, and <span class="codesample">const</span>), and three type-related literals (<span class="codesample">null</span>, <span class="codesample">true</span>, and <span class="codesample">false</span>). The complete list according to ECMAScript 3 is shown in <a class="nounder" href="appendix.html#tabA-1">Table A-1</a>.</p>
+<p class="tabcap"><a id="tabA-1"/><strong>Table A-1</strong> ECMAScript Edition 3 Reserved Words</p>
+<p class="imagea"><img alt="image" src="t0914-01.jpg"/></p>
+<p class="image0"><img alt="image" src="t0914-02.jpg"/></p>
+<p class="indent">ECMAScript 5 does not change the list that much, adding <span class="codesample">debugger</span> to the keywords group, reducing the list of the future reserved words, getting rid of a few unlikely values (<span class="codesample">byte</span>, <span class="codesample">goto</span>, and so on), but then adding in a few new ones (<span class="codesample">let</span> and <span class="codesample">yield</span>), given their existing implementation in some versions of JavaScript. The list according to ECMAScript 5 is shown in <a class="nounder" href="appendix.html#tabA-2">Table A-2</a>.</p>
+<p class="tabcap"><a id="tabA-2"/><strong>Table A-2</strong> ECMAScript Edition 5 Reserved Words<a id="page_914"/></p>
+<p class="imagea"><img alt="image" src="t0914-03.jpg"/></p>
+<p class="image0"><img alt="image" src="t0914-04.jpg"/></p>
+<p class="indent"><a id="page_915"/>We note that ECMAScript has reserved values so that when a browser that supports “<span class="codesample">use strict</span>” encounters some identifiers, it should throw errors on usage that traditionally may be allowed. For example, this should be fine:</p>
+<p class="imagea"><img alt="image" src="e0915-01.jpg"/></p>
+<p class="indent">while the following should throw an error, or at least not perform the assignment:</p>
+<p class="imagea"><img alt="image" src="e0915-02.jpg"/></p>
+<h3 class="h3"><a id="applev1"/><strong>Reserved Quirks</strong></h3>
+<p class="noindent">Now, a read of the ECMAScript specification gives no direct indication that future reserved words are any different than regular reserved words. In fact, it seems quite clear that the specification defines identifiers to include all allowed identifier names but not “ReservedWord” grammar, which includes <em>all</em> the items in the previous tables. Unfortunately, testing reveals that browsers are all over the place in terms of how reserved words are treated. Each browser treats the list of reserved words a bit differently, and many allow reserved values as variable, function, or property names when they shouldn’t, particularly in the case of the “future reserved words,” as those may work now but will break in future browser releases. For example, imagine if you had a bit of code that tried to use a reserved word illegally—for example, as a variable:</p>
+<p class="imagea"><img alt="image" src="e0915-03.jpg"/></p>
+<p class="indent">If you try this, it likely will fail because most browsers will happily let the future reserved word <span class="codesample">enum</span> be used as a variable. If you try another value, such as <span class="codesample">break</span>, it will properly catch it.</p>
+<hr/>
+<p class="note"><strong>NOTE</strong> You may wonder why we did it this way, using an <span class="codesample">eval()</span>. The reason is that most JavaScript parsers will correctly catch the assignment of keywords when used as literals, but this doesn’t hold for most “future reserved words.” To leave nothing to chance, we should attempt to use every string, and <span class="codesample">eval()</span> allows an easy method for that. Obviously, this will not work in a “strict” mode, so proceed with caution.</p>
+<p class="indent">We could expand this type of code to test each word using an array. <a class="nounder" href="appendix.html#figA-1">Figure A-1</a> shows a simple example of two browsers providing noticeably different keyword handling. If you are curious, you can use the example code displayed in <a class="nounder" href="appendix.html#figA-1">Figure A-1</a> yourself to see the state of your browser. Hopefully, by the time you run it, things will be a bit more consistent.</p>
+<p class="imagea"><a id="figA-1"/><a id="page_916"/><img alt="image" src="f0916-01.jpg"/></p>
+<p class="figcap"><strong>Figure A-1</strong> Potential browser inconsistencies with reserved words</p>
+<hr/>
+<p class="online"><a id="page_917"/><strong>ONLINE</strong> <a class="nounder" href="http://www.javascriptref.com/3ed/AppA/reservedwords.html">http://javascriptref.com/3ed/AppA/reservedwords.html</a></p>
+<p class="indent">Beyond browser implementation details, JavaScript has further challenges with misused identifier names because the host environment may have numerous built-in objects and functions. For example, ECMAScript defines global functions such as <span class="codesample">parseInt()</span>, <span class="codesample">parseFloat()</span>, and type objects such as <span class="codesample">Math</span>, <span class="codesample">Date</span>, <span class="codesample">String</span>, and so on, which should be considered off limits as identifier names. Similarly, any of the properties of the browser’s host <span class="codesample">Window</span> object, such as <span class="codesample">location</span>, <span class="codesample">name</span>, and so on, could easily be redefined and should be avoided. Given the dynamic nature of JavaScript, misusing environmentally defined objects or functions typically won’t throw an error, but it certainly may produce an unintended result if done accidentally. Of course, people often redefine browser or document objects or other built-in functions on purpose, but that has its own downsides.</p>
+<p class="indent">Finally, readers may find it interesting that the ECMAScript specification initially indicated that naming of user-defined variables should avoid the <span class="codesample">$</span> character:</p>
+<p class="indent"><em>Section 7.6, ECMAScript 3<sup>rd</sup> Edition</em>:</p>
+<p class="indent"><em>“The dollar sign ($) and the underscore (_) are permitted anywhere in an identifier. The dollar sign is intended for use only in mechanically generated code.”</em></p>
+<p class="noindent">Of course, we know via jQuery and other practical applications of JavaScript that what the specification says in detail and what folks actually do may be two different things. Today, the ECMAScript 5 edition no longer continues such verbiage, likely as a concession to common usage. If such things can change, we really can’t tell what future may be in store for the “quasi” reserved words we presented or how the specification may evolve. To write future-proof code, you should assume that anything we list in this appendix is fully reserved, regardless of browser implementations.<a id="page_918"/></p>
+</body>
+</html>

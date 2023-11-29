@@ -1,0 +1,501 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<title>JavaScript: The Complete Reference&#153;, Third Edition</title>
+<link href="0071741216.css" rel="stylesheet" type="text/css"/>
+<link href="page-template.xpgt" rel="stylesheet" type="application/vnd.adobe-page-template+xml"/>
+<meta content="urn:uuid:4d1be0af-c0d3-47b8-9bd4-3edcb4dee196" name="Adept.expected.resource"/>
+</head>
+<body>
+<h3 class="h3b" id="ch11"><a id="page_415"/><strong>CHAPTER 11<br/>Event Handling</strong></h3>
+<p class="noindent">Browsers have the ability to invoke JavaScript in response to browser events or user actions within a Web page. For example, it’s possible to specify JavaScript that is to be run whenever a page loads or when a user clicks a particular link or modifies a form field. The actions to which JavaScript can respond are called <em>events</em>. Events are the glue that brings together the user and the Web page; they enable pages to become interactive, responsive to what a user is doing. An <em>event model</em> defines the ways the events are processed and how they are associated with the various document and browser objects.</p>
+<p class="indent">Like many other aspects of JavaScript, the event models of major browsers predictably evolved in separate, incompatible directions. Early browsers supported a limited event model, but by the fourth generation the major browsers completely revamped their respective event handling systems. However, because of the divergent nature of these event models, the W3C once again entered the fray by including a standard event model in DOM2. This model extends the DOM to include events, marrying the two incompatible models to produce a powerful, robust environment for event handling. Today, the event models are closer than in the past, but the DOM continues to evolve and the old ways are still widely used. Thus, we begin this chapter with the basic approach to events and continue on to the more modern approach to event handling.</p>
+<h4 class="h4"><a id="ch11lev1sec1"/><strong>Overview of Events and Event Handling</strong></h4>
+<p class="noindent">An <em>event</em> is some notable action to which a script can respond. The browser may trigger some events such as page loading, but most often they are initiated by user interactions such as when they click, use a form widget, or even move the mouse over some page element. An <em>event handler</em> is JavaScript code associated with a particular part of the document and a particular event. A handler is executed if and when the given event occurs at the part of the document to which it is associated. For example, an event handler associated with a button element could open an alert dialog when the button is clicked, or a handler associated with a form field could be used to verify the data the user entered whenever the value of the form field changes.</p>
+<p class="indent"><a id="page_416"/>Events are named in a descriptive manner. It should be easy to deduce what user action the events <span class="codesample">click, submit</span>, and <span class="codesample">mouseover</span> correspond to. Some events may not be immediately intuitive; for example, <span class="codesample">blur</span>, which indicates that a field or object has lost <span class="codesample">focus</span>, in other words is not active. Traditionally, the handler associated with a particular action is named with the event name prefixed by “on.” For example, a handler for the <span class="codesample">click</span> event is called <span class="codesample">onclick</span>.</p>
+<p class="indent">Events are not limited to basic user actions associated with the document, such as <span class="codesample">click</span> and <span class="codesample">mouseover</span>. For example, browsers support events such as <span class="codesample">resize, load</span>, and <span class="codesample">unload</span>, which are related to window activity such as resizing the window or loading or unloading a document.</p>
+<p class="indent">Browsers provide detailed information about the event occurring through an <span class="codesample">Event</span> object that is made available to handlers. The <span class="codesample">Event</span> object contains contextual information about the event, such as the exact x and y screen coordinates where some event occurred, whether modifiers such as the shift key were depressed at the time of the event, and so on.</p>
+<p class="indent">Events that are the result of user actions typically have a <em>target</em> —the HTML element at which the event is occurring. For example, a <span class="codesample">click</span> event’s target would be the element, such as <span class="codesample"><strong>&lt;img&gt;</strong></span> or <span class="codesample"><strong>&lt;p&gt;</strong></span>, that the user clicked on. Event handlers are therefore <em>bound</em> to particular DOM elements. When the event that a handler handles occurs on the element to which it is bound, the handler is executed. We should note that event handlers don’t necessarily have to be directly bound to the element that an event occurs on; in fact, we’ll discover that events generally move through containing elements, so there are a multitude of places within a DOM tree where an event may actually be handled. For now, we stick with the basics.</p>
+<p class="indent">Handlers can be bound to elements in numerous ways, including:</p>
+<p class="bullettop">• Using traditional HTML event handler attributes directly in markup. For example:   <img alt="image" src="f0416-01.jpg"/></p>
+<p class="bullet">• Using script to set handlers to be related to an object. For example:   <img alt="image" src="f0416-02.jpg"/></p>
+<p class="bullet">• Using proprietary methods such as Internet Explorer’s <span class="codesample">attachEvent()</span> method. For example:   <img alt="image" src="f0416-03.jpg"/></p>
+<p class="bullet">• Using DOM methods to set event listeners using a node’s <span class="codesample">addEventListener()</span> method. For example:   <img alt="image" src="f0416-04.jpg"/></p>
+<p class="indent">Just as there are many ways to bind events to elements, there are several ways events are triggered:</p>
+<p class="bullet">• Implicitly by the browser in response to some user- or JavaScript-initiated action</p>
+<p class="bullet">• Explicitly by JavaScript using DOM1 methods. For example:   <img alt="image" src="f0416-05.jpg"/></p>
+<p class="bullet">• Explicitly using proprietary methods such as Internet Explorer’s <span class="codesample">fireEvent()</span> method</p>
+<p class="bullet">• Explicitly by JavaScript using the DOM2 <span class="codesample">dispatchEvent()</span> method</p>
+<p class="indent"><a id="page_417"/>Compared to some aspects of JavaScript, the event models of the past have lived on because, until the introduction of Internet Explorer 9, proprietary event handling was still required. Even now that modern DOM event handling has become widespread, we still find that some aspects of the traditional event system can be easier to apply in some instances. Given the likelihood of encountering both old and Internet Explorer–specific syntax, we present the traditional and proprietary event models before getting to modern DOM event management.</p>
+<hr/>
+<p class="note"><strong>NOTE</strong> We will not cover the Netscape event capture methods, as that browser and its event syntax are no longer relevant.</p>
+<h4 class="h4"><a id="ch11lev1sec2"/><strong>The Traditional Event Model</strong></h4>
+<p class="noindent">Before discussing modern event models, let’s discuss the basic event model common to even the oldest JavaScript-supporting browsers. The basic model is simple, widely supported, and easy to understand. At the same time it has sufficient flexibility and features that it is enough for most developers in the course of day-to-day programming tasks. Thankfully, proprietary browser event models and the newer DOM2 model are compatible with this basic model. This means that you can stick to the basic model even in the most recent browsers.</p>
+<h5 class="h5"><a id="ch11lev2sec1"/><strong>Event Binding with HTML Attributes</strong></h5>
+<p class="noindent">HTML5 supports core <em>event bindings</em> for most elements. These bindings are element attributes, such as <span class="codesample">onclick</span> and <span class="codesample">onmouseover</span>, which can be set equal to the JavaScript that is to be executed when the given event occurs at that object. As the browser parses the page and creates the document object hierarchy, it populates event handlers with the JavaScript code bound to elements using these attributes. For example, consider the following simple binding that defines a <span class="codesample">click</span> handler for a paragraph element:</p>
+<p class="image"><img alt="image" src="f0417-01.jpg"/></p>
+<p class="noindent">While it may not look clickable, you can click the paragraph element and see the alert triggered:</p>
+<p class="image"><img alt="image" src="f0417-02.jpg"/></p>
+<p class="noindent">We remind readers that the attribute <span class="codesample"><strong>onclick</strong></span> is not JavaScript; it is markup that relates to the event handler <span class="codesample">onclick</span>. As markup, the attribute may be case sensitive under XHTML and not in standard HTML. In fact, quite often we see Web developers write the attribute in mixed case as <span class="codesample"><strong>onClick</strong></span>. While this may aid readability, showing the interface between markup and script, readers are encouraged to put their event handler attributes in all lowercase.</p>
+<p class="noindent"><a id="page_418"/><strong>Core Event Attributes from HTML4</strong></p>
+<p class="noindent">Under HTML4, there were a number of core event handling attributes defined for all elements and a few that were defined for forms and the page itself. <a class="nounder" href="ch11.html#tab11-1">Table 11-1</a> presents these attributes.</p>
+<p class="tabcap"><a id="tab11-1"/><strong>Table 11-1</strong> W3C-Defined Core Events under HTML4</p>
+<p class="imagea"><img alt="image" src="t0418-01.jpg"/></p>
+<p class="image0"><img alt="image" src="t0418-02.jpg"/></p>
+<p class="indent">The following example, the result of which is shown in <a class="nounder" href="ch11.html#tab11-1">Figure 11-1</a>, illustrates these events in action.</p>
+<p class="image1"><a id="fig11-1"/><img alt="image" src="f0421-01.jpg"/></p>
+<p class="figcap"><strong>Figure 11-1</strong> Simple event handler example</p>
+<p class="image"><img alt="image" src="f0418-01.jpg"/></p>
+<p class="image"><img alt="image" src="f0418-02.jpg"/></p>
+<p class="image"><img alt="image" src="f0418-03.jpg"/></p>
+<p class="image"><img alt="image" src="f0418-04.jpg"/><a id="page_419"/></p>
+<hr/>
+<p class="online"><a id="page_420"/><strong>ONLINE</strong> <a class="nounder" href="http://www.javascriptref.com/3ed/ch11/coreeventattrs.html">http://javascriptref.com/3ed/ch11/coreeventattrs.html</a></p>
+<p class="noindent">For completeness, we should note that under Internet Explorer’s Jscript there is a nonstandard way to bind events within markup. The most common syntax is using a <span class="codesample">&lt;script&gt;</span> tag with a <span class="codesample">for</span> attribute indicating the <span class="codesample">id</span> of the element to which the script should be bound, and the <span class="codesample">event</span> attribute indicating the handler:</p>
+<p class="image"><img alt="image" src="f0420-01.jpg"/></p>
+<p class="noindent">This syntax is not a part of any known standard, and browser support outside of Internet Explorer is spotty at best. For these reasons, developers should definitely stay away from this syntax; we’ve discussed it here only so you can educate your peers about its restrictions in case you see it in use.</p>
+<h6 class="h6"><a id="page_421"/><strong>HTML5 Event Attributes</strong></h6>
+<p class="noindent">The HTML5 specification introduces a multitude of event handlers that can be accessed as attributes or within code, as we’ll see later. Many of these events were defined by Microsoft in Internet Explorer and later made standard under the emerging specification, while others are all new with HTML5. <a class="nounder" href="ch11.html#tab11-2">Table 11-2</a> summarizes HTML5’s core event attributes found on all elements as of the time of this edition’s writing. <a class="nounder" href="ch11.html#tab11-3">Table 11-3</a> adds a few more events, which are found on the <span class="codesample"><strong>&lt;body&gt;</strong></span> and <span class="codesample"><strong>&lt;frameset&gt;</strong></span> tags.</p>
+<p class="tabcap"><a id="tab11-2"/><strong>Table 11-2</strong> HTML5 Element Core Events Preview</p>
+<p class="imagea"><img alt="image" src="t0421-01.jpg"/></p>
+<p class="image0"><img alt="image" src="t0422-01.jpg"/></p>
+<p class="image0"><img alt="image" src="t0422-02.jpg"/></p>
+<p class="image0"><img alt="image" src="t0423-01.jpg"/></p>
+<p class="image0"><img alt="image" src="t0423-02.jpg"/></p>
+<p class="image0"><img alt="image" src="t0424-01.jpg"/></p>
+<p class="tabcap"><a id="tab11-3"/><strong>Table 11-3</strong> HTML5 Events for &lt;body&gt; and &lt;frameset&gt; Preview<a id="page_422"/><a id="page_423"/><a id="page_424"/></p>
+<p class="imagea"><img alt="image" src="t0424-02.jpg"/></p>
+<p class="image0"><img alt="image" src="t0424-03.jpg"/></p>
+<p class="image0"><img alt="image" src="t0425-01.jpg"/></p>
+<h5 class="h5"><a id="page_425"/><a id="ch11lev2sec2"/><strong>Binding Event Handler Attributes with JavaScript</strong></h5>
+<p class="noindent">While you can bind event handlers to parts of a document using event attributes in markup, it is generally much more appropriate to bind them within JavaScript instead, especially if you wish to add or remove handlers dynamically. Further, doing things in code tends to improve the separation between the structure of the document and its logic and presentation.</p>
+<p class="indent">To use JavaScript for this task, it is important to understand that event handlers are accessed as methods of the objects to which they are bound. For example, to set the <span class="codesample">click</span> handler of an element, set its <span class="codesample">onclick</span> property to the desired code:</p>
+<p class="image"><img alt="image" src="f0425-01.jpg"/></p>
+<hr/>
+<p class="note"><strong>NOTE</strong> As we’ve mentioned, the names of event handlers in JavaScript are always all lowercase. This marks one of the few exceptions to the rule that JavaScript properties are named using the “camel-back” convention (and reflects XHTML’s requirement for lowercased attributes as well).</p>
+<p class="indent">Of course, you do not have to use an anonymous function when setting a handler. For example, notice here how we set a <span class="codesample">mouseover</span> handler to an existing function:</p>
+<p class="image"><img alt="image" src="f0425-02.jpg"/></p>
+<p class="indent"><a id="page_426"/>Regardless of how the function used is defined, you must make sure to register the event handler <em>after</em> the HTML element has been added to the DOM tree; otherwise, you’ll cause a runtime error by trying to set a property (an event handler) of a nonexistent object. One way to ensure this is to assign handlers after the window’s <span class="codesample">onload</span> handler fires:</p>
+<p class="image"><img alt="image" src="f0426-01.jpg"/></p>
+<p class="noindent">Of course, you might try to rely simply on placing the script after the element in question, but this is a bit dangerous since you are relying on how you assume a browser works and, more troubling, assuming the code or markup will never be moved in the future. It’s always better to think defensively when you bind event handlers.</p>
+<hr/>
+<p class="note"><strong>NOTE</strong> For performance reasons, waiting until the entire document is loaded to bind events may be somewhat too conservative; instead, using an event listener for <span class="codesample">DOMContentLoaded</span> can be employed.</p>
+<p class="indent">One thing to note about the traditional DOM Level 0 form of event binding is that only a single function can be associated with an event, and it is quite possible to overwrite an existing value. For example, imagine if you tried to bind two functions to the same click event for an element:</p>
+<p class="image"><img alt="image" src="f0426-02.jpg"/></p>
+<p class="noindent">Only the second alert would be shown because its event handler function overwrote the first:</p>
+<p class="image1"><img alt="image" src="f0426-03.jpg"/></p>
+<p class="noindent">A contrived fix for our simple example would be to create a new function that called both the handlers and to use the new function instead:</p>
+<p class="image"><a id="page_427"/><img alt="image" src="f0427-01.jpg"/></p>
+<p class="indent">Of course, maybe this isn’t so contrived at all. It should suggest that it is quite possible to create a wrapper function that checks whether the event handler is already defined for a function and, if it is, then adds a new function that calls the old one as well as the newly associated event. We illustrate this here with our running example, and note that it is the same idea as the safe <span class="codesample">onload</span> event handler discussed in <a class="nounder" href="ch01.html#ch01">Chapter 1</a>:</p>
+<p class="image"><img alt="image" src="f0427-02.jpg"/></p>
+<p class="image"><img alt="image" src="f0427-03.jpg"/></p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.javascriptref.com/3ed/ch11/oldmultieventbind.html">http://javascriptref.com/3ed/ch11/oldmultieventbind.html</a></p>
+<p class="indent"><a id="page_428"/>The previous example is merely illustrative of how difficult working with the old event model can be. Fortunately, we will show shortly that with the DOM’s <span class="codesample">addEventListener()</span> method there is both an easier and more appropriate way to associate multiple event listeners to an element. However, it is interesting to us that there is a valuable side effect of employing the old event binding style—hyperawareness of bound events. Not knowing what event handlers are bound to what elements has led to all sorts of chaos in Web development, from memory leaks to very unsafe programming practices. Remember, the Web is a very unsafe place, and just copying or linking to scripts and letting them bind to arbitrary page aspects is a dangerous, although common, practice. Forced awareness of what events are associated with what elements in this light doesn’t seem half bad.</p>
+<h5 class="h5"><a id="ch11lev2sec3"/><strong>Event Handler Scope Details</strong></h5>
+<p class="noindent">In a browser, a script’s execution context is normally the <span class="codesample">Window</span> in which the script’s text is found. However, script included in the text of an event handler has the context of the object to which it is bound. Instead of the <span class="codesample">this</span> object pointing to the <span class="codesample">Window</span>, it points to the object representing the element. Given the following script:</p>
+<p class="image"><img alt="image" src="f0428-01.jpg"/></p>
+<p class="noindent">mousing over the paragraph results in the following dialog:</p>
+<p class="image1"><img alt="image" src="f0428-02.jpg"/></p>
+<p class="indent">An important subtlety is that it is only the JavaScript found <em>in the text of the event handler attribute</em> that has this scope; any JavaScript it calls has the “normal” scope. For example:</p>
+<p class="image"><img alt="image" src="f0428-03.jpg"/></p>
+<p class="noindent">The result is the standard <span class="codesample">Window</span> scope, as shown here:</p>
+<p class="image1"><img alt="image" src="f0428-04.jpg"/></p>
+<p class="indent"><a id="page_429"/>If your handlers are defined within <span class="codesample"><strong>&lt;script&gt;</strong></span> tags and need access to the element at which the event occurs, simply pass them the <span class="codesample">this</span> value from the handler:</p>
+<p class="image"><img alt="image" src="f0429-01.jpg"/></p>
+<p class="indent">We’ll see later that we do not have to bind events like this nor pass around their context, as we can instead rely on the properties of the <span class="codesample">Event</span> object to find out the particular details of an event.</p>
+<h5 class="h5"><a id="ch11lev2sec4"/><strong>Return Values</strong></h5>
+<p class="noindent">A very useful feature of traditional element-placed event handlers is that their return values can affect the default behavior of the event. The <em>default behavior</em> is what would normally happen when the event occurs if left unhandled. For example, the default behavior of a click on a link (<span class="codesample"><strong>&lt;a&gt;</strong></span> tag) is to load the link target specified in the <span class="codesample"><strong>href</strong></span> attribute in the browser. The default behavior of activating a submit button is the submission of the form. The default behavior of a reset button is to clear form field values, and so on.</p>
+<p class="indent">To cancel the default behavior of an event, simply return <span class="codesample">false</span> from its event handler. For example, to kill a link load, we return <span class="codesample">false</span>:</p>
+<p class="image"><img alt="image" src="f0429-02.jpg"/></p>
+<p class="noindent">In this example, with JavaScript on, you never leave the page. Of course, more likely you aren’t going to do this, but you might imagine something like a confirmation:</p>
+<p class="image"><img alt="image" src="f0429-03.jpg"/></p>
+<p class="noindent">When a user clicks the link, the confirm dialog is fired:</p>
+<p class="image1"><img alt="image" src="f0429-04.jpg"/></p>
+<p class="noindent">A positive response to <span class="codesample">confirm()</span> returns <span class="codesample">true</span>, and the default action of page loading occurs. A <span class="codesample">false</span> response cancels the link load.</p>
+<p class="indent">Probably the most common use of default actions is to enable form validation. In this case, when the submit handler is returned <span class="codesample">false</span>, a form will not submit. For example, <a id="page_430"/>here some custom function <span class="codesample"><em>validateForm()</em></span> is called, and if it returns <span class="codesample">false</span> the submission is canceled:</p>
+<p class="image"><img alt="image" src="f0430-01.jpg"/></p>
+<p class="indent">Like the link, when a <span class="codesample">submit</span> handler for a form returns <span class="codesample">false</span>, the form submission is canceled. This pseudo-code is meant to show just one possible use of event handlers and return values controlling default actions. The same effect can be reached when directly binding event handlers through JavaScript:</p>
+<p class="image"><img alt="image" src="f0430-02.jpg"/></p>
+<p class="noindent">If the <span class="codesample"><em>click1</em></span> function returns <span class="codesample">false</span>, then the default click behavior will be canceled.</p>
+<p class="indent"><a class="nounder" href="ch11.html#tab11-4">Table 11-4</a> lists some useful events and the effects of their return values.</p>
+<p class="tabcap"><a id="tab11-4"/><strong>Table 11-4</strong> Common Event Handlers and Default Actions</p>
+<p class="image"><img alt="image" src="t0430-01.jpg"/></p>
+<h5 class="h5"><a id="ch11lev2sec5"/><strong>Firing Events Manually</strong></h5>
+<p class="noindent">Under the traditional event model, it is possible to invoke events directly on certain objects with JavaScript. Doing so causes the default action for the event to occur. For example, this script fires a <span class="codesample">click</span> on the button, automatically triggering an alert:</p>
+<p class="image"><img alt="image" src="f0430-03.jpg"/></p>
+<p class="indent"><a id="page_431"/>The events and the elements on which they can be directly invoked are shown in <a class="nounder" href="ch11.html#tab11-5">Table 11-5</a>. Since browsers extended the traditional model, your browser may support other manual event trigger methods, but those listed in <a class="nounder" href="ch11.html#tab11-5">Table 11-5</a> are the minimum that you will typically encounter. We’ll explore the more modern method for programmatically creating and invoking methods a bit later in the chapter.</p>
+<p class="tabcap"><a id="tab11-5"/><strong>Table 11-5</strong> Traditional Event Dispatch Methods</p>
+<p class="image"><img alt="image" src="t0431-01.jpg"/></p>
+<p class="indent">Event handlers bound via HTML attributes or explicitly with JavaScript are generally available to scripts in modern browsers, just like any other method of the object. For example:</p>
+<p class="image"><img alt="image" src="f0431-01.jpg"/></p>
+<p class="indent">Before wrapping up the discussion of the traditional model, we should alert readers to one common pitfall when invoking events directly on forms. The <span class="codesample">submit()</span> method does <em>not</em> invoke the form’s <span class="codesample">onsubmit</span> handler before submission. In the following example, the <a id="page_432"/>first two buttons will trigger both <span class="codesample">onclick</span> and <span class="codesample">onsubmit</span> handlers; the last will not show any sense of the submit button being pressed or the <span class="codesample">onsubmit</span> handler being called and will simply submit to the URL specified in the <span class="codesample"><strong>action</strong></span> attribute:</p>
+<p class="image"><img alt="image" src="f0432-01.jpg"/></p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.javascriptref.com/3ed/ch11/submitdetails.html">http://javascriptref.com/3ed/ch11/submitdetails.html</a></p>
+<p class="indent">If you want to programmatically use the <span class="codesample">submit()</span> method, understand that you will need to perform any validations yourself before triggering the event.</p>
+<h4 class="h4"><a id="ch11lev1sec3"/><strong>Overview of Modern Event Models</strong></h4>
+<p class="noindent">The traditional event model works well for simple tasks such as form validation but leaves a lot to be desired if you wish to safely interact with other scripts or build a Web application. The shortcomings of the traditional model are numerous. First off, with the basic model, no extra information about the event is passed to the handler save that the event occurred. Second, in the traditional model, there is no easy way for event handlers in different parts of the object hierarchy to interact. Third, you are limited to firing events manually on those elements that provide event methods (like <span class="codesample">click()</span>). Finally, the traditional model simply doesn’t play well with other scripts. Direct binding of events in markup or script makes it quite easy to overwrite an existing handler.</p>
+<p class="indent">Modern event models were introduced with the 4.<em>x</em> generation of browsers. We might dub this generation of event models the “DHTML event model,” and it, of course, has two divergent implementations. The Netscape 4.<em>x</em> model had events begin at the top of the hierarchy and “trickle” down to the object at which they occurred, affording enclosing objects the opportunity to modify, cancel, or handle the event. Under Internet Explorer, events begin at the object where they occur and “bubble” up the hierarchy. Under DOM2, events can trickle down and bubble up, as shown here:</p>
+<p class="image1"><a id="page_433"/><img alt="image" src="f0433-01.jpg"/></p>
+<p class="noindent">Netscape introduced an event routing model characterized by the <span class="codesample">captureEvents()</span> and <span class="codesample">releaseEvents()</span> methods. Microsoft supported an event bubbling model characterized by the <span class="codesample">attachEvent()</span> and <span class="codesample">detachEvent()</span> methods. The DOM Level 2 event specification brings the event capture and bubble concepts together and standardizes the syntax with the <span class="codesample">addEventListener()</span> and <span class="codesample">removeEventListener()</span> methods. The scope of the Event object, how default events are controlled, and other event management details also differ between the various event models. To bring this together, an overview of the event models over time and their related syntax is summarized in <a class="nounder" href="ch11.html#tab11-6">Table 11-6</a>.</p>
+<p class="tabcap"><a id="tab11-6"/><strong>Table 11-6</strong> Overview of Event Models over Time</p>
+<p class="imagea"><img alt="image" src="t0433-01.jpg"/></p>
+<p class="image0"><img alt="image" src="t0434-01.jpg"/></p>
+<p class="indent"><a id="page_434"/>We have used the traditional model throughout the book, especially in simple examples. We still find that for many tasks it is quite appropriate. We will focus primarily on the DOM method shortly, but we must acknowledge that the Internet Explorer model was and still is commonly used, so we present its syntax with some detail next.</p>
+<h4 class="h4"><a id="ch11lev1sec4"/><strong>Internet Explorer’s Proprietary Model</strong></h4>
+<p class="noindent">While the Netscape 4.<em>x</em> event syntax is long regulated to the dustbin of Web development history, a proprietary Internet Explorer event syntax lived on until Internet Explorer 9 fully supported the DOM event syntax. We start our discussion with this proprietary syntax and then demonstrate how to roughly patch the concerns between the Microsoft and DOM models until such a time as the DOM syntax becomes ubiquitous.</p>
+<h5 class="h5"><a id="ch11lev2sec6"/><strong>attachEvent() and detachEvent( )</strong></h5>
+<p class="noindent">Rather than using an HTML attribute to bind events, modern event management is generally handled in code. Internet Explorer provides the <span class="codesample">attachEvent()</span> method with the following syntax:</p>
+<p class="image"><img alt="image" src="f0434-01.jpg"/></p>
+<p class="noindent">Here, the first parameter is a string such as <span class="codesample">“onclick”</span>, and <span class="codesample"><em>eventHandler</em></span> is the function that should be invoked when the event occurs. The return value is a Boolean indicating whether the attachment was successful. The following simple example shows how easy it is to bind two handlers to the same object under older Internet Explorer browsers. It is interesting to note that the execution order is defined as “random,” so it is essential that one function not rely on the prior execution of the other:</p>
+<p class="image"><img alt="image" src="f0434-02.jpg"/></p>
+<hr/>
+<p class="online"><a id="page_435"/><strong>ONLINE</strong> <a class="nounder" href="http://www.javascriptref.com/3ed/ch11/attachevent.html">http://javascriptref.com/3ed/ch11/attachevent.html</a></p>
+<p class="indent">To remove a handler using this Internet Explorer–specific syntax, use <span class="codesample">detachEvent()</span> with the exact same arguments:</p>
+<p class="image"><img alt="image" src="f0435-01.jpg"/></p>
+<p class="noindent">This requirement does pose a bit of a problem because the previous example used anonymous functions, so you would need to use a named function to easily remove attached events:</p>
+<p class="image"><img alt="image" src="f0435-02.jpg"/></p>
+<p class="image"><img alt="image" src="f0435-03.jpg"/></p>
+<hr/>
+<p class="online"><a id="page_436"/><strong>ONLINE</strong> <a class="nounder" href="http://www.javascriptref.com/3ed/ch11/detachevent.html">http://javascriptref.com/3ed/ch11/detachevent.html</a></p>
+<h5 class="h5"><a id="ch11lev2sec7"/><strong>Event Object</strong></h5>
+<p class="noindent">Under the proprietary Internet Explorer event model, the browser creates a transient <span class="codesample">Event</span> object and makes it available to the appropriate handler. Unlike other event models in which the object is passed to the handler, the object in Internet Explorer is implicitly made available as the global variable <span class="codesample">event</span>. The most useful properties of the object are listed in <a class="nounder" href="ch11.html#tab11-7">Table 11-7</a>.</p>
+<p class="tabcap"><a id="tab11-7"/><strong>Table 11-7</strong> Properties of Internet Explorer’s Event Object</p>
+<p class="imagea"><img alt="image" src="t0436-01.jpg"/></p>
+<p class="image0"><img alt="image" src="t0437-01.jpg"/></p>
+<p class="indent">Since the <span class="codesample">Event</span> object is implicitly available everywhere, there’s no need to pass it to a handler bound with JavaScript. For example, if you had some bound event handler function called <span class="codesample"><em>clickHandler</em></span>, it could look at properties of the Event object quite directly:</p>
+<p class="image"><img alt="image" src="f0436-01.jpg"/></p>
+<p class="noindent"><a id="page_437"/>To explore the various aspects of the <span class="codesample">Event</span> object under Internet Explorer, use the following simple example, the result of which is shown in <a class="nounder" href="ch11.html#fig11-2">Figure 11-2</a>:</p>
+<p class="image1"><a id="fig11-2"/><img alt="image" src="f0438-01.jpg"/></p>
+<p class="figcap"><strong>Figure 11-2</strong> Exploring Internet Explorer’s Event object</p>
+<p class="image"><img alt="image" src="f0437-01.jpg"/></p>
+<p class="image"><img alt="image" src="f0437-02.jpg"/><a id="page_438"/></p>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.javascriptref.com/3ed/ch11/eventattributesIE.html">http://javascriptref.com/3ed/ch11/eventattributesIE.html</a></p>
+<p class="indent"><a id="page_439"/>Shortly, we’ll see that there is some good news here with events in that the Internet Explorer way of doing things isn’t completely divergent from the DOM method, so we can write a handler that addresses both. For now, let’s continue our tour of this proprietary event system.</p>
+<h5 class="h5"><a id="ch11lev2sec8"/><strong>Event Bubbling</strong></h5>
+<p class="noindent">The flow of events in Internet Explorer was the opposite of the Netscape model. Most events begin at the object at which they occur and bubble up the hierarchy. Bubbling events give the appropriate handler at each level in the hierarchy the opportunity to handle, redirect, or pass the event along up the tree. Bubbling events proceed up to the <span class="codesample">Document</span>, but there they stop (that is, they don’t propagate up to the <span class="codesample">Window</span>).</p>
+<p class="indent">Some events that have specific, well-defined meanings, such as form submission and receiving focus, do not bubble. Whereas bubbling events work their way up the tree, causing the appropriate handler to be invoked at each level in the hierarchy until they reach the top or are canceled, nonbubbling events invoke the handler only of the object at which they occur. The rationale is that such events do not have well-defined semantics at a higher level in the hierarchy, so they should not be propagated up the tree. In the case where an event does bubble but we may not want it to, we can cancel it so its upward progress is halted in script. We’ll see how to do this in a moment, but for now, to illustrate event bubbling in action, consider the following example. Handlers for clicks are defined for many objects in the hierarchy, and each writes the name of the element to which it is attached into the paragraph with the <span class="codesample"><strong>id</strong></span> of <span class="codesample"><em>results</em></span>:</p>
+<p class="image"><img alt="image" src="f0439-01.jpg"/></p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.javascriptref.com/3ed/ch11/iebubble.html">http://javascriptref.com/3ed/ch11/iebubble.html</a></p>
+<p class="indent"><a id="page_440"/>Clicking the bold text causes a <span class="codesample">click</span> event to occur at the <span class="codesample"><strong>&lt;b&gt;</strong></span> tag. The event then bubbles up, invoking the <span class="codesample">onclick</span> handlers off of objects above it in the containment hierarchy. The result is shown in <a class="nounder" href="ch11.html#fig11-3">Figure 11-3</a>.</p>
+<p class="image1"><a id="fig11-3"/><img alt="image" src="f0440-02.jpg"/></p>
+<p class="figcap"><strong>Figure 11-3</strong> Internet Explorer event bubbling example</p>
+<h6 class="h6"><strong>Preventing Bubbling</strong></h6>
+<p class="noindent">You can stop events from propagating up the hierarchy by setting the <span class="codesample">cancelBubble</span> property of the <span class="codesample">Event</span> object. This property is <span class="codesample">false</span> by default, meaning that after a handler is finished with the event, it will continue on its way up to the next enclosing object in the hierarchy. Setting the <span class="codesample">cancelBubble</span> property to <span class="codesample">true</span> prevents further bubbling after the current handler has finished. For example, you could prevent the event from getting beyond the <span class="codesample"><strong>&lt;b&gt;</strong></span> tag in the last example by making this small modification:</p>
+<p class="image"><img alt="image" src="f0440-01.jpg"/></p>
+<p class="noindent">We should note a few things, though. First, not all events are cancelable. Second, we should point out that returning <span class="codesample">false</span> from a handler (or setting <span class="codesample">event.returnValue</span> to <span class="codesample">false</span>) prevents the default action for the event but does not cancel bubbling. Later handlers invoked by the bubbling behavior will still have a chance to handle the event, and any value they return (or set<span class="codesample">event.returnValue</span> to) will “overwrite” the value set or returned by a previous handler. Conversely, canceling bubbling does not affect the event’s return value. Because the default <span class="codesample">returnValue</span> of an <span class="codesample">event</span> is <span class="codesample">true</span>, you need to be sure to return <span class="codesample">false</span> or set <span class="codesample">returnValue</span> to <span class="codesample">false</span> if you wish to prevent the event’s default action.</p>
+<h5 class="h5"><a id="page_441"/><a id="ch11lev2sec9"/><strong>Simulating Event Routing</strong></h5>
+<p class="noindent">Events bubble up strictly through objects in the hierarchy that contain them. There is, however, a primitive way to redirect to another object in pre-DOM event-supporting browsers such as Internet Explorer 5.5–8. Each object has a <span class="codesample">fireEvent()</span> method that transfers the event to the object on which it is invoked:</p>
+<p class="image"><img alt="image" src="f0441-01.jpg"/></p>
+<p class="noindent">The first argument is a string denoting the handler to fire, such as <span class="codesample">“onclick”</span>. The optional <span class="codesample"><em>eventObject</em></span> parameter is the <span class="codesample">Event</span> object from which the new <span class="codesample">Event</span> object will be created. If <span class="codesample"><em>eventObject</em></span> is not given, a brand-new <span class="codesample">Event</span> is created and initialized as if the event had really occurred on the target object. If <span class="codesample"><em>eventObject</em></span> is specified, its properties are copied into the new Event object, except for <span class="codesample">cancelBubble, returnValue, srcElement</span>, and <span class="codesample">type</span>. These values are always initialized (respectively) to <span class="codesample">false, <span class="codesample">true</span></span>, the element on which the event is firing, and the type of event given by the first argument to <span class="codesample">fireEvent()</span>.</p>
+<p class="indent">One major downside of this method is that its invocation causes a new <span class="codesample">Event</span> to be created, so the reference to the original target <span class="codesample">(event.srcElement)</span> is lost during the handoff.</p>
+<p class="indent">The following code fragment illustrates the method:</p>
+<p class="image"><img alt="image" src="f0441-02.jpg"/></p>
+<p class="noindent">When set as a <span class="codesample">click</span> handler, the preceding function redirects the event to the first image in the page.</p>
+<p class="indent">Remember to cancel the original event before redirecting to another object; failing to do so “forks” the event by allowing it to continue on its way up the hierarchy while adding the new event created by <span class="codesample">fireEvent()</span> to the event queue. The new event will be fired only after the original event has finished bubbling.</p>
+<h5 class="h5"><a id="ch11lev2sec10"/><strong>Event Creation</strong></h5>
+<p class="noindent">Under the basic event model, you could simulate events by invoking event handlers directly as well as implicitly creating a few “real” events by invoking methods such as <span class="codesample">submit()</span> and <span class="codesample">focus()</span>. Internet Explorer 5.5 introduced the first method for creating actual <span class="codesample">Event</span> objects. The syntax of the Internet Explorer event creation is shown here:</p>
+<p class="image"><img alt="image" src="f0441-03.jpg"/></p>
+<p class="noindent">This <span class="codesample">createEventObject()</span> method of the <span class="codesample">Document</span> object returns an <span class="codesample">Event</span> object, cloning the <span class="codesample"><em>eventObjectToClone</em></span> argument if one exists. You can set the properties of the newly created <span class="codesample">Event</span> object and cause the event to occur on an object of your choice by passing it as an argument to <span class="codesample">fireEvent()</span>.</p>
+<p class="image"><img alt="image" src="f0441-04.jpg"/></p>
+<p class="image"><img alt="image" src="f0441-05.jpg"/></p>
+<hr/>
+<p class="online"><a id="page_442"/><strong>ONLINE</strong> <a class="nounder" href="http://www.javascriptref.com/3ed/ch11/eventsIE.html">http://javascriptref.com/3ed/ch11/eventsIE.html</a></p>
+<p class="indent">At first, it might seem curious why you would want to simulate events. There are many reasons you may want to do this, however, and test automation comes to mind quickly.</p>
+<hr/>
+<p class="note"><strong>NOTE</strong> Internet Explorer (especially versions 5.5–8) provides more event-related features than we’ve covered here. Most of these features involve the proprietary Internet Explorer event handlers. To learn more, visit <a href="http://msdn.microsoft.com">http://msdn.microsoft.com</a>.</p>
+<h4 class="h4"><a id="page_443"/><a id="ch11lev1sec5"/><strong>DOM Event Model</strong></h4>
+<p class="noindent">The DOM2 Event model specification (<a class="nounder" href="http://www.w3.org/TR/DOM-Level-2-Events/">http://www.w3.org/TR/DOM-Level-2-Events/</a>) describes a standard way to create, capture, handle, and cancel events in a tree-like structure such as an XHTML document’s object hierarchy. It also describes event propagation behavior—that is, how an event arrives at its target and what happens to it afterward.</p>
+<p class="indent">The DOM approach to events accommodates the basic event model and marries important concepts from the proprietary models. This essentially means that the basic event model works exactly as advertised in a DOM event-supporting browser. Also, everything that you can do in older browsers you can do in a DOM-compliant browser, but the syntax is different. Today most browsers support this model, though it did take until Internet Explorer 9 to see DOM event support from Microsoft.</p>
+<p class="indent">The hybridization of the proprietary models is evident in how events propagate in a DOM event-supporting browser. Events begin their lifecycle at the top of the hierarchy (at the <span class="codesample">Document</span>) and make their way down through containing objects to the target. This is known as the <em>capture phase</em> because it mimics the behavior of the old Netscape 4 browser. During its descent, an event may be preprocessed, handled, or redirected by any intervening object. Once the event reaches its target and the handler there has executed, the event proceeds back up the hierarchy to the top. This is known as the <em>bubbling phase</em> because of its obvious connections to the Internet Explorer model.</p>
+<h5 class="h5"><a id="ch11lev2sec11"/><strong>Traditional Binding Changes</strong></h5>
+<p class="noindent">The easiest way to bind event handlers to elements under DOM Level 2 events is to use HTML attributes such as <span class="codesample"><strong>onclick</strong></span>, which you should be familiar with by now. Nothing changes for DOM event-supporting browsers when you bind events in this way, except that only support for events in the HTML standard is guaranteed (though some browsers support more events).</p>
+<p class="indent">Because there is no official way in DOM2 for script in event handler attribute text to access an <span class="codesample">Event</span> object, the preferred binding technique is to use JavaScript. The same syntax is used as with the basic event model:</p>
+<p class="image"><img alt="image" src="f0443-01.jpg"/></p>
+<p class="noindent">Notice in this example how the handler accepts an argument. DOM2 browsers pass an <span class="codesample">Event</span> object containing extra information about the event to handlers. The name of the argument is arbitrary, but <span class="codesample"><em>event, e</em></span>, and <span class="codesample"><em>evt</em></span> are most commonly used. We’ll discuss the <span class="codesample">Event</span> object in more detail in an upcoming section.</p>
+<h5 class="h5"><a id="page_444"/><a id="ch11lev2sec12"/><strong>addEventListener() and removeEventListener( )</strong></h5>
+<p class="noindent">You can also use the <span class="codesample">addEventListener()</span> method introduced by DOM2 to engage an event handler in a page. There are three reasons you might wish to use this function instead of directly setting an object’s event handler property. The first is that it enables you to bind multiple handlers to an object for the same event. When handlers are bound in this fashion, each handler is invoked when the specified event occurs, though the order in which they are invoked is arbitrary. The second reason to use <span class="codesample">addEventListener()</span> is that it enables you to handle events during the capture phase (when an event “trickles down” to its target). Event handlers bound to event handler attributes such as <span class="codesample"><strong>onclick</strong></span> and <span class="codesample"><strong>onsubmit</strong></span> are invoked only during the bubbling phase. The third reason is that this method enables you to bind handlers to text nodes, an impossible task prior to DOM2.</p>
+<p class="indent">The syntax of the <span class="codesample">addEventListener()</span> method is</p>
+<p class="image"><img alt="image" src="f0444-01.jpg"/></p>
+<p class="noindent">where:</p>
+<p class="bullettop">• <span class="codesample"><em>object</em></span> is the node to which the listener is to be bound.</p>
+<p class="bullet">• <span class="codesample"><em>event</em></span> is a string indicating the event it is to listen for.</p>
+<p class="bullet">• <span class="codesample"><em>handler</em></span> is the function that should be invoked when the event occurs.</p>
+<p class="bullet">• <span class="codesample"><em>capturePhase</em></span> is a Boolean indicating whether the handler should be invoked during the capture phase (<span class="codesample">true</span>) or bubbling phase (<span class="codesample">false</span>).</p>
+<p class="indenttop">For example, to register a function <span class="codesample"><em>changeColor()</em></span> as the capture-phase <span class="codesample">mouseover</span> handler for a paragraph with an <span class="codesample"><strong>id</strong></span> of <span class="codesample"><em>myText</em></span>, you might write the following:</p>
+<p class="image"><img alt="image" src="f0444-02.jpg"/></p>
+<p class="noindent">To add a bubble phase handler, simply change the final value to <span class="codesample">false</span>:</p>
+<p class="image"><img alt="image" src="f0444-03.jpg"/></p>
+<p class="indent">A simple example is shown here:</p>
+<p class="image"><img alt="image" src="f0444-04.jpg"/></p>
+<hr/>
+<p class="online"><a id="page_445"/><strong>ONLINE</strong> <a class="nounder" href="http://www.javascriptref.com/3ed/ch11/addeventlistener.html">http://javascriptref.com/3ed/ch11/addeventlistener.html</a></p>
+<p class="indent">Handlers are removed using <span class="codesample">removeEventListener()</span>, with the same arguments given when the event was added. So, to remove the first handler in the previous example (but keep the second), you would execute the following code:</p>
+<p class="image"><img alt="image" src="f0445-01.jpg"/></p>
+<p class="noindent">A simple example of adding and removing events using the DOM methods is shown here:</p>
+<p class="image"><img alt="image" src="f0445-02.jpg"/></p>
+<p class="image"><img alt="image" src="f0445-03.jpg"/></p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.javascriptref.com/3ed/ch11/removeeventlistener.html">http://javascriptref.com/3ed/ch11/removeeventlistener.html</a></p>
+<h5 class="h5"><a id="page_446"/><a id="ch11lev2sec13"/><strong>Event Object</strong></h5>
+<p class="noindent">As previously mentioned, browsers supporting DOM events pass an <span class="codesample">Event</span> object as an argument to handlers. This object contains extra information about the event that occurred, and is, in fact, quite similar to the <span class="codesample">Event</span> objects of older proprietary models. The exact properties of this object depend on the event that occurred, but all <span class="codesample">Event</span> objects have the read-only properties listed in <a class="nounder" href="ch11.html#tab11-8">Table 11-8</a>.</p>
+<p class="tabcap"><a id="tab11-8"/><strong>Table 11-8</strong> Event Object Properties</p>
+<p class="imagea"><img alt="image" src="t0446-01.jpg"/></p>
+<p class="image0"><img alt="image" src="t0446-02.jpg"/></p>
+<p class="image0"><img alt="image" src="t0447-01.jpg"/></p>
+<p class="indent"><a id="page_447"/>An example to explore the DOM <span class="codesample">Event</span> object similar to the one earlier in the chapter is presented here and can be found online.</p>
+<p class="image"><img alt="image" src="f0447-01.jpg"/></p>
+<p class="image"><img alt="image" src="f0447-02.jpg"/></p>
+<hr/>
+<p class="online"><a id="page_448"/><strong>ONLINE</strong> <a class="nounder" href="http://www.javascriptref.com/3ed/ch11/eventattributes.html">http://javascriptref.com/3ed/ch11/eventattributes.html</a></p>
+<h5 class="h5"><a id="ch11lev2sec14"/><strong>Preventing Default Actions</strong></h5>
+<p class="noindent">As with more traditional models, DOM Level 2 allows you to cancel the default action associated with an event by returning <span class="codesample">false</span> from a handler. It also provides the <span class="codesample">preventDefault()</span> method of <span class="codesample">Event</span> objects. If, at any time during an event’s lifetime, a handler calls <span class="codesample">preventDefault()</span>, the default action for the event is canceled. This is an important point: if <span class="codesample">preventDefault()</span>is ever called on an event, its default action <em>will be</em> canceled; even other handlers returning <span class="codesample">true</span> cannot cause the default action to proceed.</p>
+<p class="indent">The following simple example prevents clicks anywhere in the document from having their intended effect:</p>
+<p class="image"><img alt="image" src="f0448-01.jpg"/></p>
+<p class="indent">If later we want to understand whether this method has been called, the <span class="codesample">defaultPrevented</span> property is set in the <span class="codesample">Event</span> object. You might wonder how that would ever be useful if we have killed the event’s default. Understand that we aren’t killing the event with this method, nor are we keeping it from continuing on its voyage through the document object hierarchy. Consider the idea of adding a click handler to all of the elements in the tree that outputs which element receives the click event, like so:</p>
+<p class="image"><a id="page_449"/><img alt="image" src="f0449-01.jpg"/></p>
+<p class="noindent">When the link is clicked, its default action is canceled by <span class="codesample"><em>killClicks()</em></span>, but as you can see here the event still propagates through the tree:</p>
+<p class="image1"><img alt="image" src="f0449-02.jpg"/></p>
+<p class="noindent">This example clearly illustrates the fact that event propagation through the document object hierarchy is independent of whether the event’s default action has been canceled.</p>
+<h5 class="h5"><a id="ch11lev2sec15"/><strong>Controlling Event Propagation</strong></h5>
+<p class="noindent">As mentioned earlier, we can control the direction of event flow when we set our listeners. The previous example passed a <span class="codesample">false</span> value to the event bind and the event bubbled, but we can also have it go the other direction by using a <span class="codesample">true</span> value:</p>
+<p class="image"><img alt="image" src="f0449-03.jpg"/></p>
+<p class="noindent">If we do that, we see that the event progress acts a bit differently, moving from <span class="codesample">document</span> down the tree to the event source:</p>
+<p class="image1"><img alt="image" src="f0449-04.jpg"/></p>
+<p class="indent"><a id="page_450"/>While it seems straightforward enough, listening for events in the capture and bubbling phases can be a tricky business because of the parent-child relationship of nodes in the DOM. A handler will be invoked for an event only if the event is targeted for a node that is in the subtree rooted at the node to which the listener is attached. Because containment relationships for different parts of the page often change, many programmers find it convenient to capture events at a major object they know will contain the objects of interest, such as at the <span class="codesample">Document</span> or <span class="codesample">Form</span> level.</p>
+<p class="indent">If, at any point during an <span class="codesample">Event</span>’s lifetime, a handler invokes its <span class="codesample">stopPropagation()</span> method, the event ceases its motion through the document object hierarchy and expires after all handlers bound to the current object have executed. That is, when <span class="codesample">stopPropagation()</span> is called, the only handlers that will further be invoked are those bound to the current object. The following simple example shows killing the event as it bubbles up from the link:</p>
+<p class="image"><img alt="image" src="f0450-01.jpg"/></p>
+<p class="image"><img alt="image" src="f0450-02.jpg"/></p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.javascriptref.com/3ed/ch11/stoppropagation.html">http://javascriptref.com/3ed/ch11/stoppropagation.html</a></p>
+<p class="image1"><img alt="image" src="f0450-03.jpg"/></p>
+<h5 class="h5"><a id="page_451"/><a id="ch11lev2sec16"/><strong>Event Creation</strong></h5>
+<p class="noindent">The DOM Event specification allows for synthetic events to be created by the user using <span class="codesample">document.createEvent()</span>. You first create the type of event you want, say an HTML-related event:</p>
+<p class="image"><img alt="image" src="f0451-01.jpg"/></p>
+<p class="noindent">Then, once your event is created, you pass it various attributes related to the event type. Here, for example, we pass the type of event “click” and Boolean values indicating that it is “bubble-able” and cancelable:</p>
+<p class="image"><img alt="image" src="f0451-02.jpg"/></p>
+<p class="noindent">Finally, we find a node in the document tree and dispatch the event to it:</p>
+<p class="image"><img alt="image" src="f0451-03.jpg"/></p>
+<p class="noindent">The event then is triggered and reacts as any other event. A simple example here shows how we create a click event when another object is rolled over and then dispatch that click to a node with an appropriate handler:</p>
+<p class="image"><img alt="image" src="f0451-04.jpg"/></p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.javascriptref.com/3ed/ch11/createevent.html">http://javascriptref.com/3ed/ch11/createevent.html</a></p>
+<hr/>
+<p class="note"><strong>NOTE</strong> Internet Explorer versions prior to 9 use proprietary event creation syntax; see the section covering this syntax earlier in the chapter.</p>
+<p class="indent"><a id="page_452"/>In the previous example, the event was initiated with the <span class="codesample">document.createEvent</span> function. In the DOM4 Core specification, a more natural way to create events was introduced using constructor syntax. The constructor takes two arguments. The first is a string indicating the event name to create. The second is an object that contains the details about the event. This is improved on from the previous syntax, as it doesn’t require a fixed order for the arguments. Instead of the three lines it previously took to dispatch an event, only two lines are needed with the new syntax:</p>
+<p class="image"><img alt="image" src="f0452-01.jpg"/></p>
+<p class="noindent">The functionality remains the same. Though this has been quickly implemented by some browsers, at the time of this writing it is not covered by all, so be sure to check support before implementing.</p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.javascriptref.com/3ed/ch11/createevent-constructor.html">http://javascriptref.com/3ed/ch11/createevent-constructor.html</a></p>
+<p class="indent">Given that events might be user triggered or synthetic, we might like to tell the difference. Events generated by a browser or a direct user action are deemed trusted and will have an <span class="codesample">isTrusted</span> value of <span class="codesample">true</span> on their <span class="codesample">Event</span> object. Synthetic events are triggered by code, typically using <span class="codesample">createEvent()</span>. Since they are code created, it is possible that these events are the result of malicious code, so they have an <span class="codesample">isTrusted</span> value of <span class="codesample">false</span>. A simple example to demonstrate the setting of this property is shown here:</p>
+<p class="image"><img alt="image" src="f0452-02.jpg"/></p>
+<hr/>
+<p class="online"><a id="page_453"/><strong>ONLINE</strong> <a class="nounder" href="http://www.javascriptref.com/3ed/ch11/istrusted.html">http://javascriptref.com/3ed/ch11/istrusted.html</a></p>
+<p class="indent">Readers should be quite careful about relying on this property. If malicious JavaScript is injected in a page via an XSS exploit or another scheme, it may be able to remove any script checks of the <span class="codesample">isTrusted</span> property. Ultimately, the client-side must be deemed untrustworthy if Web application security is to be achieved.</p>
+<p class="indent">At this point, we could go and enumerate the various types of events to be created, but there is, in fact, a fair bit of complexity to making events because events can be quite different. Because of the syntax diversity, at this point it makes sense to discuss the various event types a bit more closely, including how they may be created synthetically.</p>
+<h4 class="h4"><a id="ch11lev1sec6"/><strong>Event Types</strong></h4>
+<p class="noindent">In this section, we cover the various events available in most browsers. We’ll present as much of both DOM-specified and emerging events as possible, but will avoid too much detail on those events that are dying out or purely speculative in their syntax.</p>
+<h5 class="h5"><a id="ch11lev2sec17"/><strong>Mouse Events</strong></h5>
+<p class="noindent">The mouse events defined by DOM2 and 3 under the <span class="codesample">MouseEvent</span> interface are most of those from the standard DOM model from HTML 4, though two nonbubbling events for mouse hovering (<span class="codesample">mouseenter</span> and <span class="codesample">mouseleave</span>) have been added. Mouse events are listed in <a class="nounder" href="ch11.html#tab11-9">Table 11-9</a>.</p>
+<p class="tabcap"><a id="tab11-9"/><strong>Table 11-9</strong> Mouse Events</p>
+<p class="image"><img alt="image" src="t0453-01.jpg"/></p>
+<p class="indent"><a id="page_454"/>When a mouse event occurs, the browser fills the <span class="codesample">Event</span> object with properties describing screen position (<span class="codesample">clientX, clientY, screenX, screenY</span>), which button was pressed (<span class="codesample">button</span>), and the number of times it was pressed (<span class="codesample">detail</span>). The following simple example shows mouse events in action:</p>
+<p class="image"><img alt="image" src="f0454-01.jpg"/></p>
+<p class="image"><img alt="image" src="f0454-02.jpg"/></p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.javascriptref.com/3ed/ch11/mouseevents.html">http://javascriptref.com/3ed/ch11/mouseevents.html</a></p>
+<p class="indent">To synthetically create a mouse event, use code such as</p>
+<p class="image"><a id="page_455"/><img alt="image" src="f0455-01.jpg"/></p>
+<p class="noindent">However, because there are many other aspects to mouse events, initialization of them can be a bit involved. The syntax of this method is</p>
+<p class="image"><img alt="image" src="f0455-02.jpg"/></p>
+<p class="noindent">where</p>
+<p class="bullettop">• <span class="codesample"><em>type</em></span> is a string representing the particular mouse event to create, such as <span class="codesample">“mouseout”, “mousemove”</span>, and so on.</p>
+<p class="bullet">• <span class="codesample"><em>bubbles</em></span> is a Boolean value indicating whether or not the event should bubble.</p>
+<p class="bullet">• <span class="codesample"><em>cancelable</em></span> is a Boolean value indicating whether or not the event should be cancelable.</p>
+<p class="bullet">• <span class="codesample"><em>view</em></span> is the event’s <span class="codesample">AbstractView</span>. You should pass the <span class="codesample">Window</span> object here.</p>
+<p class="bullet">• <span class="codesample"><em>detail</em></span> indicates how many times a mouse button is pressed.</p>
+<p class="bullet">• <span class="codesample"><em>screenX</em></span> is the horizontal screen position of the mouse event.</p>
+<p class="bullet">• <span class="codesample"><em>screenY</em></span> is the vertical screen position of the mouse event.</p>
+<p class="bullet">• <span class="codesample"><em>clientX</em></span> is the horizontal position of the event relative to the window.</p>
+<p class="bullet">• <span class="codesample"><em>clientY</em></span> is the vertical position of the event relative to the window.</p>
+<p class="bullet">• <span class="codesample"><em>ctrlKey</em></span> is a Boolean value indicating whether or not the <span class="codesample">CTRL</span> key was pressed.</p>
+<p class="bullet">• <span class="codesample"><em>altKey</em></span> is a Boolean value indicating whether or not the <span class="codesample">ALT</span> key was pressed.</p>
+<p class="bullet">• <span class="codesample"><em>shiftKey</em></span> is a Boolean value indicating whether or not the <span class="codesample">SHIFT</span> key was pressed.</p>
+<p class="bullet">• <span class="codesample"><em>metaKey</em></span> is a Boolean value indicating whether or not the <span class="codesample">META</span> key was pressed.</p>
+<p class="bullet">• <span class="codesample"><em>button</em></span> is a numeric value indicating which mouse button was used (0 for left, 1 for middle, and 2 for right).</p>
+<p class="bullet">• <span class="codesample"><em>relatedTarget</em></span> is a DOM node reference related to the event; for example, on a <span class="codesample">mouseover</span> it references the node the mouse is leaving. If not used, <span class="codesample">null</span> is passed.</p>
+<p class="indenttop">Once an event is made, it is issued using the <span class="codesample">dispatchEvent()</span> method. A simple example here, the result of which appears in <a class="nounder" href="ch11.html#fig11-4">Figure 11-4</a>, shows how we might dispatch a <span class="codesample">click</span> event:</p>
+<p class="image1"><a id="fig11-4"/><img alt="image" src="f0457-01.jpg"/></p>
+<p class="figcap"><strong>Figure 11-4</strong> Create blue boxes with synthetic clicks</p>
+<p class="image"><img alt="image" src="f0455-03.jpg"/></p>
+<p class="image"><img alt="image" src="f0455-04.jpg"/></p>
+<hr/>
+<p class="online"><a id="page_456"/><strong>ONLINE</strong> <a class="nounder" href="http://www.javascriptref.com/3ed/ch11/createmouseevents.html">http://javascriptref.com/3ed/ch11/createmouseevents.html</a></p>
+<h6 class="h6"><strong>mousewheel Event</strong></h6>
+<p class="noindent">In addition to the traditional mouse events, it is also possible to capture the scrolling of the mouse wheel. This event has been notoriously inconsistent and varies between browsers and even browser versions. Most browsers now support the <span class="codesample">mousewheel</span> event, though Firefox requires the use of the <span class="codesample">DOMMouseScroll</span> or the <span class="codesample">MozMousePixelScroll</span>. When inspecting the <span class="codesample">Event</span> object, it is possible to find out how far the page has been scrolled. In general, this can be found set in pixels via the <span class="codesample">event.details</span> property. However, in older versions of Internet Explorer, it is necessary to view the <span class="codesample">event.wheelDelta</span> <a id="page_457"/>property. When using <span class="codesample">DOMMouseScroll</span> in Firefox, the value will be the number of lines scrolled. It is necessary to use <span class="codesample">MozMousePixelScroll</span> to see the number of pixels.</p>
+<p class="image"><img alt="image" src="f0457-02.jpg"/></p>
+<hr/>
+<p class="online"><a id="page_458"/><strong>ONLINE</strong> <a class="nounder" href="http://www.javascriptref.com/3ed/ch11/mousewheel.html">http://javascriptref.com/3ed/ch11/mousewheel.html</a></p>
+<h5 class="h5"><a id="ch11lev2sec18"/><strong>UI Events</strong></h5>
+<p class="noindent">The DOM Level 3 specification groups a variety of events in the category of “UI event.” These events are listed in <a class="nounder" href="ch11.html#tab11-10">Table 11-10</a>.</p>
+<p class="tabcap"><a id="tab11-10"/><strong>Table 11-10</strong> UI Events</p>
+<p class="image"><img alt="image" src="t0458-01.jpg"/></p>
+<p class="indent">To create a “UI event” synthetically, use the following:</p>
+<p class="image"><img alt="image" src="f0458-01.jpg"/></p>
+<p class="noindent">Then initialize the event:</p>
+<p class="image"><img alt="image" src="f0458-02.jpg"/></p>
+<p class="noindent"><a id="page_459"/>where</p>
+<p class="bullettop">• <span class="codesample"><em>type</em></span> is a string representing the particular event to create, such as “DOMFocusIn”.</p>
+<p class="bullet">• <span class="codesample"><em>bubbles</em></span> is a Boolean value indicating whether or not the event should bubble.</p>
+<p class="bullet">• <span class="codesample"><em>cancelable</em></span> is a Boolean value indicating whether or not the event should be cancelable.</p>
+<p class="bullet">• <span class="codesample"><em>view</em></span> is the event’s <span class="codesample">AbstractView</span>. You should pass the <span class="codesample">Window</span> object here.</p>
+<p class="bullet">• <span class="codesample"><em>detail</em></span> indicates event-specific details for the spawned event.</p>
+<p class="noindenttop">Finally, dispatch the created event to the view, document, or appropriate element:</p>
+<p class="image"><img alt="image" src="f0459-01.jpg"/></p>
+<p class="indenttop">It is important to note that dispatching these events will not perform the action. However, they do trigger any event handlers for the respective event. An example can be seen here:</p>
+<p class="image"><img alt="image" src="f0459-02.jpg"/></p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.javascriptref.com/3ed/ch11/createuievents.html">http://javascriptref.com/3ed/ch11/createuievents.html</a></p>
+<h5 class="h5"><a id="ch11lev2sec19"/><strong>Focus Events</strong></h5>
+<p class="noindent">When aspects of a Web page gain or lose focus, events are fired. These events are shown in <a class="nounder" href="ch11.html#tab11-11">Table 11-11</a>. Notice that some of the events do not bubble.</p>
+<p class="tabcap"><a id="tab11-11"/><strong>Table 11-11</strong> Mouse Events</p>
+<p class="image"><img alt="image" src="t0460-01.jpg"/></p>
+<hr/>
+<p class="note"><a id="page_460"/><strong>NOTE</strong> <span class="codesample">DOMFocusIn</span> and <span class="codesample">DOMFocusOut</span> may be defined but are deprecated in favor of <span class="codesample">blur, focus, focusin</span>, and <span class="codesample">focusout</span>.</p>
+<p class="indenttop">Like other events, focus events can be created using the <span class="codesample">createEvent()</span> method, passing it the string <span class="codesample">“FocusEvent”:</span></p>
+<p class="image"><img alt="image" src="f0460-01.jpg"/></p>
+<p class="noindent">Once a synthetic focus event is created, initialize it with</p>
+<p class="image"><img alt="image" src="f0460-02.jpg"/></p>
+<p class="noindent">where</p>
+<p class="bullettop">• <span class="codesample"><em>type</em></span> is a string representing the particular focus event to create, such as <span class="codesample">“blur”, “focus”</span>, and so on.</p>
+<p class="bullet">• <span class="codesample"><em>bubbles</em></span> is a Boolean value indicating whether or not the event should bubble.</p>
+<p class="bullet">• <span class="codesample"><em>cancelable</em></span> is a Boolean value indicating whether or not the event should be cancelable.</p>
+<p class="bullet">• <span class="codesample"><em>view</em></span> is the event’s <span class="codesample">AbstractView</span>. You should pass the <span class="codesample">Window</span> object here.</p>
+<p class="bullet">• <span class="codesample"><em>detail</em></span> indicates how many times a mouse button is pressed.</p>
+<p class="bullet">• <span class="codesample">relatedTarget</span> is a DOM node reference related to the event; for example, on a <span class="codesample">focus</span> it references the node that was blurred. If not used, <span class="codesample">null</span> is passed.</p>
+<p class="noindenttop">Once the focus event is created, use the typical dispatch syntax, like so</p>
+<p class="image"><img alt="image" src="f0460-03.jpg"/></p>
+<hr/>
+<p class="note"><strong>NOTE</strong> Be careful creating focus events, as browser support is limited at the time of this book’s release.</p>
+<h5 class="h5"><a id="ch11lev2sec20"/><strong>Keyboard Events</strong></h5>
+<p class="noindent">Surprisingly, DOM Level 2 does not define keyboard events. They are instead defined in DOM Level 3. Of course, traditionally, <span class="codesample">keyup, keydown</span>, and <span class="codesample">keypress</span> events are defined for many elements, so it shouldn’t matter that the specification was lagging in support. <a class="nounder" href="ch11.html#tab11-12">Table 11-12</a> enumerates the keyboard events.</p>
+<p class="tabcap"><a id="tab11-12"/><strong>Table 11-12</strong> Keyboard Events</p>
+<p class="image"><img alt="image" src="t0461-01.jpg"/></p>
+<p class="image"><a id="page_461"/><img alt="image" src="f0461-01.jpg"/></p>
+<p class="image"><img alt="image" src="f0461-02.jpg"/></p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.javascriptref.com/3ed/ch11/keyboardevents.html">http://javascriptref.com/3ed/ch11/keyboardevents.html</a></p>
+<p class="indent">Like other events, focus events can be created using the <span class="codesample">createEvent()</span> method, passing it the string “<span class="codesample">KeyboardEvent”</span>:</p>
+<p class="image"><img alt="image" src="f0461-03.jpg"/></p>
+<p class="noindent"><a id="page_462"/>Once a synthetic focus event is created, initialize it with</p>
+<p class="image"><img alt="image" src="f0462-01.jpg"/></p>
+<p class="noindent">where</p>
+<p class="bullettop">• <span class="codesample"><em>type</em></span> is a string representing the particular focus event to create, such as <span class="codesample">“blur”, “focus”</span>, etc.</p>
+<p class="bullet">• <span class="codesample"><em>bubbles</em></span> is a Boolean value indicating whether or not the event should bubble.</p>
+<p class="bullet">• <span class="codesample"><em>cancelable</em></span> is a Boolean value indicating whether or not the event should be cancelable.</p>
+<p class="bullet">• <span class="codesample"><em>view</em></span> is the event’s <span class="codesample">AbstractView</span>. You should pass the <span class="codesample">Window</span> object here.</p>
+<p class="bullet">• <span class="codesample"><em>charArg</em></span> holds the character value of the key to be pressed.</p>
+<p class="bullet">• <span class="codesample"><em>keyArg</em></span> holds the key value of the key to be pressed.</p>
+<p class="bullet">• <span class="codesample"><em>location</em></span> specifies the location of the key on the device, such as left, right, and so on.</p>
+<p class="bullet">• <em><span class="codesample">modifiers</span></em> is a white space–separated list of any modifier keys pressed, such as <span class="codesample">ALT, CTRL</span>, and <span class="codesample">SHIFT</span>.</p>
+<p class="bullet">• <span class="codesample"><em>repeat</em></span> is a Boolean that specifies whether or not the key is repeating.</p>
+<p class="bullet">• <span class="codesample"><em>locale</em></span> is a string containing a localization string such as “en-us.”</p>
+<p class="image"><img alt="image" src="f0462-02.jpg"/></p>
+<p class="indent">Because of the real possibility of input device diversity, the various keystroke events may eventually be superseded by text events, which are discussed next.</p>
+<h5 class="h5"><a id="ch11lev2sec21"/><strong>Text Events</strong></h5>
+<p class="noindent">The DOM Level 3 specification introduction of the <span class="codesample">textInput</span> event allows refined keyboard handling. While the <span class="codesample">keypress</span> event was commonly employed to handle keystrokes, it was found on every element and it fired every keystroke including backspacing, which sometimes made coding a bit messy. In contrast, the <span class="codesample">textInput</span> event is bound only to editable areas such as text fields, and fires only when characters are being inserted. Another small but useful improvement is that the event populates a property on the <span class="codesample">Event</span> object <span class="codesample">event.data</span>, which contains the newly inserted character. This avoids the past need to translate the key from its <span class="codesample">event.charCode</span> value. A brief example of using the two forms of key input handling is shown here. Note that, while <span class="codesample">textInput</span> is defined in the specification, it is not currently fully supported. The nonstandard <span class="codesample">input</span> event can be used to the same effect.</p>
+<p class="image"><img alt="image" src="f0462-03.jpg"/></p>
+<p class="image"><img alt="image" src="f0462-04.jpg"/></p>
+<hr/>
+<p class="online"><a id="page_463"/><strong>ONLINE</strong> <a class="nounder" href="http://www.javascriptref.com/3ed/ch11/textinput.html">http://javascriptref.com/3ed/ch11/textinput.html</a></p>
+<hr/>
+<p class="note"><strong>NOTE</strong> There is some suggestion that this event handler is useful for non-keyboard input, but this seems more theoretical than practical for now, and it is likely that <span class="codesample">keypress</span> events will have to be mapped to emerging interfaces if click and touch events serve as any guide.</p>
+<p class="indent">Like other events, focus events can be created using the <span class="codesample">createEvent()</span> method, passing it the string <span class="codesample">“TextEvent”</span>.</p>
+<p class="image"><img alt="image" src="f0463-01.jpg"/></p>
+<p class="noindent">Once a synthetic focus event is created, initialize it with</p>
+<p class="image"><img alt="image" src="f0463-02.jpg"/></p>
+<p class="noindent">where</p>
+<p class="bullettop">• <span class="codesample"><em>type</em></span> is a string representing the particular focus event to create, such as <span class="codesample">“blur”, “focus”</span>, and so on.</p>
+<p class="bullet"><a id="page_464"/>• <span class="codesample"><em>bubbles</em></span> is a Boolean value indicating whether or not the event should bubble.</p>
+<p class="bullet">• <span class="codesample"><em>cancelable</em></span> is a Boolean value indicating whether or not the event should be cancelable.</p>
+<p class="bullet">• <span class="codesample"><em>view</em></span> is the event’s <span class="codesample">AbstractView</span>. You should pass the <span class="codesample">Window</span> object here.</p>
+<p class="bullet">• <span class="codesample"><em>data</em></span> is the data to be added to the document.</p>
+<p class="bullet">• <span class="codesample"><em>inputMethod</em></span> is the method by which the content is added to the document.</p>
+<p class="bullet">• <span class="codesample"><em>locale</em></span> is a string containing a localization string such as “en-us.”</p>
+<p class="image"><img alt="image" src="f0464-01.jpg"/></p>
+<h5 class="h5"><a id="ch11lev2sec22"/><strong>Mutation Events</strong></h5>
+<p class="noindent">Because of the capabilities for dynamic modification of the document object hierarchy found in DOM-compliant browsers, DOM2 includes events for detecting structural and logical changes to the document. These events are known as <em>mutation events</em> because they occur when the document hierarchy mutates—or a bit less dramatically, simply changes— and they are listed in <a class="nounder" href="ch11.html#tab11-13">Table 11-13</a>.</p>
+<p class="tabcap"><a id="tab11-13"/><strong>Table 11-13</strong> Mutation Events</p>
+<p class="imagea"><img alt="image" src="t0465-01.jpg"/></p>
+<p class="image0"><img alt="image" src="t0465-02.jpg"/></p>
+<p class="indent">Sadly, even at the time of writing this edition, these events continue not to be consistently supported in browsers. Things may change as browsers evolve, so explore the demo found online.</p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.javascriptref.com/3ed/ch11/mutationevents.html">http://javascriptref.com/3ed/ch11/mutationevents.html</a></p>
+<h5 class="h5"><a id="ch11lev2sec23"/><strong>Nonstandard Events</strong></h5>
+<p class="noindent">There are a number of events that are implemented by many browsers yet do not show up in any specification. These events are of the class <span class="codesample">Event</span> and do not fit into a more specific class. Three that are very common and useful are <span class="codesample">oncopy, oncut</span>, and <span class="codesample">onpaste</span>. The <span class="codesample">Event</span> object itself will not contain any information about the data that was being manipulated, but using standard DOM methods it is possible to retrieve the data. A very common usage of these events is to disable them. However, be warned that this will not prevent people from taking the content from the page because it is as simple as disabling JavaScript or viewing source to successfully execute the action.</p>
+<p class="image"><img alt="image" src="f0464-02.jpg"/></p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.javascriptref.com/3ed/ch11/oncopy.html">http://javascriptref.com/3ed/ch11/oncopy.html</a></p>
+<h5 class="h5"><a id="page_465"/><a id="ch11lev2sec24"/><strong>Custom Events</strong></h5>
+<p class="noindent">An interesting aspect of advanced DOM events is that you can create custom events and fire them yourself. For example, imagine listening for events for the time of day. We might register a listener, like so:</p>
+<p class="image"><img alt="image" src="f0465-01.jpg"/></p>
+<p class="noindent">Once a custom event is created, initialize it with</p>
+<p class="image"><img alt="image" src="f0465-02.jpg"/></p>
+<p class="noindent">where</p>
+<p class="bullettop">• <span class="codesample"><em>type</em></span> is a string representing the particular type of event to create, which is some custom string such as <span class="codesample">“myEvent”, “mediate”</span>, and so on.</p>
+<p class="bullet"><a id="page_466"/>• <span class="codesample"><em>bubbles</em></span> is a Boolean value indicating whether or not the event should bubble.</p>
+<p class="bullet">• <span class="codesample"><em>cancelable</em></span> is a Boolean value indicating whether or not the event should be cancelable.</p>
+<p class="bullet">• <span class="codesample"><em>details</em></span> is some data used in the custom event.</p>
+<p class="indent">Once the custom event is created, you can dispatch it as any other event:</p>
+<p class="image"><img alt="image" src="f0466-01.jpg"/></p>
+<p class="noindent">A simple example shown here uses different custom events based on time of day:</p>
+<p class="image"><img alt="image" src="f0466-02.jpg"/></p>
+<p class="image"><img alt="image" src="f0466-03.jpg"/></p>
+<hr/>
+<p class="online"><a id="page_467"/><strong>ONLINE</strong> <a class="nounder" href="http://www.javascriptref.com/3ed/ch11/customevent.html">http://javascriptref.com/3ed/ch11/customevent.html</a></p>
+<p class="indent">Just like with regular events, custom events have a new constructor syntax defined under DOM4 Core. The syntax is identical to the <span class="codesample">new Event()</span> syntax, except that the constructor name is <span class="codesample">CustomEvent()</span>. Again, configuration options can be set through the object in the second parameter on the constructor. In order to set custom values, it is necessary to place a <span class="codesample"><em>details</em></span> parameter in the object. In this example, we combine the dispatch and constructor into a single line:</p>
+<p class="image"><img alt="image" src="f0467-01.jpg"/></p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.javascriptref.com/3ed/ch11/customevent-constructor.html">http://javascriptref.com/3ed/ch11/customevent-constructor.html</a></p>
+<p class="indent"><a id="page_468"/>As we wind down the chapter, we take a look at a few aspects of events that actually aren’t part of the DOM specification, starting first with a selection of some of the useful events that address the state of the browser.</p>
+<h5 class="h5"><a id="ch11lev2sec25"/><strong>Browser State and Loading Events</strong></h5>
+<p class="noindent">While not part of the DOM event specification, there are quite a number of events that are useful for dealing with the state of the browser. This section covers a few of the more useful ones.</p>
+<h6 class="h6"><strong>onbeforeunload Event</strong></h6>
+<p class="noindent">Initially introduced in Internet Explorer, the <span class="codesample">onbeforeunload</span> event has become a useful mechanism for combating usability and architectural problems with Web applications. The event is primarily used to control premature unloading of Web pages. Using a DOM0-style event bind, we might add a safety mechanism to our code, like this:</p>
+<p class="image"><img alt="image" src="f0468-01.jpg"/></p>
+<p class="noindent">Now, if the user attempts to leave the page, they will be prompted if they want to continue or not:</p>
+<p class="image1"><img alt="image" src="f0468-02.jpg"/></p>
+<p class="indent">It may be more appropriate to add a message string advising the user of the consequences of premature page exit. To do this, simply return a message string back for display:</p>
+<p class="image"><img alt="image" src="f0468-03.jpg"/></p>
+<p class="image1"><img alt="image" src="f0468-04.jpg"/></p>
+<p class="indent">If you want to use standard event binding mechanisms, rather than direct binding, it is quite possible, but as we see in the following code, we need to address the exit message string a bit variably:</p>
+<p class="image"><img alt="image" src="f0468-05.jpg"/></p>
+<p class="noindenttop"><a id="page_469"/>Sadly, even with this cross-browser patch, we may simply find the event unsupported or the exit string not supported. For example, up to Opera 11, that browser does not support the event, and while today it supports it, Firefox versions are not consistent in supporting the exit message string. Fortunately, cross-browser quirks may subside, as this event is included in the HTML5 standard. The standard does indicate that the exit message may be optional, and the browser can truncate the string as well, with 1024 characters being the suggested max value.</p>
+<h6 class="h6"><strong>onreadystatechange Event</strong></h6>
+<p class="noindent">As you will see in <a class="nounder" href="ch15.html#ch15">Chapter 15</a>, the <span class="codesample">onreadystatechange</span> event plays an important role in Ajax development. We will look at this event in the context of Ajax throughout <a class="nounder" href="ch15.html#ch15">Chapter 15</a>. However, <span class="codesample">onreadystatechange</span> can also be applied to the <span class="codesample">Document</span> object. When applied to document, the event gets fired as the page is loading:</p>
+<p class="image"><img alt="image" src="f0469-01.jpg"/></p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.javascriptref.com/3ed/ch11/onreadystatechange.html">http://javascriptref.com/3ed/ch11/onreadystatechange.html</a></p>
+<p class="image1"><img alt="image" src="f0469-02.jpg"/></p>
+<p class="indent">In addition to these two usages, Internet Explorer exposes the <span class="codesample">onreadystatechange</span> event to every element. Elements that load external data such as <span class="codesample"><strong>&lt;img&gt;, &lt;script&gt;</strong></span>, and <span class="codesample"><strong>&lt;link&gt;</strong></span> fire the event as the data is loaded. The rest of the elements only use the event in conjunction with Internet Explorer behaviors.</p>
+<h6 class="h6"><strong>DOMContentLoaded</strong></h6>
+<p class="noindent">A potentially useful event is <span class="codesample">DOMContentLoaded</span>, which is fired when content is loaded, but other dependencies may still be loading. This event is useful because, with external <a id="page_470"/>dependencies, the load event for a browser window may take quite some time. In general, the event only waits for HTML and scripts, but there can be peculiarities and browser details. Fortunately, many libraries take care of these issues for us.</p>
+<hr/>
+<p class="note"><strong>NOTE</strong> There is also a special event, <span class="codesample">DOMFrameContentLoaded</span>, for handling frame loads.</p>
+<h6 class="h6"><strong>On/Offline Events</strong></h6>
+<p class="noindent">Better-late-than-never events for browser state are the online and offline events introduced in a number of browsers and codified under HTML5. The current status of the browser can be queried with <span class="codesample">navigator.onLine</span>, which continues a Boolean value indicating the current connection state. We can also set up offline and online event listeners. A simple example should demonstrate the basic syntax:</p>
+<p class="image"><img alt="image" src="f0470-01.jpg"/></p>
+<p class="image"><img alt="image" src="f0470-02.jpg"/></p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.javascriptref.com/3ed/ch11/onlineoffline.html">http://javascriptref.com/3ed/ch11/onlineoffline.html</a></p>
+<h4 class="h4"><a id="page_471"/><a id="ch11lev1sec7"/><strong>Event Model Issues</strong></h4>
+<p class="noindent">Dealing with event models across browsers isn’t trivial, even at this late date in browser evolution. Only recently have browsers finally normalized on standard DOM syntax. Certainly, we can abstract this away with some event wrapper code. For example, here we create simple functions to get rid of the differences between older Internet Explorer syntax and newer DOM syntax:</p>
+<p class="image"><img alt="image" src="f0471-01.jpg"/></p>
+<p class="noindent">Given this code, we could then use the following to bind the click of some DOM object held in the variable <span class="codesample">el</span>:</p>
+<p class="image"><img alt="image" src="f0471-02.jpg"/></p>
+<p class="noindent">Sadly, this is just the start of our cross-browser adventure, as we need to carefully keep track of our event handlers and remove them properly, lest we leak memory. Fortunately, lots of libraries such as the popular jQuery (<a href="http://www.jquery.com">www.jquery.com</a>) exist to take such headaches away from us. However, do not think that using a library removes any need to understand how things work in browsers, as there can be performance concerns and bugs regardless.</p>
+<h4 class="h4"><a id="ch11lev1sec8"/><strong>Summary</strong></h4>
+<p class="noindent">The basic event model of early browsers (and common to all modern browsers) enables portions of the page to respond dynamically to user actions. The 4.<em>x</em> -generation browsers implemented different and incompatible event models, but the DOM straightened this out a bit. The DOM2 standard event model builds on the proprietary specifications and supports both ways events may traverse a DOM tree. In the DOM model, events first move down the hierarchy, allowing themselves to be captured by event listeners. Once they reach their target and its event handlers have executed, they bubble back up the hierarchy, invoking the corresponding handler at each level. With the DOM model, events can be carefully controlled and even synthesized. However, great variation still exists between browsers, and it was only with the introduction of Internet Explorer 9 that all commonly used browser types started using the DOM model. With variable syntax due to new event features, as well as ongoing browser compatibility issues, developers would be wise to tread carefully with events or adopt a library that can handle all the quirks that may be encountered.<a id="page_472"/></p>
+</body>
+</html>

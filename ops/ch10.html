@@ -1,0 +1,820 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<title>JavaScript: The Complete Reference&#153;, Third Edition</title>
+<link href="0071741216.css" rel="stylesheet" type="text/css"/>
+<link href="page-template.xpgt" rel="stylesheet" type="application/vnd.adobe-page-template+xml"/>
+<meta content="urn:uuid:4d1be0af-c0d3-47b8-9bd4-3edcb4dee196" name="Adept.expected.resource"/>
+</head>
+<body>
+<h3 class="h3b" id="ch10"><a id="page_327"/><strong>CHAPTER 10<br/>The Standard <span class="codesample">Document</span> Object Model</strong></h3>
+<p class="noindent">In <a class="nounder" href="ch09.html#ch09">Chapter 9</a>, we presented the various object models supported by the two major browsers. These object models included objects for the window, documents, forms, images, and so on. We pointed out that these objects correspond to the features of the browser as well as to the features of the HTML document and style sheets. A significant early problem with browser-based object models is that each vendor decides which features to expose to the programmer and how to do so. Fortunately, today this isn’t so much of a problem because the W3C came up with a standard that maps between an HTML or XML document and the document object hierarchy presented to the programmer. This model is called the <span class="codesample">Document</span> Object Model, or the DOM for short (<a href="http://www.w3.org/DOM">www.w3.org/DOM</a>). The DOM provides an application programming interface (API) that exposes the entirety of a Web page (including tags, attributes, style, and content) to a programming language such as JavaScript. This chapter explores the basic uses of the DOM, from examining document structure to accessing common properties and methods. We’ll see that a key part of DOM mastery is a thorough understanding of XHTML and Cascading Style Sheets (CSS). While the DOM suggests that cross-browser scripting shouldn’t be as problematic, theory, practice, implementation, and of course bugs all conspire to keep Web developers’ lives interesting.</p>
+<hr/>
+<p class="note"><strong>NOTE</strong> The DOM really does require that you are extremely comfortable with XHTML and CSS. Readers who are not are encouraged to review these topics in the companion book, HTML &amp; CSS: The Complete Reference, 5th Edition, by Thomas A. Powell (McGraw-Hill Professional, 2010).</p>
+<h4 class="h4"><a id="ch10lev1sec1"/><strong>DOM Flavors</strong></h4>
+<p class="noindent">In order to straighten out the object model mess presented in <a class="nounder" href="ch09.html#ch09">Chapter 9</a>, the W3C has defined four levels of the DOM, listed here:</p>
+<p class="bullettop">• <strong>DOM Level 0</strong> Roughly equivalent to what Netscape 3.0 and Internet Explorer 3.0 supported. We call this DOM the <em>classic</em>, or <em>traditional</em>, JavaScript object model. This form of the DOM was presented in <a class="nounder" href="ch09.html#ch09">Chapter 9</a> and supports the common document object collections—<span class="codesample">forms[], images[], anchors[], links[], and applets[]</span>.</p>
+<p class="bullet"><a id="page_328"/>• <strong>DOM Level 1</strong> Provides the ability to manipulate all elements in a document through a common set of functions. In DOM Level 1, all elements are exposed, and parts of the page can be read and written to at all times. The Level 1 DOM provides capabilities similar to Internet Explorer’s proprietary <span class="codesample">document.all[]</span> collection, except that it is cross-browser–compatible and standardized.</p>
+<p class="bullet">• <strong>DOM Level 2</strong> Provides further access to page elements primarily related to CSS and focuses on combining DOM Levels 0 and 1 while adding improved support for working with XML documents. This form of the DOM also adds an advanced event model and the lesser-known extensions such as traversal and range operations.</p>
+<p class="bullet">• <strong>DOM Level 3</strong> Made some modifications to the core facilities provided by DOM Levels 1 and 2, and introduced a number of sparsely implemented features such as XML Load and Save. Some of the more practical parts of DOM Level 3 live on in the HTML5 specification.</p>
+<hr/>
+<p class="note"><strong>NOTE</strong> At the time of this writing, DOM activity has been closed in favor of the HTML5 specification and its focus on Web applications. The HTML5 specification reiterates much of the DOM and codifies both older and newer browser-specific APIs that have become de facto standards. Although there is no longer an emphasis on the DOM as a separate specification, it is discussed under HTML5, so we continue the use of the term.</p>
+<p class="indent">Another way of looking at the DOM as defined by the W3C is by grouping the pieces of the DOM concept into the following five categories:</p>
+<p class="bullettop">• <strong>DOM Core</strong> Specifies a generic model for viewing and manipulating a marked up document as a tree structure.</p>
+<p class="bullet">• <strong>DOM HTML</strong> Specifies an extension to the core DOM for use with HTML. DOM HTML provides the features used to manipulate HTML documents and utilizes a syntax similar to the traditional JavaScript object models. Basically, this is DOM Level 0 plus capabilities for manipulating all of the HTML element objects.</p>
+<p class="bullet">• <strong>DOM CSS</strong> Provides the interfaces necessary to manipulate CSS rules programmatically.</p>
+<p class="bullet">• <strong>DOM Events</strong> Adds event handling to the DOM. These events range from familiar user interface events such as mouse clicks to DOM-specific events that fire when actions occur that modify parts of the document tree.</p>
+<p class="bullet">• <strong>DOM XML</strong> Specifies an extension to the core DOM for use with XML. DOM XML addresses the particular needs of XML, such as CDATA sections, processing instructions, namespaces, and so on.</p>
+<hr/>
+<p class="note"><strong>NOTE</strong> It is important to note that, although we will be using JavaScript in this chapter, the DOM specifies a language-independent interface. So, in principle, you can use the DOM in other languages such as C/C++ and Java.</p>
+<h5 class="h5"><a id="ch10lev2sec1"/><strong>What Browsers Say Is Implemented</strong></h5>
+<p class="noindent">According to the DOM specification, we should be able to test for the availability of a particular aspect of the DOM specification using <span class="codesample">document.implementation.hasFeature()</span> and <a id="page_329"/>pass it a string for the feature in question, such as “CORE,” and a string for the version number—at this point “1.0” or “2.0.” As a demonstration, the following script shows how you might detect DOM support in a browser:</p>
+<p class="image"><img alt="image" src="f0329-01.jpg"/></p>
+<p class="image"><img alt="image" src="f0329-02.jpg"/></p>
+<hr/>
+<p class="online"><a id="page_330"/><strong>ONLINE</strong> <a class="nounder" href="http://www.javascriptref.com/3ed/ch10/domimplements.html">http://javascriptref.com/3ed/ch10/domimplements.html</a></p>
+<p class="indent">The results are shown in <a class="nounder" href="ch10.html#fig10-1">Figure 10-1</a>. You’ll notice they suggest that the most advanced DOM support is varied in browsers. Sadly, testing feature support with <span class="codesample">hasFeature()</span> doesn’t work, and the HTML5 specification warns against using this technique because it is “notoriously unreliable and imprecise.” Even if this weren’t the situation, obviously we need to focus our discussion on the areas of the DOM that are widely implemented, rather than speculating on unimplemented features, so up next we take our first step in understanding the DOM—learning how it models an XHTML document.</p>
+<p class="image1"><a id="fig10-1"/><img alt="image" src="f0330-01.jpg"/></p>
+<p class="figcap"><strong>Figure 10-1</strong> Watch out for browser DOM compatibility.</p>
+<h4 class="h4"><a id="page_331"/><a id="ch10lev1sec2"/><strong>Document Trees</strong></h4>
+<p class="noindent">The most important thing to think about with regard to DOM Level 1 and Level 2 is that you are manipulating a document tree. For example, consider the simple XHTML document presented here:</p>
+<p class="image"><img alt="image" src="f0331-01.jpg"/></p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.javascriptref.com/3ed/ch10/parsetree.html">http://javascriptref.com/3ed/ch10/parsetree.html</a></p>
+<p class="indent">When a browser reads this particular HTML document, it represents the document in the form of the tree, as shown here:</p>
+<p class="image1"><img alt="image" src="f0331-02.jpg"/></p>
+<p class="indent"><a id="page_332"/>You should see this structure represented clearly by a browser tool such as Firebug:</p>
+<p class="image1"><img alt="image" src="f0332-01.jpg"/></p>
+<p class="indent">Notice that the tree structure follows the structured nature of HTML5. The <span class="codesample"><strong>&lt;html&gt;</strong></span> tag contains <span class="codesample"><strong>&lt;head&gt;</strong></span> and <span class="codesample"><strong>&lt;body&gt;</strong></span> tags. The <span class="codesample"><strong>&lt;head&gt;</strong></span> contains the <span class="codesample"><strong>&lt;title&gt;</strong></span>, and the <span class="codesample"><strong>&lt;body&gt;</strong></span> contains the various block elements such as paragraphs (<span class="codesample"><strong>&lt;p&gt;</strong></span>), headings (<span class="codesample"><strong>&lt;h1&gt;</strong></span>), and lists (<span class="codesample"><strong>&lt;ul&gt;</strong></span>). Each element may, in turn, contain more elements or textual fragments. As you can see, each of the items (or, more appropriately, <em>nodes</em>) in the tree correspond to the various types of objects allowed in an HTML or XML document. There are 12 types of nodes defined by the DOM; however, many of these are useful only within XML documents. The node types we are concerned with are primarily related to HTML and are presented in <a class="nounder" href="ch10.html#tab10-1">Table 10-1</a>.</p>
+<p class="tabcap"><a id="tab10-1"/><strong>Table 10-1</strong> DOM Node Types</p>
+<p class="imagea"><img alt="image" src="t0333-01.jpg"/></p>
+<p class="image0"><img alt="image" src="t0333-02.jpg"/></p>
+<p class="indent">Before moving on, we need to introduce some familiar terminology related to node relationships in a document tree. A <em>subtree</em> is part of a document tree rooted at a particular node. The following HTML fragment from the last example</p>
+<p class="image"><img alt="image" src="f0332-02.jpg"/></p>
+<p class="noindent"><a id="page_333"/>corresponds to the subtree shown here:</p>
+<p class="image"><img alt="image" src="f0333-01.jpg"/></p>
+<p class="noindent"><a id="page_334"/>The following relationships are established in this tree:</p>
+<p class="number">1. The <span class="codesample"><strong>p</strong></span> element has three <em>children</em> : a text node, the <span class="codesample"><strong>em</strong></span> element, and another text node.</p>
+<p class="number">2. The text node “A paragraph of” is the <em>first child</em> of the <span class="codesample"><strong>p</strong></span> element. Its next sibling is the <span class="codesample"><strong>em</strong></span> element, and it has no previous sibling.</p>
+<p class="number">3. The <span class="codesample"><strong>em</strong></span> element is at <span class="codesample"><em>childNodes[1]</em></span>, its previous sibling is the text node “A paragraph of,” and its next sibling is another text node containing “is just an example.”</p>
+<p class="number">4. The <em>last child</em> of the <span class="codesample"><strong>p</strong></span> element is the text node “is just an example.” It has a previous sibling that contains an <span class="codesample"><strong>em</strong></span> element, but it has no next sibling.</p>
+<p class="number">5. The parent of the <span class="codesample"><strong>em</strong></span> element and its siblings is the <span class="codesample"><strong>p</strong></span> element.</p>
+<p class="number">6. The text node containing “text” is the first child and last child of the <span class="codesample"><strong>em</strong></span> element, but it is <em>not</em> a direct descendant of the <span class="codesample"><strong>p</strong></span> element and has no siblings.</p>
+<p class="noindenttop">The nomenclature used here should remind you of a family tree. Fortunately, we don’t talk about second cousins, relatives twice removed, or anything like that! The diagram presented in the following illustration demonstrates the basic relationships from the previous example that you should understand:</p>
+<p class="image"><img alt="image" src="f0334-01.jpg"/></p>
+<p class="indent">Now that we have the basics down, let’s take a look at how we can move around the document tree and examine various HTML elements using JavaScript and the DOM.</p>
+<h4 class="h4"><a id="ch10lev1sec3"/><strong>Basic Element Access: getElementById()</strong></h4>
+<p class="noindent">When moving around the HTML document tree, we can either start at the top of the tree or start at an element of our choice. We’ll start with directly accessing an element, since the process is fairly easy to understand. Notice in the simple document shown here how one of the <span class="codesample"><strong>&lt;p&gt;</strong></span> tags is uniquely identified by the <span class="codesample"><strong>id</strong></span> attribute value of <span class="codesample"><strong>“p1”</strong></span>:</p>
+<p class="image"><a id="page_335"/><img alt="image" src="f0335-01.jpg"/></p>
+<p class="indent">Because the first paragraph is uniquely identified, we can easily access this element using the <span class="codesample">getElementById()</span> method of the <span class="codesample">Document</span> object—for example, by using <span class="codesample">document.getElementById (“p1”)</span>. This method returns a DOM <span class="codesample">Element</span> object. We can examine the object returned to see what type of tag it represents:</p>
+<p class="image"><img alt="image" src="f0335-02.jpg"/></p>
+<p class="noindent">The result of inserting this script into the previous document is shown here:</p>
+<p class="image1"><img alt="image" src="f0335-03.jpg"/></p>
+<hr/>
+<p class="note"><strong>NOTE</strong> In older versions of Internet Explorer (that is, versions prior to 8), the <span class="codesample">getElementById()</span> method would search <span class="codesample"><strong>id</strong></span> values in a case-insensitive manner. Further, it would look at name attribute values. Given subtle problems like this, document designers are encouraged to be aware of casing details with <span class="codesample"><strong>id</strong></span> values.</p>
+<p class="indent">Notice that the element held in <span class="codesample">nodeName</span> is type <span class="codesample">P</span>, corresponding to the HTML paragraph element that defined it. The <span class="codesample">nodeType</span> is <span class="codesample">1</span>, corresponding to an <span class="codesample">Element</span> object, as shown in <a class="nounder" href="ch10.html#tab10-1">Table 10-1</a>. However, notice that the <span class="codesample">nodeValue</span> is <span class="codesample">null</span>. You might have expected the value to be <span class="codesample">“A paragraph of text is just an example”</span> or a similar string containing the <span class="codesample"><strong>&lt;em&gt;</strong></span> tag as well. In actuality, an element doesn’t have a value. While elements define the structure of the tree, it is <em>text nodes</em> that hold most of the interesting values. Text nodes are attached as children of other nodes, so to access what is enclosed by the <span class="codesample"><strong>&lt;p&gt;</strong></span> tags, we would have to examine the children of the node. We’ll see how to do that in a moment; for now, study the various Node properties available for an arbitrary tag summarized in <a class="nounder" href="ch10.html#tab10-2">Table 10-2</a>.</p>
+<p class="tabcap"><a id="tab10-2"/><strong>Table 10-2</strong> DOM Node Properties</p>
+<p class="image"><img alt="image" src="t0336-01.jpg"/></p>
+<hr/>
+<p class="note"><a id="page_336"/><strong>NOTE</strong> DOM <span class="codesample">HTMLElement</span> objects also have a property <span class="codesample">tagName</span> that is effectively the same as the <span class="codesample">Node</span> object property <span class="codesample">nodeName</span>.</p>
+<h5 class="h5"><a id="ch10lev2sec2"/><strong>Tree Traversal Basics</strong></h5>
+<p class="noindent">Given the new properties, we can “walk” the given example quite easily. The following is a simple demonstration of walking a known tree structure:</p>
+<p class="image"><img alt="image" src="f0336-01.jpg"/></p>
+<p class="image"><img alt="image" src="f0336-02.jpg"/></p>
+<hr/>
+<p class="online"><a id="page_337"/><strong>ONLINE</strong> <a class="nounder" href="http://www.javascriptref.com/3ed/ch10/definedwalk.html">http://javascriptref.com/3ed/ch10/definedwalk.html</a></p>
+<p class="indent">The output of the example is shown in <a class="nounder" href="ch10.html#fig10-2">Figure 10-2</a>.</p>
+<p class="image1"><a id="fig10-2"/><img alt="image" src="f0338-01.jpg"/></p>
+<p class="figcap"><strong>Figure 10-2</strong> Traversal example</p>
+<p class="indent">The problem with the previous example is that we knew the sibling and child relationships ahead of time by inspecting the markup in the example. How do you navigate a document structure that you aren’t sure of? We can avoid looking at nonexistent nodes by first querying the <span class="codesample">hasChildNodes()</span> method for the current node before traversing any of its children. This method returns a Boolean value indicating whether or not there are children for the current node:</p>
+<p class="image"><img alt="image" src="f0337-01.jpg"/></p>
+<p class="indent">When traversing to a sibling or parent, we can simply use an <span class="codesample">if</span> statement to query the property in question, as shown in this example:</p>
+<p class="image"><img alt="image" src="f0337-02.jpg"/></p>
+<p class="indent"><a id="page_338"/>The following example demonstrates how to walk an arbitrary document. We provide a basic document to traverse, but you can substitute other documents, as long as they are well formed:</p>
+<p class="image"><img alt="image" src="f0338-02.jpg"/></p>
+<p class="image"><img alt="image" src="f0338-03.jpg"/></p>
+<p class="image"><img alt="image" src="f0338-04.jpg"/></p>
+<p class="image"><img alt="image" src="f0338-05.jpg"/><a id="page_339"/><a id="page_340"/></p>
+<hr/>
+<p class="online"><a id="page_341"/><strong>ONLINE</strong> <a class="nounder" href="http://www.javascriptref.com/3ed/ch10/genericwalk.html">http://javascriptref.com/3ed/ch10/genericwalk.html</a></p>
+<p class="noindent">The rendering of this example is shown in <a class="nounder" href="ch10.html#fig10-3">Figure 10-3</a>.</p>
+<p class="image1"><a id="fig10-3"/><img alt="image" src="f0341-02.jpg"/></p>
+<p class="figcap"><strong>Figure 10-3</strong> Simple tree-walking example</p>
+<h6 class="h6"><strong>Tree Variations</strong></h6>
+<p class="noindent">An interesting observation when using this example is that even in the light of valid markup navigating the DOM tree might be slightly different among browsers. This is most notable in Internet Explorer, which does not include white space nodes in its DOM tree, as opposed to most other browsers, which do. What this means is that, for a simple snippet of HTML, such as</p>
+<p class="image"><img alt="image" src="f0341-01.jpg"/><a id="page_342"/></p>
+<p class="noindent">you will have a different parse tree depending on whether white space elements are included or not:</p>
+<p class="image1"><img alt="image" src="f0342-01.jpg"/></p>
+<p class="indent">Without whitespace text codes</p>
+<p class="image1"><img alt="image" src="f0342-02.jpg"/></p>
+<p class="indent">Such tree variations can cause some headaches if you are using this kind of tree traversal to examine a document and want it to behave identically between browsers. It is possible to normalize the whitespace in trees. For example, you could walk around the tree removing whitespace, even by employing a DOM TreeWalker. (See the section “DOM Traversal API,” later in this chapter.) You might even employ a quick and dirty regular expression, somewhat dangerously, to accomplish whitespace elimination:</p>
+<p class="image"><img alt="image" src="f0342-03.jpg"/></p>
+<p class="indent">Fortunately, in most cases, such drastic DOM tree reworking won’t be needed. Since most programmers tend to use <span class="codesample">getElementById()</span> to retrieve specific nodes, in practice there usually is little need for full-blown tree traversal; if there is, however, the properties covered next may be useful.</p>
+<h6 class="h6"><strong>Element Traversal Changes</strong></h6>
+<p class="noindent">As DOM implementations matured, a number of useful traversal modifications were introduced. The DOM Element Traversal Specification (<a class="nounder" href="http://www.w3.org/TR/ElementTraversal/">http://www.w3.org/TR/ElementTraversal/</a>) details a number of properties that may be quite useful when dealing with nonnormalized trees. <a class="nounder" href="ch10.html#tab10-3">Table 10-3</a> details these newer traversal properties.</p>
+<p class="tabcap"><a id="tab10-3"/><strong>Table 10-3</strong> DOM Node Properties for Element Traversal</p>
+<p class="image"><img alt="image" src="t0343-01.jpg"/></p>
+<p class="indent"><a id="page_343"/>A variation of our previous example of moving around a DOM tree is shown in <a class="nounder" href="ch10.html#fig10-4">Figure 10-4</a> and can be found online.</p>
+<p class="image1"><a id="fig10-4"/><img alt="image" src="f0343-01.jpg"/></p>
+<p class="figcap"><strong>Figure 10-4</strong> Tree traversal properties can skip to elements.</p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.javascriptref.com/3ed/ch10/domelementtraversal.html">http://javascriptref.com/3ed/ch10/domelementtraversal.html</a></p>
+<h4 class="h4"><a id="ch10lev1sec4"/><strong>Other Element Access Methods</strong></h4>
+<p class="noindent">In addition to <span class="codesample">document.getElementById()</span>, quite a few other methods and properties exist that are useful for accessing nodes in a document tree. First up are the oldest schemes, which are the methods and collections provided by DOM Level 0 to support traditional JavaScript practices. After that, we’ll look at the newer methods added to the DOM and HTML5 specifications in more recent years.</p>
+<h5 class="h5"><a id="page_344"/><a id="ch10lev2sec3"/><strong>getElementsByName( )</strong></h5>
+<p class="noindent">Historically, the <span class="codesample"><strong>name</strong></span> attribute was used to reference HTML elements (rather than <span class="codesample"><strong>id</strong></span>). As discussed in <a class="nounder" href="ch09.html#ch09">Chapter 9</a>, when a form was named “form1,” like so:</p>
+<p class="image"><img alt="image" src="f0344-01.jpg"/></p>
+<p class="noindent">we might use <span class="codesample">document.forms[“form1”]</span> or <span class="codesample">document.form1</span> to reference it. Now in most elements, the <span class="codesample"><strong>name</strong></span> attribute has been deprecated in favor of the more ubiquitous <span class="codesample"><strong>id</strong></span> attribute. However, in some cases, particularly form fields (<span class="codesample"><strong>&lt;button&gt;</strong></span>, <span class="codesample"><strong>&lt;input&gt;</strong></span>, <span class="codesample"><strong>&lt;select&gt;</strong></span>, and <span class="codesample"><strong>&lt;textarea&gt;</strong></span>), the <span class="codesample"><strong>name</strong></span> attribute lives on because it continues to be required to set the name-value pair for form submission. Also, we find that some elements, notably frames and links, may continue to use the <span class="codesample"><strong>name</strong></span> attribute because it is often useful for retrieving these elements by <span class="codesample"><strong>name</strong></span>.</p>
+<p class="indent">To retrieve element(s) using their <span class="codesample"><strong>name</strong></span> attribute values, use the aptly named <span class="codesample">document.getElementsByName()</span> method. This method accepts a string indicating the name of the element to retrieve, such as in this example:</p>
+<p class="image"><img alt="image" src="f0344-02.jpg"/></p>
+<p class="noindent">Note that this method may potentially return a list of nodes rather than a single node. This is because the uniqueness of the value in a <span class="codesample"><strong>name</strong></span> attribute is not strictly enforced in HTML. This makes perfect sense in the form field example because you may have two forms posted to different actions, say delete.php and update.php, and both have <span class="codesample"><strong>&lt;input type=“text”&gt;</strong></span> fields with the <span class="codesample"><strong>name</strong></span> attribute value of “recordnumber” in their respective forms. In addition, in the case of radio buttons, an identical <span class="codesample"><strong>name</strong></span> attribute is actually required in order for it to function correctly.</p>
+<p class="indent">Given that the <span class="codesample">getElementsByName()</span> method may return multiple values, utilize the <span class="codesample">length</span> property to determine the number of returned items:</p>
+<p class="image"><img alt="image" src="f0344-03.jpg"/></p>
+<p class="noindent">Traversal of the element list is most likely performed in JavaScript using standard array syntax:</p>
+<p class="image"><img alt="image" src="f0344-04.jpg"/></p>
+<p class="noindent">However, DOM collections are not perfect JavaScript arrays, and we may wish to remind ourselves of this and stick with the <span class="codesample">item()</span> syntax, like so:</p>
+<p class="image"><img alt="image" src="f0344-05.jpg"/></p>
+<p class="noindent">In either case, don’t be inefficient and access the <span class="codesample">length</span> property of the returned collection multiple times. As the small snippet demonstrates, determine the <span class="codesample">length</span> value once by setting it in the initializer.</p>
+<hr/>
+<p class="note"><a id="page_345"/><strong>NOTE</strong> There is a clear distinction between <span class="codesample"><strong>id</strong></span> and <span class="codesample"><strong>name</strong></span>. Very often when <span class="codesample"><strong>name</strong></span> continues on, we can set the values the same. However, <span class="codesample"><strong>id</strong></span> must be unique, and <span class="codesample"><strong>name</strong></span> in some cases shouldn’t—think radio buttons. Sadly, the uniqueness of <span class="codesample"><strong>id</strong></span> values, while caught by markup validation, is not as consistent as it should be. CSS implementation in browsers will style objects that share an <span class="codesample"><strong>id</strong></span> value; thus, we may not catch markup or style errors that could affect our JavaScript until runtime.</p>
+<h5 class="h5"><a id="ch10lev2sec4"/><strong>Common JavaScript Collections</strong></h5>
+<p class="noindent">For backward compatibility, the DOM and HTML5 specifications support some object collections popular under early browser versions and commonly found today. Initially, these collections from DOM Level 0 were roughly equivalent to what Netscape 3’s object model supported. Today, we see that the collections have expanded by HTML5 to include commonly used collections as well. The combination of these is shown in <a class="nounder" href="ch10.html#fig10-4">Table 10-4</a>.</p>
+<p class="tabcap"><a id="tab10-4"/><strong>Table 10-4</strong> Common DOM Collections</p>
+<p class="image"><img alt="image" src="t0345-01.jpg"/></p>
+<p class="indent">Whatever their origin, items in these collections can be referenced using an array syntax numerically (<span class="codesample">document.forms[0]</span>) as well as associatively (<span class="codesample">document.forms[“myform”]</span>). You can also use the <span class="codesample">item()</span> method to access an array index, such as in <span class="codesample">document.forms.item (0)</span>. A <span class="codesample">namedItem()</span> method could also be used, as in <span class="codesample">document.forms.namedItem (“myForm”)</span>.</p>
+<hr/>
+<p class="note"><a id="page_346"/><strong>NOTE</strong> The DOM Level 0 specification also defines <span class="codesample">document.applets[ ]</span>, a collection of Java Applets in the page. As of this edition’s writing, this is not in the HTML5 specification; and it should be noted that, practically speaking, Java applets are become increasingly rare in public-facing Web sites and applications.</p>
+<p class="indent">The collections listed in <a class="nounder" href="ch10.html#fig10-4">Table 10-4</a> are live collections, meaning that if modifications are made to the DOM tree, the corresponding elements in a collection will be automatically updated.</p>
+<p class="indent">A simple demo that allows you to explore the most common collections and their access methods can be found online and is shown in <a class="nounder" href="ch10.html#fig10-5">Figure 10-5</a>.</p>
+<p class="image1"><a id="fig10-5"/><img alt="image" src="f0346-01.jpg"/></p>
+<p class="figcap"><strong>Figure 10-5</strong> Exploring traditional collections</p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.javascriptref.com/3ed/ch10/traditionalcollections.html">http://javascriptref.com/3ed/ch10/traditionalcollections.html</a></p>
+<hr/>
+<p class="note"><strong>NOTE</strong> In older browser-style JavaScript, you also will very likely encounter direct path styles, so that when given a form called “myForm,” rather than using <span class="codesample">document.forms.namedItem (“myForm”)</span> or <span class="codesample">document.forms[“myForm”]</span>, a path such as <span class="codesample">document.myForm</span> is used directly. Reliance on this style should be avoided.</p>
+<h5 class="h5"><a id="page_347"/><a id="ch10lev2sec5"/><strong>getElementsByTagName( )</strong></h5>
+<p class="noindent">Another useful way to access elements with the DOM is using the <span class="codesample">document.getElementsByTagName()</span> method. This method accepts a string indicating the types of elements that should be retrieved—for example, <span class="codesample">document.getElementsByTagName (“img”)</span> would return a live list of all the <span class="codesample"><strong>img</strong></span> elements in the document.</p>
+<p class="indent">In general, casing will not matter in basic HTML documents, as both</p>
+<p class="image"><img alt="image" src="f0347-01.jpg"/></p>
+<p class="noindent">and</p>
+<p class="image"><img alt="image" src="f0347-02.jpg"/></p>
+<p class="noindent">will return the same result regardless of markup usage. However, if we are working in an environment such as XHTML, case sensitivity may be problematic.</p>
+<p class="indent">Like the previous methods discussed, <span class="codesample">getElementsByTagName()</span> returns a live node list, so modifications of the DOM tree will be reflected in the returned collection.</p>
+<p class="indent">We also note that the method can be run off an element. For example, in the previous example of collecting paragraphs, we may note that <span class="codesample"><strong>p</strong></span> elements are only found within a <span class="codesample"><strong>&lt;body&gt;</strong></span> tag, so we might use the following:</p>
+<p class="image"><img alt="image" src="f0347-03.jpg"/></p>
+<p class="noindent">This simple example illustrates that the method can be run off an <span class="codesample">Element</span> object, so we may find a particular paragraph and then find all the <span class="codesample">em</span> elements within:</p>
+<p class="image"><img alt="image" src="f0347-04.jpg"/></p>
+<p class="noindent">If we wanted to, we might chain those together, like so:</p>
+<p class="image"><img alt="image" src="f0347-05.jpg"/></p>
+<p class="noindent">It is important to be careful when chaining methods together like this, as, if the first query fails and returns undefined, the second part throws an error.</p>
+<p class="indent">One highly useful nuance to this method is that you can pass the wildcard selector <span class="codesample">*</span> to the method to return all elements. As an example, we would use</p>
+<p class="image"><img alt="image" src="f0347-06.jpg"/></p>
+<p class="noindent">to find everything in the document or</p>
+<p class="image"><img alt="image" src="f0347-07.jpg"/></p>
+<p class="noindent">to find everything in a particular paragraph.</p>
+<p class="indent">An interactive example can be found online and is shown in <a class="nounder" href="ch10.html#fig10-1">Figure 10-6</a>.</p>
+<p class="image1"><a id="fig10-6"/><img alt="image" src="f0348-01.jpg"/></p>
+<p class="figcap"><strong>Figure 10-6</strong> Interactively exploring getElementsByTagName</p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.javascriptref.com/3ed/ch10/getelementsbytagname.html">http://javascriptref.com/3ed/ch10/getelementsbytagname.html</a></p>
+<h5 class="h5"><a id="page_348"/><a id="ch10lev2sec6"/><strong>Common Tree Traversal Starting Points</strong></h5>
+<p class="noindent">Sometimes it will not be possible to jump to a particular point in the document tree, and there are times when you will want to start at a particular point of the tree and work down through the hierarchy following node relationships. Traditionally, there are two <span class="codesample">Document</span> properties that present useful starting points for tree walks:</p>
+<p class="bullettop">• <span class="codesample">document.documentElement</span> points to the root element in the document tree. For HTML documents, this would be the <span class="codesample"><strong>&lt;html&gt;</strong></span> tag.</p>
+<p class="bullet">• <span class="codesample">document.body</span> references the node in the tree corresponding to the <span class="codesample"><strong>&lt;body&gt;</strong></span> tag.</p>
+<p class="noindent"><a id="page_349"/>Commonly implemented and now finally documented under HTML5, you also should have a third start point:</p>
+<p class="bullet">• <span class="codesample">document.head</span> references the node in the tree corresponding to the <span class="codesample"><strong>&lt;head&gt;</strong></span> tag.</p>
+<p class="noindent">If, for some reason, you run into an older browser lacking this property, it is easy enough to patch it using the previously discussed method <span class="codesample">document.getElementsByTagName()</span>, like so:</p>
+<p class="image"><img alt="image" src="f0349-01.jpg"/></p>
+<hr/>
+<p class="note"><strong>NOTE</strong> Do not confuse <span class="codesample">document.title</span> as a starting point that references the <span class="codesample"><strong>&lt;title&gt;</strong></span> tag. It is possible with this property to read and set the document’s title. However, it is not a reference to the corresponding element’s DOM node.</p>
+<p class="indent">Finally, you might also have some interest in looking at the DOCTYPE definition for the file. This is referenced by <span class="codesample">document.doctype</span>, but this node is not modifiable. It may not appear to have much use, but the <span class="codesample">document.doctype</span> value does allow you to look to see what type of document you are working with.</p>
+<p class="indent">A complete example that writes out the characteristics of these common nodes is shown here and in <a class="nounder" href="ch10.html#fig10-7">Figure 10-7</a>.</p>
+<p class="image1"><a id="fig10-7"/><img alt="image" src="f0350-01.jpg"/></p>
+<p class="figcap"><strong>Figure 10-7</strong> Useful DOM elements</p>
+<p class="image"><img alt="image" src="f0349-02.jpg"/></p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.javascriptref.com/3ed/ch10/startingpoints.html">http://javascriptref.com/3ed/ch10/startingpoints.html</a></p>
+<h5 class="h5"><a id="ch10lev2sec7"/><strong>document.getElementsByClassName( )</strong></h5>
+<p class="noindent">Finding objects using the traditional DOM Level 0 or more modern DOM implementations can be a bit cumbersome at times. Fortunately, HTML5 and many JavaScript libraries have introduced methods to make finding collections of items much easier. The first method of interest is <span class="codesample">document.getElementsByClassName (<em>classname (s)tofind</em>)</span>. Given some markup like this:</p>
+<p class="image"><a id="page_350"/><img alt="image" src="f0350-02.jpg"/></p>
+<p class="noindent">we can fetch a selection of elements in the class called <span class="codesample">“myclass”</span>, like so:</p>
+<p class="image"><img alt="image" src="f0350-03.jpg"/></p>
+<p class="noindent">This would return a standard collection to loop over:</p>
+<p class="image"><img alt="image" src="f0350-04.jpg"/></p>
+<p class="noindent"><a id="page_351"/>When applied to the previous markup, we would see styling only applied to the nodes in the specified class:</p>
+<p class="image1"><img alt="image" src="f0351-01.jpg"/></p>
+<p class="indent">A few points we should make about the returned list. First, note that matching varies at times. For example, when a browser is in quirks rendering mode, you may see the browser perform value comparisons without case sensitivity:</p>
+<p class="image"><img alt="image" src="f0351-02.jpg"/></p>
+<p class="indent">However, if the browser is in strict mode, the <span class="codesample">getElementsByClassName()</span> should be case-sensitive. Given room for poor browser implementations, don’t chance it and assume that class names and the associated method are always case-sensitive.</p>
+<p class="indent">Next, we should note that the elements in the returned list are inserted into the collection in tree order—in other words, how they are found in a depth-first walk of the DOM tree. Second, and more importantly, the collection returned is a live <span class="codesample">nodeList</span>, in the sense that any changes to the DOM tree that add or remove items in the searched-for class will be reflected dynamically in the returned list.</p>
+<p class="indent">Like many DOM methods, <span class="codesample">getElementsByClassName()</span> does not have to be run solely from the document root; in fact, it can be run off an arbitrary node. For example, given the markup here:</p>
+<p class="image"><img alt="image" src="f0351-03.jpg"/></p>
+<p class="noindent">you could scope the element search by class name solely to this <span class="codesample"><strong>div</strong></span> using code like this:</p>
+<p class="image"><img alt="image" src="f0351-04.jpg"/></p>
+<p class="noindent">or you could chain the code together, like this:</p>
+<p class="image"><img alt="image" src="f0351-05.jpg"/></p>
+<p class="noindent"><a id="page_352"/>This probably is not too bad, but chaining can quickly lead to code that is difficult to follow and debug, thus exhibiting the inherent trade-off of readability and writabilty found in any programming language.</p>
+<p class="indent">A final point to make about this method is that you may force a browser to find elements that have more than one class name by passing a space-separated string of classes required in the selection. For example,</p>
+<p class="image"><img alt="image" src="f0352-01.jpg"/></p>
+<p class="noindent">would find elements with both the class “myClass” as well as “fancy.” Be careful this doesn’t mean you solely match an element such as</p>
+<p class="image"><img alt="image" src="f0352-02.jpg"/></p>
+<p class="noindent">The method would find</p>
+<p class="image"><img alt="image" src="f0352-03.jpg"/></p>
+<p class="noindent">as well as</p>
+<p class="image"><img alt="image" src="f0352-04.jpg"/></p>
+<p class="noindent">because it requires simply the values to be present in the list of classes. It does not, however, match in an either/or fashion, so markup such as</p>
+<p class="image"><img alt="image" src="f0352-05.jpg"/></p>
+<p class="noindent">would not be returned because both class names would be required.</p>
+<p class="indent">While the <span class="codesample">getElementsByClassName()</span> method is commonly supported in modern browsers, it is possible when dealing with some older browsers (particular pre-Internet Explorer 9) that the method is unsupported. It is, however, fairly easy to rectify this omission with a simple monkey patch, like so:</p>
+<p class="image"><img alt="image" src="f0352-06.jpg"/></p>
+<p class="noindent"><a id="page_353"/>A complete example that employs both the old, browser-supporting code and illustrates the method and its live node list can be found online.</p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.www.javascriptref.com/3ed/ch10/getelementsbyclassname.html">http://www.javascriptref.com/3ed/ch10/getelementsbyclassname.html</a></p>
+<p class="indent">Notice that this method relied on the previous introduced <span class="codesample">getElementsByTagName()</span> and clearly is going to be somewhat inefficient, as it may have to iterate over the entire document to find the elements that have the set class name.</p>
+<h5 class="h5"><a id="ch10lev2sec8"/><strong>querySelector( ) and querySelectorAll( )</strong></h5>
+<p class="noindent">Two poorly named though quite powerful DOM selector methods are <span class="codesample">document.querySelector()</span> and <span class="codesample">document.querySelectorAll()</span>. Both methods take a CSS selector expression as a string to determine what to select, but each returns something slightly different. In the case of <span class="codesample">querySelector()</span>, the method returns the first match of the passed selector string:</p>
+<p class="image"><img alt="image" src="f0353-01.jpg"/></p>
+<p class="noindent">With the more commonly used <span class="codesample">querySelectorAll()</span>, a node list of DOM elements that match the query is returned:</p>
+<p class="image"><img alt="image" src="f0353-02.jpg"/></p>
+<p class="indent">To illustrate these methods, first consider the following markup here:</p>
+<p class="image"><img alt="image" src="f0353-03.jpg"/></p>
+<p class="noindent">We then might run a query like</p>
+<p class="image"><img alt="image" src="f0353-04.jpg"/></p>
+<p class="noindent">to return all the paragraphs or</p>
+<p class="image"><img alt="image" src="f0353-05.jpg"/></p>
+<p class="noindent">to fetch just those in <span class="codesample">myClass</span>. We can, of course, get quite specific, like this:</p>
+<p class="image"><img alt="image" src="f0353-06.jpg"/></p>
+<p class="noindent">which returns just the <span class="codesample"><a id="page_354"/><strong>span</strong></span> elements in the class <span class="codesample">myClass</span> that are direct descendants of a <span class="codesample">p</span> element.</p>
+<p class="indent">Given the general nature of the method, you should note that</p>
+<p class="image"><img alt="image" src="f0354-01.jpg"/></p>
+<p class="noindent">emulates a <span class="codesample">getElementById()</span> call, while</p>
+<p class="image"><img alt="image" src="f0354-02.jpg"/></p>
+<p class="noindent">produces the same result as invoking <span class="codesample">getElementsByClassName()</span>.</p>
+<p class="indent">Since CSS supports selector grouping with commas, you can pass numerous selectors at once, like so:</p>
+<p class="image"><img alt="image" src="f0354-03.jpg"/></p>
+<p class="noindent">Here, we see a list composed first of a very specific rule, then an element with a particular <span class="codesample"><strong>id</strong></span> value, and then all elements in a certain <span class="codesample"><strong>class</strong></span>. If you know CSS, you can imagine how much work you might perform with this method!</p>
+<p class="indent">Unlike other DOM methods discussed previously, a live node list is <em>not</em> returned for calls to the <span class="codesample">querySelectorAll()</span> method. The returned snapshot approach improves performance, but it means that future changes to the DOM tree will not be reflected in the returned values dynamically:</p>
+<p class="image"><img alt="image" src="f0354-04.jpg"/></p>
+<p class="noindent">The return value of <span class="codesample">querySelector()</span> is static as well. It is either a single DOM element or a null value and certainly not a live list.</p>
+<p class="indent">Like other DOM methods, both <span class="codesample">querySelector()</span> and <span class="codesample">querySelectorAll()</span> can be run off of an element object. For example,</p>
+<p class="image"><img alt="image" src="f0354-05.jpg"/></p>
+<p class="noindent">would run the query just on the subtree found under a particular element. Of course, we really don’t need to do that if you think about CSS carefully. For example,</p>
+<p class="image"><img alt="image" src="f0354-06.jpg"/></p>
+<p class="noindent">does the same thing as the previous example, but using the CSS rule passed in. Pretty much whatever DOM method you can imagine can be simulated with the <span class="codesample">querySelectorAll()</span> <a id="page_355"/>method. Instead of <span class="codesample">document.getElementsByTagName (“p”)</span>, you could use <span class="codesample">document.querySelectorAll (“p”)</span>; or instead of <span class="codesample">document.getElementsByTagName (“*”)</span>, you could use <span class="codesample">document.querySelectorAll (“*”)</span>. Even traditional collections’ access approaches like <span class="codesample">document.forms.namedItem (“form1”)</span> can be rewritten for this powerful method: <span class="codesample">document.querySelectorAll (“form[name=form1], form[id=form1]”)</span>.</p>
+<p class="indent">It should be clear by now that these methods are extremely powerful if you understand CSS selector syntax. Admittedly, though, this syntax can be a bit cryptic, particularly under CSS3, and some care should be taken to form the query properly. If you pass a syntactically malformed query to either method, it will throw an exception. Of course, if you want to be safe, you can catch such exceptions and handle them somehow:</p>
+<p class="image1"><img alt="image" src="f0355-01.jpg"/></p>
+<p class="image"><img alt="image" src="f0355-02.jpg"/></p>
+<p class="indent">Even when the CSS selector syntax is correct, we should exercise some care because small details can produce wrong results. For example, case sensitivity can be important, particularly if a browser is in quirks mode. Form your queries carefully before you blame your JavaScript code!</p>
+<p class="indent">A full example illustrating the use of the selectors can be found online and is shown in <a class="nounder" href="ch10.html#fig10-8">Figure 10-8</a>.</p>
+<p class="image1"><a id="fig10-8"/><img alt="image" src="f0356-01.jpg"/></p>
+<p class="figcap"><strong>Figure 10-8</strong> Testing the <span class="codesample">querySelectorAll()</span> method</p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.javascriptref.com/3ed/ch10/queryselectorall.html">http://javascriptref.com/3ed/ch10/queryselectorall.html</a></p>
+<p class="indent">Probably the only downside of this method, other than its cryptic name, is that it is not implemented in older browsers. Fortunately, like <span class="codesample">getElementsByClassName()</span>, it would be easy enough to directly simulate the method, though in this case the code would be quite a bit more expansive. When we explore JavaScript libraries such as jQuery in <a class="nounder" href="ch18.html#ch18">Chapter 18</a>, we’ll see that they cover this issue.</p>
+<h4 class="h4"><a id="page_356"/><a id="ch10lev1sec5"/><strong>Creating Nodes</strong></h4>
+<p class="noindent">Now that we know how to move around a tree and access its elements, it is time to discuss manipulation of the document tree by creating and inserting nodes. The DOM supports a variety of methods for creating nodes to be added to a document, and the most commonly used are shown in <a class="nounder" href="ch10.html#tab10-5">Table 10-5</a>.</p>
+<p class="tabcap"><a id="tab10-5"/><strong>Table 10-5</strong> Primary Node Creation Methods</p>
+<p class="image"><img alt="image" src="t0357-01.jpg"/></p>
+<hr/>
+<p class="note"><strong>NOTE</strong> DOM Level 1 also supports <span class="codesample">document.createCDATASection (<em>string</em>), document.createEntityReference (<em>name</em>)</span>, and <span class="codesample">document.createProcess Instruction (<em>target, data</em>)</span>, but these methods would not be used with typical HTML documents.</p>
+<p class="indent">Creating nodes is easy enough, particularly if you have a good grasp of markup. For example, to make a paragraph you would use the following:</p>
+<p class="image"><img alt="image" src="f0356-02.jpg"/></p>
+<hr/>
+<p class="note"><strong>NOTE</strong> In the case of a standard HTML element, case will not matter. In fact, even if you create a lowercase tag, it will likely be identified in uppercase in the DOM tree. However, in the XHTML and XML languages, case should be used carefully in element creation and usage, as it will matter.</p>
+<p class="noindent"><a id="page_357"/>Any element can be made with the <span class="codesample">createElement</span> method, so nothing keeps you from making emerging HTML5 types of elements, like</p>
+<p class="image"><img alt="image" src="f0357-01.jpg"/></p>
+<p class="noindent">or even invented elements, considering that the DOM can work with arbitrary tags from any XML language:</p>
+<p class="image"><img alt="image" src="f0357-02.jpg"/></p>
+<p class="noindent">Regardless of what elements you will make it, is likely you will need to put something within them. Fortunately, it is just as easy to make text nodes:</p>
+<p class="image"><img alt="image" src="f0357-03.jpg"/></p>
+<p class="noindent">However, we need to put the newly created text nodes in our elements and insert them somewhere in the document in order to accomplish any interesting tasks. For now, they simply sit in memory.</p>
+<h4 class="h4"><a id="page_358"/><a id="ch10lev1sec6"/><strong>Appending and Inserting Nodes</strong></h4>
+<p class="noindent">The <span class="codesample">Node</span> object supports two useful methods for inserting content. We start first with the easier of the two, <span class="codesample">appendChild (<em>newChild</em>)</span>. This method is invoked on the node to which you wish to attach a child, and doing so adds the node referenced by <span class="codesample"><em>newChild</em></span> to the end of its list of children. Let’s see the method in action by using it to combine the two nodes that we create:</p>
+<p class="image"><img alt="image" src="f0358-01.jpg"/></p>
+<p class="noindent">At this point, we would have this HTML fragment:</p>
+<p class="image"><img alt="image" src="f0358-02.jpg"/></p>
+<p class="noindent">We could then add this markup into the document once we have found a convenient place to insert it. For example, we might have existing markup, like so:</p>
+<p class="image"><img alt="image" src="f0358-03.jpg"/></p>
+<p class="noindent">We would then append our newly created elements to the end of our test paragraph:</p>
+<p class="image"><img alt="image" src="f0358-04.jpg"/></p>
+<p class="noindent">This would result in markup that looks like</p>
+<p class="image"><img alt="image" src="f0358-05.jpg"/></p>
+<p class="noindent">with a simple portion of the DOM tree like this:</p>
+<p class="image1"><img alt="image" src="f0358-09.jpg"/></p>
+<h5 class="h5"><a id="ch10lev2sec9"/><strong>Text Nodes and <span class="codesample">normalize()</span> Method</strong></h5>
+<p class="noindent">As we saw above, we are not limited to append just elements; we can append text nodes as well. For example, given an original fragment like this:</p>
+<p class="image"><img alt="image" src="f0358-06.jpg"/></p>
+<p class="noindent">we might create some new text nodes and add them in:</p>
+<p class="image"><img alt="image" src="f0358-07.jpg"/></p>
+<p class="noindent">If we looked at the markup, we might expect to see this:</p>
+<p class="image"><img alt="image" src="f0358-08.jpg"/></p>
+<p class="noindent"><a id="page_359"/>However, the DOM tree actually would not look as simple as that if you examined it properly:</p>
+<p class="image1"><img alt="image" src="f0359-01.jpg"/></p>
+<p class="indent">So we see that when adding many text nodes, each one is created and inserted, rather than joined together. If we want to collapse the contiguous text nodes, fortunately there is a useful, though not widely used, DOM method for doing this —<span class="codesample">normalize()</span>. If we ran</p>
+<p class="image"><img alt="image" src="f0359-02.jpg"/></p>
+<p class="noindent">all of the text nodes within would be joined together like so:</p>
+<p class="image1"><img alt="image" src="f0359-03.jpg"/></p>
+<p class="indent">An example demonstrating appending elements and text nodes and the effects of the <span class="codesample">normalize()</span> method is shown in <a class="nounder" href="ch10.html#fig10-9">Figure 10-9</a> and can be accessed online.</p>
+<p class="image1"><a id="fig10-9"/><img alt="image" src="f0359-04.jpg"/></p>
+<p class="figcap"><strong>Figure 10-9</strong> The <span class="codesample">appendChild()</span> method may require the use of normalize().</p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.javascriptref.com/3ed/ch10/appendchild.html">http://javascriptref.com/3ed/ch10/appendchild.html</a></p>
+<hr/>
+<p class="note"><a id="page_360"/><strong>NOTE</strong> If you use the <span class="codesample">innerHTML</span> property, discussed shortly, to examine subtrees with text nodes, you will not see what this section describes. That property shows the HTML source, not the DOM tree, using Firebug or similar developer tools; looking explicitly at the DOM tree will reveal the nonnormalized text nodes.</p>
+<h5 class="h5"><a id="ch10lev2sec10"/><strong>insertBefore() method</strong></h5>
+<p class="noindent">The <span class="codesample">insertBefore (<em>newChild, referenceChild</em>)</span> method is a bit more complicated than <span class="codesample">appendChild</span>, as you must specify which child you want to insert <span class="codesample"><em>newChild</em></span> in front of using <span class="codesample"><em>referenceChild</em></span>. Next, you reference the parent node of the node you wish to run <span class="codesample">insertBefore()</span> on to acquire the necessary references. For example, given</p>
+<p class="image"><img alt="image" src="f0360-01.jpg"/></p>
+<p class="noindent">we may desire to insert an <span class="codesample"><strong>&lt;em&gt;</strong></span> tag with a text node in front of the <span class="codesample"><strong>&lt;strong&gt;</strong></span> tag. To do this, we would first create the text node, then find the reference point for the <span class="codesample"><strong>&lt;strong&gt;</strong></span> tag, and finally run the <span class="codesample">insertBefore()</span> method off the parent paragraph element, like so:</p>
+<p class="image"><img alt="image" src="f0360-02.jpg"/></p>
+<p class="indent">We could, of course, insert plain text nodes as well, but we should then be wary of having unjoined text nodes we may wish to normalize. A simple example to explore the <span class="codesample">insertBefore()</span> method is shown in <a class="nounder" href="ch10.html#fig10-10">Figure 10-10</a> and found online.</p>
+<p class="image1"><a id="fig10-10"/><img alt="image" src="f0361-01.jpg"/></p>
+<p class="figcap"><strong>Figure 10-10</strong> Insertions also may require normalization.</p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.javascriptref.com/3ed/ch10/insertbefore.html">http://javascriptref.com/3ed/ch10/insertbefore.html</a></p>
+<h5 class="h5"><a id="ch10lev2sec11"/><strong>Other Insertion Methods</strong></h5>
+<p class="noindent">Now, if only two methods to add content to the document seems a bit meager to you, know that we agree. The DOM is interesting in that, while verbose in its method names, initially it only implemented the tersest set of features. Anyway, it is easy enough to manufacture new methods to do what you want. For example, imagine you wanted some method called <span class="codesample">insertAfter (<em>newChild, referenceChild</em>)</span>, which puts a node after some reference node. The code for doing so is actually easily derived using our existing methods. We can even extend the Node object if we are bold, like so:</p>
+<p class="image"><img alt="image" src="f0360-03.jpg"/></p>
+<p class="noindent"><a id="page_361"/>Later, we could use our new <span class="codesample"><em>insertAfter()</em></span> method just as we might any other DOM method. For example, given the markup here:</p>
+<p class="image"><img alt="image" src="f0361-02.jpg"/></p>
+<p class="noindent">we could, if we wanted to, insert some text after the element with an <span class="codesample"><strong>id</strong></span> attribute value of <span class="codesample">“p2”</span>, like so:</p>
+<p class="image"><img alt="image" src="f0361-03.jpg"/></p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.javascriptref.com/3ed/ch10/insertafter.html">http://javascriptref.com/3ed/ch10/insertafter.html</a></p>
+<p class="indent">Fortunately, we don’t necessarily have to engineer our own code to make element insertion easier, because Internet Explorer introduced a useful method called <span class="codesample">insertAdjacentElement (<em>position, element</em>)</span>, which provides most functionality a coder would desire. The method takes a <span class="codesample"><em>position</em></span> string, which indicates whether the <span class="codesample"><em>element</em></span> should be put just before the DOM element it is run on <span class="codesample">(“beforeBegin”)</span>, as <a id="page_362"/>the first child just within the object <span class="codesample">(“afterBegin”)</span>, as the last child of the object (“<span class="codesample">beforeEnd</span>”), or just after the end of the element <span class="codesample">(“afterEnd”)</span>, as shown here:</p>
+<p class="image"><img alt="image" src="f0362-01.jpg"/></p>
+<hr/>
+<p class="online"><strong>ONLINE:</strong> <a class="nounder" href="http://www.javascriptref.com/3ed/ch10/insertadjacentelement.html">http://javascriptref.com/3ed/ch10/insertadjacentelement.html</a></p>
+<p class="indent">Sadly, at the time of this publication, this method isn’t available ubiquoutously in browsers. Fortunately, JavaScript libraries have added a number of useful methods to “fix” or extend the DOM. There isn’t much magic if you dig into their source; it will eventually look something like what you have just seen.</p>
+<h4 class="h4"><a id="ch10lev1sec7"/><strong>Dynamic Markup Insertion Realities</strong></h4>
+<p class="noindent">The previous section suggested that the DOM provides only the bare minimum necessary to manipulate the document. What this often means is that it can be a lot of work to do something relatively simple. Imagine if you have some blank <span class="codesample"><strong>&lt;div&gt;</strong></span> tag, like so:</p>
+<p class="image"><img alt="image" src="f0362-02.jpg"/></p>
+<p class="noindent">and you wanted to insert the message “Sometimes the <span class="codesample">DOM</span> can be a big headache!”. To do this, you would create all the components and add them to the <span class="codesample"><strong>div</strong></span> element, like so:</p>
+<p class="image"><img alt="image" src="f0362-03.jpg"/></p>
+<p class="noindent"><a id="page_363"/>That seems like quite a bit of work. Well, fortunately there is an easier method.</p>
+<h5 class="h5"><a id="ch10lev2sec12"/><strong><span class="codesample">innerHTML</span></strong></h5>
+<p class="noindent">Quite often, the DOM is a bit cumbersome to work with. Our previous example could be accomplished quite easily if we simply set the <span class="codesample">innerHTML</span> property of the <span class="codesample"><strong>div</strong></span> element. Initially introduced as a proprietary feature in Internet Explorer 4, it was later added to most every browser and today is not only a de facto standard but is documented as standard under the HTML5 specification. The <span class="codesample">innerHTML</span> property holds a string representing the HTML contained by an element. Given this HTML markup:</p>
+<p class="image"><img alt="image" src="f0363-01.jpg"/></p>
+<p class="noindent">the following script retrieves the enclosed content:</p>
+<p class="image"><img alt="image" src="f0363-02.jpg"/></p>
+<p class="noindent">The result is shown here:</p>
+<p class="image1"><img alt="image" src="f0363-03.jpg"/></p>
+<p class="indent">Not only can you read the markup contents of an element, you may set it with <span class="codesample">innerHTML</span>. For example, the previous example where we added the string “<em>Sometimes</em> the <span class="codesample">DOM</span> can be a big headache!” to a <span class="codesample"><strong>div</strong></span> element would be accomplished with <span class="codesample">innerHTML</span>, like so:</p>
+<p class="image"><img alt="image" src="f0363-04.jpg"/></p>
+<p class="noindent">Compare the DOM way with the <span class="codesample">innerHTML</span> yourself online.</p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.javascriptref.com/3ed/ch10/innerhtml.html">http://javascriptref.com/3ed/ch10/innerhtml.html</a></p>
+<p class="indent">Pragmatically speaking, there is little to dislike about <span class="codesample">innerHTML</span> at first glance. However, when it was first introduced, there was much disdain online for the property, particularly as it was “nonstandard” in the words of its critics. There are actually some safety and performance concerns with it. In some sense, it is an <span class="codesample">eval()</span> function for the DOM, providing direct access to the markup parser, which would appear to open developers up to some trouble.</p>
+<h6 class="h6"><a id="page_364"/><strong><span class="codesample">innerHTML</span> Details</strong></h6>
+<p class="noindent">While <span class="codesample">innerHTML</span> is quite easy to use, there are a number of gotchas to concern yourself with. First, the handling of special characters won’t be handled as expected. For example, consider here where you add in a <span class="codesample"><strong>pre</strong></span> element with some line breaks:</p>
+<p class="image"><img alt="image" src="f0364-01.jpg"/></p>
+<p class="noindent">The result will actually show physical <span class="codesample">\n\n</span> characters instead of breaks. This is easily circumvented with <span class="codesample"><strong>&lt;br&gt;</strong></span> tags. You may also run into problems, particularly in older browsers, in some edge cases with escaped quotes. However, these are relatively minor annoyances. More dynamic content tends to be more consistently problematic.</p>
+<p class="indent">A slightly worse problem is setting the <span class="codesample"><strong>&lt;style&gt;</strong></span> tag with <span class="codesample">innerHTML</span>. First off, don’t abuse it—if you are going to add <span class="codesample"><strong>&lt;style&gt;</strong></span> to the document, it should be performed in the head element. Some older browsers will not recognize the added element otherwise.</p>
+<p class="indent">The most troubling aspect of using the <span class="codesample">innerHTML</span> property are elements containing JavaScript or the <span class="codesample"><strong>&lt;script&gt;</strong></span> element itself. In general, you will find it quite difficult to add <span class="codesample"><strong>&lt;script&gt;</strong></span> tags using <span class="codesample">innerHTML</span>. For example, the following will not work in a browser:</p>
+<p class="image"><img alt="image" src="f0364-02.jpg"/></p>
+<p class="noindent">Now, depending on how this setting is performed, you might think there is simply a parser error at work here and try to split the <span class="codesample"><strong>script</strong></span> tag, like so, but that won’t make a difference:</p>
+<p class="image"><img alt="image" src="f0364-03.jpg"/></p>
+<p class="indent">It is possible under Internet Explorer to get this running by inserting some node in front of the element:</p>
+<p class="image"><img alt="image" src="f0364-04.jpg"/></p>
+<p class="noindent">However, that may not do it because you likely will be forced to defer execution to get it to consistently run in that browser:</p>
+<p class="image"><img alt="image" src="f0364-05.jpg"/></p>
+<p class="noindent">This is a quirky workaround and, sadly, known more than it should be. In fact, given how inconsistently script insertion works with <span class="codesample">innerHTML</span>, even if you get it to work you probably shouldn’t employ the scheme.</p>
+<p class="indent">Now, you might get the impression that a script can’t be added to the document with <span class="codesample">innerHTML</span>, but that isn’t quite <span class="codesample">true</span>. For example, if you add the following, it will run:</p>
+<p class="image"><img alt="image" src="f0364-06.jpg"/></p>
+<p class="noindent">Now, you might wonder if this is safer, as it forces user interaction. Well, not really—once you allow handler values, it opens the floodgate for injectable code. Consider if we insert an element with a load event that triggers a script:</p>
+<p class="image"><a id="page_365"/><img alt="image" src="f0365-01.jpg"/></p>
+<p class="noindent">Obviously, that pretty much runs code immediately. This could, of course, fetch an external dependency and present itself invisibly if we were aiming to be sneaky. If the aim here was keeping people from doing bad things with <span class="codesample">innerHTML</span>, simply not allowing the <span class="codesample"><strong>script</strong></span> element falls a bit short. It is necessary to be careful using <span class="codesample">innerHTML</span>. We will take a closer look at security issues in <a class="nounder" href="ch18.html#ch18">Chapter 18</a>.</p>
+<p class="indent">Internet Explorer actually seems to recognize the problem of injected script with <span class="codesample">innerHTML</span> a bit better than you might expect. This browser has provided the <span class="codesample">window.toStaticHTML()</span> method since Internet Explorer 8. If we want, we can pass an inserted string to it and have it sanitize it before setting <span class="codesample">innerHTML</span>.</p>
+<p class="indent">What’s so amusing about this kind of thing is that there are more consistent ways to execute inserted code—just use a standard DOM insertion. For example, the following will indeed work without hassle.</p>
+<p class="image"><img alt="image" src="f0365-02.jpg"/></p>
+<p class="noindent">Like everything on the Web, there is more than one way to accomplish something, and the claim of superiority of one coding mechanism over another is often subject to interpretation. There is a simple program online that you can play with to see what escaped characters, styles, and especially script <span class="codesample">innerHTML</span> handles in your browser.</p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.javascriptref.com/3ed/ch10/innerhtmldetails.html">http://javascriptref.com/3ed/ch10/innerhtmldetails.html</a></p>
+<h5 class="h5"><a id="ch10lev2sec13"/><strong>outerHTML</strong></h5>
+<p class="noindent">Microsoft introduced the <span class="codesample">outerHTML</span> property at the same time as <span class="codesample">innerHTML</span>. The main point of the propertry is that it also looks at the element it is targetting. For example, given</p>
+<p class="image"><img alt="image" src="f0365-03.jpg"/></p>
+<p class="noindent">if you alerted the <span class="codesample">outerHTML</span> property of the paragraph</p>
+<p class="image"><img alt="image" src="f0365-04.jpg"/></p>
+<p class="noindent">you would see the containing element as well, and it is demonstrated here:</p>
+<p class="image1"><img alt="image" src="f0365-05.jpg"/></p>
+<p class="indent">Obviously, like <span class="codesample">innerHTML</span>, you can also modify the property:</p>
+<p class="image"><img alt="image" src="f0365-06.jpg"/></p>
+<p class="indent"><a id="page_366"/>Here we point out a danger in blowing away your containing element: you lose a reference. You can easily address this by placing an <span class="codesample"><strong>id</strong></span> attribute on the newly created item. You might even be tempted to copy the old <span class="codesample"><strong>id</strong></span> value. However, be careful, because once you lose the reference, you will have to traverse the tree to replace the item again. If you want to experiment with <span class="codesample">outerHTML</span>, try the example online, but at the time of this edition’s writing, some browsers still were not supporting the property, despite supporting <span class="codesample">innerHTML</span>.</p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.javascriptref.com/3ed/ch10/outerhtml.html">http://javascriptref.com/3ed/ch10/outerhtml.html</a></p>
+<h4 class="h4"><a id="ch10lev1sec8"/><strong>innerText and outerText</strong></h4>
+<p class="noindent">The <span class="codesample">innerText</span> property works similarly to the <span class="codesample">innerHTML</span> property, except that it is focused solely on the textual content contained within an element. For example, given our simple test markup</p>
+<p class="image"><img alt="image" src="f0366-01.jpg"/></p>
+<p class="noindent">if you look at the <span class="codesample">innerText</span> of the paragraph, like so:</p>
+<p class="image"><img alt="image" src="f0366-02.jpg"/></p>
+<p class="noindent">you’ll see the following result:</p>
+<p class="image1"><img alt="image" src="f0366-03.jpg"/></p>
+<p class="noindent">Unfortunately, this may not work in some browsers, notably the Firefox family of browsers, which at this edition’s writing do not support this syntax; instead, Firefox supports the <span class="codesample">textContent</span> property. We can easily handle this with a simple <span class="codesample">if</span> statement:</p>
+<p class="image"><img alt="image" src="f0366-04.jpg"/></p>
+<p class="noindent">You should be curious to note that the property has combined three individual text nodes into a string. Given what you have seen with white space handling, you might actually see different results.</p>
+<p class="indent">Setting the <span class="codesample">innerText</span>, or <span class="codesample">textContent</span>, will create a single text node and will turn any markup included into actual characters, as opposed to an element or entity:</p>
+<p class="image"><img alt="image" src="f0366-05.jpg"/></p>
+<p class="image1"><a id="page_367"/><img alt="image" src="f0367-01.jpg"/></p>
+<p class="noindent">Like <span class="codesample">outerHTML</span>, the <span class="codesample">outerText</span> property works similarly, modifies the element itself, and replaces it with a single text node. You can experiment more with these properties using the example online.</p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.javascriptref.com/3ed/ch10/innertext.html">http://javascriptref.com/3ed/ch10/innertext.html</a></p>
+<h5 class="h5"><a id="ch10lev2sec14"/><strong>insertAdjacentHTML() and insertAdjacentText( )</strong></h5>
+<p class="noindent">Another dynamic insertion method introduced by Microsoft and later incorporated into the HTML5 standard is the <span class="codesample">insertAdjacentHTML (<em>position, string-of-HTML-text</em>)</span> method. This method should be run off a DOM element, and like <span class="codesample">innerHTML</span>, it takes a string of HTML text that it will parse and add to the DOM tree. The method requires a position string that indicates the position where text should be added, with allowed values of <span class="codesample">“beforeBegin”, “afterBegin”, “beforeEnd”</span>, and <span class="codesample">“afterEnd”</span>. To illustrate the method, we turn to our example markup from before:</p>
+<p class="image"><img alt="image" src="f0367-02.jpg"/></p>
+<p class="noindent">Now, if we used the <span class="codesample">“beforeBegin”</span> value, it would insert the new nodes right before the target element, just outside of it, so the following</p>
+<p class="image"><img alt="image" src="f0367-03.jpg"/></p>
+<p class="noindent">would produce this:</p>
+<p class="image"><img alt="image" src="f0367-04.jpg"/></p>
+<p class="indent">If we ran <span class="codesample">“afterBegin”</span>, it would insert the new DOM nodes just within the specified element, so the following</p>
+<p class="image"><img alt="image" src="f0367-05.jpg"/></p>
+<p class="noindent">would produce this:</p>
+<p class="image"><img alt="image" src="f0367-06.jpg"/></p>
+<p class="noindent">The end strings are similar with <span class="codesample">“beforeEnd”:</span></p>
+<p class="image"><img alt="image" src="f0367-07.jpg"/></p>
+<p class="noindent"><a id="page_368"/>The <span class="codesample">“beforeEnd”</span> value inserts the nodes just before the close of the specified element:</p>
+<p class="image"><img alt="image" src="f0368-01.jpg"/></p>
+<p class="noindent">The <span class="codesample">“afterEnd”</span> value, on the other hand:</p>
+<p class="image"><img alt="image" src="f0368-02.jpg"/></p>
+<p class="noindent">puts the new nodes just outside the element before any following text or markup:</p>
+<p class="image"><img alt="image" src="f0368-03.jpg"/></p>
+<p class="indent">The <span class="codesample">insertAdjacentText (<em>position, string</em>)</span> method acts in the same way as <span class="codesample">insertAdjacentHTML()</span> but simply inserts the passed text without parsing as a single text node.</p>
+<p class="indent">An example for experimenting with these methods is shown in <a class="nounder" href="ch10.html#fig10-11">Figure 10-11</a> and can be found online.</p>
+<p class="image1"><a id="fig10-11"/><img alt="image" src="f0368-04.jpg"/></p>
+<p class="figcap"><strong>Figure 10-11</strong> The <span class="codesample">insertAdjacentHTML()</span> method powerful proprietary feature is now standard.</p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.www.javascriptref.com/3ed/ch10/insertadjacenthtml.html">http://www.javascriptref.com/3ed/ch10/insertadjacenthtml.html</a></p>
+<hr/>
+<p class="note"><strong>NOTE</strong> Under the HTML5 specification, the positional keywords such as “<span class="codesample">afterBegin</span>” are not in camel case and may appear in any case. The specification presents them in all lowercase (for example <span class="codesample">“afterbegin”</span>).</p>
+<h5 class="h5"><a id="ch10lev2sec15"/><strong>document.write() and document.writeln( )</strong></h5>
+<p class="noindent">The final dynamic content insertion methods, which are codified now under HTML5, are some of the oldest methods for document manipulation. The <span class="codesample">document.write()</span> and <span class="codesample">document.writeln()</span> methods have been around since the dawn of JavaScript and are used at document creation time to dynamically insert content into a document at the position of execution. We’ve seen the <span class="codesample">document.write()</span> method a number of times already in the book, but let’s take a moment to point out some important considerations with it.</p>
+<p class="indent"><a id="page_369"/>If on page load we encounter a <span class="codesample"><strong>script</strong></span> element that contains</p>
+<p class="image"><img alt="image" src="f0369-01.jpg"/></p>
+<p class="noindent">it will insert content directly to the document. If the string passed to the method contains markup, it will be interpreted as such and added to the DOM tree:</p>
+<p class="image"><img alt="image" src="f0369-02.jpg"/></p>
+<p class="noindent">This would create a text node, a <span class="codesample"><strong>strong</strong></span> element with a text node child, and a file text node. Insertion is not limited to any particular element; in fact, dynamic content, including more script code, is easily inserted with these methods. It should be noted that because of browser parser limitations we will likely need to split up the <span class="codesample"><strong>&lt;script&gt;</strong></span> tag within a <span class="codesample">document.write()</span> invocation so it is not misinterpreted:</p>
+<p class="image"><img alt="image" src="f0369-03.jpg"/></p>
+<p class="noindent">Using <span class="codesample">document.write()</span> or <span class="codesample">document.writeln()</span> will not make much of a practical difference because HTML generally does not care that much about extra whitespace; however, when CSS whitespace rules or <span class="codesample"><strong>&lt;pre&gt;</strong></span> tags are in place, <span class="codesample">document.writeln()</span> will reveal that indeed return characters are being added.</p>
+<p class="indent">It is important to note that dynamic insertion into the document using the <span class="codesample">document.write()</span> or <span class="codesample">document.writeln()</span> method should only be performed upon page load. If after page load either method is called, the document will be reopened and overwritten:</p>
+<p class="image"><img alt="image" src="f0369-04.jpg"/></p>
+<p class="indent">Today, most browsers will correctly keep the document open for writing indefinitely, unless a <span class="codesample">document.close()</span> method is called:</p>
+<p class="image"><img alt="image" src="f0369-05.jpg"/></p>
+<p class="indent">While keeping a document in a loading state may be useful for further writes, it is likely quite disorienting to the user because the browser will typically indicate that the document is still loading until the page is closed somehow, via a method call or some timeout.</p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.www.javascriptref.com/3ed/ch10/documentwrite.html">http://www.javascriptref.com/3ed/ch10/documentwrite.html</a></p>
+<p class="indent">As we close, the vitriol surrounding the <span class="codesample">document.write()</span> method is interesting. It has its concerns, which can be as problematic as <span class="codesample">eval()</span>; however, unlike that method, it is so widely used for analytic script insertion, banner ad code, and more that it is extremely doubtful it can be removed from common practice or support in the near future.</p>
+<hr/>
+<p class="note"><strong>NOTE</strong> One gotcha with these methods is that they are not supported in strict XHTML documents. Be careful while testing if you are not actually delivering what appears to a browser as XML by MIME type or file extension. The <span class="codesample">document.write()</span> and <span class="codesample">writeln()</span> methods may work, but in proper served and parsed environments they will fail.</p>
+<h4 class="h4"><a id="page_370"/><a id="ch10lev1sec9"/><strong>Copying Nodes</strong></h4>
+<p class="noindent">Sometimes you won’t want to create and insert brand-new elements. Instead, you might use the <span class="codesample">cloneNode (<em>deep</em>)</span> method to make a copy of a particular node. The method takes a single Boolean argument <span class="codesample"><em>deep</em></span>, indicating whether the copy should include all children of the node (called a <em>deep clone</em>) or just the element itself. For example, given markup such as</p>
+<p class="image"><img alt="image" src="f0370-01.jpg"/></p>
+<p class="noindent">a <span class="codesample">cloneNode()</span> invocation such as</p>
+<p class="image"><img alt="image" src="f0370-02.jpg"/></p>
+<p class="noindent">returns an empty paragraph element that would look like this:</p>
+<p class="image"><img alt="image" src="f0370-03.jpg"/></p>
+<p class="noindent">If we pass <span class="codesample"><em>deep</em></span> as a <span class="codesample">true</span> value, the entire subtree will be cloned, so</p>
+<p class="image"><img alt="image" src="f0370-04.jpg"/></p>
+<p class="noindent">would return a DOM subtree, like this:</p>
+<p class="image"><img alt="image" src="f0370-05.jpg"/></p>
+<p class="indent">Of course, in either case we see that the clone is a bit too complete because the <span class="codesample"><strong>id</strong></span> attributes are copied as well, and you’ll likely need to alter those if you plan on referencing the newly inserted element later on by its <span class="codesample"><strong>id</strong></span> value. We’ll see how to do that when discussing manipulating attribute values.</p>
+<p class="indent">A live example demonstrating the method is shown in <a class="nounder" href="ch10.html#fig10-12">Figure 10-12</a> and found online.</p>
+<p class="image1"><a id="fig10-12"/><img alt="image" src="f0371-01.jpg"/></p>
+<p class="figcap"><strong>Figure 10-12</strong> Watch out for <span class="codesample">cloneNode()</span> details.</p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.javascriptref.com/3ed/ch10/clonenode.html">http://javascriptref.com/3ed/ch10/clonenode.html</a></p>
+<h4 class="h4"><a id="ch10lev1sec10"/><strong>Deleting and Replacing Nodes</strong></h4>
+<p class="noindent">It is often convenient to be able to remove nodes from the tree. The <span class="codesample">Node</span> object supports the <span class="codesample">removeChild (<em>child</em>)</span> method that is used to delete a node specified by the reference <span class="codesample"><em>child</em></span> it is passed. For example,</p>
+<p class="image"><img alt="image" src="f0370-06.jpg"/></p>
+<p class="noindent">would remove the last child of the node referenced by the variable <span class="codesample"><em>current</em></span>. Note that the <span class="codesample">removeChild()</span> method returns the <span class="codesample">Node</span> object that was removed:</p>
+<p class="image"><img alt="image" src="f0370-07.jpg"/></p>
+<p class="indent">Besides deleting a <span class="codesample">Node</span>, you can replace one using the method</p>
+<p class="image"><img alt="image" src="f0370-08.jpg"/></p>
+<p class="noindent"><a id="page_371"/>where <span class="codesample"><em>newChild</em></span> is the node to replace <span class="codesample"><em>oldChild</em></span> with and the method operates on the parent of the replacement node. This simple example shows how the method is used:</p>
+<p class="image"><img alt="image" src="f0371-02.jpg"/></p>
+<p class="noindent">Be careful when using <span class="codesample">replaceChild()</span>, as it will destroy the contents of nodes that are replaced.</p>
+<p class="indent">The following example shows deletion and replacement in action:</p>
+<p class="image"><img alt="image" src="f0371-03.jpg"/></p>
+<p class="image"><img alt="image" src="f0371-04.jpg"/></p>
+<p class="image"><img alt="image" src="f0371-05.jpg"/></p>
+<hr/>
+<p class="online"><a id="page_372"/><strong>ONLINE</strong> <a class="nounder" href="http://www.javascriptref.com/3ed/ch10/deletereplace.html">http://javascriptref.com/3ed/ch10/deletereplace.html</a></p>
+<p class="indent">Because many browsers include whitespace in their DOM trees, you may notice that you have to press the delete button a few more times in the preceding example to effect the same change as you would in Internet Explorer. Once again, we see the effect of whitespace in the DOM tree.</p>
+<h5 class="h5"><a id="page_373"/><a id="ch10lev2sec16"/><strong>Modifying Text Nodes</strong></h5>
+<p class="noindent">Often, when manipulating a document to effect a change, you do not modify elements but, rather, the text nodes contained within. For example, if you had markup like</p>
+<p class="image"><img alt="image" src="f0373-01.jpg"/></p>
+<p class="noindent">you would use</p>
+<p class="image"><img alt="image" src="f0373-02.jpg"/></p>
+<p class="noindent">to access the text fragment “This is a test” within the paragraph element. Once the <span class="codesample">textNode</span> has been retrieved, we could access its length using its <span class="codesample">length</span> property, which indicates the number of characters it contains, or even set its value using the <span class="codesample">data</span> property:</p>
+<p class="image"><img alt="image" src="f0373-03.jpg"/></p>
+<p class="indent">DOM Level 1 also defines numerous methods for operatingon text nodes. These are summarized in <a class="nounder" href="ch10.html#tab10-6">Table 10-6</a>.</p>
+<p class="tabcap"><a id="tab10-6"/><strong>Table 10-6</strong> DOM Methods for Manipulating Text Nodes</p>
+<p class="image"><img alt="image" src="t0373-01.jpg"/></p>
+<p class="indent"><a id="page_374"/>The following example illustrates these methods in use:</p>
+<p class="image"><img alt="image" src="f0374-01.jpg"/></p>
+<p class="image"><img alt="image" src="f0374-02.jpg"/></p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.www.javascriptref.com/3ed/ch10/textnodemethods.html">http://www.javascriptref.com/3ed/ch10/textnodemethods.html</a></p>
+<hr/>
+<p class="note"><strong>NOTE</strong> After retrieving a text node <span class="codesample">data</span> value, you could always use any of the <span class="codesample">String</span> methods discussed in <a class="nounder" href="ch07.html#ch07">Chapter 7</a> to modify the value and then save it back to the node. However, since the DOM is not necessarily specific to JavaScript, the previously discussed methods can be assumed in whatever DOM-supporting environment you find yourself working.</p>
+<p class="indent"><a id="page_375"/>One last note is that it is also possible to manipulate the value of <span class="codesample">Comment</span> nodes with these properties and methods. However, given that comments do not influence document presentation, modification of such nodes is not that common.</p>
+<h4 class="h4"><a id="ch10lev1sec11"/><strong>Manipulating Attributes</strong></h4>
+<p class="noindent">At this point, you are probably wondering how to create more complex elements complete with attributes. The DOM supports numerous attribute methods. To illustrate these, we start first with the following markup:</p>
+<p class="image"><img alt="image" src="f0375-01.jpg"/></p>
+<p class="noindent">Now, we might want to use the DOM to detect the existence of attributes. The <span class="codesample">hasAttributes()</span> method will return a Boolean indicating if any attributes are found:</p>
+<p class="image"><img alt="image" src="f0375-02.jpg"/></p>
+<p class="noindent">Next, we might check for the existence of a particular attribute using the <span class="codesample">hasAttribute (<em>attributeName</em>)</span> method, which would return <span class="codesample">true</span> or <span class="codesample">false</span>, depending on the existence of the attribute on the element regardless of the set value:</p>
+<p class="image"><img alt="image" src="f0375-03.jpg"/></p>
+<p class="noindent">If we want to retrieve an attribute value, we would use <span class="codesample">getAttribute (<em>attributeName</em>)</span> on a <span class="codesample">Node</span> object, which would return a string value holding the attribute value:</p>
+<p class="image"><img alt="image" src="f0375-04.jpg"/></p>
+<p class="noindent">If we desired to change the attribute value, we would use the <span class="codesample">setAttribute(attributeName, attributeValue)</span> method, as shown here:</p>
+<p class="image"><img alt="image" src="f0375-05.jpg"/></p>
+<p class="noindent">If the attribute does not exist on the element, it will be created by this method:</p>
+<p class="image"><img alt="image" src="f0375-06.jpg"/></p>
+<p class="noindent">While we might be tempted to clear an attribute by setting its value to an empty string, this really doesn’t remove it. Instead, it just has it set to a blank value. To remove an attribute completely, use <span class="codesample">removeAttribute (<em>attributeName</em>)</span>, like so:</p>
+<p class="image"><img alt="image" src="f0375-07.jpg"/></p>
+<p class="noindent">Interestingly, the method fails without exception if passed the name of an attribute that does not exist. Sadly, the method does not return information about its success or failure.</p>
+<p class="indent"><a id="page_376"/>All of these attribute properties are summarized in <a class="nounder" href="ch10.html#tab10-7">Table 10-7</a>, and a consolidating example can be found online.</p>
+<p class="tabcap"><a id="tab10-7"/><strong>Table 10-7</strong> Common DOM Attribute-Related Methods</p>
+<p class="image"><img alt="image" src="t0376-01.jpg"/></p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.javascriptref.com/3ed/ch10/attributes.html">http://javascriptref.com/3ed/ch10/attributes.html</a></p>
+<hr/>
+<p class="note"><strong>NOTE</strong> When dealing with HTML documents, the attribute names will be lowercased automatically in DOM-compliant browsers, so <span class="codesample">setAttribute (“TITLE”, “Watch it!”)</span> would set the title attribute in lowercase. Fortunately, <span class="codesample">getAttribute (“TITLE”)</span> would also still retrieve the value correctly, given the automatic case change. In XML documents, such transformations will not happen given case-insensitivity restrictions.</p>
+<p class="indenttop">While most of the attribute methods are pretty straightforward, there can be quirks in some browsers. When we discuss the intersection between the DOM and HTML a bit more closely, we will demonstrate some of these. For now, let’s consider the second and lesser-used half of the attribute discussion: attribute nodes.</p>
+<h5 class="h5"><a id="ch10lev2sec17"/><strong>Attribute Nodes</strong></h5>
+<p class="noindent">An alternative way of manipulating attributes is to employ methods that manipulate attribute nodes. This is not a suggested way of manipulating attributes, but is presented mostly for completeness and for introducing the <span class="codesample">attributes</span> property, which may be useful on occasion.</p>
+<p class="indent"><a id="page_377"/>To make an attribute node, use the <span class="codesample">createAttribute()</span> method, like so:</p>
+<p class="image"><img alt="image" src="f0377-01.jpg"/></p>
+<p class="noindent">This method will return a DOM <span class="codesample">Attr</span> node, as evident when you look at the <span class="codesample">nodeType: alert (attr.nodeType)</span></p>
+<p class="image"><img alt="image" src="f0377-02.jpg"/></p>
+<p class="image1"><img alt="image" src="f0377-03.jpg"/></p>
+<p class="noindent">Since this is a plain DOM node, we can set its value with <span class="codesample">nodeValue</span>, like so:</p>
+<p class="image"><img alt="image" src="f0377-04.jpg"/></p>
+<p class="noindent">Finally, you will attach it to a DOM element:</p>
+<p class="image"><img alt="image" src="f0377-05.jpg"/></p>
+<p class="indent">Later, if you want to retrieve the attribute node, use the <span class="codesample">getAttributeNode (<em>attrName</em>)</span> method and pass it the name of the attribute <span class="codesample">(<em>attrName</em>)</span> you are looking for. Once retrieved, read the <span class="codesample">nodeValue</span> property to get the attribute’s value:</p>
+<p class="image"><img alt="image" src="f0377-06.jpg"/></p>
+<p class="indent">If you wanted to remove the attribute with this syntax, you would use the <span class="codesample">removeAttributeNode (<em>attrNode</em>)</span> method, but notice that you must pass it the attribute node in question, not just its name, so you end up needing to get it first quite often:</p>
+<p class="image"><img alt="image" src="f0377-07.jpg"/></p>
+<p class="indent">There is one aspect to this form of syntax that is useful, as compared to the previously mentioned <span class="codesample">getAttribute(), setAttribute()</span>, and <span class="codesample">removeAttribute()</span> methods—that is the <span class="codesample">attributes</span> property. The <span class="codesample">attributes</span> property on an element contains a <span class="codesample">NamedNodeMap</span> holding a live collection of the attributes for the element. A <a id="page_378"/>simple use of this would be to iterate over the list. We might use the <span class="codesample">item()</span> method to access a member of the collection:</p>
+<p class="image"><img alt="image" src="f0378-01.jpg"/></p>
+<p class="noindent">However, we are more likely to simply use common array indexing:</p>
+<p class="image"><img alt="image" src="f0378-02.jpg"/></p>
+<p class="indent">To demonstrate the value, the following code snippet collects the attributes of a specified DOM element for output:</p>
+<p class="image"><img alt="image" src="f0378-03.jpg"/></p>
+<p class="noindent">In general, this fragment should properly enumerate the set attributes on a DOM node; however, under older versions of Internet Explorer (6–8), as well as newer versions in backward emulation mode, the code will show all attributes set or not. You can see the comparison in <a class="nounder" href="ch10.html#fig10-13">Figure 10-13</a>.</p>
+<p class="image1"><a id="fig10-13"/><img alt="image" src="f0379-01.jpg"/></p>
+<p class="figcap"><strong>Figure 10-13</strong> Watch out for attribute collection problems under Internet Explorer.</p>
+<p class="indent">A small code adjustment will take care of this discrepancy; it looks for set values or employs the <span class="codesample">specified</span> property that Internet Explorer will set to <span class="codesample">true</span> if it is actually present in the code:</p>
+<p class="image"><img alt="image" src="f0378-04.jpg"/></p>
+<p class="indent">Since the <span class="codesample">attributes</span> property is a collection, we also may use name-based access syntax. For example, to find the <span class="codesample"><strong>title</strong></span> attribute with this syntax, we might use</p>
+<p class="image"><img alt="image" src="f0378-05.jpg"/></p>
+<p class="noindent">or more likely</p>
+<p class="image"><img alt="image" src="f0378-06.jpg"/></p>
+<p class="noindent"><a id="page_379"/>Given this syntax, to read out the <span class="codesample"><strong>title</strong></span> attribute’s value, you would write</p>
+<p class="image"><img alt="image" src="f0379-02.jpg"/></p>
+<p class="noindent">It seems obvious that the following is much easier:</p>
+<p class="image"><img alt="image" src="f0379-03.jpg"/></p>
+<p class="noindent">but there is more than one way to manipulate attributes. Similarly, you may set an item into the attribute list with <span class="codesample">setNamedItem (<em>attrNode</em>)</span> and pass it a new attribute node.</p>
+<p class="indent">Finally, you may remove items from the attribute list with</p>
+<p class="image"><img alt="image" src="f0379-04.jpg"/></p>
+<p class="noindent">All of these various attribute manipulation schemes are illustrated in an example shown in <a class="nounder" href="ch10.html#fig10-14">Figure 10-14</a> and found online.</p>
+<p class="image1"><a id="fig10-14"/><img alt="image" src="f0380-01.jpg"/></p>
+<p class="figcap"><strong>Figure 10-14</strong> Testing attribute node methods</p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.javascriptref.com/3ed/ch10/attributenodes.html">http://javascriptref.com/3ed/ch10/attributenodes.html</a></p>
+<h4 class="h4"><a id="page_380"/><a id="ch10lev1sec12"/><strong>Other Node Methods</strong></h4>
+<p class="noindent">A few other node methods can be useful. The <span class="codesample">importNode (<em>node, deep</em>)</span> and <span class="codesample">adoptNode (<em>node</em>)</span> methods are used when sharing nodes between documents. A common example would be sharing nodes between an iframe document and the main document. In order for one document to use a node from another document, it must be imported first. The import can be done using either <span class="codesample">importNode()</span> or <span class="codesample">adoptNode()</span>, with the difference being that the node is removed from the original document when using <span class="codesample">adoptNode()</span>. Both methods are performed on the importing document and accept the node as the argument. In addition, <span class="codesample">importNode()</span> takes an additional second parameter that is a Boolean indicating whether the import should also import the children of the node. For security restrictions, the contents of a document can be accessed from another document only if the two documents are located in the same domain:</p>
+<p class="image"><img alt="image" src="f0380-02.jpg"/></p>
+<hr/>
+<p class="online"><a id="page_381"/><strong>ONLINE</strong> <a class="nounder" href="http://www.www.javascriptref.com/3ed/ch10/adoptimport.html">http://www.javascriptref.com/3ed/ch10/adoptimport.html</a></p>
+<p class="indenttop">Next, we will look at a couple of comparison methods. The first, <span class="codesample">isNodeSame (<em>node</em>)</span>, checks to see if two node variables are referencing the same node. The second, <span class="codesample">isNodeEqual (<em>node</em>)</span>, checks to see if two nodes are equal though not necessarily referencing the same nodes. In order for two nodes to be the same, they must be the same type, have the same <span class="codesample">nodeName, localName, namespaceURI, prefix, nodeValue</span>, have equal children, and have equal attributes.</p>
+<p class="image"><img alt="image" src="f0381-01.jpg"/></p>
+<p class="image"><img alt="image" src="f0381-02.jpg"/></p>
+<p class="indent">This results in the following output:</p>
+<p class="image"><img alt="image" src="f0381-03.jpg"/></p>
+<p class="noindent"><a id="page_382"/>Note that <span class="codesample"><em>div1</em></span> and <span class="codesample"><em>div2</em></span> do not even evaluate to equal, even though they look the same. The sole difference is that the <span class="codesample">id</span> set for each <span class="codesample"><strong>&lt;div&gt;</strong></span> is different, and therefore they are not equal.</p>
+<h4 class="h4"><a id="ch10lev1sec13"/><strong>Namespaces</strong></h4>
+<p class="noindent">So far, we have seen how to create, manipulate, and query objects defined within the HTML namespace. It is possible to integrate objects of various namespaces within an HTML page. Scalable Vector Graphics (SVG) is an example of this that will be looked at in detail in <a class="nounder" href="ch17.html#ch17">Chapter 17</a>.</p>
+<p class="indent">Creating objects from another namespace could potentially lead to naming conflicts. For example, imagine that we have a furniture markup language that we are embedding into our HTML page. We might want to call <span class="codesample">createElement()</span> for a couch, a chair, and a table:</p>
+<p class="image"><img alt="image" src="f0382-01.jpg"/></p>
+<p class="noindent">Once we run into <span class="codesample">table</span>, we can see that there is a conflict. What kind of table should be created? Would it be a furniture table or an HTML table? Luckily, DOM Level 2 provides numerous alternative methods that allow a namespace to be provided when calling such methods. All of these methods end with <span class="codesample">NS</span> and take the namespace’s URL as the first parameter. Besides these changes, they are identical to their counterparts:</p>
+<p class="image"><img alt="image" src="f0382-02.jpg"/></p>
+<p class="noindent">Now, all of the objects will be created properly with the definitions provided by the specified URL.</p>
+<p class="indent">The methods that support namespaces are shown in <a class="nounder" href="ch10.html#tab10-8">Table 10-8</a>.</p>
+<p class="tabcap"><a id="tab10-8"/><strong>Table 10-8</strong> Namespace Methods<a id="page_383"/></p>
+<p class="imagea"><img alt="image" src="t0383-01.jpg"/></p>
+<p class="image0"><img alt="image" src="t0383-02.jpg"/></p>
+<h4 class="h4"><a id="page_384"/><a id="ch10lev1sec14"/><strong>The DOM and HTML Elements</strong></h4>
+<p class="noindent">Now that we have presented both how to create HTML elements and how to set and manipulate attributes, it should be clear how very intertwined markup and JavaScript have become as a result of the DOM. In short, to effectively utilize the DOM, you must be an expert in HTML syntax, since many object properties are simply direct mappings to the attributes of the HTML element. What this means is that there is a mapping directly between HTML syntax and the DOM. As an example, we show our simple markup fragment from the beginning of the chapter here:</p>
+<p class="image"><img alt="image" src="f0384-01.jpg"/></p>
+<p class="indent">Now it is possible to access this markup and manipulate in a more direct fashion than previously suggested. For example, to read the <span class="codesample"><strong>title</strong></span>, we might use</p>
+<p class="image"><img alt="image" src="f0384-02.jpg"/></p>
+<p class="noindent">instead of</p>
+<p class="image"><img alt="image" src="f0384-03.jpg"/></p>
+<p class="noindent">This is possible because the DOM specification was extended to understand the syntax of HTML and has mapped the <span class="codesample">title</span> attribute directly into the object. Consider the <span class="codesample"><strong>p</strong></span> element, defined under transitional HTML 4.01, which has the following basic syntax:</p>
+<p class="image"><img alt="image" src="f0384-04.jpg"/></p>
+<p class="indent">DOM Level 1 exposes most of these attributes in the <span class="codesample">HTMLParagraphElement</span>, including <span class="codesample">align, id, className, title, lang</span>, and <span class="codesample">dir</span>. DOM Level 2 also exposes <span class="codesample">style</span>, which we’ll discuss in the next section.</p>
+<p class="indent">In general, the mapping is direct between HTML attributes and the DOM properties with the following considerations.</p>
+<p class="indent">The mapping is direct if the attribute is a single nonreserved word, so an element’s <span class="codesample"><strong>align</strong></span> attribute is accessed via the corresponding DOM object’s <span class="codesample">align</span> property. The written case of the attribute will not matter in standard HTML and will be presented in lowercase in the DOM.</p>
+<p class="indent">The mapping will change case if the attribute has a two-word style; for example, the attribute <span class="codesample"><strong>tabindex</strong></span> will be represented in the DOM in the standard JavaScript camel-case style, in this case as <span class="codesample">tabIndex</span>.</p>
+<p class="indent"><a id="page_385"/>If the HTML attribute name is reserved under JavaScript, the value will be modified to work. This is most notable with the <span class="codesample"><strong>class</strong></span> attribute which under the DOM becomes <span class="codesample">className</span> and the <span class="codesample"><strong>for</strong></span> attribute found on <span class="codesample"><strong>&lt;label&gt;</strong></span> tags which becomes <span class="codesample">htmlFor</span>.</p>
+<p class="indent">There are very few cases where these rules do not apply. For example, for the <span class="codesample"><strong>&lt;col&gt;</strong></span> tag, attributes <span class="codesample"><strong>char</strong></span> and <span class="codesample"><strong>charoff</strong></span> become <span class="codesample">ch</span> and <span class="codesample">chOff</span> under DOM Level 1. Fortunately, these exceptions are few and far between.</p>
+<p class="indent">So given our previous discussion to set the <span class="codesample"><strong>align</strong></span> attribute on a paragraph instead of more appropriately using CSS we would use</p>
+<p class="image"><img alt="image" src="f0385-01.jpg"/></p>
+<p class="noindent">and to set its <span class="codesample">title</span></p>
+<p class="image"><img alt="image" src="f0385-02.jpg"/></p>
+<p class="noindent">However, to set the <span class="codesample"><strong>class</strong></span> attribute, we would have to use <span class="codesample">className</span></p>
+<p class="image"><img alt="image" src="f0385-03.jpg"/></p>
+<p class="indent">We might be tempted to set arbitrary attributes this way but that doesn’t generally work. For example, you might want to set a new attribute called “custom” to some value. You might assume this code would work.</p>
+<p class="image"><img alt="image" src="f0385-04.jpg"/></p>
+<p class="indent">It will work in older versions of the Internet Explorer browser, but should not in most browsers if they are being well behaved. If you wanted to set an attribute unknown to DOM HTML, you should instead use</p>
+<p class="image"><img alt="image" src="f0385-05.jpg"/></p>
+<p class="indent">Regardless of how browsers handle custom attributes, we should avoid them given that they create invalid HTML markup and instead employ HTML5’s newly introduced <span class="codesample"><strong>data-</strong>*</span> attributes. The basic idea of this group of attributes is that you can create any attribute you like, as long as it is prefixed by the word <span class="codesample"><strong>data-</strong></span>. For example, here we create an attribute called <span class="codesample"><strong>data-example</strong></span>, indicating that this is indeed an example:</p>
+<p class="image"><img alt="image" src="f0385-06.jpg"/></p>
+<p class="noindent">To set this value, we could, of course, use the following:</p>
+<p class="image"><img alt="image" src="f0385-07.jpg"/></p>
+<p class="noindent">Retrieval then could happen with this markup:</p>
+<p class="image"><img alt="image" src="f0385-08.jpg"/></p>
+<p class="indent">HTML5 does extend the DOM to modify HTML element objects to support a <span class="codesample">dataset</span> property, which then has properties for all the values that come after <span class="codesample"><strong>data-</strong></span>. For example, to set a <span class="codesample"><strong>data-author</strong></span> attribute, we could use this:</p>
+<p class="image"><img alt="image" src="f0385-09.jpg"/></p>
+<p class="noindent"><a id="page_386"/>In markup, we would then have the following:</p>
+<p class="image"><img alt="image" src="f0386-01.jpg"/></p>
+<p class="noindent">Retrieval, of course, could be performed just as easily:</p>
+<p class="image"><img alt="image" src="f0386-02.jpg"/></p>
+<p class="indent">If the attributes contain more dashes, there is a small change. For example, we might have the following attributes:</p>
+<p class="image"><img alt="image" src="f0386-03.jpg"/></p>
+<p class="noindent">To access these attributes, we would convert the attribute names to camel case:</p>
+<p class="image"><img alt="image" src="f0386-04.jpg"/></p>
+<hr/>
+<p class="note"><strong>NOTE</strong> At the time of this edition’s writing, few browsers supported <span class="codesample">dataset</span>, but all browsers could use <span class="codesample"><strong>data-*</strong></span> attributes using standard <span class="codesample">getAttribute()</span> and <span class="codesample">setAttribute()</span> syntax, of course.</p>
+<p class="indent">There are a few other attributes that have DOM mapping considerations. Probably the most commonly encountered would be <span class="codesample"><strong>style</strong></span> attributes. Consider the following markup:</p>
+<p class="image"><img alt="image" src="f0386-05.jpg"/></p>
+<p class="noindent">It would seem that if you accessed the <span class="codesample">style</span> attribute, like so:</p>
+<p class="image"><img alt="image" src="f0386-06.jpg"/></p>
+<p class="noindent">you would see a string, but instead, you will see a <span class="codesample">style</span> object:</p>
+<p class="image1"><img alt="image" src="f0386-07.jpg"/></p>
+<p class="indent">If, however, you look at it with <span class="codesample">getAttribute()</span>, you will see</p>
+<p class="image"><img alt="image" src="f0386-08.jpg"/></p>
+<p class="noindent">and you will see the string as expected:</p>
+<p class="image1"><img alt="image" src="f0386-09.jpg"/></p>
+<p class="noindent"><a id="page_387"/>Setting the <span class="codesample"><strong>style</strong></span> attribute’s value with a simple string representing the desired propertie(s) will not work as expected:</p>
+<p class="image"><img alt="image" src="f0387-01.jpg"/></p>
+<p class="noindent">We’ll see in an upcoming section that if we want to work this way we will have to utilize the <span class="codesample">style</span> object instead, like so:</p>
+<p class="image"><img alt="image" src="f0387-02.jpg"/></p>
+<p class="indent">We’ll explore the DOM style interface a bit later; however, even if such a facility weren’t provided, we could indeed manipulate the inline style using just the <span class="codesample">setAttribute()</span> method:</p>
+<p class="image"><img alt="image" src="f0387-03.jpg"/></p>
+<p class="indent">Similarly, if we want to manipulate event-handling attributes that may be found on an element, such as <span class="codesample"><strong>onclick</strong></span>, care must be taken. Given</p>
+<p class="image"><img alt="image" src="f0387-04.jpg"/></p>
+<p class="noindent">if we look at the <span class="codesample"><strong>onclick</strong></span> attribute directly:</p>
+<p class="image"><img alt="image" src="f0387-05.jpg"/></p>
+<p class="noindent">it may reveal a value we don’t quite expect.</p>
+<p class="image1"><img alt="image" src="f0387-06.jpg"/></p>
+<p class="indent">We won’t be able to set the value directly as a string, like so:</p>
+<p class="image"><img alt="image" src="f0387-07.jpg"/></p>
+<p class="noindent">However, we can bind a function in code, like so, as we have done many times already:</p>
+<p class="image"><img alt="image" src="f0387-08.jpg"/></p>
+<p class="noindent">We’ll see in <a class="nounder" href="ch11.html#ch11">Chapter 11</a> that there really are better ways to handle events, but for now we have concluded exploring the general mappings of attributes from HTML into the DOM and back.</p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.javascriptref.com/3ed/ch10/htmldom.html">http://javascriptref.com/3ed/ch10/htmldom.html</a></p>
+<h5 class="h5"><a id="page_388"/><a id="ch10lev2sec18"/><strong>HTML Element Mappings</strong></h5>
+<p class="noindent">The key to the DOM is understanding how to access each element as a DOM object and change its properties. The mapping between tags and objects is fairly straightforward, as mentioned in the previous section, with multiple-word attributes such as <span class="codesample"><strong>charset</strong></span> becoming camel case as a property <span class="codesample">(charSet)</span> and reserved-word collisions avoided by renaming the property in the DOM, the most notable instance being the <span class="codesample"><strong>class</strong></span> markup attribute becoming the <span class="codesample">className</span> property under the DOM. While this rule of thumb serves us quite well, it avoids a significant problem from some JavaScript developers, which is their knowledge of HTML. As the briefest of overviews, we present in <a class="nounder" href="ch10.html#tab10-9">Table 10-9</a> a summary of the traditional DOM intersected with the HTML5 DOM mappings between tags and objects. Now, because of the transition from old to new occurring with HTML5, there are bound to be properties that are not in specification still supported, and there likely will be new tags and attributes (and thus corresponding objects and properties introduced) when you read this. At the time of this edition’s writing, however, this list is comprehensive.</p>
+<p class="tabcap"><a id="tab10-9"/><strong>Table 10-9</strong> HTML4 and HTML5 DOM-Element Mapping Summary<a id="page_389"/><a id="page_390"/><a id="page_391"/></p>
+<p class="imagea"><img alt="image" src="t0388-01.jpg"/></p>
+<p class="image0"><img alt="image" src="t0388-02.jpg"/></p>
+<p class="image0"><img alt="image" src="t0389-01.jpg"/></p>
+<p class="image0"><img alt="image" src="t0389-02.jpg"/></p>
+<p class="image0"><img alt="image" src="t0390-01.jpg"/></p>
+<p class="image0"><img alt="image" src="t0390-02.jpg"/></p>
+<p class="image0"><img alt="image" src="t0391-01.jpg"/></p>
+<p class="image0"><img alt="image" src="t0391-02.jpg"/></p>
+<p class="image0"><img alt="image" src="t0392-01.jpg"/></p>
+<p class="indent"><a id="page_392"/>As a brief demonstration of just what can be done with the DOM, once we understand how fully HTML is mapped in, is illustrated by this simple example of an HTML editor built solely with DOM methods:</p>
+<p class="image"><img alt="image" src="f0392-01.jpg"/></p>
+<p class="image"><img alt="image" src="f0392-02.jpg"/></p>
+<p class="image"><img alt="image" src="f0392-03.jpg"/></p>
+<p class="image"><img alt="image" src="f0392-04.jpg"/><a id="page_393"/></p>
+<p class="indent"><a id="page_394"/>It would be easy enough to modify the editor displayed in <a class="nounder" href="ch10.html#fig10-15">Figure 10-15</a> to add attributes and apply multiple styles. We’ll leave that as an exercise for readers interested in diving into the DOM.</p>
+<p class="image1"><a id="fig10-15"/><img alt="image" src="f0394-01.jpg"/></p>
+<p class="figcap"><strong>Figure 10-15</strong> Simple DOM HTML editor</p>
+<h4 class="h4"><a id="ch10lev1sec15"/><strong>DOM Table Manipulation</strong></h4>
+<p class="noindent">A variety of methods are provided to make up the core pieces of a table, including <span class="codesample">createTHead(), createTFoot(), createCaption()</span>, and <span class="codesample">insertRow (<em>index</em>)</span>, where <span class="codesample"><em>index</em></span> is the numeric value indicating where to insert the row, starting from 0. Corresponding to the creation methods, the <span class="codesample">HTMLTableElement</span> object also supports <span class="codesample">deleteCaption(), deleteTHead(), deleteTFoot()</span>, and <span class="codesample">deleteRowIndex (<em>index</em>)</span>. We could write some scripts to show how to delete and add items to the table using these methods. What you will notice is that, while it is easy to delete items from the table, adding is another question. You actually need to add some items to a row before much of anything will take place.</p>
+<p class="indent">When creating rows, it is possible to insert and remove cells using the <span class="codesample">insertCell (<em>index</em>)</span> and <span class="codesample">deleteCell (<em>index</em>)</span> methods. Once the shell for the table cells has been created, it is possible to add data to the cells through standard methods with the DOM or <span class="codesample">innerHTML</span>.</p>
+<p class="indent">The simple example here shows how to manipulate a table:</p>
+<p class="image"><a id="page_395"/><img alt="image" src="f0395-01.jpg"/></p>
+<p class="image"><img alt="image" src="f0395-02.jpg"/></p>
+<p class="image"><img alt="image" src="f0395-03.jpg"/></p>
+<p class="image"><img alt="image" src="f0395-04.jpg"/></p>
+<hr/>
+<p class="online"><a id="page_396"/><strong>ONLINE</strong> <a class="nounder" href="http://www.www.javascriptref.com/3ed/ch10/table.html">http://www.javascriptref.com/3ed/ch10/table.html</a></p>
+<h4 class="h4"><a id="ch10lev1sec16"/><strong>The DOM and CSS</strong></h4>
+<p class="noindent">An important aspect of the DOM standard is the ability to manipulate CSS properties as well as page-level style sheets. The manipulation of the look of the page by changing the page element’s CSS values’ particular <span class="codesample">visibility</span> or <span class="codesample">position</span> has often been dubbed Dynamic HTML (DHTML). Today, such effects can be mistakenly categorized under Ajax, regardless of whether network communication was used or not. Now we even see the term HTML5 being used as some catchall term for any modern interactive Web technology, including CSS manipulations with JavaScript. Regardless of the mislabeling, it is clear that the power afforded developers using DOM CSS manipulations is enticing to the layperson. Whatever it is called, they seem to like it.</p>
+<h5 class="h5"><a id="page_397"/><a id="ch10lev2sec19"/><strong>Inline Style Manipulation</strong></h5>
+<p class="noindent">The most direct way to modify CSS values with JavaScript is through the <span class="codesample">style</span> property that corresponds to the inline style sheet specification for a particular HTML element. For example, if you have a paragraph like this:</p>
+<p class="image"><img alt="image" src="f0397-01.jpg"/></p>
+<p class="noindent">you could insert an inline style like this:</p>
+<p class="image"><img alt="image" src="f0397-02.jpg"/></p>
+<p class="indent">If you are panicking about seeing an inline style, don’t worry so much about the idea of separation of style and structure pushed by markup mavens. We’ll get back to that later. For now, it serves to illustrate what is happening. Now, to perform a manipulation of the CSS with JavaScript DOM interfaces, you would access the style object of the element. Notice here that, if we alert it, the browser identifies not the text of the attribute but the availability of some <span class="codesample">Style</span> object:</p>
+<p class="image"><img alt="image" src="f0397-03.jpg"/></p>
+<p class="indent">Now, like markup manipulation, we will be able to modify the CSS properties by applying a mapping between the CSS property and the DOM object. In the case of CSS, you often have a hyphenated property name, such as <span class="codesample"><strong>background-color</strong></span>, which under JavaScript becomes <span class="codesample">backgroundColor</span>. In general, hyphenated CSS properties are represented as a single word with camel-case capitalization in the DOM. Some CSS properties have a single word, so their mapping is direct. For example, the CSS property name <span class="codesample"><strong>color</strong></span> is simply color under the <span class="codesample">DOM</span>. Given these previous mappings and our previous example, we might manipulate the inline styles, like so:</p>
+<p class="image"><img alt="image" src="f0397-04.jpg"/></p>
+<p class="noindent">This would then create the following markup:</p>
+<p class="image"><img alt="image" src="f0397-05.jpg"/></p>
+<p class="indent">The simple mapping described holds <span class="codesample">true</span> for nearly all properties in CSS except for <span class="codesample"><strong>float</strong></span>, which becomes <span class="codesample">cssFloat</span> because <span class="codesample">“float”</span> is a JavaScript reserved word. Even emerging CSS property values with vendor prefixes map in the same way. For example, the CSS property <span class="codesample"><strong>-webkit-box-shadow</strong></span> can be used to specify shadow effects on boxes for WebKit-based browsers such as Safari and Chrome, so in JavaScript it would be manipulated as <span class="codesample">webkitBoxShadow</span>.</p>
+<p class="indent">A list of the commonly used CSS1 and CSS2 properties, with their corresponding DOM properties, is shown in <a class="nounder" href="ch10.html#tab10-10">Table 10-10</a> for reference. This table. admittedly, is not comprehensive, covering proprietary and emerging CSS3 properties, given their vast numbers and continual changes. Readers should instead heed the transformation rule rather than relying on some syntax table, regardless of source or timeliness.</p>
+<p class="imagea"><a id="page_398"/><a id="tab10-10"/><img alt="image" src="t0398-01.jpg"/></p>
+<p class="image0"><img alt="image" src="t0398-02.jpg"/></p>
+<p class="image0"><img alt="image" src="t0399-01.jpg"/></p>
+<p class="image0"><img alt="image" src="t0399-02.jpg"/></p>
+<p class="image0"><img alt="image" src="t0400-01.jpg"/></p>
+<p class="tabcap"><a id="page_400"/><strong>Table 10-10</strong> CSS2 Property to DOM Property Mapping<a id="page_399"/></p>
+<p class="indent">An example that manipulates many of the common CSS properties is presented here. A sample rendering is shown in <a class="nounder" href="ch10.html#fig10-16">Figure 10-16</a>.</p>
+<p class="image1"><a id="fig10-16"/><img alt="image" src="f0403-01.jpg"/></p>
+<p class="figcap"><strong>Figure 10-16</strong> Styling with the DOM</p>
+<p class="image"><img alt="image" src="f0400-01.jpg"/></p>
+<p class="image"><img alt="image" src="f0400-02.jpg"/></p>
+<p class="image"><img alt="image" src="f0400-03.jpg"/></p>
+<p class="image"><img alt="image" src="f0400-04.jpg"/><a id="page_401"/></p>
+<hr/>
+<p class="online"><a id="page_402"/><strong>ONLINE</strong> <a class="nounder" href="http://www.javascriptref.com/3ed/ch10/dominlinecss.html">http://javascriptref.com/3ed/ch10/dominlinecss.html</a></p>
+<h5 class="h5"><a id="page_403"/><a id="ch10lev2sec20"/><strong>Dynamic Style Using Classes and Collections</strong></h5>
+<p class="noindent">Manipulating style in the fashion of the previous section works only on a single tag at a time and has performance considerations since you need to change a single property at a time. This section explores how we might manipulate style rules using CSS <span class="codesample"><strong>class</strong></span> selectors. For example, we might have a style sheet with two class rules, like this:</p>
+<p class="image"><img alt="image" src="f0403-02.jpg"/></p>
+<p class="noindent">We might then apply one class to a particular <span class="codesample"><strong>&lt;p&gt;</strong></span> tag, like so:</p>
+<p class="image"><img alt="image" src="f0403-03.jpg"/></p>
+<p class="indent">We can quickly manipulate the appearance of this paragraph by using JavaScript to change the element’s <span class="codesample"><strong>class</strong></span>. The element’s <span class="codesample"><strong>class</strong></span> attribute is exposed in its <span class="codesample">className</span> property:</p>
+<p class="image"><img alt="image" src="f0403-04.jpg"/></p>
+<p class="indent">The following example shows a simple rollover effect using such DOM techniques:</p>
+<p class="image"><img alt="image" src="f0403-05.jpg"/></p>
+<hr/>
+<p class="online"><a id="page_404"/><strong>ONLINE</strong> <a class="nounder" href="http://www.javascriptref.com/3ed/ch10/styleclass.html">http://javascriptref.com/3ed/ch10/styleclass.html</a></p>
+<p class="indent">The HTML5 specification introduces a much better way to manipulate <span class="codesample"><strong>class</strong></span> values using the classList approach. The basic idea is that, rather than working on the <span class="codesample"><strong>class</strong></span> attribute value via the <span class="codesample">className</span> property as a string, we can work on it as a list. For example, given some markup such as</p>
+<p class="image"><img alt="image" src="f0404-01.jpg"/></p>
+<p class="noindent">we could access a list of its classes, like so:</p>
+<p class="image"><img alt="image" src="f0404-02.jpg"/></p>
+<p class="noindent">As a list, we can easily look at its length:</p>
+<p class="image"><img alt="image" src="f0404-03.jpg"/></p>
+<p class="noindent">This allows us to write a loop and move through the collection either as an array or with the <span class="codesample">item()</span> method.</p>
+<p class="image"><img alt="image" src="f0404-04.jpg"/></p>
+<p class="indenttop"><a id="page_405"/>Interestingly, we probably wouldn’t have to use this method that often because the API provides us a useful method for the list <span class="codesample">contains</span> <span class="codesample">(<em>classname</em>)</span>, which determines whether or not a <span class="codesample">class</span> is found in the particular list:</p>
+<p class="image"><img alt="image" src="f0405-01.jpg"/></p>
+<p class="indent">We also can add classes with the <span class="codesample">add (<em>classname</em>)</span> method and <span class="codesample">remove</span> them with remove <span class="codesample">(<em>classname</em>)</span>:</p>
+<p class="image"><img alt="image" src="f0405-02.jpg"/></p>
+<p class="indent">Finally, we can perform a <span class="codesample">toggle(<em>classname</em>)</span> on a <span class="codesample">class</span> name value, which will add it if not found and remove it if already in the list.</p>
+<p class="indent">A simple example of some of these useful improvements to handling classes is shown here:</p>
+<p class="image"><img alt="image" src="f0405-03.jpg"/></p>
+<p class="image"><img alt="image" src="f0405-04.jpg"/></p>
+<hr/>
+<p class="online"><a id="page_406"/><strong>ONLINE</strong> <a class="nounder" href="http://www.www.javascriptref.com/3ed/ch10/classlist.html">http://www.javascriptref.com/3ed/ch10/classlist.html</a></p>
+<p class="indent">Another example found online provides even more demonstrations for readers interested in this API.</p>
+<hr/>
+<p class="online"><strong>ONLINE</strong> <a class="nounder" href="http://www.www.javascriptref.com/3ed/ch10/classlist2.html">http://www.javascriptref.com/3ed/ch10/classlist2.html</a></p>
+<p class="indenttop">Unfortunately, as a relatively new API, not every browser will support this approach and thus we find many libraries such as jQuery implementing it with their own syntax or polyfilling in the HTML5 style.</p>
+<p class="indent">Another way to perform manipulations is by using the <span class="codesample">getElementsByTagName()</span> method and performing style changes on each of the individual elements returned. The following example illustrates this technique by allowing the user to dynamically set the alignment of the paragraphs in the document:</p>
+<p class="image"><img alt="image" src="f0406-01.jpg"/></p>
+<hr/>
+<p class="online"><a id="page_407"/><strong>ONLINE</strong> <a class="nounder" href="http://www.javascriptref.com/3ed/ch10/multistyle.html">http://javascriptref.com/3ed/ch10/multistyle.html</a></p>
+<p class="indent">It might seem cumbersome to have to iterate through a group of elements, particularly when you might have set different rules on each. If you are a CSS maven, you may prefer instead to manipulate complex rule sets found in a document-wide or even external style sheet.</p>
+<h5 class="h5"><a id="ch10lev2sec21"/><strong>Computed Style</strong></h5>
+<p class="noindent">It is often necessary to see what style an element is currently set at. For example, it would be useful to know that a <span class="codesample"><strong>&lt;div&gt;</strong></span> block is hidden when a toggle button is clicked. The first thought would be to check the corresponding JavaScript property:</p>
+<p class="image"><img alt="image" src="f0407-01.jpg"/></p>
+<p class="noindent">This will work if the display property is set through JavaScript, but it will not work if the property is set through a style sheet or is the default style of the page. Internet Explorer adds a property similar to <span class="codesample">style</span> called <span class="codesample">currentStyle</span>. This propery will return the computed style of a property no matter how it is set. Unfortunately, it does not work in the other browsers. However, <span class="codesample">getComputedStyle()</span> can be used to accomplish the same goal. First, <span class="codesample">getComputedStyle()</span> is called with the object passed in. This function returns a <span class="codesample">computedStyle</span> object. Then it is possible to look up the relevant style with the <span class="codesample">getPropertyValue()</span> method:</p>
+<p class="image"><img alt="image" src="f0407-02.jpg"/></p>
+<p class="indent"><a id="page_408"/>We can put this all together to build a cross-browser function that will handle all of the relevant cases:</p>
+<p class="image"><img alt="image" src="f0408-01.jpg"/></p>
+<h5 class="h5"><a id="ch10lev2sec22"/><strong>Accessing Complex Style Rules</strong></h5>
+<p class="noindent">So far, we haven’t discussed how to access CSS rules found in <span class="codesample"><strong>&lt;style&gt;</strong></span> tags or how to dynamically set linked style sheets. DOM Level 2 does provide such an interface, but beware in older browsers that it can be quite buggy. Because of this, you will often find people relying on inline style and class-based style manipulations.</p>
+<p class="indent">Under DOM Level 2, the <span class="codesample">Document</span> object supports the <span class="codesample">styleSheets[]</span> collection, which we can use to access the various <span class="codesample"><strong>&lt;style&gt;</strong></span> and <span class="codesample"><strong>&lt;link&gt;</strong></span> tags within a document. Thus,</p>
+<p class="image"><img alt="image" src="f0408-02.jpg"/></p>
+<p class="indent">or</p>
+<p class="image"><img alt="image" src="f0408-03.jpg"/></p>
+<p class="noindent">retrieves an object that corresponds to the first <span class="codesample"><strong>&lt;style&gt;</strong></span> element in the HTML. Its properties correspond to HTML attributes just as have the other correspondences we’ve seen. The most common properties are shown in <a class="nounder" href="ch10.html#tab10-11">Table 10-11</a>.</p>
+<p class="tabcap"><a id="tab10-11"/><strong>Table 10-11</strong> Style Object Properties</p>
+<p class="image"><img alt="image" src="t0408-01.jpg"/></p>
+<p class="indent">Under the DOM, the <span class="codesample">CSSStyleSheet</span> object inherits the <span class="codesample">StyleSheet</span> object’s features and then adds the collection <span class="codesample">cssRules[]</span> that contains the various rules in the style block as well as the <span class="codesample">insertRule()</span> and <span class="codesample">deleteRule()</span> methods. The syntax for <span class="codesample">insertRule()</span> is <span class="codesample"><em>theStyleSheet</em>.insertRule (<em>ruletext, index</em>)</span>, where <span class="codesample"><a id="page_409"/><em>ruletext</em></span> is a string containing the style sheet selector and rules, and <span class="codesample"><em>index</em></span> is the position in which to insert it in the set of rules. The position is relevant because, of course, these are Cascading Style Sheets. Similarly, the <span class="codesample">deleteRule(<em>index</em>)</span> method takes an <span class="codesample"><em>index</em></span> value and deletes the corresponding rule, so <span class="codesample"><em>theStyleSheet</em>.deleteRule(0)</span> would delete the first rule in the style sheet represented by <span class="codesample"><em>theStyleSheet</em></span>. Unfortunately, at the time of this writing, Internet Explorer doesn’t support these DOM facilities and instead relies on the similar <span class="codesample">addRule()</span> and <span class="codesample">removeRule()</span> methods for its <span class="codesample">styleSheet</span> object.</p>
+<p class="indent">Accessing individual rules is possible through the <span class="codesample">cssRules[]</span> collection or, in Internet Explorer, the nonstandard <span class="codesample">rules[]</span> collection. Once a rule is accessed, you can access its <span class="codesample">selectorText</span> property to examine the rule selector, or you can access the <span class="codesample">style</span> property to access the actual set of rules. While DOM Level 2 provides various methods, such as <span class="codesample">getPropertyValue()</span> and <span class="codesample">setProperty()</span>, to modify rules it is generally far safer to simply access the <span class="codesample">style</span> object and then the DOM property corresponding to the CSS property in question. For example, <span class="codesample"><em>theStyleSheet</em>.cssRules[0].style.color = “blue”</span> would modify (or add) a property to the first CSS rule in the style sheet. Under Internet Explorer, you would use <span class="codesample"><em>theStyleSheet</em>.rules[0].style.color = “blue”</span>. The following script demonstrates the basics of style sheet rule manipulation:</p>
+<p class="image"><img alt="image" src="f0409-01.jpg"/></p>
+<p class="image"><img alt="image" src="f0409-02.jpg"/></p>
+<hr/>
+<p class="online"><a id="page_410"/><strong>ONLINE</strong> <a class="nounder" href="http://www.javascriptref.com/3ed/ch10/cssrules.html">http://javascriptref.com/3ed/ch10/cssrules.html</a></p>
+<p class="indent">There are a few things to study carefully in the previous example. First, notice how we use conditional statements to detect the existence of particular objects, such as Internet Explorer proprietary collections and methods. Second, notice how in the case of <span class="codesample">rules[]</span> versus <span class="codesample">cssRules[]</span>, like other <span class="codesample">DOM</span> differences we simply add the collection to simulate correct DOM syntax under older versions of Internet Explorer. Last, notice how <span class="codesample">if</span> statements are used to make sure that there are still rules to manipulate. You can never be too sure that some designer hasn’t changed the rules on you, so code defensively!</p>
+<h4 class="h4"><a id="ch10lev1sec17"/><strong>DOM Traversal API</strong></h4>
+<p class="noindent">The DOM Traversal API (<a class="nounder" href="http://www.w3.org/TR/DOM-Level-2-Traversal-Range/">http://www.w3.org/TR/DOM-Level-2-Traversal-Range/</a>) introduced in DOM Level 2 is a convenience extension that provides a systematic way to traverse and examine the various nodes in a document tree in turn. The specification introduces two objects, a <span class="codesample">NodeIterator</span> and a <span class="codesample">TreeWalker</span>.</p>
+<p class="indent"><a id="page_411"/>A <span class="codesample">NodeIterator</span> object created with <span class="codesample">document.CreateNodeIterator()</span> can be used to flatten the representation of a document tree or subtree, which can then be moved through using <span class="codesample">nextNode()</span> and <span class="codesample">previousNode()</span> methods. A filter can be placed when a <span class="codesample">NodeIterator</span> is created, allowing you to select certain tags.</p>
+<p class="indent">Similar to a <span class="codesample">NodeIterator</span>, a <span class="codesample">TreeWalker</span> object provides a way to move through a collection of nodes, but it preserves the tree structure. To create a <span class="codesample">TreeWalker</span>, use <span class="codesample">document.createTreeWalker()</span> and then use <span class="codesample">firstChild(), lastChild(), nextSibling(), parentNode()</span>, and <span class="codesample">previousSibling()</span> methods to navigate the document tree. When these methods are called, the <span class="codesample">currentNode</span> property is set to the appropriate value. A <span class="codesample">TreeWalker</span> also provides the ability to walk the flattened tree using <span class="codesample">nextNode()</span>, so in some sense a <span class="codesample">NodeIterator</span> is not really needed. As an example, we redo the tree traversal example from earlier in the chapter using a <span class="codesample">TreeWalker</span> object.</p>
+<hr/>
+<p class="note"><strong>NOTE</strong> The DOM Traversal API is not supported under many older browsers, particularly Internet Explorer versions prior to 9.</p>
+<p class="image"><img alt="image" src="f0411-01.jpg"/></p>
+<p class="image"><img alt="image" src="f0411-02.jpg"/></p>
+<hr/>
+<p class="online"><a id="page_412"/><strong>ONLINE</strong> <a class="nounder" href="http://www.javascriptref.com/3ed/ch10/domtraversal.html">http://javascriptref.com/3ed/ch10/domtraversal.html</a></p>
+<p class="indent">While the Traversal API is not widely implemented, it is fairly easy to write your own recursive tree-walking facility. Iteration is far easier and, in effect, is just a variation of <span class="codesample">document.all[]</span>.</p>
+<h4 class="h4"><a id="ch10lev1sec18"/><strong>DOM Range Selections</strong></h4>
+<p class="noindent">The DOM Range API (<a class="nounder" href="http://www.w3.org/TR/DOM-Level-2-Traversal-Range/">http://www.w3.org/TR/DOM-Level-2-Traversal-Range/</a>) introduced in DOM Level 2 is another convenience extension that allows you to select a range of content in a document programmatically. To create a range, use <span class="codesample">document.createRange()</span>, which will return a <span class="codesample">Range</span> object.</p>
+<p class="image"><img alt="image" src="f0412-01.jpg"/></p>
+<p class="indent">Once you have a <span class="codesample">Range</span> object, you can set what it contains using a variety of methods. Given our example range, we might use <span class="codesample"><em>myRange</em>.setStart(), <em>myRange</em>.setEnd(), <em>myRange</em>.setStartBefore(), <em>myRange</em>.setStartAfter(), <em>myRange</em>.setEndBefore()</span>, and <span class="codesample"><em>myRange</em>.setEndAfter()</span> to set the start and end points of the range. Each of these methods takes a <span class="codesample">Node</span> primarily, though <span class="codesample">setStart()</span> and <span class="codesample">setEnd()</span> take a numeric value indicating an offset value. You may also just as easily select a particular node using <span class="codesample"><em>myRange</em>.selectNode() or its contents using <em>myRange</em>.selectNodeContents()</span>. A simple example here selects two paragraphs as a range:</p>
+<p class="image"><img alt="image" src="f0412-02.jpg"/></p>
+<p class="indent"><a id="page_413"/>Once you have a range, you can perform a variety of methods on it, including <span class="codesample">extractContents(), cloneContents()</span>, and <span class="codesample">deleteContents()</span>. You can even add contents using <span class="codesample">insertNode()</span>. While the Range API is quite interesting, like many things it works differently in browsers, so make sure you use an abstraction or a library, and in either case proceed with extreme caution.</p>
+<h4 class="h4"><a id="ch10lev1sec19"/><strong>Continued DOM Evolution</strong></h4>
+<p class="noindent">The DOM is still a work in progress. HTML5 and DOM Level 3, as well as browser features, continue to bring new document manipulation capabilities to JavaScript programmers. Some of the emerging ideas are simply convenience methods such as <span class="codesample">renameNode()</span>; others are full-blown ideas including being able to serialize and deserialize XML documents. Interestingly, since some time has passed during this edition’s update, we note that many newer specifications simply never were implemented or were done solely in one lesser-used browser such as Opera. In other cases, “nonstandard” DOM ideas such as <span class="codesample">innerHTML, insertAdjacentHTML</span>, and <span class="codesample">document.all[]</span> have become widespread or even part of the HTML5 standard. Fortunately, now that JavaScript has achieved widespread popularity, in nearly all cases we can rely on the core of the DOM safely and then turn to libraries to abstract away the details and provide a bridge for the future. In <a class="nounder" href="ch18.html#ch18">Chapter 18</a>, we will overview some of the more popular libraries such as jQuery and show how they extend and improve the DOM, but lurking under the scenes in all of these environments are the ideas presented in this chapter.</p>
+<h4 class="h4"><a id="ch10lev1sec20"/><strong>Summary</strong></h4>
+<p class="noindent">The DOM is at the heart of the intersection between script, HTML, and style sheets. Using the DOM and JavaScript, we are unrestricted in what we may manipulate in a document. The most important key to understanding the DOM is discovering how document trees are formed in a browser’s memory. Nodes in DOM trees are accessed in a multitude of ways, from traditional collections such as <span class="codesample">document.forms[ ]</span>, to the well-known <span class="codesample">document.getElementById() method</span>, <a id="page_414"/>to the powerful <span class="codesample">document.querySelectorAll()</span> that uses CSS selector rules to find nodes in a tree. DOM trees are not read-only, as nodes may be added, changed, or deleted in any way imaginable. Changing the underlying structure of a Web page allows for any change one might make, but it relies on a deep understanding of HTML and CSS. In fact, the DOM manipulations can be quite problematic in the face of malformed markup. In the words of the W3C itself, they are simply “unpredictable.” Hopefully, readers will take away from this chapter a renewed interest in getting markup and style correct.</p>
+</body>
+</html>
